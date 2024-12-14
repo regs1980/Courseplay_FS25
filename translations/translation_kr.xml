@@ -8,68 +8,68 @@
     <!---->
     <!--basic-->
     <!---->
-    <text name="CP_activated" text="activated"/>
-    <text name="CP_deactivated" text="deactivated"/>
-    <text name="CP_automatic" text="auto"/>
+    <text name="CP_activated" text="활성화됨"/>
+    <text name="CP_deactivated" text="비활성화됨"/>
+    <text name="CP_automatic" text="자동"/>
     <text name="CP_unit_meter" text="m"/>
     <text name="CP_unit_foot" text="ft"/>
-    <text name="CP_copy" text="Copy course: "/>
-    <text name="CP_infoText" text="Courseplay(%s): For help, bug reports or patch notes, please visit: https://github.com/Courseplay/Courseplay_FS22."/>
-    <text name="CP_error_no_course" text="Generate a course before starting the job."/>
-    <text name="CP_error_could_not_generate_course" text="Could not generate course. The log may have more information."/>
-    <text name="CP_error_not_on_field" text="Target is not on a field."/>
-    <text name="CP_error_unloader_to_far_away_from_field" text="Unloader to far away from the field."/>
-    <text name="CP_error_start_position_to_far_away_from_field" text="Starting position to far away from the field."/>
-    <text name="CP_error_giants_unloader_not_available" text="Giants unloader not available."/>
-    <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Field unload position is too far away from the field."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Vehicle is too far away from the field to start."/>
-    <text name="CP_error_no_bunkerSilo_found" text="No silo found."/>
-    <text name="CP_error_no_heap_found" text="No silo found."/>
-    <text name="CP_error_no_unload_trigger_found" text="No unloading point found."/>
-    <text name="CP_error_unload_target_to_far_away_from_silo" text="Chosen unloading point is to far away from the silo."/>
+    <text name="CP_copy" text="작업 경로 복사: "/>
+    <text name="CP_infoText" text="Courseplay(%s): 도움말, 버그리포트 또는 패치 노트를 보려면 다음 링크를 방문하세요: https://github.com/Courseplay/Courseplay_FS25."/>
+    <text name="CP_error_no_course" text="작업을 실행하기 전에 경로를 생성하세요."/>
+    <text name="CP_error_could_not_generate_course" text="경로를 생성할 수 없습니다. 자세한 내용은 로그를 확인하세요."/>
+    <text name="CP_error_not_on_field" text="목표 지점이 필드 내부에 있지 않습니다."/>
+    <text name="CP_error_unloader_to_far_away_from_field" text="운반 트레일러가 필드에서 너무 멀리 떨어져 있습니다."/>
+    <text name="CP_error_start_position_to_far_away_from_field" text="작업 시작 위치가 필드에서 너무 멀리 떨어져 있습니다."/>
+    <text name="CP_error_giants_unloader_not_available" text="최종 하역 지점을 사용할 수 없습니다."/>
+    <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="하역 지점이 필드에서 너무 멀리 떨어져 있습니다."/>
+    <text name="CP_error_vehicle_too_far_away_from_field" text="작업 차량이 필드와의 거리가 너무 멀어 작업을 시작할 수 없습니다."/>
+    <text name="CP_error_no_bunkerSilo_found" text="벙커 사일로를 찾을 수 없습니다."/>
+    <text name="CP_error_no_heap_found" text="사일로를 찾을 수 없습니다."/>
+    <text name="CP_error_no_unload_trigger_found" text="하역 지점을 찾을 수 없습니다."/>
+    <text name="CP_error_unload_target_to_far_away_from_silo" text="선택한 하역 지점이 사일로에서 너무 멀리 떨어져 있습니다."/>
     <!---->
     <!--AI job parameters-->
     <!---->
-    <text name="CP_fieldWorkJobParameters_fieldPosition_title" text="Field position:"/>
-    <text name="CP_fieldWorkJobParameters_bunkerSiloPosition_title" text="Silo position:"/>
-    <text name="CP_fieldWorkJobParameters_parkPosition_title" text="Park position:"/>
-    <text name="CP_fieldWorkJobParameters_subTitle_startAt" text="Start at:"/>
-    <text name="CP_fieldWorkJobParameters_startAt_title" text="Start at:"/>
-    <text name="CP_fieldWorkJobParameters_startAt_tooltip" text="Where to start field work"/>
-    <text name="CP_fieldWorkJobParameters_startAt_nearest" text="nearest waypoint"/>
-    <text name="CP_fieldWorkJobParameters_startAt_first" text="first waypoint"/>
-    <text name="CP_fieldWorkJobParameters_startAt_last" text="last waypoint"/>
-    <text name="CP_fieldWorkJobParameters_startAt_bunkerSilo" text="Bunker silo mode"/>
-    <text name="CP_fieldWorkJobParameters_startAt_siloLoader" text="Silo load mode"/>
-    <text name="CP_fieldWorkJobParameters_startAt_unload" text="unloading combine/chopper"/>
-    <text name="CP_fieldWorkJobParameters_startAt_unload_siloLoader" text="Unload Silo loader"/>
-    <text name="CP_fieldWorkJobParameters_startAt_bales" text="collecting/wrapping bales"/>
-    <text name="CP_fieldWorkJobParameters_subTitle_laneOffset" text="Lane offset:"/>
-    <text name="CP_fieldWorkJobParameters_laneOffset_title" text="Lane offset:"/>
-    <text name="CP_fieldWorkJobParameters_laneOffset_tooltip" text="Lane offset"/>
-    <text name="CP_fieldWorkJobParameters_laneOffset_center" text="center"/>
-    <text name="CP_fieldWorkJobParameters_laneOffset_left" text="left(1)"/>
-    <text name="CP_fieldWorkJobParameters_laneOffset_right" text="right(1)"/>
-    <text name="CP_fieldWorkJobParameters_laneOffset_left_2" text="left(2)"/>
-    <text name="CP_fieldWorkJobParameters_laneOffset_right_2" text="right(2)"/>
+    <text name="CP_fieldWorkJobParameters_fieldPosition_title" text="필드 위치:"/>
+    <text name="CP_fieldWorkJobParameters_bunkerSiloPosition_title" text="벙커 사일로 위치:"/>
+    <text name="CP_fieldWorkJobParameters_parkPosition_title" text="주차 위치:"/>
+    <text name="CP_fieldWorkJobParameters_subTitle_startAt" text="시작 위치:"/>
+    <text name="CP_fieldWorkJobParameters_startAt_title" text="시작 위치:"/>
+    <text name="CP_fieldWorkJobParameters_startAt_tooltip" text="필드 작업을 시작할 위치를 선택하세요"/>
+    <text name="CP_fieldWorkJobParameters_startAt_nearest" text="가장 가까운 지점"/>
+    <text name="CP_fieldWorkJobParameters_startAt_first" text="시작 지점"/>
+    <text name="CP_fieldWorkJobParameters_startAt_last" text="종료 지점"/>
+    <text name="CP_fieldWorkJobParameters_startAt_bunkerSilo" text="벙커 사일로 모드"/>
+    <text name="CP_fieldWorkJobParameters_startAt_siloLoader" text="사일로 적재 모드"/>
+    <text name="CP_fieldWorkJobParameters_startAt_unload" text="하역 시작하기 콤바인/사일리지 수확기"/>
+    <text name="CP_fieldWorkJobParameters_startAt_unload_siloLoader" text="사일로 하역 모드"/>
+    <text name="CP_fieldWorkJobParameters_startAt_bales" text="수집하기/포장하기 베일"/>
+    <text name="CP_fieldWorkJobParameters_subTitle_laneOffset" text="작업 경로 위치 보정:"/>
+    <text name="CP_fieldWorkJobParameters_laneOffset_title" text="작업 경로 위치 보정:"/>
+    <text name="CP_fieldWorkJobParameters_laneOffset_tooltip" text="작업 경로 위치 보정"/>
+    <text name="CP_fieldWorkJobParameters_laneOffset_center" text="가운데"/>
+    <text name="CP_fieldWorkJobParameters_laneOffset_left" text="왼쪽(1)"/>
+    <text name="CP_fieldWorkJobParameters_laneOffset_right" text="오른쪽(1)"/>
+    <text name="CP_fieldWorkJobParameters_laneOffset_left_2" text="왼쪽(2)"/>
+    <text name="CP_fieldWorkJobParameters_laneOffset_right_2" text="오른쪽(2)"/>
     <!---->
     <!--AI bale finder job parameters-->
     <!---->
-    <text name="CP_baleFinderJobParameters_subTitle_baleWrapType" text="Baletype:"/>
-    <text name="CP_baleFinderJobParameters_baleWrapType_title" text="Baletype:"/>
-    <text name="CP_baleFinderJobParameters_baleWrapType_all_bales" text="all bales"/>
-    <text name="CP_baleFinderJobParameters_baleWrapType_only_wrapped_bales" text="only wrapped"/>
-    <text name="CP_baleFinderJobParameters_baleWrapType_only_not_wrapped_bales" text="only not wrapped"/>
-    <text name="CP_baleFinder_balesLeftover" text="Bales left:"/>
+    <text name="CP_baleFinderJobParameters_subTitle_baleWrapType" text="베일 유형:"/>
+    <text name="CP_baleFinderJobParameters_baleWrapType_title" text="베일 유형:"/>
+    <text name="CP_baleFinderJobParameters_baleWrapType_all_bales" text="모든 종류의 베일"/>
+    <text name="CP_baleFinderJobParameters_baleWrapType_only_wrapped_bales" text="포장된 베일만"/>
+    <text name="CP_baleFinderJobParameters_baleWrapType_only_not_wrapped_bales" text="포장되지 않은 베일만"/>
+    <text name="CP_baleFinder_balesLeftover" text="남은 베일:"/>
     <!---->
     <!--AI combine unloader job parameters-->
     <!---->
-    <text name="CP_combineUnloaderJobParameters_subTitle_unloadTarget" text="Unload: "/>
-    <text name="CP_combineUnloaderJobParameters_unloadTarget_title" text="Unload:"/>
-    <text name="CP_combineUnloaderJobParameters_unloadTarget_combine" text="Combine"/>
-    <text name="CP_combineUnloaderJobParameters_unloadTarget_siloLoader" text="Loader"/>
-    <text name="CP_combineUnloaderJobParameters_subTitle_giantsUnloader" text="Giants unloader:"/>
-    <text name="CP_combineUnloaderJobParameters_useGiantsUnload_title" text="Use giants unloader:"/>
+    <text name="CP_combineUnloaderJobParameters_subTitle_unloadTarget" text="하역: "/>
+    <text name="CP_combineUnloaderJobParameters_unloadTarget_title" text="하역:"/>
+    <text name="CP_combineUnloaderJobParameters_unloadTarget_combine" text="콤바인"/>
+    <text name="CP_combineUnloaderJobParameters_unloadTarget_siloLoader" text="적재"/>
+    <text name="CP_combineUnloaderJobParameters_subTitle_giantsUnloader" text="최종 하역:"/>
+    <text name="CP_combineUnloaderJobParameters_useGiantsUnload_title" text="최종 하역 활성화:"/>
     <text name="CP_combineUnloaderJobParameters_unloadingStation_title" text="Unloading station:"/>
     <text name="CP_combineUnloaderJobParameters_subTitle_fieldUnload" text="Giants unloader:"/>
     <text name="CP_combineUnloaderJobParameters_useFieldUnload_title" text="Use unload on field:"/>
