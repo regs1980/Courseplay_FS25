@@ -18,7 +18,7 @@
     <text name="CP_error_no_course" text="작업을 실행하기 전에 경로를 생성하세요."/>
     <text name="CP_error_could_not_generate_course" text="경로를 생성할 수 없습니다. 자세한 내용은 로그를 확인하세요."/>
     <text name="CP_error_not_on_field" text="목표 지점이 필드 내부에 있지 않습니다."/>
-    <text name="CP_error_unloader_to_far_away_from_field" text="운반 트레일러가 필드에서 너무 멀리 떨어져 있습니다."/>
+    <text name="CP_error_unloader_to_far_away_from_field" text="언로더가 필드에서 너무 멀리 떨어져 있습니다."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="작업 시작 위치가 필드에서 너무 멀리 떨어져 있습니다."/>
     <text name="CP_error_giants_unloader_not_available" text="최종 하역 지점을 사용할 수 없습니다."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="하역 지점이 필드에서 너무 멀리 떨어져 있습니다."/>
@@ -82,8 +82,8 @@
     <text name="CP_bunkerSiloJobParameters_drivingForwardsIntoSilo_title" text="사일로 진입 방향:"/>
     <text name="CP_bunkerSiloJobParameters_drivingForwardsIntoSilo_forwards" text="전진"/>
     <text name="CP_bunkerSiloJobParameters_drivingForwardsIntoSilo_reverse" text="후진"/>
-    <text name="CP_bunkerSiloJobParameters_subTitle_waitAtParkPosition" text="운반 트레일러 대기 중:"/>
-    <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_title" text="운반 트레일러 대기 중:"/>
+    <text name="CP_bunkerSiloJobParameters_subTitle_waitAtParkPosition" text="언로더 대기 중:"/>
+    <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_title" text="언로더 대기 중:"/>
     <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_silo" text="사일로 내부"/>
     <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_parkPosition" text="주차 위치"/>
     <text name="CP_bunkerSiloJobParameters_stopWithCompactedSilo_title" text="사일로 99% 압축 시 정지"/>
@@ -133,89 +133,89 @@
     <!---->
     <text name="CP_ai_taskDescriptionUnloadCombine" text="콤바인을 하역합니다"/>
     <text name="CP_ai_taskDescriptionWaitsForTargetCombine" text="콤바인을 기다립니다"/>
-    <text name="CP_ai_taskDescriptionUnloadSiloLoader" text="로더를 하역합니다"/>
-    <text name="CP_ai_taskDescriptionWaitsForTargetSiloLoader" text="Waits for loader"/>
-    <text name="CP_ai_taskDescriptionUnloadingToHeap" text="Unloads to a heap"/>
-    <text name="CP_ai_taskDescriptionUnloadingToTrailer" text="Unloads into trailer"/>
-    <text name="CP_ai_taskDescriptionUnloadingWithGiants" text="Unloads with giants worker"/>
+    <text name="CP_ai_taskDescriptionUnloadSiloLoader" text="사일로 로더에서 하역합니다"/>
+    <text name="CP_ai_taskDescriptionWaitsForTargetSiloLoader" text="사일로 로더를 기다립니다"/>
+    <text name="CP_ai_taskDescriptionUnloadingToHeap" text="작물더미에 하역합니다"/>
+    <text name="CP_ai_taskDescriptionUnloadingToTrailer" text="언로더에 하역합니다"/>
+    <text name="CP_ai_taskDescriptionUnloadingWithGiants" text="Giants 작업자와 함께 하역합니다"/>
     <!---->
     <!--AI silo worker task descriptions-->
     <!---->
-    <text name="CP_ai_taskDescriptionWorksInTheSilo" text="Works in the silo"/>
-    <text name="CP_ai_taskDescriptionWaitsForUnloaders" text="Waits for unloader"/>
+    <text name="CP_ai_taskDescriptionWorksInTheSilo" text="사일로에서 작업합니다"/>
+    <text name="CP_ai_taskDescriptionWaitsForUnloaders" text="언로더를 기다립니다"/>
     <!---->
     <!--AI silo loader task descriptions-->
     <!---->
-    <text name="CP_ai_taskDescriptionWaitsForTrailer" text="Waits for a trailer"/>
-    <text name="CP_ai_taskDescriptionUnloadingToTrigger" text="Unloads to an unload trigger"/>
+    <text name="CP_ai_taskDescriptionWaitsForTrailer" text="트레일러를 기다립니다"/>
+    <text name="CP_ai_taskDescriptionUnloadingToTrigger" text="하역 트리거로 하역합니다"/>
     <!---->
     <!--Hud settings-->
     <!---->
-    <text name="CP_hud_settings_selectedJob_title" text="TODO: Selected Job:"/>
+    <text name="CP_hud_settings_selectedJob_title" text="선택된 작업:"/>
     <!---->
     <!--Vehicle settings-->
     <!---->
-    <text name="CP_vehicle_setting_title" text="Vehicle settings for (%s)"/>
-    <text name="CP_vehicle_setting_subTitle_basic" text="Basic settings"/>
-    <text name="CP_vehicle_setting_subTitle_implement" text="Tools settings"/>
-    <text name="CP_vehicle_setting_subTitle_combine" text="Combine settings"/>
-    <text name="CP_vehicle_setting_subTitle_seeder" text="Seeder settings"/>
-    <text name="CP_vehicle_setting_subTitle_multitool" text="Multitool settings"/>
-    <text name="CP_vehicle_setting_subTitle_speed" text="Speeds"/>
-    <text name="CP_vehicle_setting_subTitle_debug" text="Debug settings"/>
-    <text name="CP_vehicle_setting_showCourse_title" text="Show course"/>
-    <text name="CP_vehicle_setting_showCourse_tooltip" text="Show the current course of the vehicle"/>
-    <text name="CP_vehicle_setting_showCourse_startStop" text="Start/stop only"/>
-    <text name="CP_vehicle_setting_showCourse_currentWaypoint" text="Current waypoints"/>
-    <text name="CP_vehicle_setting_showCourse_all" text="All waypoints"/>
-    <text name="CP_vehicle_setting_openHudWithMouse_title" text="Open Hud with mouse"/>
-    <text name="CP_vehicle_setting_openHudWithMouse_tooltip" text="When deactivated, Hud can only be opened with the Keybind."/>
-    <text name="CP_vehicle_setting_fuelSave_title" text="Fuel save"/>
-    <text name="CP_vehicle_setting_fuelSave_tooltip" text="Turns off the vehicle, while waiting."/>
-    <text name="CP_vehicle_setting_stopAtEnd_title" text="Stop at end"/>
-    <text name="CP_vehicle_setting_stopAtEnd_tooltip" text="Stop at end"/>
-    <text name="CP_vehicle_setting_allowReversePathfinding_title" text="Allow reverse for pathfinding"/>
-    <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="When applicable, allow the pathfinder to generate courses containing reverse driving"/>
-    <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="Allow using the pathfinder in turns"/>
-    <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Enables using the pathfinder in turns, for example to avoid obstacles and fruit"/>
-    <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="Fold tools at course end"/>
-    <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="Enables/disables automatic folding of implements at the end of the course."/>
-    <text name="CP_vehicle_setting_returnToStart_title" text="Return to starting point"/>
-    <text name="CP_vehicle_setting_returnToStart_tooltip" text="Return to starting point after finished fieldwork."/>
-    <text name="CP_vehicle_setting_raiseImplementLate_title" text="Raise tools"/>
-    <text name="CP_vehicle_setting_raiseImplementLate_tooltip" text="Raise tools early or late at the start of a turn."/>
-    <text name="CP_vehicle_setting_raiseImplementLate_early" text="early"/>
-    <text name="CP_vehicle_setting_raiseImplementLate_late" text="late"/>
-    <text name="CP_vehicle_setting_lowerImplementEarly_title" text="Lower tools"/>
-    <text name="CP_vehicle_setting_lowerImplementEarly_tooltip" text="Lower tools early or late at the end of a turn."/>
-    <text name="CP_vehicle_setting_lowerImplementEarly_early" text="early"/>
-    <text name="CP_vehicle_setting_lowerImplementEarly_late" text="late"/>
-    <text name="CP_vehicle_setting_turnOnField_title" text="Only turning on the field"/>
-    <text name="CP_vehicle_setting_turnOnField_tooltip" text="Only turning on the field. Not possible with all tools."/>
-    <text name="CP_vehicle_setting_avoidFruit_title" text="Avoid driving in fruit"/>
-    <text name="CP_vehicle_setting_avoidFruit_tooltip" text="The AI will try to avoid driving in the fruit"/>
-    <text name="CP_vehicle_setting_toolOffsetX_title" text="Tool offset horizontal"/>
-    <text name="CP_vehicle_setting_toolOffsetX_tooltip" text="Tool offset horizontal"/>
-    <text name="CP_vehicle_setting_baleCollectorOffset_title" text="Bale pickup offset"/>
-    <text name="CP_vehicle_setting_baleCollectorOffset_tooltip" text="Offset for the bale collector"/>
-    <text name="CP_vehicle_setting_combineOffsetX_title" text="Offset forwards/backwards"/>
-    <text name="CP_vehicle_setting_combineOffsetX_tooltip" text="Offset for harvester pipe with forwards(+) and backwards(-)"/>
-    <text name="CP_vehicle_setting_combineOffsetZ_title" text="Offset forwards/backwards"/>
-    <text name="CP_vehicle_setting_combineOffsetZ_tooltip" text="Offset for harvester pipe with forwards(+) and backwards(-)"/>
-    <text name="CP_vehicle_setting_fullThreshold_title" text="Empty when over:"/>
-    <text name="CP_vehicle_setting_fullThreshold_tooltip" text="TODO"/>
-    <text name="CP_vehicle_setting_useAdditiveFillUnit_title" text="Check for silage additive."/>
-    <text name="CP_vehicle_setting_useAdditiveFillUnit_tooltip" text="If active and silage additive is emtpy, the driver will stop."/>
-    <text name="CP_vehicle_setting_symmetricLaneChange_title" text="Symmetric lane change"/>
-    <text name="CP_vehicle_setting_symmetricLaneChange_tooltip" text="Symmetric lane change"/>
-    <text name="CP_vehicle_setting_convoyDistance_title" text="Convoy Distance"/>
-    <text name="CP_vehicle_setting_convoyDistance_tooltip" text="Distance between vehicles. Value: 40 - 400"/>
-    <text name="CP_vehicle_setting_debugActive_title" text="Vehicle debug"/>
-    <text name="CP_vehicle_setting_debugActive_tooltip" text="Enables/disables debug for this vehicle."/>
-    <text name="CP_vehicle_setting_refillOnTheField_title" text="Refill tool"/>
-    <text name="CP_vehicle_setting_refillOnTheField_tooltip" text="Refill tool on the field"/>
-    <text name="CP_vehicle_setting_refillOnTheField_waiting" text="Waiting"/>
-    <text name="CP_vehicle_setting_refillOnTheField_active" text="Active"/>
+    <text name="CP_vehicle_setting_title" text="차량 설정 (%s)"/>
+    <text name="CP_vehicle_setting_subTitle_basic" text="기본 설정"/>
+    <text name="CP_vehicle_setting_subTitle_implement" text="장비 설정"/>
+    <text name="CP_vehicle_setting_subTitle_combine" text="콤바인 설정"/>
+    <text name="CP_vehicle_setting_subTitle_seeder" text="파종기 설정"/>
+    <text name="CP_vehicle_setting_subTitle_multitool" text="다중 장비 설정"/>
+    <text name="CP_vehicle_setting_subTitle_speed" text="속도 설정"/>
+    <text name="CP_vehicle_setting_subTitle_debug" text="디버그 설정"/>
+    <text name="CP_vehicle_setting_showCourse_title" text="경로 표시"/>
+    <text name="CP_vehicle_setting_showCourse_tooltip" text="차량의 현재 경로 표시"/>
+    <text name="CP_vehicle_setting_showCourse_startStop" text="시작/정지 지점만 표시"/>
+    <text name="CP_vehicle_setting_showCourse_currentWaypoint" text="현재 웨이포인트만 표시"/>
+    <text name="CP_vehicle_setting_showCourse_all" text="모든 웨이포인트 표시"/>
+    <text name="CP_vehicle_setting_openHudWithMouse_title" text="마우스로 HUD 열기"/>
+    <text name="CP_vehicle_setting_openHudWithMouse_tooltip" text="비활성화시 HUD는 단축키로만 열 수 있습니다."/>
+    <text name="CP_vehicle_setting_fuelSave_title" text="연료 절약"/>
+    <text name="CP_vehicle_setting_fuelSave_tooltip" text="대기 중 차량을 정지시킵니다."/>
+    <text name="CP_vehicle_setting_stopAtEnd_title" text="끝지점에서 정지"/>
+    <text name="CP_vehicle_setting_stopAtEnd_tooltip" text="작업 끝지점에서 정지합니다."/>
+    <text name="CP_vehicle_setting_allowReversePathfinding_title" text="후진 경로 탐색 허용"/>
+    <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="적용 가능한 경우, 후진 주행이 포함된 경로를 생성하도록 경로 탐색기를 허용합니다."/>
+    <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="곡선주행 시 경로 탐색 사용을 허용합니다."/>
+    <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="경로 탐색기를 곡선주행 시 사용하도록 허용합니다. 예를 들어 장애물이나 작물을 피할 수 있습니다."/>
+    <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="작업 종료 시 장비 접기"/>
+    <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="업 종료 시 장비를 자동으로 접거나 펴도록 설정합니다."/>
+    <text name="CP_vehicle_setting_returnToStart_title" text="시작 지점으로 돌아가기"/>
+    <text name="CP_vehicle_setting_returnToStart_tooltip" text="밭 작업이 끝난 후 시작 지점으로 돌아갑니다."/>
+    <text name="CP_vehicle_setting_raiseImplementLate_title" text="장비 올리기"/>
+    <text name="CP_vehicle_setting_raiseImplementLate_tooltip" text="곡선주행 시작 시 장비를 일찍 또는 늦게 올립니다."/>
+    <text name="CP_vehicle_setting_raiseImplementLate_early" text="일찍"/>
+    <text name="CP_vehicle_setting_raiseImplementLate_late" text="늦게"/>
+    <text name="CP_vehicle_setting_lowerImplementEarly_title" text="장비 내리기"/>
+    <text name="CP_vehicle_setting_lowerImplementEarly_tooltip" text="곡선구간 끝에서 장비를 일찍 또는 늦게 내립니다."/>
+    <text name="CP_vehicle_setting_lowerImplementEarly_early" text="일찍"/>
+    <text name="CP_vehicle_setting_lowerImplementEarly_late" text="늦게"/>
+    <text name="CP_vehicle_setting_turnOnField_title" text="필드 내 곡선주행만"/>
+    <text name="CP_vehicle_setting_turnOnField_tooltip" text="필드 내에서만 곡선주행을 수행합니다. 모든 장비에서 가능하지는 않습니다."/>
+    <text name="CP_vehicle_setting_avoidFruit_title" text="작물 피해 방지"/>
+    <text name="CP_vehicle_setting_avoidFruit_tooltip" text="AI가 작물을 밟지 않도록 주행합니다."/>
+    <text name="CP_vehicle_setting_toolOffsetX_title" text="장비 수평 오프셋"/>
+    <text name="CP_vehicle_setting_toolOffsetX_tooltip" text="도구의 수평 오프셋 설정"/>
+    <text name="CP_vehicle_setting_baleCollectorOffset_title" text="베일 수집기 오프셋"/>
+    <text name="CP_vehicle_setting_baleCollectorOffset_tooltip" text="베일 수집기의 오프셋 설정"/>
+    <text name="CP_vehicle_setting_combineOffsetX_title" text="콤바인 전방/후방 오프셋(수평)"/>
+    <text name="CP_vehicle_setting_combineOffsetX_tooltip" text="수확 파이프의 오프셋 설정 (좌/우)"/>
+    <text name="CP_vehicle_setting_combineOffsetZ_title" text="콤바인 전방/후방 오프셋(수직)"/>
+    <text name="CP_vehicle_setting_combineOffsetZ_tooltip" text="수확 파이프의 수직 오프셋 설정 (전방+ 및 후방-)"/>
+    <text name="CP_vehicle_setting_fullThreshold_title" text="하역 임계값:"/>
+    <text name="CP_vehicle_setting_fullThreshold_tooltip" text="트레일러가 설정된 비율 이상 채워졌을 때 비우러 갑니다."/>
+    <text name="CP_vehicle_setting_useAdditiveFillUnit_title" text="사일리지 첨가제 확인"/>
+    <text name="CP_vehicle_setting_useAdditiveFillUnit_tooltip" text="활성화 시 사일리지 첨가제가 비어 있으면 운전자가 멈춥니다."/>
+    <text name="CP_vehicle_setting_symmetricLaneChange_title" text="대칭 작업 경로 변경"/>
+    <text name="CP_vehicle_setting_symmetricLaneChange_tooltip" text="작업 경로를 대칭적으로 변경합니다."/>
+    <text name="CP_vehicle_setting_convoyDistance_title" text="대열 거리"/>
+    <text name="CP_vehicle_setting_convoyDistance_tooltip" text="차량 간 거리 설정. 거리: 40 - 400"/>
+    <text name="CP_vehicle_setting_debugActive_title" text="차량 디버그"/>
+    <text name="CP_vehicle_setting_debugActive_tooltip" text="이 차량의 디버그 기능을 활성화/비활성화합니다."/>
+    <text name="CP_vehicle_setting_refillOnTheField_title" text="현장에서 장비 보충"/>
+    <text name="CP_vehicle_setting_refillOnTheField_tooltip" text="현장에서 장비를 보충합니다."/>
+    <text name="CP_vehicle_setting_refillOnTheField_waiting" text="대기 중"/>
+    <text name="CP_vehicle_setting_refillOnTheField_active" text="활성화"/>
     <!---->
     <!--Vehicle bunker silo settings-->
     <!---->
