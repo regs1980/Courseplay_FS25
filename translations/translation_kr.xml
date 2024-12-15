@@ -70,70 +70,70 @@
     <text name="CP_combineUnloaderJobParameters_unloadTarget_siloLoader" text="적재"/>
     <text name="CP_combineUnloaderJobParameters_subTitle_giantsUnloader" text="최종 하역:"/>
     <text name="CP_combineUnloaderJobParameters_useGiantsUnload_title" text="최종 하역 활성화:"/>
-    <text name="CP_combineUnloaderJobParameters_unloadingStation_title" text="Unloading station:"/>
-    <text name="CP_combineUnloaderJobParameters_subTitle_fieldUnload" text="Giants unloader:"/>
-    <text name="CP_combineUnloaderJobParameters_useFieldUnload_title" text="Use unload on field:"/>
-    <text name="CP_combineUnloaderJobParameters_fieldUnloadPosition_title" text="Field unloading position:"/>
-    <text name="CP_combineUnloaderJobParameters_unloadingTipSide_title" text="Trailer tip side:"/>
+    <text name="CP_combineUnloaderJobParameters_unloadingStation_title" text="하역 장소:"/>
+    <text name="CP_combineUnloaderJobParameters_subTitle_fieldUnload" text="최종 하역 장소:"/>
+    <text name="CP_combineUnloaderJobParameters_useFieldUnload_title" text="필드 하역 사용:"/>
+    <text name="CP_combineUnloaderJobParameters_fieldUnloadPosition_title" text="필드 하역 위치:"/>
+    <text name="CP_combineUnloaderJobParameters_unloadingTipSide_title" text="트레일러 하역 방향:"/>
     <!---->
     <!--AI bunker silo worker job parameters-->
     <!---->
-    <text name="CP_bunkerSiloJobParameters_subTitle_drivingForwardsIntoSilo" text="Direction into the silo:"/>
-    <text name="CP_bunkerSiloJobParameters_drivingForwardsIntoSilo_title" text="Direction into the silo:"/>
-    <text name="CP_bunkerSiloJobParameters_drivingForwardsIntoSilo_forwards" text="Forwards"/>
-    <text name="CP_bunkerSiloJobParameters_drivingForwardsIntoSilo_reverse" text="Reverse"/>
-    <text name="CP_bunkerSiloJobParameters_subTitle_waitAtParkPosition" text="Waiting for unloader:"/>
-    <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_title" text="Waiting for unloader:"/>
-    <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_silo" text="in silo"/>
-    <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_parkPosition" text="at park position"/>
-    <text name="CP_bunkerSiloJobParameters_stopWithCompactedSilo_title" text="Stop at 99% compaction"/>
-    <text name="CP_bunkerSiloJobParameters_subTitle_stopWithCompactedSilo" text="Stop at 99% compaction"/>
-    <text name="CP_bunkerSilo_compactionPercentage" text="Silo compaction:"/>
+    <text name="CP_bunkerSiloJobParameters_subTitle_drivingForwardsIntoSilo" text="사일로 진입 방향:"/>
+    <text name="CP_bunkerSiloJobParameters_drivingForwardsIntoSilo_title" text="사일로 진입 방향:"/>
+    <text name="CP_bunkerSiloJobParameters_drivingForwardsIntoSilo_forwards" text="전진"/>
+    <text name="CP_bunkerSiloJobParameters_drivingForwardsIntoSilo_reverse" text="후진"/>
+    <text name="CP_bunkerSiloJobParameters_subTitle_waitAtParkPosition" text="운반 트레일러 대기 중:"/>
+    <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_title" text="운반 트레일러 대기 중:"/>
+    <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_silo" text="사일로 내부"/>
+    <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_parkPosition" text="주차 위치"/>
+    <text name="CP_bunkerSiloJobParameters_stopWithCompactedSilo_title" text="사일로 99% 압축 시 정지"/>
+    <text name="CP_bunkerSiloJobParameters_subTitle_stopWithCompactedSilo" text="사일로 99% 압축 시 정지"/>
+    <text name="CP_bunkerSilo_compactionPercentage" text="사일로 압축률:"/>
     <!---->
     <!--AI silo lader worker job parameters-->
     <!---->
-    <text name="CP_siloLoaderJobParameters_subTitle_loadPosition" text="Loading position"/>
-    <text name="CP_siloLoaderJobParameters_loadPosition_title" text="Loading position"/>
-    <text name="CP_siloLoader_fillLevelProgress" text="Progress: "/>
-    <text name="CP_siloLoaderJobParameters_subTitle_unloading" text="Unloading at:"/>
-    <text name="CP_siloLoaderJobParameters_unloadAt_trailer" text="Trailer"/>
-    <text name="CP_siloLoaderJobParameters_unloadAt_unloadTrigger" text="Unload station"/>
+    <text name="CP_siloLoaderJobParameters_subTitle_loadPosition" text="적재 위치"/>
+    <text name="CP_siloLoaderJobParameters_loadPosition_title" text="적재 위치"/>
+    <text name="CP_siloLoader_fillLevelProgress" text="진행 상태: "/>
+    <text name="CP_siloLoaderJobParameters_subTitle_unloading" text="하역 위치:"/>
+    <text name="CP_siloLoaderJobParameters_unloadAt_trailer" text="트레일러"/>
+    <text name="CP_siloLoaderJobParameters_unloadAt_unloadTrigger" text="하역 위치"/>
     <!---->
     <!--AI jobs-->
     <!---->
-    <text name="CP_job_fieldWork" text="CP: Fieldwork"/>
-    <text name="CP_job_baleCollect" text="CP: Bale collect/wrap"/>
-    <text name="CP_job_combineUnload" text="CP: Unload Combine"/>
-    <text name="CP_job_bunkerSilo" text="CP: Silo work"/>
-    <text name="CP_job_siloLoader" text="CP: Silo loading"/>
-    <text name="CP_ai_page_generate_course" text="CP: Generate fieldwork course."/>
-    <text name="CP_ai_page_open_course_generator" text="CP: Open/close course generator."/>
+    <text name="CP_job_fieldWork" text="CP: 밭 작업"/>
+    <text name="CP_job_baleCollect" text="CP: 베일 수집/포장"/>
+    <text name="CP_job_combineUnload" text="CP: 콤바인 하역"/>
+    <text name="CP_job_bunkerSilo" text="CP: 사일로 작업"/>
+    <text name="CP_job_siloLoader" text="CP: 사일로 적재"/>
+    <text name="CP_ai_page_generate_course" text="CP: 밭 작업 경로 생성."/>
+    <text name="CP_ai_page_open_course_generator" text="CP: 경로 생성기 열기/닫기."/>
     <!---->
     <!--AI error messages-->
     <!---->
-    <text name="CP_ai_messageErrorIsFull" text="AI worker %s has stopped work unexpectedly - tank is full!"/>
-    <text name="CP_ai_messageError" text="AI worker %s has stopped work unexpectedly - left the course!"/>
-    <text name="CP_ai_messageErrorWrongBaleWrapType" text="AI worker %s has stopped work unexpectedly - no bales of selected type found!"/>
-    <text name="CP_ai_messageErrorNoPathFound" text="AI worker %s has stopped work unexpectedly - no Path found!"/>
-    <text name="CP_ai_messageErrorGroundUnloadNotSupported" text="AI worker %s has stopped work unexpectedly - unloading on the field not possible!"/>
-    <text name="CP_ai_messageErrorCutterNotSupported" text="AI worker %s has stopped work unexpectedly - attaching of the header is impossible!"/>
-    <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI worker %s has stopped work unexpectedly - automatic cutter attach disabled!"/>
-    <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI worker %s has stopped work unexpectedly - wrong fill type for mission selected!"/>
+    <text name="CP_ai_messageErrorIsFull" text="AI 작업자 %s가 예기치 않게 작업을 중단했습니다 - 저장소가 가득 찼습니다!"/>
+    <text name="CP_ai_messageError" text="AI 작업자 %s가 예기치 않게 작업을 중단했습니다 - 경로를 벗어났습니다!"/>
+    <text name="CP_ai_messageErrorWrongBaleWrapType" text="AI 작업자 %s가 예기치 않게 작업을 중단했습니다 - 선택된 유형의 베일을 찾을 수 없습니다!"/>
+    <text name="CP_ai_messageErrorNoPathFound" text="작업자 %s가 예기치 않게 작업을 중단했습니다 - 경로를 찾을 수 없습니다!"/>
+    <text name="CP_ai_messageErrorGroundUnloadNotSupported" text="AI 작업자 %s가 예기치 않게 작업을 중단했습니다 - 해당 필드에서 하역이 불가능합니다!"/>
+    <text name="CP_ai_messageErrorCutterNotSupported" text="AI 작업자 %s가 예기치 않게 작업을 중단했습니다 - 헤더 연결이 지원되지 않습니다!"/>
+    <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI 작업자 %s가 예기치 않게 작업을 중단했습니다 - 자동 헤더 연결이 비활성화되어 있습니다!"/>
+    <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI 작업자 %s가 예기치 않게 작업을 중단했습니다 - 선택된 임무의 작물 유형이 잘못되었습니다!"/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
-    <text name="CP_ai_taskDescriptionAttachHeader" text="Picks the header up"/>
+    <text name="CP_ai_taskDescriptionAttachHeader" text="헤더를 연결합니다"/>
     <!---->
     <!--AI bale finder task descriptions-->
     <!---->
-    <text name="CP_ai_taskDescriptionCollectsBales" text="Collects bales on the field"/>
-    <text name="CP_ai_taskDescriptionWrapsBales" text="Wraps bales on the field"/>
+    <text name="CP_ai_taskDescriptionCollectsBales" text="필드에서 베일을 수집합니다"/>
+    <text name="CP_ai_taskDescriptionWrapsBales" text="필드에서 베일을 포장합니다"/>
     <!---->
     <!--AI combine unloader task descriptions-->
     <!---->
-    <text name="CP_ai_taskDescriptionUnloadCombine" text="Unloads combine"/>
-    <text name="CP_ai_taskDescriptionWaitsForTargetCombine" text="Waits for combine"/>
-    <text name="CP_ai_taskDescriptionUnloadSiloLoader" text="Unloads loader"/>
+    <text name="CP_ai_taskDescriptionUnloadCombine" text="콤바인을 하역합니다"/>
+    <text name="CP_ai_taskDescriptionWaitsForTargetCombine" text="콤바인을 기다립니다"/>
+    <text name="CP_ai_taskDescriptionUnloadSiloLoader" text="로더를 하역합니다"/>
     <text name="CP_ai_taskDescriptionWaitsForTargetSiloLoader" text="Waits for loader"/>
     <text name="CP_ai_taskDescriptionUnloadingToHeap" text="Unloads to a heap"/>
     <text name="CP_ai_taskDescriptionUnloadingToTrailer" text="Unloads into trailer"/>
