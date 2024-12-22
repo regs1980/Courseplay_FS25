@@ -331,52 +331,52 @@
     <text name="CP_vehicle_courseGeneratorSetting_startOnHeadland_on_headland" text="헤드랜드"/>
     <text name="CP_vehicle_courseGeneratorSetting_startOnHeadland_up_down_rows" text="중앙구역"/>
     <text name="CP_vehicle_courseGeneratorSetting_multiTools_title" text="다중 작업"/>
-    <text name="CP_vehicle_courseGeneratorSetting_multiTools_tooltip" text="Number of vehicles on the same course."/>
-    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_title" text="Switching lanes"/>
-    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_tooltip" text="Sets the lanes to always switch. This leads to similar turns. See help menu for more details."/>
-    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_title" text="Field edge for line form"/>
-    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_tooltip" text="The rows follow the curvature of the field edge nearest to the field marker."/>
-    <text name="CP_vehicle_courseGeneratorSetting_narrowField_title" text="Narrow field"/>
-    <text name="CP_vehicle_courseGeneratorSetting_narrowField_tooltip" text="Generates the headland only at the short edges of the field."/>
+    <text name="CP_vehicle_courseGeneratorSetting_multiTools_tooltip" text="같은 경로에서 작업하는 차량 수를 설정합니다."/>
+    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_title" text="차선 변경"/>
+    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_tooltip" text="항상 차선을 변경하도록 설정합니다. 자세한 내용은 도움말 메뉴를 참조하세요."/>
+    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_title" text="필드 가장자리 경로"/>
+    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_tooltip" text="경로가 필드 가장자리 모양과 같은 곡률을 따라 생성됩니다."/>
+    <text name="CP_vehicle_courseGeneratorSetting_narrowField_title" text="좁은 필드"/>
+    <text name="CP_vehicle_courseGeneratorSetting_narrowField_tooltip" text="필드의 짧은 가장자리에서만 헤드랜드를 생성합니다."/>
     <!---->
     <!--Vine course generator settings-->
     <!---->
-    <text name="CP_vehicle_vineCourseGeneratorSetting_title" text="Vine course generator"/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_subTitle_basic" text="Basic Settings"/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_title" text="Position of the course"/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_tooltip" text="Should the course be driven on or beside the vine. This depends on the Tool. More Information in the help Menu."/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_left" text="Left side of the vine"/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_center" text="On the vine"/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_right" text="Right side of the vine"/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineMultiTools_title" text="Tools per course."/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineMultiTools_tooltip" text="How many Tools can work together. More Information in the help Menu."/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineRowsToSkip_title" text="Vines to skip"/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineRowsToSkip_tooltip" text="Skip vines should only be used, when the tool works on both vines (left and right)."/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_title" text="포도 및 올리브 작업"/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_subTitle_basic" text="기본 설정"/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_title" text="경로 위치"/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_tooltip" text="작업 경로가 덩굴 위 또는 옆에서 운행되도록 설정합니다. 장비에 따라 다릅니다. 자세한 내용은 도움말 메뉴를 참조하세요."/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_left" text="덩굴 왼쪽"/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_center" text="덩굴 위"/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_right" text="덩굴 오른쪽"/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineMultiTools_title" text="작업 장비 수"/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineMultiTools_tooltip" text="작업에 사용할 장비의 수를 설정합니다. 더 자세한 내용은 도움말 메뉴를 참조하세요."/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineRowsToSkip_title" text="건너뛸 덩굴"/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineRowsToSkip_tooltip" text="장비가 양쪽(왼쪽 및 오른쪽)에서 작업할 때만 건너뛸 덩굴을 설정합니다."/>
     <!---->
     <!--Global settings-->
     <!---->
-    <text name="CP_global_setting_title" text="Global settings"/>
-    <text name="CP_global_setting_subTitle_general" text="Basic settings"/>
-    <text name="CP_global_setting_wageModifier_title" text="Cp driver wages"/>
-    <text name="CP_global_setting_wageModifier_tooltip" text="Cp driver wages as percentage of normal worker's wages"/>
-    <text name="CP_global_setting_autoRepair_title" text="Automatic repair"/>
-    <text name="CP_global_setting_autoRepair_tooltip" text="Cp driver automatically repair, while driving."/>
-    <text name="CP_global_setting_autoRepair_off" text="Don't repair"/>
-    <text name="CP_global_setting_autoRepair_less_than_25" text="&lt; 25%"/>
-    <text name="CP_global_setting_autoRepair_less_than_70" text="&lt; 70%"/>
-    <text name="CP_global_setting_autoRepair_always" text="Keep it healthy"/>
-    <text name="CP_global_setting_fuelThreshold_title" text="Fuel threshold"/>
-    <text name="CP_global_setting_fuelThreshold_tooltip" text="Driver will be released, if the fuel percentage is less."/>
-    <text name="CP_global_setting_waitForRefueling_title" text="Waits for refueling"/>
-    <text name="CP_global_setting_waitForRefueling_tooltip" text="Vehicle waits until it is refueled."/>
-    <text name="CP_global_setting_brokenThreshold_title" text="Broken threshold"/>
-    <text name="CP_global_setting_brokenThreshold_tooltip" text="Driver will be released, if the vehicle or an implement is more broken. 100% is off."/>
-    <text name="CP_global_setting_stopThreshingDuringRain_title" text="Stops harvester, while it's raining"/>
-    <text name="CP_global_setting_stopThreshingDuringRain_tooltip" text="If the setting is active, then all harvester wait for the raining to stop."/>
-    <text name="CP_global_setting_fruitDestruction_title" text="AI Helper fruit destruction"/>
-    <text name="CP_global_setting_fruitDestruction_tooltip" text="Enable/disable the fruit destruction for helpers."/>
-    <text name="CP_global_setting_fruitDestruction_only_cp" text="Only activated for Coursesplay helpers"/>
-    <text name="CP_global_setting_fruitDestruction_all_helpers" text="Activated for every helpers"/>
+    <text name="CP_global_setting_title" text="글로벌 설정"/>
+    <text name="CP_global_setting_subTitle_general" text="기본 설정"/>
+    <text name="CP_global_setting_wageModifier_title" text="Courseplay AI 작업자 임금"/>
+    <text name="CP_global_setting_wageModifier_tooltip" text="Courseplay AI 작업자에게 지급할 임금을 일반 작업자 임금의 비율로 설정합니다. (0~500%)"/>
+    <text name="CP_global_setting_autoRepair_title" text="자동 수리"/>
+    <text name="CP_global_setting_autoRepair_tooltip" text="Courseplay AI 작업자가 주행 중 자동으로 수리합니다."/>
+    <text name="CP_global_setting_autoRepair_off" text="수리하지 않음"/>
+    <text name="CP_global_setting_autoRepair_less_than_25" text="25% 이하에서 수리"/>
+    <text name="CP_global_setting_autoRepair_less_than_70" text="70% 이하에서 수리"/>
+    <text name="CP_global_setting_autoRepair_always" text="항상 유지"/>
+    <text name="CP_global_setting_fuelThreshold_title" text="연료 임계값"/>
+    <text name="CP_global_setting_fuelThreshold_tooltip" text="연료 잔량이 설정치보다 적으면 작업을 중단합니다."/>
+    <text name="CP_global_setting_waitForRefueling_title" text="연료 보급 대기"/>
+    <text name="CP_global_setting_waitForRefueling_tooltip" text="차량이 연료 보급을 기다립니다."/>
+    <text name="CP_global_setting_brokenThreshold_title" text="손상 임계값"/>
+    <text name="CP_global_setting_brokenThreshold_tooltip" text="차량 또는 장비의 손상이 설정치 이상일 경우 작업을 중단합니다. (100%는 비활성화)"/>
+    <text name="CP_global_setting_stopThreshingDuringRain_title" text="비 오는 동안 수확 중지"/>
+    <text name="CP_global_setting_stopThreshingDuringRain_tooltip" text="설정이 활성화되면 비가 오는 동안 모든 수확기가 작업을 중단합니다."/>
+    <text name="CP_global_setting_fruitDestruction_title" text="AI 작물 파괴"/>
+    <text name="CP_global_setting_fruitDestruction_tooltip" text="AI 작업자의 작물 파괴를 활성화/비활성화합니다."/>
+    <text name="CP_global_setting_fruitDestruction_only_cp" text="Courseplay 작업자에만 적용"/>
+    <text name="CP_global_setting_fruitDestruction_all_helpers" text="모든 작업자에 적용"/>
     <!---->
     <!--Global settings user settings-->
     <!---->
