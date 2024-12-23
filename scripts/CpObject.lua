@@ -17,10 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]
 
 -- Class implementation stolen from http://lua-users.org/wiki/SimpleLuaClasses
----@param base table|function|nil Optional base class or giants constructor function
+---@generic K : CpObject
+---@param base `K`|nil Optional base class
 ---@param baseClassInit function|nil Optional giants constructor function for the base class
----@return table
+---@return K
 function CpObject(base, baseClassInit)
+	---@class CpObject
 	local c = {}    -- a new class instance
 	if type(base) == 'table' then
 		-- our new class is a shallow copy of the base class!
