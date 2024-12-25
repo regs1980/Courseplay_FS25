@@ -263,7 +263,7 @@ function PathfinderUtil.CollisionDetector.removeNodeToIgnore(node)
 end
 
 function PathfinderUtil.CollisionDetector:overlapBoxCallback(transformId)
-    if PathfinderUtil.CollisionDetector.NODES_TO_IGNORE[transformId] then 
+    if PathfinderUtil.CollisionDetector.NODES_TO_IGNORE[transformId] then
         --- Global node, that needs to be ignored
         return
     end
@@ -273,8 +273,8 @@ function PathfinderUtil.CollisionDetector:overlapBoxCallback(transformId)
         -- an object we want to ignore
         return
     end
+    local rootVehicle
     if collidingObject then
-        local rootVehicle
         if collidingObject.getRootVehicle then
             rootVehicle = collidingObject:getRootVehicle()
         elseif collidingObject:isa(Bale) and collidingObject.mountObject then
@@ -663,7 +663,7 @@ end
 function PathfinderUtil.getWaypointAsState3D(waypoint, xOffset, zOffset)
     local result = State3D(waypoint.x, -waypoint.z, CpMathUtil.angleFromGameDeg(waypoint.angle))
     if waypoint:getIsReverse() then
-        --- If it's a reverse driven waypoint, then the target heading needs to be inverted. 
+        --- If it's a reverse driven waypoint, then the target heading needs to be inverted.
         result:reverseHeading()
     end
     local offset = Vector(zOffset, -xOffset)

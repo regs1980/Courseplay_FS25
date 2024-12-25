@@ -25,6 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --- Also showing field/fruit/collision information when walking around
 DevHelper = CpObject()
 
+DevHelper.overlapBoxWidth = 3
+DevHelper.overlapBoxHeight = 3
+DevHelper.overlapBoxLength = 5
+
 function DevHelper:init()
     self.data = {}
     self.isEnabled = false
@@ -85,7 +89,9 @@ function DevHelper:update()
 
     local collisionMask = CpUtil.getDefaultCollisionFlags() + CollisionFlag.TERRAIN_DELTA
     self.data.collidingShapes = ''
-    overlapBox(self.data.x, self.data.y + 0.2, self.data.z, 0, self.yRot, 0, 1.6, 1, 8, "overlapBoxCallback", self, collisionMask, true, true, true)
+    overlapBox(self.data.x, self.data.y + 0.2, self.data.z, 0, self.yRot, 0,
+            DevHelper.overlapBoxWidth / 2, DevHelper.overlapBoxHeight / 2, DevHelper.overlapBoxLength / 2,
+            "overlapBoxCallback", self, collisionMask, true, true, true)
 
 end
 
@@ -94,7 +100,7 @@ function DevHelper:overlapBoxCallback(transformId)
     local text
     if collidingObject then
         if collidingObject.getRootVehicle then
-            text = 'vehicle' .. collidingObject:getName()
+            text = 'vehicle ' .. collidingObject:getName()
         else
 			if collidingObject:isa(Bale) then
 				text = 'Bale ' .. tostring(collidingObject.id) .. ' ' .. tostring(collidingObject.nodeId)
@@ -206,8 +212,9 @@ function DevHelper:draw()
 	--local x, y, z = localToWorld(self.node, 0, -1, -3)
 
 	--drawDebugLine(x, y, z, 1, 1, 1, x + nx, y + ny, z + nz, 1, 1, 1)
-	--local xRot, yRot, zRot = getWorldRotation(self.tNode)
-	--DebugUtil.drawOverlapBox(self.data.x, self.data.y, self.data.z, xRot, yRot, zRot, 4, 1, 4, 0, 100, 0)
+	DebugUtil.drawOverlapBox(self.data.x, self.data.y, self.data.z, 0, self.yRot, 0,
+            DevHelper.overlapBoxWidth / 2, DevHelper.overlapBoxHeight / 2, DevHelper.overlapBoxLength / 2,
+            0, 100, 0)
     PathfinderUtil.showOverlapBoxes()
     g_fieldScanner:draw()
 end
