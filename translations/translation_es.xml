@@ -156,7 +156,7 @@
     <!--Vehicle settings-->
     <!---->
     <text name="CP_vehicle_setting_title" text="Configuración del vehículo (%s)"/>
-    <text name="CP_vehicle_setting_subTitle_vehicle" text="Vehicle settings"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Configuración de Vehículo"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="Configuración Básica"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="Configuración de Herramientas"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Configuración de Cosechadoras"/>
@@ -522,7 +522,7 @@ El curso se guarda automáticamente al cerrar el editor y anula el curso selecci
     <!---->
     <!--CP ingame menu-->
     <!---->
-    <text name="CP_ingameMenu_map_title" text="Map"/>
+    <text name="CP_ingameMenu_map_title" text="Mapa"/>
     <!---->
     <!--Help menu-->
     <!---->
@@ -1023,8 +1023,8 @@ Ahora su selección debería verse similar a la imagen.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Muestra el menú del canal de depuración Sí/No."/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Abrir/Cerrar GUI del vehículo."/>
     <text name="input_CP_START_STOP" text="CP: Iniciar/Detener conductor."/>
-    <text name="input_CP_GENERATE_COURSE" text="CP: Change current selected job"/>
-    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Change current selected job"/>
+    <text name="input_CP_GENERATE_COURSE" text="CP: Generar Curso"/>
+    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Cambiar Trabajo"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Cambia el punto de inicio."/>
     <text name="input_CP_CLEAR_COURSE" text="CP: Borra el curso cargado actualmente"/>
     <text name="input_CP_CHANGE_COURSE_VISIBILITY" text="Muestra el curso actual del vehículo"/>
@@ -1032,8 +1032,8 @@ Ahora su selección debería verse similar a la imagen.
     <text name="input_CP_OPEN_CLOSE_HUD" text="CP: Abrir/Cerrar Hud"/>
     <text name="input_CP_OPEN_VEHICLE_SETTINGS" text="CP: Abre ajustes del vehículo"/>
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Abre ajustes globales"/>
-    <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Abrir menú del Generador de Cursos/Trabajo"/>
-    <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Abre Administrador de Curso"/>
-    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Open menu"/>
+    <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Abrir menú del Generador de Cursos"/>
+    <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Abre el Administrador de Cursos"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Abrir Menú"/>
   </texts>
 </l10n>
