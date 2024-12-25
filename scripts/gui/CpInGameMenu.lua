@@ -290,9 +290,11 @@ function CpInGameMenu:onClickMenu()
 end
 
 function CpInGameMenu:onPageChange(pageIndex, pageMappingIndex, element, skipTabVisualUpdate)
-
 	CpInGameMenu:superClass().onPageChange(self, pageIndex, pageMappingIndex, element, skipTabVisualUpdate)
 	self:updateBackground()
+	if self.currentPage.categoryHeaderIcon then
+		self.currentPage.categoryHeaderIcon:setImageSlice(nil, self.pageTabs[self.currentPage].iconSliceId)
+	end
 end
 
 function CpInGameMenu:getPageButtonInfo(page)
