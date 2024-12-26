@@ -484,5 +484,6 @@ end
 
 function CpUtil.getDefaultCollisionFlags()
 	return CollisionFlag.DEFAULT + CollisionFlag.TREE + CollisionFlag.DYNAMIC_OBJECT + 
-		CollisionFlag.VEHICLE + CollisionFlag.BUILDING + CollisionFlag.PLACEMENT_BLOCKING
+		CollisionFlag.VEHICLE + CollisionFlag.BUILDING + CollisionFlag.STATIC_OBJECT +
+		CollisionFlag.WATER
 end
