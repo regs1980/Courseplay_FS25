@@ -224,7 +224,7 @@ end
 
 function CpCourseManager:resetCourses()
     local spec = self.spec_cpCourseManager
-    if spec.courses then
+    if spec and spec.courses then
         spec.courses = {}
         spec.assignedCoursesID = nil
         SpecializationUtil.raiseEvent(self,"onCpCourseChange")
