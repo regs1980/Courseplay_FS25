@@ -255,7 +255,7 @@ function AIDriveStrategyCombineCourse:getDriveData(dt, vX, vY, vZ)
             -- player does not want us to move while discharging
             self:setMaxSpeed(0)
         else
-            -- Slowdown the combine near the last few percent, so no crops are leftover, 
+            -- Slowdown the combine near the last few percent, so no crops are leftover,
             -- as the combine needs to stop in time, before it's full.
             local leftoverPercentage = self.fillLevelFullPercentage - self.combineController:getFillLevelPercentage()
             if (leftoverPercentage > 0 and leftoverPercentage < self.startingSlowdownFillLevelThreshold) then
@@ -2113,7 +2113,7 @@ end
 
 -- Proximity controller checking if an object/vehicle should be ignored
 function AIDriveStrategyCombineCourse:ignoreProximityObject(object, vehicle, moveForwards, hitTerrain)
-    return vehicle == self.unloaderRequestedToIgnoreProximity:get()
+    return vehicle ~= nil and vehicle == self.unloaderRequestedToIgnoreProximity:get()
 end
 
 --- Check if the unloader is blocking us when we are reversing in a turn and immediately notify it
