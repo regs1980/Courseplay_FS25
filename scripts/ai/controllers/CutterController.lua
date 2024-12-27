@@ -6,6 +6,9 @@ CutterController = CpObject(ImplementController)
 function CutterController:init(vehicle, implement)
     ImplementController.init(self, vehicle, implement)
     self.cutterSpec = self.implement.spec_cutter
+    -- To avoid the error thrown for pickups:
+    -- Cutter.lua:1494: invalid argument #1 to 'ipairs' (table expected, got nil)
+    self.cutterSpec.fruitTypeIndices = {}
 end
 
 function CutterController:getDriveData()
