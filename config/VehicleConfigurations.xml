@@ -292,7 +292,6 @@ You can define the following custom settings:
              movingToolIx = "1"
              workingWidth ="10.2"
     />
-
     <!--\vehicles\kuhn-->
     <Vehicle name="sw4014.xml"
              toolOffsetX = "-2.5"
@@ -377,7 +376,10 @@ You can define the following custom settings:
              turnRadius = "5"
              useVehicleSizeForMarkers = "true"
     />
-
+    <!--\vehicles\goeweil-->
+    <Vehicle name="g5020.xml"
+             baleCollectorOffset = "1.8"
+    />
     <!--\vehicles\samsonAgro-->
     <Vehicle name="us235.xml"
              workingWidth = "24"

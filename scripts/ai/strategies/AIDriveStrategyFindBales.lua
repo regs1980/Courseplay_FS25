@@ -104,8 +104,8 @@ end
 --- Wait for the giants bale loader to finish grabbing the bale.
 function AIDriveStrategyFindBales:isReadyToLoadNextBale()
     local isGrabbingBale = false
-    for i, controller in pairs(self.controllers) do 
-        if controller.isGrabbingBale then 
+    for i, controller in pairs(self.controllers) do
+        if controller.isGrabbingBale then
             isGrabbingBale = isGrabbingBale or controller:isGrabbingBale()
         end
     end
@@ -119,8 +119,8 @@ end
 --- Have any bales been loaded?
 function AIDriveStrategyFindBales:hasBalesLoaded()
     local hasBales = false
-    for i, controller in pairs(self.controllers) do 
-        if controller.hasBales then 
+    for i, controller in pairs(self.controllers) do
+        if controller.hasBales then
             hasBales = hasBales or controller:hasBales()
         end
     end
@@ -130,8 +130,8 @@ end
 --- Can all bale loaders be folded?
 function AIDriveStrategyFindBales:isReadyToFoldImplements()
     local canBeFolded = true
-    for i, controller in pairs(self.controllers) do 
-        if controller.canBeFolded then 
+    for i, controller in pairs(self.controllers) do
+        if controller.canBeFolded then
             canBeFolded = canBeFolded and controller:canBeFolded()
         end
     end
@@ -140,8 +140,8 @@ end
 
 function AIDriveStrategyFindBales:areBaleLoadersFull()
     local allBaleLoadersFilled = self.baleLoader ~= nil
-    for i, controller in pairs(self.controllers) do 
-        if controller.isFull then 
+    for i, controller in pairs(self.controllers) do
+        if controller.isFull then
             allBaleLoadersFilled = allBaleLoadersFilled and controller:isFull()
         end
     end
@@ -152,15 +152,15 @@ function AIDriveStrategyFindBales:getBalesToIgnore()
     local objectsToIgnore = {}
     if self.lastBale then
         return { self.lastBale }
-    elseif self.baleLoaderController then 
+    elseif self.baleLoaderController then
         return self.baleLoaderController:getBalesToIgnore()
     else
-        for i, controller in pairs(self.controllers) do 
-            if controller.getBalesToIgnore then 
-                for i, bale in pairs(controller:getBalesToIgnore()) do 
+        for i, controller in pairs(self.controllers) do
+            if controller.getBalesToIgnore then
+                for i, bale in pairs(controller:getBalesToIgnore()) do
                     table.insert(objectsToIgnore, bale)
                 end
-               
+
             end
         end
     end
@@ -187,7 +187,7 @@ function AIDriveStrategyFindBales:setFieldPolygon(fieldPolygon)
     self.fieldPolygon = fieldPolygon
 end
 
---- Bale wrap type for the bale loader. 
+--- Bale wrap type for the bale loader.
 function AIDriveStrategyFindBales:setAIVehicle(vehicle, jobParameters)
     AIDriveStrategyCourse.setAIVehicle(self, vehicle, jobParameters)
     self.baleWrapType = jobParameters.baleWrapType:getValue()
@@ -224,12 +224,13 @@ end
 function AIDriveStrategyFindBales:findBales()
     local balesFound, baleWithWrongWrapType = {}, false
     for _, object in pairs(g_baleToCollectManager:getBales()) do
-        local isValid, wrongWrapType = BaleToCollect.isValidBale(object, 
+        local isValid, wrongWrapType = BaleToCollect.isValidBale(object,
                 self.baleWrapper, self.baleLoader, self.baleWrapType)
         if isValid and g_baleToCollectManager:isValidBale(object) then
             local bale = BaleToCollect(object)
             -- if the bale has a mountObject it is already on the loader so ignore it
-            if not object.mountObject and object:getOwnerFarmId() == self.vehicle:getOwnerFarmId() and
+            if not object.mountObject and
+                    g_currentMission.accessHandler:canFarmAccess(self.vehicle:getOwnerFarmId(), object) and
                     self:isBaleOnField(bale) then
                 -- bales may .have multiple nodes, using the object.id deduplicates the list
                 balesFound[object.id] = bale
@@ -253,7 +254,7 @@ end
 ---@return number|nil distance to the closest bale
 ---@return number|nil index of the bale
 function AIDriveStrategyFindBales:findClosestBale(bales, balesToIgnore)
-    if not bales then 
+    if not bales then
         return
     end
     local closestBale, minDistance, ix = nil, math.huge, 1
@@ -327,7 +328,7 @@ function AIDriveStrategyFindBales:getBaleTarget(bale)
     return State3D(xb, -zb, CpMathUtil.angleFromGame(yRot))
 end
 
---- Sets the driver as finished, so either a path 
+--- Sets the driver as finished, so either a path
 --- to the start marker as a park position can be used
 --- or the driver stops directly.
 function AIDriveStrategyFindBales:setFinished()
@@ -335,14 +336,14 @@ function AIDriveStrategyFindBales:setFinished()
         -- Waiting until the folding has finished..
         self:debugSparse("Waiting until an animation has finish, so the driver can be released ..")
         return
-    end 
+    end
     self.vehicle:prepareForAIDriving()
-    if not self.vehicle:getIsAIReadyToDrive() then 
+    if not self.vehicle:getIsAIReadyToDrive() then
         -- Waiting until the folding has finished..
         self:debugSparse("Waiting until an animation has finish, so the driver can be released ..")
         return
     end
-    if self.invertedStartPositionMarkerNode then 
+    if self.invertedStartPositionMarkerNode then
         self:debug("A valid start position is found, so the driver tries to finish at the inverted goal node")
         self:startPathfindingToStartMarker()
     else
@@ -350,21 +351,21 @@ function AIDriveStrategyFindBales:setFinished()
     end
 end
 
---- Finishes the job with the correct stop reason, as 
+--- Finishes the job with the correct stop reason, as
 --- the correct reason is needed for a possible AD takeover.
 function AIDriveStrategyFindBales:finishJob()
-    if self:areBaleLoadersFull() then 
+    if self:areBaleLoadersFull() then
         self:debug('All the bale loaders are full, so stopping the job.')
         self.vehicle:stopCurrentAIJob(AIMessageErrorIsFull.new())
-    elseif self:hasBalesLoaded() then 
-        if self.baleLoaderController and self.baleLoaderController:isChangingBaleSize() then 
+    elseif self:hasBalesLoaded() then
+        if self.baleLoaderController and self.baleLoaderController:isChangingBaleSize() then
             self:debug('There really are no more bales on the field, so stopping the job')
             self.vehicle:stopCurrentAIJob(AIMessageSuccessFinishedJob.new())
-        else            
+        else
             self:debug('No more bales found on the field, so stopping the job and sending the loader to unload the bales.')
             self.vehicle:stopCurrentAIJob(AIMessageErrorIsFull.new())
         end
-    elseif self.baleLoader and self.wrongWrapTypeFound then 
+    elseif self.baleLoader and self.wrongWrapTypeFound then
         self:debug('Only bales with a wrong wrap type are left on the field.')
         self.vehicle:stopCurrentAIJob(AIMessageErrorWrongBaleWrapType.new())
     else
@@ -382,8 +383,8 @@ end
 ---@param success boolean
 ---@param course Course|nil
 ---@param goalNodeInvalid boolean|nil
-function AIDriveStrategyFindBales:onPathfindingFinished(controller, 
-    success, course, goalNodeInvalid)
+function AIDriveStrategyFindBales:onPathfindingFinished(controller,
+                                                        success, course, goalNodeInvalid)
     if self.state == self.states.DRIVING_TO_NEXT_BALE then
         if success then
             self.balesTried = {}
@@ -411,12 +412,12 @@ function AIDriveStrategyFindBales:onPathfindingFinished(controller,
         end
     elseif self.state == self.states.DRIVING_TO_START_MARKER then
         if success then
-               --- Append a straight alignment segment
+            --- Append a straight alignment segment
             local x, _, z = course:getWaypointPosition(course:getNumberOfWaypoints())
             local dx, _, dz = localToWorld(self.invertedStartPositionMarkerNode, self.invertedGoalPositionOffset, 0, 0)
 
             course:append(Course.createFromTwoWorldPositions(self.vehicle, x, z, dx, dz,
-                0, 0, 0, 3, false))
+                    0, 0, 0, 3, false))
             self:startCourse(course, 1)
         else
             self:finishJob()
@@ -445,8 +446,8 @@ function AIDriveStrategyFindBales:getPathfinderBaleTargetAsGoalNode(bale)
     local offset = Vector(0, safeDistanceFromBale + configuredOffset)
     goal:add(offset:rotate(goal.t))
     self:debug('Start pathfinding to next bale (%d), safe distance from bale %.1f, half vehicle width %.1f, configured offset %s',
-        bale:getId(), safeDistanceFromBale, halfVehicleWidth,
-        configuredOffset and string.format('%.1f', configuredOffset) or 'n/a')
+            bale:getId(), safeDistanceFromBale, halfVehicleWidth,
+            configuredOffset and string.format('%.1f', configuredOffset) or 'n/a')
     return goal
 end
 
@@ -454,7 +455,10 @@ end
 function AIDriveStrategyFindBales:startPathfindingToBale(bale)
     self.state = self.states.DRIVING_TO_NEXT_BALE
     g_baleToCollectManager:lockBale(bale:getBaleObject(), self)
-    local context = PathfinderContext(self.vehicle):objectsToIgnore(self:getBalesToIgnore())
+    local objectsToIgnore = self:getBalesToIgnore()
+    -- ignore the target bale, we actually want to hit it, there really is no reason to trigger collisions with it
+    table.insert(objectsToIgnore, bale:getBaleObject())
+    local context = PathfinderContext(self.vehicle):objectsToIgnore(objectsToIgnore)
     context:allowReverse(false):maxFruitPercent(self.settings.avoidFruit:getValue() and 10 or math.huge)
     table.insert(self.balesTried, bale)
     self.pathfinderController:registerListeners(self, self.onPathfindingFinished, nil,
@@ -533,13 +537,13 @@ function AIDriveStrategyFindBales:getDriveData(dt, vX, vY, vZ)
     self:updateLowFrequencyImplementControllers()
     self:updateLowFrequencyPathfinder()
     if self.state == self.states.INITIAL then
-        if self:getCanContinueWork() then 
+        if self:getCanContinueWork() then
             self.state = self.states.SEARCHING_FOR_NEXT_BALE
         else
             --- Waiting until the unfolding has finished.
-            if self.bales == nil then 
+            if self.bales == nil then
                 --- Makes sure the hud bale counter already gets updated
-                self.bales = self:findBales() 
+                self.bales = self:findBales()
             end
             self:setMaxSpeed(0)
         end
@@ -590,7 +594,7 @@ function AIDriveStrategyFindBales:approachBale()
         if not self:isReadyToLoadNextBale() then
             self:debug('Start picking up bale')
             self.state = self.states.WORKING_ON_BALE
-            self.numBalesLeftOver = math.max(self.numBalesLeftOver-1, 0)
+            self.numBalesLeftOver = math.max(self.numBalesLeftOver - 1, 0)
         end
     end
     if self.baleWrapper then
@@ -598,7 +602,7 @@ function AIDriveStrategyFindBales:approachBale()
         if self.baleWrapperController:isWorking() then
             self:debug('Start wrapping bale')
             self.state = self.states.WORKING_ON_BALE
-            self.numBalesLeftOver = math.max(self.numBalesLeftOver-1, 0)
+            self.numBalesLeftOver = math.max(self.numBalesLeftOver - 1, 0)
         end
     end
 end
@@ -648,7 +652,7 @@ function AIDriveStrategyFindBales:update(dt)
         end
     end
     if self.state ~= self.states.DRIVING_TO_START_MARKER and
-        self.state ~= self.states.WAITING_FOR_IMPLEMENTS_TO_FOLD then
+            self.state ~= self.states.WAITING_FOR_IMPLEMENTS_TO_FOLD then
         if self:areBaleLoadersFull() then
             self.state = self.states.WAITING_FOR_IMPLEMENTS_TO_FOLD
         end
@@ -656,7 +660,7 @@ function AIDriveStrategyFindBales:update(dt)
     --- Ignores the loaded auto loader bales.
     --- TODO: Maybe add a delay here?
     local loadedBales = self:getBalesToIgnore()
-    for _, bale in pairs(loadedBales) do 
+    for _, bale in pairs(loadedBales) do
         --- Makes sure these loaded bales from an autoload trailer,
         --- can't be selected as a target by another bale loader.
         g_baleToCollectManager:temporarilyLeaseBale(bale)
