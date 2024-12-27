@@ -8,7 +8,7 @@ function CutterController:init(vehicle, implement)
     self.cutterSpec = self.implement.spec_cutter
     -- To avoid the error thrown for pickups:
     -- Cutter.lua:1494: invalid argument #1 to 'ipairs' (table expected, got nil)
-    self.cutterSpec.fruitTypeIndices = {}
+    -- self.cutterSpec.fruitTypeIndices = {}
 end
 
 function CutterController:getDriveData()
@@ -42,6 +42,7 @@ end
 --- This prevents us from driving for instance on a connecting track or longer turns (and also testing), so
 --- we just reset that timer here in every update cycle.
 --- Consider setting Cutter:getAllowCutterAIFruitRequirements() to false
+--- TODO_25 No longer needed?
 function CutterController:disableCutterTimer()
     if self.cutterSpec.aiNoValidGroundTimer then
         self.cutterSpec.aiNoValidGroundTimer = 0
@@ -55,3 +56,14 @@ end
 function CutterController:onRaising()
     self.implement:aiImplementEndLine()
 end
+
+local disableAIFruitRequirements = function (implement, superFunc)
+    if implement.rootVehicle and implement.rootVehicle.getIsCpActive and implement.rootVehicle:getIsCpActive() then 
+        return false
+    end
+    return superFunc(implement)
+end
+
+Cutter.getAllowCutterAIFruitRequirements = Utils.overwrittenFunction(
+    Cutter.getAllowCutterAIFruitRequirements, 
+    disableAIFruitRequirements)
