@@ -398,7 +398,7 @@
     <text name="CP_global_setting_infoTextHudActive_tooltip" text="Muestra la Ventana de Textos Informativos."/>
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Activo, pero invisible sin mensaje."/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="Mouse del Jugador"/>
-    <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Habilita/Deshabilita el mouse del jugador para la visualización de texto de información fuera de un vehículo."/>
+    <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Habilita/Deshabilita el puntero del Mouse al presionar el botón derecho del mouse fuera de los vehículos, para interactuar con la Ventana de Textos Informativos."/>
     <text name="CP_global_setting_preferCustomFields_title" text="Campos Personalizados"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="Preferir utilizar el campo personalizado si existe un campo normal en la posición seleccionada."/>
     <text name="CP_global_setting_distanceUnit_title" text="Unidades de distancia"/>
@@ -606,7 +606,7 @@ Las cabeceras son muy recomendables para evitar que las herramientas salgan del 
 giro en la cabecera siempre que la curvatura de la cabecera sea menor que el radio de giro del vehículo.
 - Número de esquinas redondeadas: número de cabeceras, contando desde la más externa, que tendrán esquinas redondeadas. Las esquinas redondeadas se basan en el radio de giro del vehículo, por lo que para estas cabeceras, el vehículo no realizará una maniobra de giro en las esquinas.
 - Radio de esquina: establece el radio para las esquinas redondeadas. Si sabe que una herramienta de trabajo siguiente tiene un radio mínimo de 10, puede establecer este valor en 10 para el curso.
-- Dirección del cabecero: en el sentido de las agujas del reloj o en el sentido contrario a las agujas del reloj. Esto puede ser importante para las cosechadoras y las cosechadoras, según el lado en el que se encuentre la tubería o la cinta transportadora.
+- Dirección de cabeceras: en el sentido de las agujas del reloj o en el sentido contrario a las agujas del reloj. Esto puede ser importante para las cosechadoras de granos y otros tipos de cosechadoras, según el lado en el que se encuentre la tubería o la cinta transportadora.
 - Superposición de cabeceras: cuánto se superpone un cabecera con el siguiente. Esto es para evitar perder fruta en algunos casos.
 - Margen del campo: los valores positivos reducen el tamaño del campo para agregar un margen alrededor del área trabajada en caso de que haya obstáculos cerca del borde del campo.
 Los valores negativos amplían el área trabajada más allá del límite del campo para cubrir los bordes del campo que no se detectan perfectamente.
@@ -658,21 +658,21 @@ si necesita más espacio para que los vehículos giren en la isla. Tenga en cuen
 - Dirección de la cabecera de isla: en qué dirección conduce el conductor alrededor de la isla, para no tener cambios de dirección extraños. Esto puede ser complicado de configurar, ya que depende del campo y del resto del recorrido.
 "/>
     <text name="CP_help_page_courseGeneratorExpert_text" text="
-Algunas configuraciones solo son visibles si activas el modo experto en la configuración global del juego de campo.
+Algunas configuraciones solo son visibles si activas el modo experto en la configuración global del curso.
 Antes de probar esas configuraciones, debes asegurarte de saber qué hacen las configuraciones básicas.
 Algunas configuraciones expertas solo funcionan correctamente en determinadas condiciones.
 
 - Herramientas múltiples: esta configuración se utiliza cuando quieres que más de un vehículo trabaje en tu campo. Como esto se vuelve un poco más complicado, hay un tema de ayuda independiente para ello.
-- Campo estrecho: crea el promontorio solo en dos bordes cortos del campo. En ese caso, no es posible mantener tu vehículo en el campo en los bordes más largos del promontorio.
-- Superposición de promontorio: hay un valor predeterminado que siempre se usará. Este valor se puede cambiar con esta configuración. La superposición se realizará dentro del campo y no se superpondrá al borde del campo.
+- Campo estrecho: crea la cabecera solo en dos bordes cortos del campo. En ese caso, no es posible mantener tu vehículo en el campo en los bordes más largos de la cabecera.
+- Superposición de cabecera: hay un valor predeterminado que siempre se usará. Este valor se puede cambiar con esta configuración. La superposición se realizará dentro del campo y no se superpondrá al borde del campo.
 - Margen del campo: esta configuración te permite mover el borde del campo hacia adentro o hacia afuera del borde original.
 - Usar borde de línea base: una característica completamente nueva, que solo funciona en campos específicos. Si tiene un campo con un borde radial largo y coloca el marcador de campo cerca de él, la línea central seguirá ese borde.
 NOTA IMPORTANTE: Si el campo generado no es perfecto o incluso es malo, el borde seleccionado o el campo no funcionarán con esta función. ¡Tampoco habrá una actualización para esto!
 "/>
-    <text name="CP_help_page_courseGeneratorHeadland_title" text="Generador de curso cabecera"/>
-    <text name="CP_help_page_courseGeneratorCenter_title" text="Generador de curso centro"/>
-    <text name="CP_help_page_courseGeneratorIsland_title" text="Generador de curso isla"/>
-    <text name="CP_help_page_courseGeneratorExpert_title" text="Generador de curso experto"/>
+    <text name="CP_help_page_courseGeneratorHeadland_title" text="Generador de Cursos: Cabecera"/>
+    <text name="CP_help_page_courseGeneratorCenter_title" text="Generador de Cursos: Centro"/>
+    <text name="CP_help_page_courseGeneratorIsland_title" text="Generador de Cursos: Isla"/>
+    <text name="CP_help_page_courseGeneratorExpert_title" text="Generador de Cursos: Experto"/>
     <text name="CP_help_page_courseManager_title" text="Administrador de Cursos"/>
     <text name="CP_help_page_courseManagerBase_text" text="
 El administrador de cursos le permite guardar cursos y le permite cargar el curso guardado más tarde nuevamente.
