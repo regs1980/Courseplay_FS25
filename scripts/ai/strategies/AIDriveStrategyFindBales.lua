@@ -187,7 +187,7 @@ function AIDriveStrategyFindBales:setFieldPolygon(fieldPolygon)
     self.fieldPolygon = fieldPolygon
 end
 
---- Bale wrap type for the bale loader. 
+--- Bale wrap type for the bale loader.
 function AIDriveStrategyFindBales:setAIVehicle(vehicle, jobParameters)
     AIDriveStrategyCourse.setAIVehicle(self, vehicle, jobParameters)
     self.baleWrapType = jobParameters.baleWrapType:getValue()
@@ -328,7 +328,7 @@ function AIDriveStrategyFindBales:getBaleTarget(bale)
     return State3D(xb, -zb, CpMathUtil.angleFromGame(yRot))
 end
 
---- Sets the driver as finished, so either a path 
+--- Sets the driver as finished, so either a path
 --- to the start marker as a park position can be used
 --- or the driver stops directly.
 function AIDriveStrategyFindBales:setFinished()
@@ -351,7 +351,7 @@ function AIDriveStrategyFindBales:setFinished()
     end
 end
 
---- Finishes the job with the correct stop reason, as 
+--- Finishes the job with the correct stop reason, as
 --- the correct reason is needed for a possible AD takeover.
 function AIDriveStrategyFindBales:finishJob()
     if self:areBaleLoadersFull() then
@@ -455,7 +455,10 @@ end
 function AIDriveStrategyFindBales:startPathfindingToBale(bale)
     self.state = self.states.DRIVING_TO_NEXT_BALE
     g_baleToCollectManager:lockBale(bale:getBaleObject(), self)
-    local context = PathfinderContext(self.vehicle):objectsToIgnore(self:getBalesToIgnore())
+    local objectsToIgnore = self:getBalesToIgnore()
+    -- ignore the target bale, we actually want to hit it, there really is no reason to trigger collisions with it
+    table.insert(objectsToIgnore, bale:getBaleObject())
+    local context = PathfinderContext(self.vehicle):objectsToIgnore(objectsToIgnore)
     context:allowReverse(false):maxFruitPercent(self.settings.avoidFruit:getValue() and 10 or math.huge)
     table.insert(self.balesTried, bale)
     self.pathfinderController:registerListeners(self, self.onPathfindingFinished, nil,
