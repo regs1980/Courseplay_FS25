@@ -74,7 +74,8 @@ function DevHelper:update()
     self.data.yRotFromRotation = math.deg(yRot)
     self.data.yRotDeg2 = math.deg(MathUtil.getYRotationFromDirection(lx, lz))
     self.data.x, self.data.y, self.data.z = getWorldTranslation(self.node)
---    self.data.fieldNum = courseplay.fields:getFieldNumForPosition(self.data.x, self.data.z)
+	-- y is always on the ground
+    self.data.y = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, self.data.x, self.data.y, self.data.z)
 
     self.data.hasFruit, self.data.fruitValue, self.data.fruit = PathfinderUtil.hasFruit(self.data.x, self.data.z, 1, 1)
 
@@ -82,14 +83,13 @@ function DevHelper:update()
     --self.data.owned =  PathfinderUtil.isWorldPositionOwned(self.data.x, self.data.z)
 	self.data.farmlandId = g_farmlandManager:getFarmlandIdAtWorldPosition(self.data.x, self.data.z)
 
-	local y = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, self.data.x, self.data.y, self.data.z)
-    self.data.isOnField, self.data.densityBits = FSDensityMapUtil.getFieldDataAtWorldPosition(self.data.x, y, self.data.z)
+    self.data.isOnField, self.data.densityBits = FSDensityMapUtil.getFieldDataAtWorldPosition(self.data.x, self.data.y, self.data.z)
     self.data.isOnFieldArea, self.data.onFieldArea, self.data.totalOnFieldArea = CpFieldUtil.isOnFieldArea(self.data.x, self.data.z)
-    self.data.nx, self.data.ny, self.data.nz = getTerrainNormalAtWorldPos(g_currentMission.terrainRootNode, self.data.x, y, self.data.z)
+    self.data.nx, self.data.ny, self.data.nz = getTerrainNormalAtWorldPos(g_currentMission.terrainRootNode, self.data.x, self.data.y, self.data.z)
 
     local collisionMask = CpUtil.getDefaultCollisionFlags() + CollisionFlag.TERRAIN_DELTA
-    self.data.collidingShapes = ''
-    overlapBox(self.data.x, self.data.y + 0.2, self.data.z, 0, self.yRot, 0,
+    self.data.collidingShapes = {}
+    overlapBox(self.data.x, self.data.y + 0.2 + DevHelper.overlapBoxHeight / 2, self.data.z, 0, self.yRot, 0,
             DevHelper.overlapBoxWidth / 2, DevHelper.overlapBoxHeight / 2, DevHelper.overlapBoxLength / 2,
             "overlapBoxCallback", self, collisionMask, true, true, true)
 
@@ -97,28 +97,29 @@ end
 
 function DevHelper:overlapBoxCallback(transformId)
     local collidingObject = g_currentMission.nodeToObject[transformId]
-    local text
+    local text = ''
+    for i = 0, getNumOfUserAttributes(transformId) - 1 do
+        local type, name, x = getUserAttributeByIndex(transformId, i)
+        text = tostring(i) .. ':' .. (type or '?') .. '/' .. (name or '?') .. '/' .. (x or '?')
+    end
     if collidingObject then
         if collidingObject.getRootVehicle then
-            text = 'vehicle ' .. collidingObject:getName()
+            text = text .. ' vehicle ' .. collidingObject:getName()
         else
 			if collidingObject:isa(Bale) then
-				text = 'Bale ' .. tostring(collidingObject.id) .. ' ' .. tostring(collidingObject.nodeId)
+				text = text .. ' Bale ' .. tostring(collidingObject.id) .. ' ' .. tostring(collidingObject.nodeId)
 			else
-            	text = collidingObject.getName and collidingObject:getName() or 'N/A'
+            	text = text .. ' ' .. collidingObject.getName and collidingObject:getName() or 'N/A'
 			end
         end
     else
-        text = ''
         for key, classId in pairs(ClassIds) do
             if getHasClassId(transformId, classId) then
                 text = text .. ' ' .. key
             end
         end
     end
-
-
-    self.data.collidingShapes = self.data.collidingShapes .. '|' .. text
+    table.insert(self.data.collidingShapes, text .. ' ' .. getRigidBodyType(transformId))
 end
 
 -- Left-Alt + , (<) = mark current position as start for pathfinding
@@ -185,13 +186,38 @@ function DevHelper:toggle()
     self.isEnabled = not self.isEnabled
 end
 
+--- Show the data in a table in the order we want it (quick AI generated boilerplate)
+function DevHelper:fillDisplayData()
+    local displayData = {}
+    table.insert(displayData, {name = 'x', value = self.data.x})
+    table.insert(displayData, {name = 'y', value = self.data.y})
+    table.insert(displayData, {name = 'z', value = self.data.z})
+    table.insert(displayData, {name = 'yRotDeg', value = self.data.yRotDeg})
+    table.insert(displayData, {name = 'yRotDeg2', value = self.data.yRotDeg2})
+    table.insert(displayData, {name = 'yRotFromRotation', value = self.data.yRotFromRotation})
+    table.insert(displayData, {name = 'xyDeg', value = self.data.xyDeg})
+    table.insert(displayData, {name = 'hasFruit', value = self.data.hasFruit})
+    table.insert(displayData, {name = 'fruitValue', value = self.data.fruitValue})
+    table.insert(displayData, {name = 'fruit', value = self.data.fruit})
+    table.insert(displayData, {name = 'fieldId', value = self.data.fieldId})
+    table.insert(displayData, {name = 'farmlandId', value = self.data.farmlandId})
+    table.insert(displayData, {name = 'isOnField', value = self.data.isOnField})
+    table.insert(displayData, {name = 'densityBits', value = self.data.densityBits})
+    table.insert(displayData, {name = 'isOnFieldArea', value = self.data.isOnFieldArea})
+    table.insert(displayData, {name = 'onFieldArea', value = self.data.onFieldArea})
+    table.insert(displayData, {name = 'totalOnFieldArea', value = self.data.totalOnFieldArea})
+    table.insert(displayData, {name = 'nx', value = self.data.nx})
+    table.insert(displayData, {name = 'ny', value = self.data.ny})
+    table.insert(displayData, {name = 'nz', value = self.data.nz})
+    for i = 1, #self.data.collidingShapes do
+        table.insert(displayData, {name = 'collidingShapes ' .. i, value = self.data.collidingShapes[i]})
+    end
+    return displayData
+end
+
 function DevHelper:draw()
     if not self.isEnabled then return end
-    local data = {}
-    for key, value in pairs(self.data) do
-        table.insert(data, {name = key, value = value})
-    end
-    DebugUtil.renderTable(0.65, 0.27, 0.013, data, 0.05)
+    DebugUtil.renderTable(0.3, 0.95, 0.013, self:fillDisplayData(), 0.05)
 
     self:showFillNodes()
     self:showAIMarkers()
@@ -212,7 +238,7 @@ function DevHelper:draw()
 	--local x, y, z = localToWorld(self.node, 0, -1, -3)
 
 	--drawDebugLine(x, y, z, 1, 1, 1, x + nx, y + ny, z + nz, 1, 1, 1)
-	DebugUtil.drawOverlapBox(self.data.x, self.data.y, self.data.z, 0, self.yRot, 0,
+	DebugUtil.drawOverlapBox(self.data.x, self.data.y + 0.2 + DevHelper.overlapBoxHeight / 2, self.data.z, 0, self.yRot, 0,
             DevHelper.overlapBoxWidth / 2, DevHelper.overlapBoxHeight / 2, DevHelper.overlapBoxLength / 2,
             0, 100, 0)
     PathfinderUtil.showOverlapBoxes()
