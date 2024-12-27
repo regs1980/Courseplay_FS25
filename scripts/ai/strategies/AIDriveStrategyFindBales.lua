@@ -230,9 +230,8 @@ function AIDriveStrategyFindBales:findBales()
             local bale = BaleToCollect(object)
             -- if the bale has a mountObject it is already on the loader so ignore it
             if not object.mountObject and
-                    (object:getOwnerFarmId() == AccessHandler.EVERYONE or
-                            (object:getOwnerFarmId() == self.vehicle:getOwnerFarmId() and
-                                    self:isBaleOnField(bale))) then
+                    g_currentMission.accessHandler:canFarmAccess(self.vehicle:getOwnerFarmId(), object) and
+                    self:isBaleOnField(bale) then
                 -- bales may .have multiple nodes, using the object.id deduplicates the list
                 balesFound[object.id] = bale
             end
