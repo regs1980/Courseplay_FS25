@@ -707,7 +707,10 @@ end
 
 function AIUtil.getWidth(vehicle)
 	if vehicle.getAIAgentSize then
-		local width, length, lengthOffset, frontOffset, height = vehicle:getAIAgentSize()
+		local valid, width = CpUtil.try(vehicle.getAIAgentSize, vehicle)
+		if not valid then
+			return vehicle.size.width
+		end
 		return width
 	else
 		return vehicle.size.width
@@ -720,9 +723,9 @@ function AIUtil.getLength(vehicle)
 		if not valid then
 			return vehicle.size.length
 		end
-		local width, length, lengthOffset, frontOffset, height = vehicle:getAIAgentSize()
-		for _, attachment in ipairs(vehicle.spec_aiDrivable.attachments) do
-			length = length + attachment.length
+		local valid, width, length, lengthOffset, frontOffset, height = CpUtil.try(vehicle.getAIAgentSize, vehicle)
+		if not valid then
+			return vehicle.size.length
 		end
 		return length
 	else
