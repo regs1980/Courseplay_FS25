@@ -716,7 +716,10 @@ end
 
 function AIUtil.getLength(vehicle)
 	if vehicle.getAIAgentSize then
-		vehicle:updateAIAgentAttachments()
+		local valid = CpUtil.try(vehicle.updateAIAgentAttachments, vehicle)
+		if not valid then
+			return vehicle.size.length
+		end
 		local width, length, lengthOffset, frontOffset, height = vehicle:getAIAgentSize()
 		for _, attachment in ipairs(vehicle.spec_aiDrivable.attachments) do
 			length = length + attachment.length
