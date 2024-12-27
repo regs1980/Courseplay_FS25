@@ -95,12 +95,18 @@ function DevHelper:update()
 
 end
 
-function DevHelper:overlapBoxCallback(transformId)
+function DevHelper:overlapBoxCallback(transformId, subShapeIndex)
     local collidingObject = g_currentMission.nodeToObject[transformId]
-    local text = ''
-    for i = 0, getNumOfUserAttributes(transformId) - 1 do
-        local type, name, x = getUserAttributeByIndex(transformId, i)
-        text = tostring(i) .. ':' .. (type or '?') .. '/' .. (name or '?') .. '/' .. (x or '?')
+    local text = tostring(subShapeIndex)
+    for key, classId in pairs(ClassIds) do
+        if getHasClassId(transformId, classId) then
+            text = text .. ' ' .. key
+        end
+    end
+    for key, rigidBodyType in pairs(RigidBodyType) do
+        if getRigidBodyType(transformId) == rigidBodyType then
+            text = text .. ' ' .. key
+        end
     end
     if collidingObject then
         if collidingObject.getRootVehicle then
@@ -112,14 +118,12 @@ function DevHelper:overlapBoxCallback(transformId)
             	text = text .. ' ' .. collidingObject.getName and collidingObject:getName() or 'N/A'
 			end
         end
-    else
-        for key, classId in pairs(ClassIds) do
-            if getHasClassId(transformId, classId) then
-                text = text .. ' ' .. key
-            end
-        end
     end
-    table.insert(self.data.collidingShapes, text .. ' ' .. getRigidBodyType(transformId))
+    for i = 0, getNumOfUserAttributes(transformId) - 1 do
+        local type, name, x = getUserAttributeByIndex(transformId, i)
+        text = text .. ' ' .. tostring(i) .. ':' .. (type or '?') .. '/' .. (name or '?') .. '/' .. (x or '?')
+    end
+    table.insert(self.data.collidingShapes, text)
 end
 
 -- Left-Alt + , (<) = mark current position as start for pathfinding
@@ -206,9 +210,6 @@ function DevHelper:fillDisplayData()
     table.insert(displayData, {name = 'isOnFieldArea', value = self.data.isOnFieldArea})
     table.insert(displayData, {name = 'onFieldArea', value = self.data.onFieldArea})
     table.insert(displayData, {name = 'totalOnFieldArea', value = self.data.totalOnFieldArea})
-    table.insert(displayData, {name = 'nx', value = self.data.nx})
-    table.insert(displayData, {name = 'ny', value = self.data.ny})
-    table.insert(displayData, {name = 'nz', value = self.data.nz})
     for i = 1, #self.data.collidingShapes do
         table.insert(displayData, {name = 'collidingShapes ' .. i, value = self.data.collidingShapes[i]})
     end
