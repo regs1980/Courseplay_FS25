@@ -315,7 +315,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_tooltip" text="Reduce el ancho de trabajo para lograr una distribución uniforme en todas las filas."/>
     <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_title" text="Afilar esquinas de cabecras"/>
     <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_tooltip" text="Afilar esquinas de cabeceras no redondeadas"/>
-    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_title" text="Número de cabceras con esquinas redondas"/>
+    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_title" text="Número de cabeceras con esquinas redondas"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_tooltip" text="Número de esquinas redondas, comenzando en la primera cabecera."/>
     <text name="CP_vehicle_courseGeneratorSetting_turningRadius_title" text="Radio de esquina"/>
     <text name="CP_vehicle_courseGeneratorSetting_turningRadius_tooltip" text="Radio de esquinas redondas, basado en el radio de giro del vehículo.Valor: 5 - 15"/>
