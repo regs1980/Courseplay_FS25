@@ -426,7 +426,8 @@ function AIDriveStrategyFieldWorkCourse:onWaypointChange(ix, course)
         end
         self:startTurn(ix)
     elseif self.state == self.states.WORKING then
-        if self.course:isOnConnectingPath(ix + 1) or self.course:shouldUsePathfinderToNextWaypoint(ix) then
+        if (self.course:isOnConnectingPath(ix + 1) and not self.course:isOnConnectingPath(ix)) or
+                self.course:shouldUsePathfinderToNextWaypoint(ix) then
             local fm, bm = self:getFrontAndBackMarkers()
             self.turnContext = RowStartOrFinishContext(self.vehicle, self.course, ix, ix, self.turnNodes, self:getWorkWidth(),
                     fm, bm, 0, 0)
@@ -626,7 +627,6 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 function AIDriveStrategyFieldWorkCourse:startPathfindingToNextWaypoint(ix)
     self:debug('start pathfinding to waypoint %d', ix + 1)
-    self:raiseImplements()
     local fm, bm = self:getFrontAndBackMarkers()
     self.turnContext = RowStartOrFinishContext(self.vehicle, self.fieldWorkCourse, ix + 1, ix + 1,
             self.turnNodes, self:getWorkWidth(), fm, bm, self:getTurnEndSideOffset(), self:getTurnEndForwardOffset())
@@ -645,7 +645,8 @@ end
 
 function AIDriveStrategyFieldWorkCourse:onPathfindingFailedToNextWaypoint()
     self:debug('Pathfinding to next waypoint failed, continue directly at waypoint %d', self.waypointToContinueOnFailedPathfinding)
-    self.state = self.states.WORKING
+    self:startWaitingForLower()
+    self:lowerImplements()
     self:startCourse(self.fieldWorkCourse, self.waypointToContinueOnFailedPathfinding)
 end
 
@@ -663,8 +664,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 function AIDriveStrategyFieldWorkCourse:startConnectingPath(ix)
     -- ix was the last waypoint to work before the connecting path, ix + 1 is the first on the connecting path
-    self:debug('on a connecting path now at waypoint %d, raising implements.', ix + 1)
-    self:raiseImplements()
+    self:debug('Row finished before starting on a connecting path at waypoint %d.', ix + 1)
     -- gather the connecting path waypoints
     local connectingPath = {}
     local targetWaypointIx
@@ -678,7 +678,10 @@ function AIDriveStrategyFieldWorkCourse:startConnectingPath(ix)
         end
     end
     if targetWaypointIx == nil then
-        self:onPathfindingFailedToConnectingPathEnd()
+        self:debug('Can\'t find end of connecting path, continuing work')
+        self:startWaitingForLower()
+        self:lowerImplements()
+        self:startCourse(self.fieldWorkCourse, ix + 1)
     else
         -- set up the turn context for the work starter to use when the pathfinding succeeds
         local fm, bm = self:getFrontAndBackMarkers()
@@ -688,7 +691,7 @@ function AIDriveStrategyFieldWorkCourse:startConnectingPath(ix)
         local targetNode, zOffset = self.turnContext:getTurnEndNodeAndOffsets(steeringLength)
         local context = PathfinderContext(self.vehicle):allowReverse(self:getAllowReversePathfinding())
         context:preferredPath(connectingPath):mustBeAccurate(true)
-        self.waypointToContinueOnFailedPathfinding = ix + 1
+        self.rawConnectingPath = Course(self.vehicle, connectingPath, true)
         self.pathfinderController:registerListeners(self, self.onPathfindingDoneToConnectingPathEnd,
                 self.onPathfindingFailedToConnectingPathEnd)
         self:debug('Connecting path has %d waypoints, start pathfinding to target waypoint %d, zOffset %.1f',
@@ -700,8 +703,7 @@ end
 
 function AIDriveStrategyFieldWorkCourse:onPathfindingFailedToConnectingPathEnd()
     self:debug('Pathfinding to end of connecting path failed, use the connecting path as is')
-    self.state = self.states.WORKING
-    self:startCourse(self.fieldWorkCourse, self.waypointToContinueOnFailedPathfinding)
+    self:startCourseToWorkStart(self.rawConnectingPath)
 end
 
 function AIDriveStrategyFieldWorkCourse:onPathfindingDoneToConnectingPathEnd(controller, success, course, goalNodeInvalid)
