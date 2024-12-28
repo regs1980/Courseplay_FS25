@@ -41,6 +41,10 @@ end
 
 function BalerController:update()
     self:updateAdditiveFillUnitEmpty(self.balerSpec.additives)
+    if not self.implement:getConsumableIsAvailable(Baler.CONSUMABLE_TYPE_NAME_ROUND) or 
+        not self.implement:getConsumableIsAvailable(Baler.CONSUMABLE_TYPE_NAME_SQUARE) then
+        self.vehicle:stopCurrentAIJob(AIMessageErrorOutOfFill.new())
+    end
 end
 
 function BalerController:handleBaler()

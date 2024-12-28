@@ -1466,6 +1466,10 @@ end
 local function calculateYRot(waypoints, i)
     local x1, z1 = waypoints[i].x, waypoints[i].z
     local x2, z2 = waypoints[i + 1].x, waypoints[i + 1].z
+    if (x1 - x2) == 0 and (z1 - z2) == 0 then 
+        -- Divide by zero fix ..
+        return 0
+    end
     local nx, nz = MathUtil.vector2Normalize(x2 - x1, z2 - z1)
     -- check for NaN
     if nx == nx and nz == nz then
