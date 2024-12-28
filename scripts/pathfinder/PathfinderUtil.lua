@@ -245,9 +245,10 @@ PathfinderUtil.CollisionDetector = CpObject()
 --- Nodes of a trigger for example, that will be ignored as collision.
 PathfinderUtil.CollisionDetector.NODES_TO_IGNORE = {}
 
-function PathfinderUtil.CollisionDetector:init()
+function PathfinderUtil.CollisionDetector:init(collisionMask)
     self.vehiclesToIgnore = {}
     self.collidingShapes = 0
+    self.collisionMask = collisionMask or CpUtil.getDefaultCollisionFlags()
 end
 
 --- Adds a node which collision will be ignored global for every pathfinder.
@@ -318,7 +319,8 @@ function PathfinderUtil.CollisionDetector:overlapBoxCallback(transformId)
     self.collidingShapes = self.collidingShapes + 1
 end
 
-function PathfinderUtil.CollisionDetector:findCollidingShapes(node, vehicleData, vehiclesToIgnore, objectsToIgnore, ignoreFruitHeaps)
+function PathfinderUtil.CollisionDetector:findCollidingShapes(node, vehicleData, vehiclesToIgnore, objectsToIgnore,
+                                                              ignoreFruitHeaps, collisionMask)
     self.vehiclesToIgnore = vehiclesToIgnore or {}
     self.objectsToIgnore = objectsToIgnore or {}
     self.vehicleData = vehicleData
@@ -343,9 +345,8 @@ function PathfinderUtil.CollisionDetector:findCollidingShapes(node, vehicleData,
     self.collidingShapes = 0
     self.collidingShapesText = 'unknown'
 
-    local collisionMask = CpUtil.getDefaultCollisionFlags() + CollisionFlag.TERRAIN_DELTA
-
-    overlapBox(x, y + 0.2, z, xRot, yRot, zRot, width, 1, length, 'overlapBoxCallback', self, collisionMask, true, true, true)
+    overlapBox(x, y + 0.2, z, xRot, yRot, zRot, width, 1, length, 'overlapBoxCallback', self, collisionMask,
+            true, true, true, true)
 
     if true and self.collidingShapes > 0 then
         table.insert(PathfinderUtil.overlapBoxes,

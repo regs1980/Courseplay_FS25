@@ -91,7 +91,7 @@ function DevHelper:update()
     self.data.collidingShapes = {}
     overlapBox(self.data.x, self.data.y + 0.2 + DevHelper.overlapBoxHeight / 2, self.data.z, 0, self.yRot, 0,
             DevHelper.overlapBoxWidth / 2, DevHelper.overlapBoxHeight / 2, DevHelper.overlapBoxLength / 2,
-            "overlapBoxCallback", self, collisionMask, true, true, true)
+            "overlapBoxCallback", self, collisionMask, true, true, true, true)
 
 end
 
@@ -115,7 +115,7 @@ function DevHelper:overlapBoxCallback(transformId, subShapeIndex)
 			if collidingObject:isa(Bale) then
 				text = text .. ' Bale ' .. tostring(collidingObject.id) .. ' ' .. tostring(collidingObject.nodeId)
 			else
-            	text = text .. ' ' .. collidingObject.getName and collidingObject:getName() or 'N/A'
+            	text = text .. ' ' .. (collidingObject.getName and collidingObject:getName() or 'N/A')
 			end
         end
     end
