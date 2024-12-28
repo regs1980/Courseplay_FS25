@@ -302,7 +302,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_clockwise" text="horario"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_counterclockwise" text="antihorario"/>
     <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_clockwise" text="horario"/>
-    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_counterclockwise" text="atihorario"/>
+    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_counterclockwise" text="antihorario"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_title" text="Centro del campo"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_tooltip" text="Centro del campo"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_up_down" text="Arriba/abajo"/>
