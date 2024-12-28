@@ -28,10 +28,10 @@ AIDriveStrategyFieldWorkCourse.myStates = {
     WAITING_FOR_LOWER_DELAYED = {},
     WAITING_FOR_STOP = {},
     WAITING_FOR_WEATHER = {},
-    TURNING = {showTurnContextDebug = true},
+    TURNING = { showTurnContextDebug = true },
     TEMPORARY = {},
     RETURNING_TO_START = {},
-    DRIVING_TO_WORK_START_WAYPOINT = {showTurnContextDebug = true},
+    DRIVING_TO_WORK_START_WAYPOINT = { showTurnContextDebug = true },
 }
 
 AIDriveStrategyFieldWorkCourse.normalFillLevelFullPercentage = 99.5
@@ -94,7 +94,7 @@ function AIDriveStrategyFieldWorkCourse:start(course, startIx, jobParameters)
     --- Store a reference to the original generated course
     self.originalGeneratedFieldWorkCourse = self.vehicle:getFieldWorkCourse()
 
-    if self.fieldPolygon == nil then 
+    if self.fieldPolygon == nil then
         self:debug("No field polygon received, so regenerate it by the course.")
         self.fieldPolygon = self.fieldWorkCourse:getFieldPolygon()
     end
@@ -114,7 +114,7 @@ end
 function AIDriveStrategyFieldWorkCourse:update(dt)
     AIDriveStrategyCourse.update(self, dt)
     if CpDebug:isChannelActive(CpDebug.DBG_TURN, self.vehicle) then
-        if self.state == self.states.TURNING  then
+        if self.state == self.states.TURNING then
             if self.aiTurn then
                 self.aiTurn:drawDebug()
             end
@@ -188,7 +188,9 @@ function AIDriveStrategyFieldWorkCourse:getDriveData(dt, vX, vY, vZ)
         self:setMaxSpeed(turnMaxSpeed)
         -- if turn tells us which way to go, use that, otherwise just do whatever PPC tells us
         gx, gz = turnGx or gx, turnGz or gz
-        if turnMoveForwards ~= nil then moveForwards = turnMoveForwards end
+        if turnMoveForwards ~= nil then
+            moveForwards = turnMoveForwards
+        end
     elseif self.state == self.states.RETURNING_TO_START then
         local isReadyToDrive, blockingVehicle = self.vehicle:getIsAIReadyToDrive()
         if isReadyToDrive or not self.waitingForPrepare:get() then
@@ -263,7 +265,8 @@ function AIDriveStrategyFieldWorkCourse:initializeImplementControllers(vehicle)
 
     self:addImplementController(vehicle, PickupController, Pickup, defaultDisabledStates)
     self:addImplementController(vehicle, SprayerController, Sprayer, {})
-    self:addImplementController(vehicle, CutterController, Cutter, {}) --- Makes sure the cutter timer gets reset always.
+    self:addImplementController(vehicle, CutterController, Cutter, {})
+    --- Makes sure the cutter timer gets reset always.
     self:addImplementController(vehicle, StonePickerController, StonePicker, defaultDisabledStates)
 
     self:addImplementController(vehicle, FoldableController, Foldable, {})
@@ -312,7 +315,9 @@ function AIDriveStrategyFieldWorkCourse:shouldRaiseThisImplement(object, turnSta
     local aiFrontMarker, _, aiBackMarker = WorkWidthUtil.getAIMarkers(object, true)
     -- if something (like a combine) does not have an AI marker it should not prevent from raising other implements
     -- like the header, which does have markers), therefore, return true here
-    if not aiBackMarker or not aiFrontMarker then return true end
+    if not aiBackMarker or not aiFrontMarker then
+        return true
+    end
     local marker = self:getImplementRaiseLate() and aiBackMarker or aiFrontMarker
     -- turn start node in the back marker node's coordinate system
     local _, _, dz = localToLocal(marker, turnStartNode, 0, 0, 0)
@@ -355,7 +360,9 @@ end
 --- in meters (<0) when driving forward, nil when driving backwards.
 function AIDriveStrategyFieldWorkCourse:shouldLowerThisImplement(object, workStartNode, reversing)
     local aiLeftMarker, aiRightMarker, aiBackMarker = WorkWidthUtil.getAIMarkers(object, true)
-    if not aiLeftMarker then return false, false, nil end
+    if not aiLeftMarker then
+        return false, false, nil
+    end
     local dxLeft, _, dzLeft = localToLocal(aiLeftMarker, workStartNode, 0, 0, 0)
     local dxRight, _, dzRight = localToLocal(aiRightMarker, workStartNode, 0, 0, 0)
     local dxBack, _, dzBack = localToLocal(aiBackMarker, workStartNode, 0, 0, 0)
@@ -408,7 +415,9 @@ end
 
 function AIDriveStrategyFieldWorkCourse:isThisImplementAligned(object, node)
     local aiFrontMarker, _, _ = WorkWidthUtil.getAIMarkers(object, true)
-    if not aiFrontMarker then return true end
+    if not aiFrontMarker then
+        return true
+    end
     return CpMathUtil.isSameDirection(aiFrontMarker, node, 5)
 end
 
@@ -643,11 +652,17 @@ function AIDriveStrategyFieldWorkCourse:startPathfindingToNextWaypoint(ix)
     self.pathfinderController:findPathToNode(context, targetNode, 0, zOffset)
 end
 
-function AIDriveStrategyFieldWorkCourse:onPathfindingFailedToNextWaypoint()
-    self:debug('Pathfinding to next waypoint failed, continue directly at waypoint %d', self.waypointToContinueOnFailedPathfinding)
-    self:startWaitingForLower()
-    self:lowerImplements()
-    self:startCourse(self.fieldWorkCourse, self.waypointToContinueOnFailedPathfinding)
+function AIDriveStrategyFieldWorkCourse:onPathfindingFailedToNextWaypoint(controller, lastContext, wasLastRetry, currentRetryAttempt)
+    if wasLastRetry then
+        self:debug('Pathfinding to next waypoint failed again, continue directly at waypoint %d', self.waypointToContinueOnFailedPathfinding)
+        self:startWaitingForLower()
+        self:lowerImplements()
+        self:startCourse(self.fieldWorkCourse, self.waypointToContinueOnFailedPathfinding)
+    else
+        self:debug('Pathfinding to next waypoint failed once, retry with disabled collisions')
+        lastContext:collisionMask(0)
+        controller:retry(lastContext)
+    end
 end
 
 function AIDriveStrategyFieldWorkCourse:onPathfindingDoneToNextWaypoint(controller, success, course, goalNodeInvalid)
@@ -671,7 +686,7 @@ function AIDriveStrategyFieldWorkCourse:startConnectingPath(ix)
     for i = ix + 1, self.fieldWorkCourse:getNumberOfWaypoints() do
         if self.fieldWorkCourse:isOnConnectingPath(i) then
             local x, _, z = self.fieldWorkCourse:getWaypointPosition(i)
-            table.insert(connectingPath, {x = x, z = z})
+            table.insert(connectingPath, { x = x, z = z })
         else
             targetWaypointIx = i
             break
@@ -697,13 +712,19 @@ function AIDriveStrategyFieldWorkCourse:startConnectingPath(ix)
         self:debug('Connecting path has %d waypoints, start pathfinding to target waypoint %d, zOffset %.1f',
                 #connectingPath, targetWaypointIx, zOffset)
         self.state = self.states.WAITING_FOR_PATHFINDER
-        self.pathfinderController:findPathToNode(context, targetNode, 0, zOffset)
+        self.pathfinderController:findPathToNode(context, targetNode, 0, zOffset, 1)
     end
 end
 
-function AIDriveStrategyFieldWorkCourse:onPathfindingFailedToConnectingPathEnd()
-    self:debug('Pathfinding to end of connecting path failed, use the connecting path as is')
-    self:startCourseToWorkStart(self.rawConnectingPath)
+function AIDriveStrategyFieldWorkCourse:onPathfindingFailedToConnectingPathEnd(controller, lastContext, wasLastRetry, currentRetryAttempt)
+    if wasLastRetry then
+        self:debug('Pathfinding to end of connecting path failed again, use the connecting path as is')
+        self:startCourseToWorkStart(self.rawConnectingPath)
+    else
+        self:debug('Pathfinding to end of connecting path failed once, retry with disabled collisions')
+        lastContext:collisionMask(0)
+        controller:retry(lastContext)
+    end
 end
 
 function AIDriveStrategyFieldWorkCourse:onPathfindingDoneToConnectingPathEnd(controller, success, course, goalNodeInvalid)
@@ -711,7 +732,8 @@ function AIDriveStrategyFieldWorkCourse:onPathfindingDoneToConnectingPathEnd(con
         self:debug('Pathfinding to end of connecting path finished')
         self:startCourseToWorkStart(course)
     else
-        self:onPathfindingFailedToConnectingPathEnd()
+        self:debug('Pathfinding to end of connecting path failed, use the connecting path as is')
+        self:startCourseToWorkStart(self.rawConnectingPath)
     end
 end
 
@@ -734,7 +756,7 @@ function AIDriveStrategyFieldWorkCourse:setAllStaticParameters()
 end
 
 function AIDriveStrategyFieldWorkCourse:setFieldPolygon(polygon)
-    self.fieldPolygon = polygon    
+    self.fieldPolygon = polygon
 end
 
 -----------------------------------------------------------------------------------------------------------------------
