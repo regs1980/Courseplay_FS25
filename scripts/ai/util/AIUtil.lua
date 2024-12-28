@@ -707,7 +707,12 @@ end
 
 function AIUtil.getWidth(vehicle)
 	if vehicle.getAIAgentSize then
-		local width, length, lengthOffset, frontOffset, height = vehicle:getAIAgentSize()
+		--- Due to invalid implement ai comfigurations this function call might break the save ...
+		--- So we try it and except the callstack, as every good vehicle/implement should cause this function to fail ..
+		local valid, width = CpUtil.try(vehicle.getAIAgentSize, vehicle)
+		if not valid then
+			return vehicle.size.width
+		end
 		return width
 	else
 		return vehicle.size.width
@@ -716,10 +721,15 @@ end
 
 function AIUtil.getLength(vehicle)
 	if vehicle.getAIAgentSize then
-		vehicle:updateAIAgentAttachments()
-		local width, length, lengthOffset, frontOffset, height = vehicle:getAIAgentSize()
-		for _, attachment in ipairs(vehicle.spec_aiDrivable.attachments) do
-			length = length + attachment.length
+		--- Due to invalid implement ai comfigurations these function calls might break the save ...
+		--- So we try it and except the callstack, as every good vehicle/implement should cause this function to fail ..
+		local valid = CpUtil.try(vehicle.updateAIAgentAttachments, vehicle)
+		if not valid then
+			return vehicle.size.length
+		end
+		local valid, width, length, lengthOffset, frontOffset, height = CpUtil.try(vehicle.getAIAgentSize, vehicle)
+		if not valid then
+			return vehicle.size.length
 		end
 		return length
 	else
