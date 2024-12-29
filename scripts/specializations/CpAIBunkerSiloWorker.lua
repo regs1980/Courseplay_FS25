@@ -91,9 +91,6 @@ end
 
 --- Is the bunker silo allowed?
 function CpAIBunkerSiloWorker:getCanStartCpBunkerSiloWorker()
-    if AIUtil.hasChildVehicleWithSpecialization(self, Shovel) then 
-        return false
-    end
 	return not self:getCanStartCpFieldWork() 
         and not self:getCanStartCpBaleFinder() 
         and not self:getCanStartCpCombineUnloader()

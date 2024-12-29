@@ -270,6 +270,7 @@ function Courseplay.register(typeManager)
 	if typeManager.typeName == "vehicle" and g_modIsLoaded[Courseplay.MOD_NAME] then
 		--- TODO: make this function async. 
 		for typeName, typeEntry in pairs(typeManager.types) do	
+			CpAIImplement.register(typeManager, typeName, typeEntry.specializations)
 			CpAIWorker.register(typeManager, typeName, typeEntry.specializations)
 			CpVehicleSettings.register(typeManager, typeName, typeEntry.specializations)
 			CpCourseGeneratorSettings.register(typeManager, typeName, typeEntry.specializations)

@@ -111,7 +111,6 @@ function AIDriveStrategyBunkerSilo:startWithoutCourse(jobParameters)
 
     --- Setup the silo controller, that handles the driving conditions and coordinations.
 	self.siloController = self.silo:setupLevelerTarget(self.vehicle, self, self.siloEndDetectionMarker)
-
 end
 
 function AIDriveStrategyBunkerSilo:getGeneratedCourse()
@@ -201,7 +200,7 @@ function AIDriveStrategyBunkerSilo:onWaypointPassed(ix, course)
         elseif self.state == self.states.DRIVING_TO_SILO then
             local course = self:getRememberedCourseAndIx()
             self:startDrivingIntoSilo(course)
-            self.vehicle:raiseAIEvent("onAIFieldWorkerStart", "onAIImplementStart")
+            self.vehicle:raiseAIEvent('onAIFieldWorkerPrepareForWork', 'onAIImplementPrepareForWork')
         elseif self.state == self.states.DRIVING_TO_PARK_POSITION then
             self.state = self.states.WAITING_AT_PARK_POSITION
         elseif self.state == self.states.DRIVING_TEMPORARY_OUT_OF_SILO then
