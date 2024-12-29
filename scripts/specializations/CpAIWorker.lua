@@ -127,38 +127,54 @@ function CpAIWorker:onRegisterActionEvents(isActiveForInput, isActiveForInputIgn
                 end
             end
 
-            addActionEvent(self, InputAction.CP_START_STOP, CpAIWorker.startStopCpActionEvent)
+            addActionEvent(self, InputAction.CP_START_STOP, function ()
+                    self:cpStartStopDriver(true)
+                end)
             addActionEvent(self, InputAction.CP_START_STOP_AT_FIRST_WAYPOINT, function (self)
                     local startingPointSetting = self:getCpStartingPointSetting()
                     startingPointSetting:setValue(CpFieldWorkJobParameters.START_AT_FIRST_POINT)
-                    self:startStopCpActionEvent()
+                    self:cpStartStopDriver(true)
                 end)
             addActionEvent(self, InputAction.CP_START_STOP_AT_NEAREST_WAYPOINT, function (self)
                     local startingPointSetting = self:getCpStartingPointSetting()
                     startingPointSetting:setValue(CpFieldWorkJobParameters.START_AT_NEAREST_POINT)
-                    self:startStopCpActionEvent()
+                    self:cpStartStopDriver(true)
                 end)
             addActionEvent(self, InputAction.CP_START_STOP_AT_LAST_WAYPOINT, function (self)
                     local startingPointSetting = self:getCpStartingPointSetting()
                     startingPointSetting:setValue(CpFieldWorkJobParameters.START_AT_LAST_POINT)
-                    self:startStopCpActionEvent()
+                    self:cpStartStopDriver(true)
                 end)
             
-            addActionEvent(self, InputAction.CP_GENERATE_COURSE, CpAIWorker.generateCourse)
-            addActionEvent(self, InputAction.CP_CHANGE_SELECTED_JOB, CpAIWorker.changeCurrentSelectedJob)
-            addActionEvent(self, InputAction.CP_CHANGE_STARTING_POINT, CpAIWorker.changeStartingPoint)
-            addActionEvent(self, InputAction.CP_CLEAR_COURSE, CpAIWorker.clearCourse,
-                    g_i18n:getText("input_CP_CLEAR_COURSE"))
-            addActionEvent(self, InputAction.CP_CHANGE_COURSE_VISIBILITY, CpAIWorker.changeCourseVisibility)
-
-            addActionEvent(self, InputAction.CP_OPEN_VEHICLE_SETTINGS, CpGuiUtil.openVehicleSettingsGui,
-                    g_i18n:getText("input_CP_OPEN_VEHICLE_SETTINGS"))
-            addActionEvent(self, InputAction.CP_OPEN_GLOBAL_SETTINGS, CpGuiUtil.openGlobalSettingsGui,
-                    g_i18n:getText("input_CP_OPEN_GLOBAL_SETTINGS"))
-            addActionEvent(self, InputAction.CP_OPEN_COURSEGENERATOR_SETTINGS, CpGuiUtil.openCourseGeneratorGui,
-                    g_i18n:getText("input_CP_OPEN_COURSEGENERATOR_SETTINGS"))
-            addActionEvent(self, InputAction.CP_OPEN_COURSEMANAGER, CpGuiUtil.openCourseManagerGui,
-                    g_i18n:getText("input_CP_OPEN_COURSEMANAGER"))
+            addActionEvent(self, InputAction.CP_GENERATE_COURSE, function (self)
+                    CourseGeneratorInterface.generateDefaultCourse()
+                end)
+            addActionEvent(self, InputAction.CP_CHANGE_SELECTED_JOB, function (self)
+                    local currentJobSetting = self:cpGetHudSelectedJobSetting()
+                    currentJobSetting:setNextItem()
+                end)
+            addActionEvent(self, InputAction.CP_CHANGE_STARTING_POINT, function (self)
+                    local startingPointSetting = self:getCpStartingPointSetting()
+                    startingPointSetting:setNextItem()
+                end)
+            addActionEvent(self, InputAction.CP_CLEAR_COURSE, function (self)
+                    self:resetCpCoursesFromGui()
+                end, g_i18n:getText("input_CP_CLEAR_COURSE"))
+            addActionEvent(self, InputAction.CP_CHANGE_COURSE_VISIBILITY, function ()
+                    self:getCpSettings().showCourse:setNextItem()
+                end)
+            addActionEvent(self, InputAction.CP_OPEN_VEHICLE_SETTINGS, function ()
+                    CpGuiUtil.openVehicleSettingsGui(self)
+                end, g_i18n:getText("input_CP_OPEN_VEHICLE_SETTINGS"))
+            addActionEvent(self, InputAction.CP_OPEN_GLOBAL_SETTINGS, function ()
+                    CpGuiUtil.openGlobalSettingsGui(self)
+                end, g_i18n:getText("input_CP_OPEN_GLOBAL_SETTINGS"))
+            addActionEvent(self, InputAction.CP_OPEN_COURSEGENERATOR_SETTINGS, function ()
+                    CpGuiUtil.openCourseGeneratorGui(self)
+                end, g_i18n:getText("input_CP_OPEN_COURSEGENERATOR_SETTINGS"))
+            addActionEvent(self, InputAction.CP_OPEN_COURSEMANAGER, function ()
+                    CpGuiUtil.openCourseManagerGui(self)
+                end, g_i18n:getText("input_CP_OPEN_COURSEMANAGER"))
 
             CpAIWorker.updateActionEvents(self)
         end
@@ -223,28 +239,6 @@ function CpAIWorker:updateActionEvents()
         actionEvent = spec.actionEvents[InputAction.CP_CLEAR_COURSE]
         g_inputBinding:setActionEventActive(actionEvent.actionEventId, self:hasCpCourse())
     end
-end
-
-function CpAIWorker:changeStartingPoint()
-    local startingPointSetting = self:getCpStartingPointSetting()
-    startingPointSetting:setNextItem()
-end
-
-function CpAIWorker:changeCurrentSelectedJob()
-    local currentJobSetting = self:cpGetHudSelectedJobSetting()
-    currentJobSetting:setNextItem()
-end
-
-function CpAIWorker:clearCourse()
-    self:resetCpCoursesFromGui()
-end
-
-function CpAIWorker:changeCourseVisibility()
-    self:getCpSettings().showCourse:setNextItem()
-end
-
-function CpAIWorker:startStopCpActionEvent()
-    self:cpStartStopDriver(true)
 end
 
 --- Directly starts a cp job or stops a currently active job.
@@ -559,13 +553,6 @@ function CpAIWorker:onStartAutoDrive()
         SpecializationUtil.raiseEvent(self, "onCpADStartedByPlayer")
         CpJobStartAtLastWpSyncRequestEvent.sendEvent(self)
     end
-end
-
------------------------------------------------
---- Generate course
----------------------------------------------
-function CpAIWorker:generateCourse()
-    CourseGeneratorInterface.generateDefaultCourse()
 end
 
 ---------------------------------------------
