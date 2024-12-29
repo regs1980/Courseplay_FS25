@@ -741,27 +741,21 @@ function AIDriveStrategyCombineCourse:getFruitAtSides()
     return self.fruitLeft, self.fruitRight
 end
 
+--- Check both sides of the combine/chopper to see if we are at the edge of the field and if there is fruit there.
+--- This is to direct the unloader to the side where there is no fruit.
 function AIDriveStrategyCombineCourse:checkFruit()
-    -- getValidityOfTurnDirections() wants to have the vehicle.aiDriveDirection, so get that here.
-    local dx, _, dz = localDirectionToWorld(self.vehicle:getAIDirectionNode(), 0, 0, 1)
-    local length = MathUtil.vector2Length(dx, dz)
-    dx = dx / length
-    dz = dz / length
-    self.vehicle.aiDriveDirection = { dx, dz }
-    -- getValidityOfTurnDirections works only if all AI Implements have aiMarkers. Since
-    -- we make all Cutters AI implements, even the ones which do not have AI markers (such as the
-    -- chopper pickups which do not work with the Giants helper) we have to make sure we don't call
-    -- getValidityOfTurnDirections for those
-    if self.notAllImplementsHaveAiMarkers then
-        self.fruitLeft, self.fruitRight = 0, 0
-    else
-        self.fruitLeft, self.fruitRight = AIVehicleUtil.getValidityOfTurnDirections(self.vehicle)
-    end
     local workWidth = self:getWorkWidth()
+
     local x, _, z = localToWorld(self.vehicle:getAIDirectionNode(), workWidth, 0, 0)
     self.fieldOnLeft = CpFieldUtil.isOnField(x, z)
+    _, self.fruitLeft = PathfinderUtil.hasFruit(x, z, 1, 1)
+    self.fruitLeft = self.fruitLeft or 0
+
     x, _, z = localToWorld(self.vehicle:getAIDirectionNode(), -workWidth, 0, 0)
     self.fieldOnRight = CpFieldUtil.isOnField(x, z)
+    _, self.fruitRight = PathfinderUtil.hasFruit(x, z, 1, 1)
+    self.fruitRight = self.fruitRight or 0
+
     self:debug('Fruit left: %.2f right %.2f, field on left %s, right %s',
             self.fruitLeft, self.fruitRight, tostring(self.fieldOnLeft), tostring(self.fieldOnRight))
 end
