@@ -128,6 +128,22 @@ function CpAIWorker:onRegisterActionEvents(isActiveForInput, isActiveForInputIgn
             end
 
             addActionEvent(self, InputAction.CP_START_STOP, CpAIWorker.startStopCpActionEvent)
+            addActionEvent(self, InputAction.CP_START_STOP_AT_FIRST_WAYPOINT, function (self)
+                    local startingPointSetting = self:getCpStartingPointSetting()
+                    startingPointSetting:setValue(CpFieldWorkJobParameters.START_AT_FIRST_POINT)
+                    self:startStopCpActionEvent()
+                end)
+            addActionEvent(self, InputAction.CP_START_STOP_AT_NEAREST_WAYPOINT, function (self)
+                    local startingPointSetting = self:getCpStartingPointSetting()
+                    startingPointSetting:setValue(CpFieldWorkJobParameters.START_AT_NEAREST_POINT)
+                    self:startStopCpActionEvent()
+                end)
+            addActionEvent(self, InputAction.CP_START_STOP_AT_LAST_WAYPOINT, function (self)
+                    local startingPointSetting = self:getCpStartingPointSetting()
+                    startingPointSetting:setValue(CpFieldWorkJobParameters.START_AT_LAST_POINT)
+                    self:startStopCpActionEvent()
+                end)
+            
             addActionEvent(self, InputAction.CP_GENERATE_COURSE, CpAIWorker.generateCourse)
             addActionEvent(self, InputAction.CP_CHANGE_SELECTED_JOB, CpAIWorker.changeCurrentSelectedJob)
             addActionEvent(self, InputAction.CP_CHANGE_STARTING_POINT, CpAIWorker.changeStartingPoint)
