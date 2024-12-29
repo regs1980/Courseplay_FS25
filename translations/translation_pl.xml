@@ -991,6 +991,9 @@ Twój wybór powinien wyglądać podobnie do tego zdjęcia.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Menu kanałów debugowania"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Otwórz mini GUI"/>
     <text name="input_CP_START_STOP" text="CP: Uruchom/Zatrzymaj kierowcę"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Start/stop driver (at first waypoint)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Start/stop driver (at nearest waypoint)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Start/stop driver (at last waypoint)"/>
     <text name="input_CP_GENERATE_COURSE" text="CP: Generuj kurs"/>
     <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Zmień obecnie wybraną pracę"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Zmień punkt startowy"/>

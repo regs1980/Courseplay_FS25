@@ -3115,6 +3115,19 @@ TPS extension
 			<Text language="de"><![CDATA[CP: CP-Helfer starten/stoppen]]></Text>
 			<Text language="en"><![CDATA[CP: Start/stop driver]]></Text>
 		</Translation>
+		<Translation name="input_CP_START_STOP_AT_FIRST_WAYPOINT">
+			<Text language="de"><![CDATA[CP: CP-Helfer starten/stoppen (am ersten Wegpunkt)]]></Text>
+			<Text language="en"><![CDATA[CP: Start/stop driver (at first waypoint)]]></Text>
+		</Translation>
+		<Translation name="input_CP_START_STOP_AT_NEAREST_WAYPOINT">
+			<Text language="de"><![CDATA[CP: CP-Helfer starten/stoppen (am nächsten Wegpunkt)]]></Text>
+			<Text language="en"><![CDATA[CP: Start/stop driver (at nearest waypoint)]]></Text>
+		</Translation>
+		<Translation name="input_CP_START_STOP_AT_LAST_WAYPOINT">
+			<Text language="de"><![CDATA[CP: CP-Helfer starten/stoppen (am letzten Wegpunkt)]]></Text>
+			<Text language="en"><![CDATA[CP: Start/stop driver (at last waypoint)]]></Text>
+		</Translation>
+
 		<Translation name="input_CP_GENERATE_COURSE">
 			<Text language="de"><![CDATA[CP: Kurs generieren]]></Text>
 			<Text language="en"><![CDATA[CP: Generate course]]></Text>
