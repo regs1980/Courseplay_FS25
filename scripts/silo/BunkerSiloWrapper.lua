@@ -614,8 +614,15 @@ function CpBunkerSilo:isValidUnloader(vehicle)
 	return false
 end
 
-function CpBunkerSilo:hasNearbyUnloader()
-	return self.numNearbyUnloaders > 0
+--- Checks for any unloaders currently in the range of the silo.
+---@param vehicleToIgnore table
+---@return boolean
+function CpBunkerSilo:hasNearbyUnloader(vehicleToIgnore)
+	local num = self.numNearbyUnloaders
+	if self.nearbyUnloaders[vehicleToIgnore] then 
+		num = num - 1
+	end
+	return num > 0
 end
 
 function CpBunkerSilo:shouldUnloadersWaitForSiloWorker()

@@ -101,7 +101,7 @@ function CpAISiloLoaderWorker:getCanStartCpSiloLoaderWorker()
     if not found then 
         return false
     end
-    return implements[1].spec_shovel.shovelNodes and #implements[1].spec_shovel.shovelNodes > 0 
+    return ImplementUtil.getShovelNode(implements[1])
 end
 
 function CpAISiloLoaderWorker:getCanStartCp(superFunc)

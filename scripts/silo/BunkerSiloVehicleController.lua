@@ -277,7 +277,7 @@ end
 
 
 function CpBunkerSiloLevelerController:hasNearbyUnloader()
-	return self.silo:hasNearbyUnloader()
+	return self.silo:hasNearbyUnloader(self.vehicle)
 end
 
 function CpBunkerSiloLevelerController:isWaitingForUnloaders()
