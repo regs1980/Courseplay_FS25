@@ -1047,6 +1047,9 @@ Ora la tua selezione dovrebbe essere simile all'immagine.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Mostra il menù del canale di debug si/no"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Apri mini GUI"/>
     <text name="input_CP_START_STOP" text="CP: Avvia/Ferma autista"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Start/stop driver (at first waypoint)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Start/stop driver (at nearest waypoint)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Start/stop driver (at last waypoint)"/>
     <text name="input_CP_GENERATE_COURSE" text="CP: Cambia il lavoro attualmente selezionato"/>
     <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Cambia lavoro selezionato"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Cambia punto di partenza"/>
