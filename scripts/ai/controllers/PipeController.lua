@@ -62,6 +62,10 @@ function PipeController:getDriveData()
             self:debugSparse("Waiting for pipe unfolding!")
         end
     end
+    if not self:isInAllowedState() then
+        maxSpeed = 0
+        self:debugSparse("Pipe state prevents driving")
+    end
     return nil, nil, nil, maxSpeed
 end
 
@@ -669,6 +673,25 @@ function PipeController:movePipeUp(tool, childToolNode, dt)
         end
     end
     ImplementUtil.moveMovingToolToRotation(self.implement, tool, dt, CpMathUtil.clamp(targetRot, tool.rotMin, tool.rotMax))
+end
+
+---@return boolean true if the pipe is in a state which allows turning on the harvester. This is to prevent some
+--- harvesters like the OXBO MKB-4TR driving with the bunker up right after unloading, as with the bunker up they
+--- are not able to harvest
+function PipeController:isInAllowedState()
+    if self.pipeSpec.hasMovablePipe then
+        if next(self.pipeSpec.turnOnAllowedStates) ~= nil then
+            local isAllowed = false
+            for pipeState,_ in pairs(self.pipeSpec.turnOnAllowedStates) do
+                if pipeState == self.pipeSpec.currentState then
+                    isAllowed = true
+                    break
+                end
+            end
+            return isAllowed
+        end
+    end
+    return true
 end
 
 function PipeController:delete()
