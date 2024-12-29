@@ -641,7 +641,7 @@ function CpCourseManagerFrame:showInputTextDialog(title, callbackFunc, viewEntry
 		end,
 		self, defaultText or "",  
 		string.format(g_i18n:getText(title), viewEntry and viewEntry:getName()),
-		g_i18n:getText(title), 50, g_i18n:getText("button_ok"), viewEntry)
+		g_i18n:getText(title), 50, g_i18n:getText("button_ok"), viewEntry, nil, false)
 end
 
 function CpCourseManagerFrame:showYesNoDialog(title, callbackFunc, viewEntry)
