@@ -156,7 +156,7 @@
     <!--Vehicle settings-->
     <!---->
     <text name="CP_vehicle_setting_title" text="Paramètres du véhicule pour (%s)"/>
-    <text name="CP_vehicle_setting_subTitle_vehicle" text="Vehicle settings"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Paramètres du véhicule"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="Paramètres de base"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="Paramètres outil"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Paramètres moissonneuse-batteuse"/>
@@ -272,8 +272,8 @@
     <!---->
     <text name="CP_vehicle_courseGeneratorSetting_title" text="Paramètres du générateur pour la course (%s)"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_basic" text="Paramètres principaux"/>
-    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Vine field settings"/>
-    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Fieldwork settings"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Paramètres des vignes"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Paramètres des champs"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_headland" text="Paramètres des fourrières"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_center" text="Paramètres des rangs"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="Paramètres îlots"/>
@@ -1007,11 +1007,11 @@ Votre sélection devrait ressembler à l'illustration ci-contre.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Affiche/masque les canaux de debogage."/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Affiche mini ATH"/>
     <text name="input_CP_START_STOP" text="CP: Ouvrier Courseplay"/>
-    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Start/stop driver (at first waypoint)"/>
-    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Start/stop driver (at nearest waypoint)"/>
-    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Start/stop driver (at last waypoint)"/>
-    <text name="input_CP_GENERATE_COURSE" text="CP: Change current selected job"/>
-    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Change current selected job"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: démarrer/arrêter (au premier point)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: démarrer/arrêter (au point le plus proche)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: démarrer/arrêter (au dernier point)"/>
+    <text name="input_CP_GENERATE_COURSE" text="CP: Générer une course"/>
+    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Change le type de travail"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Change le point de départ"/>
     <text name="input_CP_CLEAR_COURSE" text="CP: Efface la course actuellement sélectionnée"/>
     <text name="input_CP_CHANGE_COURSE_VISIBILITY" text="CP: Affiche la course actuelle du véhicule"/>
@@ -1021,6 +1021,6 @@ Votre sélection devrait ressembler à l'illustration ci-contre.
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Ouvre les paramètres globaux"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Ouvre le générateur de course/menu de la course"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Ouvre le gestionnaire de courses"/>
-    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Open menu"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Ouvre le menu"/>
   </texts>
 </l10n>
