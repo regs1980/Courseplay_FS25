@@ -619,7 +619,7 @@ end
 ---@return boolean
 function CpBunkerSilo:hasNearbyUnloader(vehicleToIgnore)
 	local num = self.numNearbyUnloaders
-	if self.nearbyUnloaders[vehicleToIgnore] then 
+	if self.nearbyUnloaders[vehicleToIgnore.rootNode] then 
 		num = num - 1
 	end
 	return num > 0
