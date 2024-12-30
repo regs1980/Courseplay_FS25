@@ -33,6 +33,11 @@ end
 --- calculate the width. This also results in an offset, which is the distance between the vehicle's centerline and the
 --- middle of the work area.
 ---
+--- Giants has a function ( fieldCourseSettings, implementData = FieldCourseSettings.generate(self.vehicle))
+--- which pretty much does what we do here, but it is not able to handle all the implements Courseplay is able to use,
+--- like shovels, shields, soil samplers, etc. So first, we check those special ones and then we fall back to the
+--- official way of getting the work width using AI markers and side offset provided by the AIImplement functions.
+---
 ---@param object table
 ---@param referenceNode number the node for calculating the work width, if not supplied, use the object's root node
 ---@param ignoreObject table ignore this object when calculating the width (as it is being detached, for instance)
