@@ -97,9 +97,11 @@ function WorkWidthUtil.getAutomaticWorkWidthAndOffset(object, referenceNode, ign
         end
     end
 
+    --- Now that we checked all special cases, and none of them had a hit, we still don't have a left/right
+    --- value. We can now finally try the official way of getting the work width.
     if not left then
         -- no manual config, check AI markers
-        _, left, right = WorkWidthUtil.getAIMarkerWidth(object, referenceNode)
+        _, left, right = WorkWidthUtil.getAIMarkerWidth(object)
     end
 
     if not left then
@@ -197,16 +199,16 @@ function WorkWidthUtil.getWorkAreaWidth(object, referenceNode)
 end
 
 ---@param object table
-function WorkWidthUtil.getAIMarkerWidth(object, referenceNode)
+function WorkWidthUtil.getAIMarkerWidth(object)
     if object.getAIMarkers then
-        local aiLeftMarker, aiRightMarker = object:getAIMarkers()
+        object:updateAIMarkerWidth()
+        local aiLeftMarker, aiRightMarker, aiBackMarker, inverted, aiMarkerWidth = object:getAIMarkers()
+        local sideOffset = object:getAIImplementSideOffset()
         if aiLeftMarker and aiRightMarker then
-            -- left/right is just for the log
-            local left, _, _ = localToLocal(aiLeftMarker, referenceNode, 0, 0, 0)
-            local right, _, _ = localToLocal(aiRightMarker, referenceNode, 0, 0, 0)
-            local width = calcDistanceFrom(aiLeftMarker, aiRightMarker)
-            WorkWidthUtil.debug(object, 'aiMarkers: left=%.2f, right=%.2f (width %.2f)', left, right, width)
-            return width, left, right
+            local left = aiMarkerWidth * 0.5 + sideOffset
+            local right = -aiMarkerWidth * 0.5 + sideOffset
+            WorkWidthUtil.debug(object, 'aiMarkers: left=%.2f, right=%.2f (width %.2f)', left, right, aiMarkerWidth)
+            return aiMarkerWidth, left, right
         end
     end
 end
