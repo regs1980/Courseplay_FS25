@@ -46,28 +46,31 @@ end
 
 function CpHelpFrame:onFrameOpen()
 	CpHelpFrame:superClass().onFrameOpen(self)
-	self.customEnvironments = self.helpLineManager:getCustomEnvironmentNames()
-	local texts = {}
-	for _, env in ipairs(self.customEnvironments) do 
-		if string.isNilOrWhitespace(env) then 
-			--table.insert(texts, g_i18n:getText("ui_helpLine_baseGame"))
-		else 
-			local mod = g_modManager:getModByName(env)
-			if mod then 
-				table.insert(texts, mod.title)
+	if not self.wasOpened then
+		self.customEnvironments = self.helpLineManager:getCustomEnvironmentNames()
+		local texts = {}
+		for _, env in ipairs(self.customEnvironments) do 
+			if string.isNilOrWhitespace(env) then 
+				--table.insert(texts, g_i18n:getText("ui_helpLine_baseGame"))
 			else 
-				table.insert(texts, "Unknown")
-			end
-		end	
-	end
-	self.helpLineSelector:setTexts(texts)
-	for i = 1, #self.helpLineSelector.texts do
-		local dot = self.helpLineDotTemplate:clone(self.helpLineDotBox)
-		dot.getIsSelected = function ()
-			return self.helpLineSelector:getState() == i
+				local mod = g_modManager:getModByName(env)
+				if mod then 
+					table.insert(texts, mod.title)
+				else 
+					table.insert(texts, "Unknown")
+				end
+			end	
 		end
+		self.helpLineSelector:setTexts(texts)
+		for i = 1, #self.helpLineSelector.texts do
+			local dot = self.helpLineDotTemplate:clone(self.helpLineDotBox)
+			dot.getIsSelected = function ()
+				return self.helpLineSelector:getState() == i
+			end
+		end
+		self.helpLineDotBox:invalidateLayout()
+		self.wasOpened = true
 	end
-	self.helpLineDotBox:invalidateLayout()
 	self.helpLineList:reloadData()
 	self:setSoundSuppressed(true)
 	FocusManager:setFocus(self.helpLineList)

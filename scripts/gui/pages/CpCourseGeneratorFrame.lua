@@ -209,7 +209,10 @@ function CpCourseGeneratorFrame:initialize(menu)
 	self.subCategoryBox:invalidateLayout()
 	self.subCategoryPaging:setSize(self.subCategoryBox.maxFlowSize + 140 * g_pixelSizeScaledX)
 
-	self.hotspotFilterCategories = table.clone(InGameMenuMapFrame.HOTSPOT_FILTER_CATEGORIES)
+	self.hotspotFilterCategories = {}
+	for i, v in pairs(InGameMenuMapFrame.HOTSPOT_FILTER_CATEGORIES) do 
+		self.hotspotFilterCategories[i] = table.clone(v)
+	end
 	table.insert(self.hotspotFilterCategories[2], {
 		["id"] = CustomFieldHotspot.CATEGORY,
 		["sliceId"] = CustomFieldHotspot.SLICE_ID,
