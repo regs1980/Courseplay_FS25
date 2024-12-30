@@ -317,6 +317,7 @@ Changelog 8.0.0.0:
 	</extraSourceFiles>
 
 	<specializations>
+		<specialization name="cpAIImplement" className="CpAIImplement" filename="scripts/specializations/CpAIImplement.lua" />
 		<specialization name="cpVehicleSettings" className="CpVehicleSettings" filename="scripts/specializations/CpVehicleSettings.lua" />
 		<specialization name="cpCourseGeneratorSettings" className="CpCourseGeneratorSettings" filename="scripts/specializations/CpCourseGeneratorSettings.lua" />
 		<specialization name="cpCourseManager" className="CpCourseManager" filename="scripts/specializations/CpCourseManager.lua"/>
