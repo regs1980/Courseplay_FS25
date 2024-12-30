@@ -75,3 +75,6 @@ function CustomFieldHotspot:getAreaText()
     return g_i18n:formatArea(self.field:getAreaInSqMeters()/10000 , 2)
 end
 
+function CustomFieldHotspot:getIsVisible()
+	return CustomFieldHotspot:superClass().getIsVisible(self) and g_cpInGameMenu.isOpen
+end
