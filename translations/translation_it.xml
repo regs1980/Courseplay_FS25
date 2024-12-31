@@ -1061,6 +1061,6 @@ Ora la tua selezione dovrebbe essere simile all'immagine.
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Apre le impostazioni globali"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Apri il generatore di corsi/menu dei lavori"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Apre gestore percorsi"/>
-	<text name="input_CP_OPEN_INGAME_MENU" text="CP: Apri menu"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Apri menu"/>
   </texts>
 </l10n>
