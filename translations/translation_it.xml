@@ -215,7 +215,7 @@
     <text name="CP_vehicle_setting_debugActive_tooltip" text="Abilita/disabilita il debug per questo veicolo"/>
     <text name="CP_vehicle_setting_refillOnTheField_title" text="Strumento di riempimento"/>
     <text name="CP_vehicle_setting_refillOnTheField_tooltip" text="Strumento di rifornimento sul campo"/>
-    <text name="CP_vehicle_setting_refillOnTheField_waiting" text="Inattesa"/>
+    <text name="CP_vehicle_setting_refillOnTheField_waiting" text="In attesa"/>
     <text name="CP_vehicle_setting_refillOnTheField_active" text="Attivo"/>
     <!---->
     <!--Vehicle bunker silo settings-->
@@ -1047,9 +1047,9 @@ Ora la tua selezione dovrebbe essere simile all'immagine.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Mostra il menù del canale di debug si/no"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Apri mini GUI"/>
     <text name="input_CP_START_STOP" text="CP: Avvia/Ferma autista"/>
-    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Start/stop driver (at first waypoint)"/>
-    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Start/stop driver (at nearest waypoint)"/>
-    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Start/stop driver (at last waypoint)"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Avvia/arresta il conducente (al primo waypoint)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Avvia/arresta il conducente (al waypoint più vicino)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Avvia/arresta il conducente (all'ultimo waypoint)"/>
     <text name="input_CP_GENERATE_COURSE" text="CP: Cambia il lavoro attualmente selezionato"/>
     <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Cambia lavoro selezionato"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Cambia punto di partenza"/>
@@ -1061,6 +1061,6 @@ Ora la tua selezione dovrebbe essere simile all'immagine.
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Apre le impostazioni globali"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Apri il generatore di corsi/menu dei lavori"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Apre gestore percorsi"/>
-    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Apri menu"/>
+	<text name="input_CP_OPEN_INGAME_MENU" text="CP: Apri menu"/>
   </texts>
 </l10n>
