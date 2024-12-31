@@ -196,7 +196,7 @@ function CpFieldUtil.detectFieldBoundary(x, z, detect, useGiantsDetector)
         else
             local y = getTerrainHeightAtWorldPos(g_terrainNode, x, 0, z)
             local _, _, _, riceField = PlaceableRiceField.getRiceFieldAtPosition(x, y, z)
-            if riceField then
+            if false and riceField then
                 -- rice fields are somewhat special, so always use the Giants method
                 CpUtil.info('Rice field found')
                 return CpFieldUtil.getRiceFieldPolygon(riceField)

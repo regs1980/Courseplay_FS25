@@ -164,6 +164,8 @@ function DevHelper:keyEvent(unicode, sym, modifier, isDown)
     elseif bitAND(modifier, Input.MOD_LCTRL) ~= 0 and isDown and sym == Input.KEY_space then
         -- restore vehicle position
         DevHelper.restoreVehiclePosition(CpUtil.getCurrentVehicle())
+    elseif bitAND(modifier, Input.MOD_LALT) ~= 0 and isDown and sym == Input.KEY_c then
+        CpFieldUtil.detectFieldBoundary(self.data.x, self.data.z, true)
     elseif bitAND(modifier, Input.MOD_LALT) ~= 0 and isDown and sym == Input.KEY_g then
         local points = CpFieldUtil.detectFieldBoundary(self.data.x, self.data.z, true)
         self:debug('Generate course')
