@@ -81,7 +81,7 @@ body:
     description: Use drag and drop into the textbox to upload the log.txt into the
       text field or use [Gist](https://gist.github.com/) or [Pastebin](http://pastebin.com/).
     placeholder: Please add your log.txt from file path ("C:\\Users\\<USER_NAME>\\Documents\\My
-      Games\\FarmingSimulator2022\\log.txt").
+      Games\\FarmingSimulator2025\\log.txt").
   validations:
     required: true
 - type: textarea
