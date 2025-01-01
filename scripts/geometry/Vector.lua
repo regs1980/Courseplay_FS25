@@ -130,7 +130,7 @@ end
 -- meta function to divide Vectors
 function Vector.__div(a,b)
     assert(a:is_a(Vector) and type(b) == "number", "div: wrong argument types (expected <Vector> and <number>)")
-    return Vector(a.x / b, a.y / b)
+    return Vector(CpMathUtil.divide(a.x, b), CpMathUtil.divide(a.y, b))
 end
 
 -- meta function to check if Vectors have the same values
