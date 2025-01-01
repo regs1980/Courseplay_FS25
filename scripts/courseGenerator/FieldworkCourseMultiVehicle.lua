@@ -345,7 +345,12 @@ end
 ---@param polyline Polyline the original path
 ---@param offsetVector Vector offset vector, the direction and length of the offset (left: y > 0, right: y < 0)
 local function _generateOffsetSection(polyline, offsetVector)
-    local offsetUnitVector = offsetVector / offsetVector:length()
+    local offsetUnitVector
+    if offsetVector:length() > 0.00001 then
+        offsetUnitVector = offsetVector / offsetVector:length()
+    else
+        offsetUnitVector = offsetVector
+    end
     return CourseGenerator.Offset.generate(polyline, offsetUnitVector, offsetVector:length())
 end
 
