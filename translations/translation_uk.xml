@@ -8,31 +8,31 @@
     <!---->
     <!--basic-->
     <!---->
-    <text name="CP_activated" text="активне"/>
-    <text name="CP_deactivated" text="неактивне"/>
+    <text name="CP_activated" text="увімкнено"/>
+    <text name="CP_deactivated" text="вимкнено"/>
     <text name="CP_automatic" text="авто"/>
     <text name="CP_unit_meter" text="м"/>
     <text name="CP_unit_foot" text="ft"/>
     <text name="CP_copy" text="Копіювати курс:"/>
-    <text name="CP_infoText" text="CoursePlay(%s): Для того, щоб отримати допомогу, повідомити про помилку чи виправлення, можете відвідати: https://github.com/Courseplay/Courseplay_FS25. Українською перекладено лише налаштування та підказки. Згодом буде переклад і довідки. А поки вона лишається російською мовою."/>
+    <text name="CP_infoText" text="Courseplay(%s): Щоб отримати довідку, звітувати про помилки чи дізнатися інформацію про виправлення, відвідайте: https://github.com/Courseplay/Courseplay_FS25."/>
     <text name="CP_error_no_course" text="Для початку роботи створіть курс."/>
     <text name="CP_error_could_not_generate_course" text="Не вдалося згенерувати курс. В log.txt може міститися додаткова інформація."/>
     <text name="CP_error_not_on_field" text="Ціль не на полі."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Розвантажуючий далеко від поля."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Початкова позиція далеко від поля."/>
     <text name="CP_error_giants_unloader_not_available" text="Розвантажуючий Giants не доступний."/>
-    <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Розташування розвантаження надто далеко від поля."/>
+    <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Розташування місця розвантаження занадто далеко від поля."/>
     <text name="CP_error_vehicle_too_far_away_from_field" text="Транспортний засіб надто далеко від поля, щоб почати."/>
-    <text name="CP_error_no_bunkerSilo_found" text="Силосна яма не знайдена."/>
-    <text name="CP_error_no_heap_found" text="Не найдена куча."/>
-    <text name="CP_error_no_unload_trigger_found" text="Місце розвантаження не найдене."/>
+    <text name="CP_error_no_bunkerSilo_found" text="Силосну яму не знайдено."/>
+    <text name="CP_error_no_heap_found" text="Купи не знайдено."/>
+    <text name="CP_error_no_unload_trigger_found" text="Пункт розвантаження не знайдено."/>
     <text name="CP_error_unload_target_to_far_away_from_silo" text="Вибране місце розвантаження надто далеко від силосної ями."/>
     <!---->
     <!--AI job parameters-->
     <!---->
     <text name="CP_fieldWorkJobParameters_fieldPosition_title" text="Розташування на полі:"/>
     <text name="CP_fieldWorkJobParameters_bunkerSiloPosition_title" text="Розташування перед ямою:"/>
-    <text name="CP_fieldWorkJobParameters_parkPosition_title" text="Розташування парковки:"/>
+    <text name="CP_fieldWorkJobParameters_parkPosition_title" text="Місце паркування:"/>
     <text name="CP_fieldWorkJobParameters_subTitle_startAt" text="Почати з:"/>
     <text name="CP_fieldWorkJobParameters_startAt_title" text="Почати з:"/>
     <text name="CP_fieldWorkJobParameters_startAt_tooltip" text="З якого моменту почати роботу."/>
@@ -43,10 +43,10 @@
     <text name="CP_fieldWorkJobParameters_startAt_siloLoader" text="роботи з кучами"/>
     <text name="CP_fieldWorkJobParameters_startAt_unload" text="розвантаження комбайну"/>
     <text name="CP_fieldWorkJobParameters_startAt_unload_siloLoader" text="розвантаження навантажувача в ямі"/>
-    <text name="CP_fieldWorkJobParameters_startAt_bales" text="збору/обмотки тюків"/>
+    <text name="CP_fieldWorkJobParameters_startAt_bales" text="збирання/обгортання тюків"/>
     <text name="CP_fieldWorkJobParameters_subTitle_laneOffset" text="Зміщення проходів:"/>
     <text name="CP_fieldWorkJobParameters_laneOffset_title" text="Зміщення проходів:"/>
-    <text name="CP_fieldWorkJobParameters_laneOffset_tooltip" text="Зміщення смуги руху, якщо було створено або завантажено курс для декількох агрегатів."/>
+    <text name="CP_fieldWorkJobParameters_laneOffset_tooltip" text="Зміщення смуги руху, якщо було створено або завантажено курс для одночасної роботи декількох агрегатів."/>
     <text name="CP_fieldWorkJobParameters_laneOffset_center" text="по центру"/>
     <text name="CP_fieldWorkJobParameters_laneOffset_left" text="вліво(1)"/>
     <text name="CP_fieldWorkJobParameters_laneOffset_right" text="вправо(1)"/>
@@ -55,12 +55,12 @@
     <!---->
     <!--AI bale finder job parameters-->
     <!---->
-    <text name="CP_baleFinderJobParameters_subTitle_baleWrapType" text="Типи тюків:"/>
-    <text name="CP_baleFinderJobParameters_baleWrapType_title" text="Типи тюків:"/>
+    <text name="CP_baleFinderJobParameters_subTitle_baleWrapType" text="Тип тюків:"/>
+    <text name="CP_baleFinderJobParameters_baleWrapType_title" text="Тип тюків:"/>
     <text name="CP_baleFinderJobParameters_baleWrapType_all_bales" text="усі тюки"/>
-    <text name="CP_baleFinderJobParameters_baleWrapType_only_wrapped_bales" text="тільки обгорнуті"/>
-    <text name="CP_baleFinderJobParameters_baleWrapType_only_not_wrapped_bales" text="тільки не обгорнуті"/>
-    <text name="CP_baleFinder_balesLeftover" text="Тюків залишилось:"/>
+    <text name="CP_baleFinderJobParameters_baleWrapType_only_wrapped_bales" text="лише обгорнуті"/>
+    <text name="CP_baleFinderJobParameters_baleWrapType_only_not_wrapped_bales" text="лише не обгорнуті"/>
+    <text name="CP_baleFinder_balesLeftover" text="Залишилось тюків:"/>
     <!---->
     <!--AI combine unloader job parameters-->
     <!---->
@@ -86,9 +86,9 @@
     <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_title" text="Очікувати розвантажуючого:"/>
     <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_silo" text="в ямі"/>
     <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_parkPosition" text="на парковці"/>
-    <text name="CP_bunkerSiloJobParameters_stopWithCompactedSilo_title" text="Зупинятися при рівні пресування 99%"/>
-    <text name="CP_bunkerSiloJobParameters_subTitle_stopWithCompactedSilo" text="Зупинятися при рівні пресування 99%"/>
-    <text name="CP_bunkerSilo_compactionPercentage" text="Трамбування кучі:"/>
+    <text name="CP_bunkerSiloJobParameters_stopWithCompactedSilo_title" text="Зупинятися при рівні ущільнення 99%"/>
+    <text name="CP_bunkerSiloJobParameters_subTitle_stopWithCompactedSilo" text="Зупинятися при рівні ущільнення 99%"/>
+    <text name="CP_bunkerSilo_compactionPercentage" text="Ущільнення силосу:"/>
     <!---->
     <!--AI silo lader worker job parameters-->
     <!---->
@@ -102,7 +102,7 @@
     <!--AI jobs-->
     <!---->
     <text name="CP_job_fieldWork" text="CP: Робота у полі"/>
-    <text name="CP_job_baleCollect" text="CP: Збір/Обмотка тюків"/>
+    <text name="CP_job_baleCollect" text="CP: Збирання/обгортання тюків"/>
     <text name="CP_job_combineUnload" text="CP: Розвантаження комбайну"/>
     <text name="CP_job_bunkerSilo" text="CP: Робота у силосній ямі"/>
     <text name="CP_job_siloLoader" text="CP: Завантаження з силосної ями"/>
@@ -113,12 +113,12 @@
     <!---->
     <text name="CP_ai_messageErrorIsFull" text="ШІ-робітник %s несподівано припинив роботу - заповнений бункер!"/>
     <text name="CP_ai_messageError" text="ШІ-робітник %s несподівано припинив роботу - збився з маршруту!"/>
-    <text name="CP_ai_messageErrorWrongBaleWrapType" text="ШІ-робітник %s несподівано припинив роботу - не знайдено обраний тип тюків!"/>
+    <text name="CP_ai_messageErrorWrongBaleWrapType" text="ШІ-робітник %s несподівано припинив роботу - не знайдено тюків обраного типу!"/>
     <text name="CP_ai_messageErrorNoPathFound" text="ШІ-робітник %s несподівано припинив роботу - не знайдено шлях!"/>
     <text name="CP_ai_messageErrorGroundUnloadNotSupported" text="ШІ-робітник %s несподівано припинив роботу - неможливе розвантаження на полі!"/>
     <text name="CP_ai_messageErrorCutterNotSupported" text="ШІ-робітник %s несподівано припинив роботу - неможливе приєднання жатки!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="ШІ-робітник %s несподівано припинив роботу - вимкнено автоприєднання жатки!"/>
-    <text name="CP_ai_messageErrorWrongMissionFruitType" text="ШІ-робітник %s несподівано припинив роботу - для обраного завдання неправильний fill_type!"/>
+    <text name="CP_ai_messageErrorWrongMissionFruitType" text="ШІ-робітник %s несподівано припинив роботу - для обраного завдання неправильний тип наповнення!"/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -127,17 +127,17 @@
     <!--AI bale finder task descriptions-->
     <!---->
     <text name="CP_ai_taskDescriptionCollectsBales" text="Збір тюків на полі"/>
-    <text name="CP_ai_taskDescriptionWrapsBales" text="Обмотування тюків на полі"/>
+    <text name="CP_ai_taskDescriptionWrapsBales" text="Обгортання тюків на полі"/>
     <!---->
     <!--AI combine unloader task descriptions-->
     <!---->
     <text name="CP_ai_taskDescriptionUnloadCombine" text="Розвантажує комбайн"/>
-    <text name="CP_ai_taskDescriptionWaitsForTargetCombine" text="Очікує комбайн"/>
+    <text name="CP_ai_taskDescriptionWaitsForTargetCombine" text="Очікує на комбайн"/>
     <text name="CP_ai_taskDescriptionUnloadSiloLoader" text="Вивантажує навантажувач"/>
     <text name="CP_ai_taskDescriptionWaitsForTargetSiloLoader" text="Очікує навантажувача"/>
     <text name="CP_ai_taskDescriptionUnloadingToHeap" text="Вивантажує на кучу"/>
     <text name="CP_ai_taskDescriptionUnloadingToTrailer" text="Розвантажує в причіп"/>
-    <text name="CP_ai_taskDescriptionUnloadingWithGiants" text="Розвантаження працівником Giants"/>
+    <text name="CP_ai_taskDescriptionUnloadingWithGiants" text="Розвантажує працівником Giants"/>
     <!---->
     <!--AI silo worker task descriptions-->
     <!---->
@@ -155,12 +155,12 @@
     <!---->
     <!--Vehicle settings-->
     <!---->
-    <text name="CP_vehicle_setting_title" text="Налаштування техніки CoursePlay"/>
-    <text name="CP_vehicle_setting_subTitle_vehicle" text="Налаштування техніки"/>
+    <text name="CP_vehicle_setting_title" text="Налаштування транспортного засобу для (%s)"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Налаштування транспортного засобу"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="Основні налаштування"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="Налаштування обладнання"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Налаштування комбайну"/>
-    <text name="CP_vehicle_setting_subTitle_seeder" text="Налаштування сіялки"/>
+    <text name="CP_vehicle_setting_subTitle_seeder" text="Налаштування сівалки"/>
     <text name="CP_vehicle_setting_subTitle_multitool" text="Налаштування сумісної роботи обладнання"/> <!-- Multitool -->
     <text name="CP_vehicle_setting_subTitle_speed" text="Швидкість"/>
     <text name="CP_vehicle_setting_subTitle_debug" text="Налаштування відладки"/>
@@ -170,16 +170,16 @@
     <text name="CP_vehicle_setting_showCourse_currentWaypoint" text="поточна точка"/>
     <text name="CP_vehicle_setting_showCourse_all" text="всі точки"/>
     <text name="CP_vehicle_setting_openHudWithMouse_title" text="Відкривати HUD мишкою"/>
-    <text name="CP_vehicle_setting_openHudWithMouse_tooltip" text="Якщо виключити, то HUD можна буде відкрити лише за допомогою клавіш."/>
+    <text name="CP_vehicle_setting_openHudWithMouse_tooltip" text="Якщо вимкнути, то HUD можна буде відкрити лише за допомогою клавіш."/>
     <text name="CP_vehicle_setting_fuelSave_title" text="Економити пальне"/>
     <text name="CP_vehicle_setting_fuelSave_tooltip" text="Вимикати двигун під час очікування."/>
     <text name="CP_vehicle_setting_stopAtEnd_title" text="Зупинитися в кінці"/>
     <text name="CP_vehicle_setting_stopAtEnd_tooltip" text="Зупинитися в кінці маршруту після закінчення роботи."/>
-    <text name="CP_vehicle_setting_allowReversePathfinding_title" text="Дозволити ЗХ для пошуку шляху"/>
-    <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="Якщо можливо, дозволити pathfinder для створення маршрутів, що містять рух заднім ходом."/>
-    <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="Дозволити використання pathfinder на поворотах"/> <!-- pathfinder -->
-    <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Дозволити використання pathfinder на поворотах, наприклад, щоб уникнути перешкод та посівів."/>
-    <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="Скласти обладнання в кінці курсу"/>
+    <text name="CP_vehicle_setting_allowReversePathfinding_title" text="Дозволити ЗХ для прокладання маршруту"/>
+    <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="Якщо можливо, дозволити прокладачу маршрутів пошук варіантів, що містять рух заднім ходом."/>
+    <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="Дозволити використання прокладачу маршрутів на поворотах"/>
+    <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Дозволити використання прокладача маршрутів на поворотах, наприклад, щоб уникнути перешкод та посівів."/>
+    <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="Скласти обладнання в кінці маршруту"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="Вмикає/Вимикає автоматичне складання обладнання в конці робочого маршруту."/>
     <text name="CP_vehicle_setting_returnToStart_title" text="Повернутися до початкової точки"/>
     <text name="CP_vehicle_setting_returnToStart_tooltip" text="Повернення на точку старту після закінчення роботи в полі."/>
@@ -192,9 +192,9 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_early" text="зарання"/>
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="з запізненням"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="Розворот в межах поля"/>
-    <text name="CP_vehicle_setting_turnOnField_tooltip" text="Розворот в межах поля. Доступний не з усіляким обладнання. Якщо виключити, обладнання не буде рухатися заднім ходом."/>
+    <text name="CP_vehicle_setting_turnOnField_tooltip" text="Розворот в межах поля. Доступний не з усіляким обладнання. Якщо вимкнути, обладнання не буде рухатися заднім ходом."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="Уникати посівів"/>
-    <text name="CP_vehicle_setting_avoidFruit_tooltip" text="ШІ буде намагатися не їхати по посівам."/>
+    <text name="CP_vehicle_setting_avoidFruit_tooltip" text="ШІ буде намагатися не їздити по посівам."/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="Поперечне зміщення"/>
     <text name="CP_vehicle_setting_toolOffsetX_tooltip" text="Поперечне зміщення обладнання відносно лінії маршруту."/>
     <text name="CP_vehicle_setting_baleCollectorOffset_title" text="Зміщення підбирача тюків"/>
@@ -204,9 +204,9 @@
     <text name="CP_vehicle_setting_combineOffsetZ_title" text="Зміщення поздовжне"/>
     <text name="CP_vehicle_setting_combineOffsetZ_tooltip" text="Зміщення вздовж розвантажувальної труби вперед(+) чи назад(-)"/>
     <text name="CP_vehicle_setting_fullThreshold_title" text="Розвантажувати при:"/>
-    <text name="CP_vehicle_setting_fullThreshold_tooltip" text="Якщо рівень розвантажувача вже вище цього значення, він не буде чекати наступного виклику комбайна, а відразу піде на розвантаження."/>
+    <text name="CP_vehicle_setting_fullThreshold_tooltip" text="Якщо рівень розвантажувача вже вище цього значення, він не чекатиме наступного виклику комбайну, а відразу поїде на розвантаження."/>
     <text name="CP_vehicle_setting_useAdditiveFillUnit_title" text="Контроль силосної добавки."/>
-    <text name="CP_vehicle_setting_useAdditiveFillUnit_tooltip" text="Якщо активна і силосна добавка закінчена, водій зупиниться."/>
+    <text name="CP_vehicle_setting_useAdditiveFillUnit_tooltip" text="Якщо активно і силосна добавка закінчилась, водій зупиниться."/>
     <text name="CP_vehicle_setting_symmetricLaneChange_title" text="Симетрична зміна смуги руху"/>
     <text name="CP_vehicle_setting_symmetricLaneChange_tooltip" text="Симетрична зміна смуги руху"/>
     <text name="CP_vehicle_setting_convoyDistance_title" text="Відстань слідування"/>
@@ -235,7 +235,7 @@
     <text name="CP_vehicle_setting_fieldSpeed_title" text="Поле"/>
     <text name="CP_vehicle_setting_fieldSpeed_tooltip" text="Максимальна швидкість під час руху по полю. Значення: 5 - 50"/>
     <text name="CP_vehicle_setting_turnSpeed_title" text="Поворот"/>
-    <text name="CP_vehicle_setting_turnSpeed_tooltip" text="Максимальна швидкість при поворотах. Значення: 2 - 25"/>
+    <text name="CP_vehicle_setting_turnSpeed_tooltip" text="Максимальна швидкість на поворотах. Значення: 2 - 25"/>
     <text name="CP_vehicle_setting_reverseSpeed_title" text="Задній хід"/>
     <text name="CP_vehicle_setting_reverseSpeed_tooltip" text="Максимальна швидкість під час руху заднім ходом. Значення: 2 - 25"/>
     <text name="CP_vehicle_setting_bunkerSiloSpeed_title" text="Силосна яма"/>
@@ -492,12 +492,12 @@
     <text name="CP_infoTexts_waitForSnowToClear" text="Очікує, поки розтане сніг"/>
     <text name="CP_infoTexts_waitForUnloader" text="Очікує розвантажуючого"/>
     <text name="CP_infoTexts_errorStopped" text="Полишив курс, зупинився"/>
-    <text name="CP_infoTexts_wrongBaleWrapType" text="Неправильний тип тюка"/>
+    <text name="CP_infoTexts_wrongBaleWrapType" text="Невірний тип тюка"/>
     <text name="CP_infoTexts_errorNoPathFound" text="Не знайдено шлях"/>
     <text name="CP_infoTexts_errorGroundUnloadNotSupported" text="Розвантаження на землю не можливе"/>
     <text name="CP_infoTexts_errorCutterNotSupported" text="Жатка не підтримується"/>
     <text name="CP_infoTexts_errorAutomaticCutterAttachNotActive" text="Автоприєднання жатки не активне"/>
-    <text name="CP_infoTexts_errorWrongSeason" text="Неправильний сезон для культури"/>
+    <text name="CP_infoTexts_errorWrongSeason" text="Невірний сезон для культури"/>
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Неправильна культура для обраного завдання"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Піддони повні"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Немає піддонів"/>
@@ -505,8 +505,8 @@
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="Користувацьке поле"/>
-    <text name="CP_customFieldManager_confirm_save" text="Ви бажаєте зберегти записаний курс як користувацьке поле %s?"/>
-    <text name="CP_customFieldManager_confirm_delete" text="Ви бажаєте видалити користувацьке поле %s?"/>
+    <text name="CP_customFieldManager_confirm_save" text="Бажаєте зберегти записаний курс як користувацьке поле %s?"/>
+    <text name="CP_customFieldManager_confirm_delete" text="Бажаєте видалити користувацьке поле %s?"/>
     <text name="CP_customFieldManager_delete" text="Видалити користувацьке поле"/>
     <text name="CP_customFieldManager_rename" text="Перейменувати користувацьке поле"/>
     <text name="CP_customFieldManager_rename_error" text="Назва користувацького поля %s вже використовується."/>
@@ -527,7 +527,7 @@
     <!--Help menu-->
     <!---->
     <text name="CP_help_title" text="CoursePlay"/>
-    <text name="CP_help_subTitle" text="A Modification for Farming Simulator 25 "/>
+    <text name="CP_help_subTitle" text="Модифікація для Farming Simulator 25 "/>
     <text name="CP_help_page_blank" text=""/>
     <text name="CP_help_page_General_title" text="Загальна інформація"/>
     <text name="CP_help_page_GeneralBase_text" text="
@@ -1031,6 +1031,9 @@ HUD также показывает оставшийся уровень запо
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Показати/Сховати канали відладки"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Відкрити mini GUI"/>
     <text name="input_CP_START_STOP" text="CP: Відправити/Зупинити водія"/>
+	<text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Відправити/Зупинити водія (в першый точці)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Відправити/Зупинити водія (в найближчій точці)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Відправити/Зупинити водія (в останній точці)"/>
     <text name="input_CP_GENERATE_COURSE" text="CP: Змінити поточну обрану роботу"/>
     <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Змінити поточну обрану роботу"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Змінити точку відправлення"/>
