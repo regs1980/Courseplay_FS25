@@ -45,6 +45,12 @@ function BalerController:update()
         not self.implement:getConsumableIsAvailable(Baler.CONSUMABLE_TYPE_NAME_SQUARE) then
         self.vehicle:stopCurrentAIJob(AIMessageErrorOutOfFill.new())
     end
+    if self.implement:getIsAIImplementInLine() and 
+        not self.implement:getIsTurnedOn() and 
+        self.implement:getCanBeTurnedOn() then 
+        -- Cotton harvester are not restarted after unload, so we do it here ...
+        self.implement:aiImplementStartLine()
+    end
 end
 
 function BalerController:handleBaler()
