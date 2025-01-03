@@ -13,6 +13,11 @@
 This (and later, the Giants modhub) is the **only official source for Courseplay**,
 if you see it anywhere else, it's a scam.
 
+## Tutorials
+
+German Tutorial by Mario Hirschfeld: https://www.youtube.com/playlist?list=PL-UvOFIL55_jXAy6UkVJuLOD5DWKLuzIm
+(Anyone know a good english one?)
+
 ## Developer version
 
 Please be aware you're using a developer version, which may and will contain errors, bugs, mistakes and unfinished code. Chances are you computer will explode when using it. Twice. If you have no idea what "beta", "alpha", or "developer" means and entails, steer clear. The Courseplay team will not take any responsibility for crop destroyed, savegames deleted or baby pandas killed.
