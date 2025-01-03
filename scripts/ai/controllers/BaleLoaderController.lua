@@ -60,7 +60,7 @@ function BaleLoaderController:canBeFolded()
 end
 
 function BaleLoaderController:update()
-    if self:isFull(true) then 
+    if self:isFull(true) and not self.baleLoaderSpec.fullAutomaticUnloading then 
         if self:isChangingBaleSize() then 
             if self.baleLoaderSpec.emptyState == BaleLoader.EMPTY_NONE then
                 self.baleLoader:startAutomaticBaleUnloading()
