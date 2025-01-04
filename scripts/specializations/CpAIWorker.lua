@@ -147,7 +147,9 @@ function CpAIWorker:onRegisterActionEvents(isActiveForInput, isActiveForInputIgn
                 end)
             
             addActionEvent(self, InputAction.CP_GENERATE_COURSE, function (self)
-                    CourseGeneratorInterface.generateDefaultCourse()
+                    if self:getCanStartCpFieldWork() then
+                        CourseGeneratorInterface.generateDefaultCourse()
+                    end
                 end)
             addActionEvent(self, InputAction.CP_CHANGE_SELECTED_JOB, function (self)
                     local currentJobSetting = self:cpGetHudSelectedJobSetting()
@@ -238,6 +240,9 @@ function CpAIWorker:updateActionEvents()
 
         actionEvent = spec.actionEvents[InputAction.CP_CLEAR_COURSE]
         g_inputBinding:setActionEventActive(actionEvent.actionEventId, self:hasCpCourse())
+
+        actionEvent = spec.actionEvents[InputAction.CP_GENERATE_COURSE]
+        g_inputBinding:setActionEventActive(actionEvent.actionEventId, self:getCanStartCpFieldWork())
     end
 end
 
