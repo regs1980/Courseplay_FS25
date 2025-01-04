@@ -66,8 +66,7 @@ function CpAITaskFieldWork:start()
 	spec.isActive = true
 	self.vehicle:raiseAIEvent("onAIFieldWorkerStart", "onAIImplementStart")
 	if self.isServer then
-		spec.isActive = true
-		spec:updateAIFieldWorkerImplementData()
+		self.vehicle:updateAIFieldWorkerImplementData()
 		if self.vehicle:getAINeedsTrafficCollisionBox() and (AIFieldWorker.TRAFFIC_COLLISION ~= nil and 
 			(AIFieldWorker.TRAFFIC_COLLISION ~= 0 and spec.aiTrafficCollision == nil)) then
 

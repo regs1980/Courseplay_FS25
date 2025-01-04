@@ -45,8 +45,8 @@ function VehicleSettingsEvent:run(connection, setting)
 end
 
 function VehicleSettingsEvent.sendEvent(vehicle, setting)
+	VehicleSettingsEvent.debug(vehicle, "sendEvent, server: %s", tostring(g_server ~= nil))
 	if g_server ~= nil then
-		VehicleSettingsEvent.debug(vehicle, "sendEvent")
 		g_server:broadcastEvent(VehicleSettingsEvent.new(vehicle, setting), nil, nil, vehicle)
 	else
 		g_client:getServerConnection():sendEvent(VehicleSettingsEvent.new(vehicle, setting))
@@ -54,7 +54,7 @@ function VehicleSettingsEvent.sendEvent(vehicle, setting)
 end
 
 function VehicleSettingsEvent.debug(vehicle, str, ...)
-	CpUtil.debugVehicle(CpDebug.DBG_MULTIPLAYER, vehicle, "VehicleSettingsEvent: "..str, ...)
+	CpUtil.debugVehicle(CpDebug.DBG_MULTIPLAYER, vehicle, "VehicleSettingsEvent: " .. str, ...)
 end
 
 --- Sends the changed setting value to the server,

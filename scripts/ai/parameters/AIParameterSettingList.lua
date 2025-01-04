@@ -54,11 +54,11 @@ function AIParameterSettingList:init(data, vehicle, class)
 	end
 	--- Lastly apply the default values here.
 	if data.default ~=nil then
-		AIParameterSettingList.setFloatValue(self, data.default)
+		AIParameterSettingList.setFloatValue(self, data.default, nil, true)
 		self:debug("set to default %s", data.default)
 	end
 	if data.defaultBool ~= nil then
-		AIParameterSettingList.setValue(self, data.defaultBool)
+		AIParameterSettingList.setValue(self, data.defaultBool, true)
 		self:debug("set to default %s", tostring(data.defaultBool))
 	end
 
@@ -273,7 +273,7 @@ function AIParameterSettingList:loadFromXMLFile(xmlFile, key)
 		self:debug("loaded value: %.2f", value)
 		self.loadedValue = value
 		--- Applies a small epsilon, as otherwise floating point problems might happen.
-		self:setFloatValue(value, 0.001)
+		self:setFloatValue(value, 0.001, true)
 	else 
 		self:loadFromXMLFileLegacy(xmlFile, key)
 	end
@@ -388,11 +388,15 @@ end
 ---@param value number
 ---@param epsilon number|nil optional
 ---@return boolean value is not valid and could not be set.
-function AIParameterSettingList:setFloatValue(value, epsilon)
-	return setValueInternal(self, value, function(a, b)
+function AIParameterSettingList:setFloatValue(value, epsilon, noEventSend)
+	local failed = setValueInternal(self, value, function(a, b)
 		local epsilon = epsilon or self.data.incremental or 0.1
 		if a == nil or b == nil then return false end
 		return a > b - epsilon / 2 and a <= b + epsilon / 2 end)
+	if not failed and not noEventSend then
+		self:raiseDirtyFlag()
+	end
+	return failed
 end
 
 --- Gets the closest value ix and absolute difference, relative to the value searched for.
@@ -416,16 +420,21 @@ end
 
 --- Sets a value.
 ---@param value number
+---@param noEventSend boolean|nil
 ---@return boolean value is not valid and could not be set.
-function AIParameterSettingList:setValue(value)
-	return setValueInternal(self, value, function(a, b)  return a == b end)
+function AIParameterSettingList:setValue(value, noEventSend)
+	local failed = setValueInternal(self, value, function(a, b)  return a == b end)
+	if not failed and not noEventSend then 
+		self:raiseDirtyFlag()
+	end
+	return failed
 end
 
 function AIParameterSettingList:setDefault(noEventSend)
 	local current = self.current
 	--- If the setting has a function to set the default value, then call it.
 	if self:hasCallback(self.data.setDefaultFunc) then 
-		self:getCallback(self.data.setDefaultFunc)
+		self:getCallback(self.data.setDefaultFunc, noEventSend)
 		self:debug("set to default by extern function.")
 		return
 	end
@@ -437,9 +446,9 @@ function AIParameterSettingList:setDefault(noEventSend)
 				local value = g_vehicleConfigurations:get(object, configName)
 				if value then 
 					if tonumber(value) then 
-						self:setFloatValue(value)
+						self:setFloatValue(value, noEventSend)
 					else
-						self:setValue(value)
+						self:setValue(value, noEventSend)
 					end
 					self:debug("set to default: %s from vehicle configuration: (%s|%s)", value, CpUtil.getName(object), configName)
 					return
@@ -449,12 +458,12 @@ function AIParameterSettingList:setDefault(noEventSend)
 	end
 	--- If default values were setup use these.
 	if self.data.default ~=nil then
-		AIParameterSettingList.setFloatValue(self, self.data.default)
+		AIParameterSettingList.setFloatValue(self, self.data.default, noEventSend)
 		self:debug("set to default %s", self.data.default)
 		return
 	end
 	if self.data.defaultBool ~= nil then
-		AIParameterSettingList.setValue(self, self.data.defaultBool)
+		AIParameterSettingList.setValue(self, self.data.defaultBool, noEventSend)
 		self:debug("set to default %s", tostring(self.data.defaultBool))
 		return
 	end
@@ -524,9 +533,9 @@ end
 --- Copy the value to another setting.
 function AIParameterSettingList:copy(setting)
 	if self.data.incremental and self.data.incremental ~= 1 then 
-		self:setFloatValue(setting.values[setting.current])
+		self:setFloatValue(setting.values[setting.current], nil, true)
 	else 
-		self:setValue(setting.values[setting.current])
+		self:setValue(setting.values[setting.current], true)
 	end
 end
 

@@ -106,7 +106,7 @@ function Courseplay:loadMap(filename)
 	self:load()
 	self:setupGui()
 	self:loadUserSettings()
-	if g_currentMission.missionInfo.savegameDirectory ~= nil then
+	if g_server ~= nil and g_currentMission.missionInfo.savegameDirectory ~= nil then
 		local saveGamePath = g_currentMission.missionInfo.savegameDirectory .."/"
 		local filePath = saveGamePath .. "Courseplay.xml"
 		self.xmlFile = XMLFile.load("cpXml", filePath , self.xmlSchema)
