@@ -103,12 +103,12 @@ function AIParameterSettingInterface:refresh()
 end
 
 --- Sets a float value relative to the incremental.
-function AIParameterSettingInterface:setFloatValue(value, epsilon)
+function AIParameterSettingInterface:setFloatValue(value, epsilon, noEventSend)
 	
 end
 
 --- Sets a value.
-function AIParameterSettingInterface:setValue(value)
+function AIParameterSettingInterface:setValue(value, noEventSend)
 	
 end
 

@@ -104,6 +104,7 @@ end
 function CpVehicleSettings:onUpdate()
     local spec = self.spec_cpVehicleSettings
     if not spec.finishedFirstUpdate then
+        CpVehicleSettings.validateSettings(self)
         --- TODO: Maybe consider a more generic approach in the future.
         spec.toolOffsetX:resetToLoadedValue()
         spec.bunkerSiloWorkWidth:resetToLoadedValue()

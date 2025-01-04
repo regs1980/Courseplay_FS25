@@ -128,10 +128,12 @@ end
 --- Make sure the setting value gets synchronized by the class.
 function AIParameterSetting:raiseDirtyFlag()
 	if not self:getIsUserSetting() then
-		if self.class and self.class.raiseDirtyFlag then
+		if self.class ~= nil and self.class.raiseDirtyFlag ~= nil then
 			if self.vehicle ~= nil then 
+				self:debug("Raising dirty flag for vehicle", CpUtil.getName(self.vehicle))
 				self.class.raiseDirtyFlag(self.vehicle, self)
 			else
+				self:debug("Raising dirty flag")
 				self.class:raiseDirtyFlag(self)
 			end
 		end
