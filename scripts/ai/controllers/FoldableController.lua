@@ -44,7 +44,9 @@ end
 function FoldableController:canContinueWork()
     if self.foldActionWasRemoved then
         return true
-    else
-        return self.foldableSpec:getIsUnfolded()
+        --- TODO_25 Do we need this here? Currently this breaks a few vehicle, like liquid manure spreaders.
+    -- else
+        -- return self.foldableSpec:getIsUnfolded()
     end
+    return true
 end

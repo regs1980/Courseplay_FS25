@@ -291,8 +291,12 @@ end
 
 --- Is cp drive to field work active
 function CpAIWorker:getIsCpDriveToFieldWorkActive()
-    local spec = self.spec_cpAIWorker
-    return self:getIsCpActive() and spec.driveToTask ~= nil
+    if not self:getIsCpActive() then 
+        return false
+    end
+    local job = self:getJob()
+    local task = job:getTaskByIndex(job.currentTaskIndex)
+    return task and task.is_a and task:is_a(CpAITaskDriveTo)
 end
 
 --- Is a cp job ready to be started?

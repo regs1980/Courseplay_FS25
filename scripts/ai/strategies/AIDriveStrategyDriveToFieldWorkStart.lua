@@ -229,7 +229,13 @@ end
 --- Even if the AI is not a fieldworker and so on ...
 function AIDriveStrategyDriveToFieldWorkStart.giantsTurnOnFix(vehicle, superFunc, ...)
     local rootVehicle = vehicle.rootVehicle
+    if not rootVehicle.getIsCpActive or not rootVehicle:getIsCpActive() then 
+        return superFunc(vehicle, ...)
+    end
     if rootVehicle.getIsCpDriveToFieldWorkActive and rootVehicle:getIsCpDriveToFieldWorkActive() then 
+        return
+    end
+    if not vehicle:getCanBeTurnedOn() then 
         return
     end
     return superFunc(vehicle, ...)
