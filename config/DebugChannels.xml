@@ -17,8 +17,8 @@
 	<DebugChannel active="true"  name="DBG_PPC" 			text="ppc controller"/>
 	<DebugChannel active="true"  name="DBG_TRAFFIC" 		text="collision/proximity"/>
 	<DebugChannel active="true"  name="DBG_COURSES" 		text="courses"/>
-	<DebugChannel active="true" name="DBG_HUD" 			text="hud action"/>
-	<DebugChannel active="true" name="DBG_MULTIPLAYER" 	text="multiplayer"/>
+	<DebugChannel active="false" name="DBG_HUD" 			text="hud action"/>
+	<DebugChannel active="false" name="DBG_MULTIPLAYER" 	text="multiplayer"/>
 	<DebugChannel active="true"  name="DBG_IMPLEMENTS" 		text="implements"/>
 	<DebugChannel active="false" name="DBG_AI_DRIVER" 		text="AIDriver common"/>
 </DebugChannels>
