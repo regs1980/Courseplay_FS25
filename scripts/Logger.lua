@@ -30,7 +30,7 @@ end
 ---@param level number|nil one of Logger.levels, default Logger.level.debug.
 ---@param channel number|nil the CP debug channel as defined in DebugChannels.xml to use, optional
 function Logger:init(debugPrefix, level, channel)
-    self.debugPrefix = debugPrefix or ''
+    self.debugPrefix = debugPrefix
     self.logLevel = level or Logger.level.debug
     self.channel = channel
 end
@@ -40,30 +40,49 @@ function Logger:setLevel(level)
     self.logLevel = math.max(Logger.level.error, math.min(Logger.level.trace, level))
 end
 
+--- All the following functions can be used two ways:
+---
+--- 1. logger:error(<format string>, ...): just like string.format(), first a format string then the arguments
+---
+--- 2. logger:error(<vehicle>, <format string>, ...): first a vehicle, then a format string and the arguments,
+---   similar to the CpUtil.debugVehicle(), CpUtil.infoVehicle() functions (the debug channel must be set in the logger's
+---   constructor for this to work), will only log if the debug channel is active for the vehicle.
+
+
+--- Log an error.
+---@param [vehicle], ... string format and arguments
 function Logger:error(...)
     if self.logLevel >= Logger.level.error then
         self:log('ERROR', ...)
     end
 end
 
+--- Log a warning if the log level is > Logger.level.warning
+---@param [vehicle], ... string format and arguments
 function Logger:warning(...)
     if self.logLevel >= Logger.level.warning then
         self:log('WARNING', ...)
     end
 end
 
+--- Write a debug message in the log if the log level is > Logger.level.debug
+---@param [vehicle], ... string format and arguments
 function Logger:debug(...)
     if self.logLevel >= Logger.level.debug then
         self:log('DEBUG', ...)
     end
 end
 
+--- Write a trace in the log if the log level is > Logger.level.trace
+---@param [vehicle], ... string format and arguments
 function Logger:trace(...)
     if self.logLevel >= Logger.level.trace then
         self:log('TRACE', ...)
     end
 end
 
+--- Write an info message in the log unconditionally.
+---@param [vehicle], ... string format and arguments
 function Logger:info(...)
     self:log('INFO', ...)
 end
@@ -105,7 +124,11 @@ function Logger:log(levelPrefix, maybeVehicle, ...)
             end
         end
     else
-        local message = self:_getCurrentTimeStr() .. ' [' .. levelPrefix .. '] ' .. self.debugPrefix .. ': ' .. string.format(...)
+        local message = os.date('%Y-%m-%dT%H:%M:%S') .. ' [' .. levelPrefix .. ']'
+        if self.debugPrefix then
+            message = message .. ' ' .. self.debugPrefix
+        end
+        message = message .. ': ' .. string.format(maybeVehicle, ...)
         print(message)
         io.stdout:flush()
         if Logger.logfile then
@@ -125,15 +148,11 @@ function Logger:_writeGameLog(levelPrefix, vehicle, ...)
                 if vehicle then
                     prefix = prefix .. ' [' .. CpUtil.getName(vehicle) .. ']'
                 end
-                print(string.format('%s %s: %s', prefix, self.debugPrefix, string.format(...)))
+                local message = prefix
+                if self.debugPrefix then
+                    message = message .. ' ' .. self.debugPrefix
+                end
+                message = message .. ': ' .. string.format(...)
+                print(message)
             end, ...)
-end
-
-function Logger:_getCurrentTimeStr()
-    if CourseGenerator.isRunningInGame() then
-        -- the game logs hour minute, just add the seconds
-        return getDate(':%S')
-    else
-        return os.date('%Y-%m-%dT%H:%M:%S')
-    end
 end
