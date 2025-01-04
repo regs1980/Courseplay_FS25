@@ -110,6 +110,8 @@ end
 
 function CpAIJob:start(farmId)
 	self:onPreStart()
+	--- If we use more than the base game helper limit, 
+	--- than we have to reuse already used helper indices.
 	if #g_helperManager.availableHelpers > 0 then 
 		self.helperIndex = g_helperManager:getRandomHelper().index
 	else 
