@@ -148,7 +148,7 @@ function CpAIWorker:onRegisterActionEvents(isActiveForInput, isActiveForInputIgn
             
             addActionEvent(self, InputAction.CP_GENERATE_COURSE, function (self)
                     if self:getCanStartCpFieldWork() then
-                        CourseGeneratorInterface.generateDefaultCourse()
+                        CourseGeneratorInterface():generateDefaultCourse()
                     end
                 end)
             addActionEvent(self, InputAction.CP_CHANGE_SELECTED_JOB, function (self)
@@ -291,7 +291,7 @@ end
 
 --- Is cp drive to field work active
 function CpAIWorker:getIsCpDriveToFieldWorkActive()
-    if not self:getIsCpActive() then 
+    if not self:getIsCpActive() then
         return false
     end
     local job = self:getJob()

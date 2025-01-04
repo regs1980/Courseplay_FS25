@@ -171,10 +171,7 @@ function DevHelper:keyEvent(unicode, sym, modifier, isDown)
         -- use the Giants field boundary detector
         self.vehicle:cpDetectFieldBoundary(self.data.x, self.data.z, nil, function()  end)
     elseif bitAND(modifier, Input.MOD_LALT) ~= 0 and isDown and sym == Input.KEY_g then
-        self:debug('Generate course')
-        local vehicle = CpUtil.getCurrentVehicle()
-        local settings = CpUtil.getCurrentVehicle():getCourseGeneratorSettings()
-        self.courseGeneratorInterface:startGeneration({x = self.data.x, z = self.data.z}, vehicle, settings, nil, function() end)
+        self.courseGeneratorInterface:generateDefaultCourse(CpUtil.getCurrentVehicle())
     elseif bitAND(modifier, Input.MOD_LALT) ~= 0 and isDown and sym == Input.KEY_n then
         self:togglePpcControlledNode()
     end

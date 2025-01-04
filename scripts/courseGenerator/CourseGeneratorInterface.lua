@@ -238,3 +238,12 @@ function CourseGeneratorInterface:setCourse(vehicle, course)
     vehicle:setFieldWorkCourse(course)
 end
 
+--- Generate a course for the vehicle, with start position at the vehicle's position
+function CourseGeneratorInterface:generateDefaultCourse(vehicle)
+    local settings = vehicle:getCourseGeneratorSettings()
+    local x, _, z = getWorldTranslation(vehicle.rootNode)
+    self.logger:info(vehicle, 'Generating course at x = %.1f, z = %.1f', x, z)
+    self:startGeneration({x = x, z = z}, vehicle, settings, nil, function()
+        self.logger:info(vehicle, 'Course generation finished')
+    end)
+end
