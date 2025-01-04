@@ -229,8 +229,8 @@ function CpAIJobFieldWork:onClickGenerateFieldWorkCourse(callback)
                 -- no multitools until we fix the generation for vines
                 1,
                 g_vineScanner:getLines(),
-                vineSettings.vineCenterOffset:getValue()
-        )
+                vineSettings.vineCenterOffset:getValue())
+        callback(course)
     else
         self.courseGeneratorInterface:startGeneration(
             { x = tx, z = tz },
