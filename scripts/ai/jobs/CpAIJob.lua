@@ -110,9 +110,15 @@ end
 
 function CpAIJob:start(farmId)
 	self:onPreStart()
-	AIJob.start(self, farmId)
-
+	if #g_helperManager.availableHelpers > 0 then 
+		self.helperIndex = g_helperManager:getRandomHelper().index
+	else 
+		self.helperIndex = g_helperManager:getRandomIndex()
+	end
+	self.startedFarmId = farmId
+	self.isRunning = true
 	if self.isServer then
+		self.currentTaskIndex = 0
 		local vehicle = self.vehicleParameter:getVehicle()
 
 		vehicle:createAgent(self.helperIndex)
