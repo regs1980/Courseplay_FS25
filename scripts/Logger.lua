@@ -94,7 +94,7 @@ function Logger:isEnabled(vehicle)
         -- channel set, then likely running in the game, and probably there's a vehicle too as the first parameter
         if type(vehicle) == 'table' then
             -- first parameter is a table, assume it is a vehicle (not a string)
-            if CpDebug and CpDebug:isChannelActive(self.channel) and CpUtil.debugEnabledForVehicle() then
+            if CpDebug and CpDebug:isChannelActive(self.channel) and CpUtil.debugEnabledForVehicle(vehicle) then
                 -- debug channel for vehicle active
                 return true, true
             else
@@ -102,8 +102,8 @@ function Logger:isEnabled(vehicle)
                 return false
             end
         else
-            -- first parameter is not a table, assume it is a string, enable logging
-            return true
+            -- first parameter is not a table, assume it is a string, enable logging if channel is active
+            return CpDebug and CpDebug:isChannelActive(self.channel)
         end
     else
         -- no channel set, likely running outside of the game, always log

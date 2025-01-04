@@ -165,7 +165,7 @@ end
 -- CpUtil.debugVehicle( CpDebug.DBG_TURN, vehicle, "fill level is %.1f, mode = %d", fillLevel, mode )
 ---@param channel number
 ---@param vehicle table
-function CpUtil.debugVehicle(channel, vehicle, ...)
+function CpUtil.	debugVehicle(channel, vehicle, ...)
 	if CpDebug and CpDebug:isChannelActive(channel) and CpUtil.debugEnabledForVehicle()  then
 		CpUtil.internalPrintVehicle(vehicle, CpDebug:getText(channel), ...)
 	end
