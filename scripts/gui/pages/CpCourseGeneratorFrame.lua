@@ -231,6 +231,7 @@ function CpCourseGeneratorFrame:initialize(menu)
 
 	self.currentContextBox = self.contextBox 
 	self.currentHotspot = nil
+	self.generateCoursePending = false
 end
 
 function CpCourseGeneratorFrame:update(dt)
@@ -460,12 +461,14 @@ function CpCourseGeneratorFrame:onFrameClose()
 	self.statusMessages = {}
 	self:updateStatusMessages()
 	self.startJobPending = false
-
 	CpCourseGeneratorFrame:superClass().onFrameClose(self)
 end
 
 function CpCourseGeneratorFrame:onClickBack(force)
 	if self.startJobPending and not force then
+		return false
+	end
+	if self.generateCoursePending and not force then 
 		return false
 	end
 	if self.mode == self.AI_MODE_CREATE then 
@@ -534,8 +537,7 @@ function CpCourseGeneratorFrame:updateSubCategoryPages(state)
 			inputAction = InputAction.MENU_EXTRA_2,
 			text = g_i18n:getText("CP_ai_page_generate_course"),
 			callback = function ()
-				if self.currentJob then 
-					CpUtil.try(self.currentJob.onClickGenerateFieldWorkCourse, self.currentJob)
+				if self:generateFieldworkCourse() then
 					self:updateSubCategoryPages(self.CATEGRORIES.IN_GAME_MAP)
 				end
 			end})
@@ -948,12 +950,32 @@ function CpCourseGeneratorFrame:getCanGenerateFieldWorkCourse()
 	return self.mode == self.AI_MODE_CREATE and self.currentJob and 
 		self.currentJob:getCanGenerateFieldWorkCourse()
 end
+
 function CpCourseGeneratorFrame:onStartCancelJob()
 	if self:getCanCancelJob() then
 		self:cancelJob()
 	elseif self:getCanStartJob() then
 		self:startJob()
 	end
+end
+
+function CpCourseGeneratorFrame:generateFieldworkCourse()
+	if self.generateCoursePending then
+		return false
+	end
+	if not self:getCanGenerateFieldWorkCourse() then 
+		return false
+	end
+	self.generateCoursePending = true
+	self.currentJob:onClickGenerateFieldWorkCourse(function(course)
+		self.generateCoursePending = false
+		if not course then
+			InfoDialog.show(g_i18n:getText('CP_error_could_not_generate_course'),
+				nil, nil, DialogElement.TYPE_ERROR)
+			return
+		end
+	end)
+	return true
 end
 
 function CpCourseGeneratorFrame:startJob()
@@ -1313,8 +1335,10 @@ function CpCourseGeneratorFrame:initializeContextActions()
 			text = g_i18n:getText("CP_ai_page_generate_course"),
 			action = InputAction.MENU_EXTRA_2,
 			callback = function()
-				if self.currentJob then 
-					CpUtil.try(self.currentJob.onClickGenerateFieldWorkCourse, self.currentJob)
+				if self:generateFieldworkCourse() then
+					if self.subCategoryPaging:getState() ~= self.CATEGRORIES.IN_GAME_MAP then
+						self:updateSubCategoryPages(self.CATEGRORIES.IN_GAME_MAP)
+					end
 				end
 			end,
 			isActive = false
@@ -1364,7 +1388,7 @@ function CpCourseGeneratorFrame:updateContextActions()
 	self.contextActions[self.CONTEXT_ACTIONS.CREATE_JOB].isActive = self.canCreateJob and self.mode ~= self.AI_MODE_CREATE
 	self.contextActions[self.CONTEXT_ACTIONS.START_JOB].isActive = self:getCanStartJob()
 	self.contextActions[self.CONTEXT_ACTIONS.STOP_JOB].isActive = self:getCanCancelJob() and self.mode ~= self.AI_MODE_CREATE
-	self.contextActions[self.CONTEXT_ACTIONS.GENERATE_COURSE].isActive = self:getCanGenerateFieldWorkCourse() 
+	self.contextActions[self.CONTEXT_ACTIONS.GENERATE_COURSE].isActive = self:getCanGenerateFieldWorkCourse()
 	self.contextActions[self.CONTEXT_ACTIONS.DELETE_CUSTOM_FIELD].isActive = self.currentHotspot and self.currentHotspot:isa(CustomFieldHotspot)
 	self.contextActions[self.CONTEXT_ACTIONS.RENAME_CUSTOM_FIELD].isActive = self.currentHotspot and self.currentHotspot:isa(CustomFieldHotspot)
 	self.contextActions[self.CONTEXT_ACTIONS.EDIT_CUSTOM_FIELD].isActive = false--self.currentHotspot and self.currentHotspot:isa(CustomFieldHotspot)
