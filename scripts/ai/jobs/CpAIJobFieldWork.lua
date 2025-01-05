@@ -10,6 +10,7 @@ function CpAIJobFieldWork:init(isServer)
     self.foundVines = nil
     self.selectedFieldPlot = FieldPlot(true)
     self.selectedFieldPlot:setVisible(false)
+    self.courseGeneratorInterface = CourseGeneratorInterface()
 end
 
 function CpAIJobFieldWork:setupTasks(isServer)
@@ -201,7 +202,7 @@ function CpAIJobFieldWork:getCanStartJob()
 end
 
 --- Button callback to generate a field work course.
-function CpAIJobFieldWork:onClickGenerateFieldWorkCourse()
+function CpAIJobFieldWork:onClickGenerateFieldWorkCourse(callback)
     local vehicle = self.vehicleParameter:getVehicle()
     local fieldPolygon = self:getFieldPolygon()
     local settings = vehicle:getCourseGeneratorSettings()
@@ -217,7 +218,7 @@ function CpAIJobFieldWork:onClickGenerateFieldWorkCourse()
                 vineSettings.vineCenterOffset:getValue(),
                 tx, tz
         )
-        ok, course = CourseGeneratorInterface.generateVineCourse(
+        ok, course = self.courseGeneratorInterface:generateVineCourse(
                 vertices,
                 startingPoint,
                 vehicle,
@@ -228,20 +229,15 @@ function CpAIJobFieldWork:onClickGenerateFieldWorkCourse()
                 -- no multitools until we fix the generation for vines
                 1,
                 g_vineScanner:getLines(),
-                vineSettings.vineCenterOffset:getValue()
-        )
+                vineSettings.vineCenterOffset:getValue())
+        callback(course)
     else
-
-        ok, course = CourseGeneratorInterface.generate(fieldPolygon,
-                { x = tx, z = tz },
-                vehicle,
-                settings
-        )
-    end
-    if not ok then
-        InfoDialog.show(g_i18n:getText('CP_error_could_not_generate_course'),
-            nil, nil, DialogElement.TYPE_ERROR)
-        return false
+        self.courseGeneratorInterface:startGeneration(
+            { x = tx, z = tz },
+            vehicle,
+            settings,
+            nil,
+            callback)
     end
     return true
 end

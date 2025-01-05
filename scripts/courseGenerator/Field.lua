@@ -44,7 +44,7 @@ function Field.loadSavedFields(fileName)
             -- a new field started
             ix = tonumber(fieldNum)
             fields[ix] = Field(string.gsub(fileName, 'fields/', ''):gsub('fields\\', ''):gsub('.xml', '') .. '-' .. ix, ix)
-            Logger(''):debug('Loading field %s', ix)
+            Logger():debug('Loading field %s', ix)
         end
         local num, x, z = string.match(line, '<point(%d+).+pos="([%d%.-]+) [%d%.-]+ ([%d%.-]+)"')
         if num then
@@ -109,6 +109,11 @@ function Field:getUnpackedVertices()
         self.unpackedVertices = self.boundary:getUnpackedVertices()
     end
     return self.unpackedVertices
+end
+
+---@param island CourseGenerator.Island
+function Field:addIsland(island)
+    table.insert(self.islands, island)
 end
 
 -- Find islands (when running in the game)
