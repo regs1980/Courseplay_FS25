@@ -148,7 +148,7 @@ function CpAIWorker:onRegisterActionEvents(isActiveForInput, isActiveForInputIgn
             
             addActionEvent(self, InputAction.CP_GENERATE_COURSE, function (self)
                     if self:getCanStartCpFieldWork() then
-                        CourseGeneratorInterface():generateDefaultCourse()
+                        CourseGeneratorInterface():generateDefaultCourse(self)
                     end
                 end)
             addActionEvent(self, InputAction.CP_CHANGE_SELECTED_JOB, function (self)
