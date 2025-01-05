@@ -25,7 +25,8 @@ body:
     - 8.0.0.2
     - 8.0.0.3
     - 8.0.0.4
-    default: 5
+    - 8.0.0.5
+    default: 6
   validations:
     required: true
 - type: dropdown
