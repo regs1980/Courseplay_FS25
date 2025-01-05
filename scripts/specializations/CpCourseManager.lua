@@ -281,15 +281,19 @@ end
 function CpCourseManager:onEnterVehicle(isControlling)
     if isControlling then
         local spec = self.spec_cpCourseManager
-        spec.courseDisplay:setVisibility(true)
-        self:updateCpCourseDisplayVisibility()
+        if spec.courseDisplay then
+            spec.courseDisplay:setVisibility(true)
+            self:updateCpCourseDisplayVisibility()
+        end
     end
 end
 
 function CpCourseManager:onLeaveVehicle(wasEntered)
     if wasEntered then
         local spec = self.spec_cpCourseManager
-        spec.courseDisplay:setVisibility(false)
+        if spec.courseDisplay then
+            spec.courseDisplay:setVisibility(false)
+        end
     end
 end
 
@@ -312,7 +316,9 @@ function CpCourseManager:onCpCourseChange(newCourse,noEventSend)
         self:rememberCpLastWaypointIx()
         local spec = self.spec_cpCourseManager 
         self:updateCpCourseDisplayVisibility()
-        spec.courseDisplay:clearCourse()
+        if spec.courseDisplay then
+            spec.courseDisplay:clearCourse()
+        end
     end
 end
 
@@ -360,6 +366,7 @@ function CpCourseManager:onPreDelete()
         CpCourseManager.resetCourses(self)
         local spec = self.spec_cpCourseManager 
         spec.courseDisplay:delete()
+        spec.courseDisplay = nil
     end
 end
 
