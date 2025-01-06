@@ -166,7 +166,7 @@ end
 ---@param channel number
 ---@param vehicle table
 function CpUtil.debugVehicle(channel, vehicle, ...)
-	if CpDebug and CpDebug:isChannelActive(channel) and CpUtil.debugEnabledForVehicle()  then
+	if CpDebug and CpDebug:isChannelActive(channel) and CpUtil.debugEnabledForVehicle(vehicle)  then
 		CpUtil.internalPrintVehicle(vehicle, CpDebug:getText(channel), ...)
 	end
 end
