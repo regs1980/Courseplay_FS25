@@ -691,6 +691,11 @@ function HybridAStar:rollUpPath(node, goal, path)
     return path
 end
 
+---@return number|nil the furthest the pathfinder got from the start
+function HybridAStar:getHighestDistance()
+    return self.nodes and self.nodes.highestDistance
+end
+
 function HybridAStar:printOpenList(openList)
     print('--- Open list ----')
     for i, node in ipairs(openList.values) do
@@ -828,7 +833,7 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
         printCallstack()
         self:debug('Pathfinding failed')
         self.coroutine = nil
-        return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder.nodes.highestDistance,
+        return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder:getHighestDistance(),
                 self.constraints)
     end
     if done then
@@ -839,14 +844,14 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
                 return PathfinderResult(true, path)
             else
                 self:debug('all hybrid: no path found')
-                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder.nodes.highestDistance,
+                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder:getHighestDistance(),
                         self.constraints)
             end
         elseif self.phase == self.ASTAR then
             self.constraints:resetStrictMode()
             if not path then
                 self:debug('fast A*: no path found')
-                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder.nodes.highestDistance,
+                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder:getHighestDistance(),
                         self.constraints)
             end
             CourseGenerator.addDebugPolyline(Polyline(path), {1, 0, 0})
@@ -861,7 +866,7 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
             HybridAStar.shortenStart(self.middlePath, self.hybridRange)
             HybridAStar.shortenEnd(self.middlePath, self.hybridRange)
             if #self.middlePath < 2 then
-                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder.nodes.highestDistance,
+                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder:getHighestDistance(),
                         self.constraints)
             end
             State3D.smooth(self.middlePath)
@@ -886,7 +891,7 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
                 return self:findPathFromMiddleToEnd()
             else
                 self:debug('start to middle: no path found')
-                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder.nodes.highestDistance,
+                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder:getHighestDistance(),
                         self.constraints)
             end
         elseif self.phase == self.MIDDLE_TO_END then
@@ -905,7 +910,7 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
                 return PathfinderResult(true, self.path)
             else
                 self:debug('middle to end: no path found')
-                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder.nodes.highestDistance,
+                return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder:getHighestDistance(),
                         self.constraints)
             end
         end

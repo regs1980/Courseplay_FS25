@@ -586,7 +586,7 @@ function PathfinderUtil.findPathForTurn(vehicle, startOffset, goalReferenceNode,
             if dirDeg > 45 or true then
                 PathfinderUtil.logger:debug('First headland waypoint isn\'t in front of us (%.1f), remove first few waypoints to avoid making a circle %.1f %.1f', dirDeg, dx, dz)
             end
-            pathfinder = HybridAStarWithPathInTheMiddle(vehicle, turnRadius * 3, 200, headlandPath, true, analyticSolver)
+            pathfinder = HybridAStarWithPathInTheMiddle(vehicle, turnRadius * 6, 200, headlandPath, true, analyticSolver)
         end
     end
     if pathfinder == nil then
