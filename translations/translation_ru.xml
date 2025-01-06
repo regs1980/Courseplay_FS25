@@ -16,7 +16,7 @@
     <text name="CP_copy" text="Копировать курс:"/>
     <text name="CP_infoText" text="CoursePlay(%s): Чтобы получить помощь, отправить отчет об ошибках или исправлениях, можете посетить: https://github.com/Courseplay/Courseplay_FS25."/>
     <text name="CP_error_no_course" text="Создайте курс до начала работы."/>
-    <text name="CP_error_could_not_generate_course" text="Не удалось сгенерировать курс. В логе может содержаться дополнительная информация."/>
+    <text name="CP_error_could_not_generate_course" text="Не удалось сгенерировать курс. Попробуйте другие настройки."/>
     <text name="CP_error_not_on_field" text="Цель не на поле."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Разгружающий далеко от поля."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Начальная позиция далеко от поля."/>
