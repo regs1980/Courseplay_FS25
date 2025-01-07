@@ -114,7 +114,9 @@ end
 
 function CpAIFieldWorker:onCpCourseChange()
     local spec = self.spec_cpAIFieldWorker
-    spec.cpJob:getCpJobParameters():validateSettings()
+    if spec.cpJob then
+        spec.cpJob:getCpJobParameters():validateSettings()
+    end
 end
 
 function CpAIFieldWorker:getCpStartingPointSetting()

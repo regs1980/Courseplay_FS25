@@ -116,7 +116,7 @@ function CpAIJobBaleFinder:getDescription()
 		desc = desc .. " - " .. g_i18n:getText("ai_taskDescriptionDriveToField")
 	elseif currentTask == self.baleFinderTask then
 		local vehicle = self:getVehicle()
-		if AIUtil.hasChildVehicleWithSpecialization(vehicle, BaleWrapper) then
+		if vehicle and AIUtil.hasChildVehicleWithSpecialization(vehicle, BaleWrapper) then
 			desc = desc .. " - " .. g_i18n:getText("CP_ai_taskDescriptionWrapsBales")
 		else 
 			desc = desc .. " - " .. g_i18n:getText("CP_ai_taskDescriptionCollectsBales")
