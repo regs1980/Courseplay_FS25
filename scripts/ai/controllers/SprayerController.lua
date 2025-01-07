@@ -54,6 +54,7 @@ local function processSprayerArea(sprayer, superFunc, ...)
         if rootVehicle:getLastSpeed() < 0.1 then
             sprayerParams.sprayFillLevel = 0
             if sprayer:getFillUnitCapacity(sprayer.spec_sprayer.fillUnitIndex) <= 0 then 
+                --- Needs to be set, as otherwise the sprayer will endlessly stop the fieldworker ...
                 sprayerParams.sprayFillType = FillType.LIQUIDMANURE
             end
         end
