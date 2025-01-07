@@ -9,11 +9,16 @@ function SprayerController:init(vehicle, sprayer)
     self.sprayer = sprayer
     self.sprayerSpec = sprayer.spec_sprayer
     ImplementController.init(self, vehicle, self.sprayer)
-    self:addRefillImplementAndFillUnit(self.implement, self.implement:getSprayerFillUnitIndex())
+    local fillUnitIndex = self.implement:getSprayerFillUnitIndex()
+    if self.implement:getFillUnitCapacity(fillUnitIndex) > 0 then
+        self:addRefillImplementAndFillUnit(self.implement, self.implement:getSprayerFillUnitIndex())
+    end
     for _, supportedSprayType in ipairs(self.sprayerSpec.supportedSprayTypes) do
         for _, src in ipairs(self.sprayerSpec.fillTypeSources[supportedSprayType]) do
             self:debug("Found additional tank for refilling: %s|%d", src.vehicle, src.fillUnitIndex)
-            self:addRefillImplementAndFillUnit(src.vehicle, src.fillUnitIndex)
+            if src.vehicle:getFillUnitCapacity(src.fillUnitIndex) > 0 and not src.vehicle.spec_sprayer then
+                self:addRefillImplementAndFillUnit(src.vehicle, src.fillUnitIndex)
+            end
         end
     end
 end
@@ -48,6 +53,9 @@ local function processSprayerArea(sprayer, superFunc, ...)
         --- If the vehicle is standing, them disable the sprayer.
         if rootVehicle:getLastSpeed() < 0.1 then
             sprayerParams.sprayFillLevel = 0
+            if sprayer:getFillUnitCapacity(sprayer.spec_sprayer.fillUnitIndex) <= 0 then 
+                sprayerParams.sprayFillType = FillType.LIQUIDMANURE
+            end
         end
     end
     return superFunc(sprayer, ...)
