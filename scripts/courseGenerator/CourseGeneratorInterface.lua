@@ -112,19 +112,8 @@ function CourseGeneratorInterface:generate(fieldPolygon,
     end
 
     local status
-    if settings.narrowField:getValue() then
-        -- two sided must start on headland
-        context:setHeadlandFirst(true)
-        status, self.generatedCourse = xpcall(
-                function()
-                    return CourseGenerator.FieldworkCourseTwoSided(context)
-                end,
-                function(err)
-                    printCallstack();
-                    return err
-                end
-        )
-    elseif settings.multiTools:getValue() > 1 then
+    if settings.multiTools:getValue() > 1 then
+        settings.narrowField:setValue(false)
         context:setNumberOfVehicles(settings.multiTools:getValue())
         context:setHeadlands(settings.multiTools:getValue() * settings.numberOfHeadlands:getValue())
         context:setIslandHeadlands(settings.multiTools:getValue() * settings.nIslandHeadlands:getValue())
@@ -132,6 +121,20 @@ function CourseGeneratorInterface:generate(fieldPolygon,
         status, self.generatedCourse = xpcall(
                 function()
                     return CourseGenerator.FieldworkCourseMultiVehicle(context)
+                end,
+                function(err)
+                    printCallstack();
+                    return err
+                end
+        )
+    elseif settings.narrowField:getValue() then
+        -- two sided must start on headland
+        context:setHeadlandFirst(true)
+        -- and must not have multiple vehicles
+        settings.multiTools:setValue(1)
+        status, self.generatedCourse = xpcall(
+                function()
+                    return CourseGenerator.FieldworkCourseTwoSided(context)
                 end,
                 function(err)
                     printCallstack();
