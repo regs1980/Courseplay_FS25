@@ -282,6 +282,12 @@ function CpCourseGeneratorSettings:hasHeadlandsSelected()
     return spec.numberOfHeadlands:getValue() > 0
 end
 
+function CpCourseGeneratorSettings:isNarrowFieldEnabled()
+    -- FieldworkCourseTwoSided does not work with multitools.
+    return CpCourseGeneratorSettings.hasHeadlandsSelected(self) and
+            not CpCourseGeneratorSettings.hasMoreThenOneVehicle(self)
+end
+
 function CpCourseGeneratorSettings:canStartOnRows()
     local spec = self.spec_cpCourseGeneratorSettings
     -- start on rows does not work for narrow field patterns
