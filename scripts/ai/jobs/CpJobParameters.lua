@@ -38,9 +38,9 @@ function CpJobParameters.registerXmlSchema(schema, baseKey)
     CpSettingsUtil.registerXmlSchema(schema, baseKey .. CpJobParameters.xmlKey.."(?)")
 end
 
-function CpJobParameters:validateSettings()
+function CpJobParameters:validateSettings(includeDisabledValues)
     for i, setting in ipairs(self.settings) do 
-        setting:refresh()
+        setting:refresh(includeDisabledValues)
     end
 end
 

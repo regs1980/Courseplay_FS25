@@ -194,7 +194,8 @@ function AIParameterSettingList:isValueDisabled(value)
 end
 
 --- Excludes deactivated values from the current values and texts tables.
-function AIParameterSettingList:refresh()
+---@param includeDisabledValues boolean|nil
+function AIParameterSettingList:refresh(includeDisabledValues)
 	if self.data.generateValuesFunction then 
 		local lastValue = self.values[self.current]
 		local newValue
@@ -211,7 +212,7 @@ function AIParameterSettingList:refresh()
 	self.values = {}
 	self.texts = {}
 	for ix, v in ipairs(self.data.values) do 
-		if not self:isValueDisabled(v) then
+		if includeDisabledValues or not self:isValueDisabled(v) then
 			table.insert(self.values, v)
 			table.insert(self.texts, self.data.texts[ix])
 		end	
