@@ -2728,7 +2728,7 @@ function AIDriveStrategyUnloadCombine:startUnloadingOnField(controller, allowRev
     end
 
     --- Callback when the unloading has finished.
-    self.fieldUnloadData.controller:setFinishDischargeCallback(self.onFieldUnloadingFinished)
+    self.fieldUnloadData.controller:setFinishDischargeToGroundCallback(self.onFieldUnloadingFinished)
     self:setNewState(self.states.WAITING_FOR_PATHFINDER)
     local context = PathfinderContext(self.vehicle)
     context:maxFruitPercent(self:getMaxFruitPercent()):offFieldPenalty(PathfinderContext.defaultOffFieldPenalty)

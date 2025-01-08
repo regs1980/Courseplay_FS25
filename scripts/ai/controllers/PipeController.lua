@@ -36,9 +36,11 @@ function PipeController:init(vehicle, implement, doMeasure)
         self.pipeOnLeftSide = self.pipeOffsetX >= 0
     end
 
-    self.isDischargingTimer = CpTemporaryObject(false)
+    self.isDischargingToGroundTimer = CpTemporaryObject(false)
     self.isDischargingToGround = false
     self.dischargeData = {}
+
+    self.timeDischargingStopped = 0
 
     local ix = g_vehicleConfigurations:get(self.implement, "tipSideIndex")
     if ix and self.implement.setPreferedTipSide then 
@@ -51,7 +53,7 @@ end
 function PipeController:getDriveData()
     local maxSpeed
     if self.isDischargingToGround then
-        if self.isDischargingTimer:get() then
+        if self.isDischargingToGroundTimer:get() then
             --- Slows down the driver while unloading
             maxSpeed = self.unloadingToGroundSpeed
             self:debugSparse("Waiting for unloading!")
@@ -78,12 +80,12 @@ end
 function PipeController:update(dt)
     if self.isDischargingToGround then
         if self:isEmpty() and self.implement:getAIHasFinishedDischarge(self.dischargeData.dischargeNode) then 
-            self:finishedDischarge()
+            self:finishedDischargeToGround()
             return
         end
         if self.implement:getCanDischargeToGround(self.dischargeData.dischargeNode) then 
             --- Update discharge timer
-            self.isDischargingTimer:set(true, 500)
+            self.isDischargingToGroundTimer:set(true, 500)
             if not self:isDischarging() then
                 self.implement:setDischargeState(Dischargeable.DISCHARGE_STATE_GROUND)
             end
@@ -91,7 +93,32 @@ function PipeController:update(dt)
             self.implement:setDischargeState(Dischargeable.DISCHARGE_STATE_OFF)
         end
     end
+    self:updateDischargeMonitor()
     self:updateMoveablePipe(dt)
+end
+
+--- Keep track of the time when the discharging stopped
+function PipeController:updateDischargeMonitor()
+    if self:isDischarging() then
+        self.wasDischarging = true
+    else
+        if self.wasDischarging then
+            self.timeDischargingStopped = getTimeSec()
+        end
+        self.wasDischarging = false
+    end
+end
+
+---@return number time in seconds since the discharge stopped (note it does not say anything about whether it is discharging
+--- now)
+function PipeController:getTimeSinceDischargingStopped()
+    return getTimeSec() - self.timeDischargingStopped
+end
+
+---@param seconds number
+---@return boolean true if the pipe has not been discharging for the given number of seconds
+function PipeController:hasNotBeenDischargingFor(seconds)
+    return self:getTimeSinceDischargingStopped() > seconds
 end
 
 function PipeController:needToOpenPipe()
@@ -273,15 +300,15 @@ function PipeController:prepareForUnload(tipToGround)
 end
 
 --- Callback for the drive strategy, when the unloading finished.
-function PipeController:setFinishDischargeCallback(finishDischargeCallback)
-    self.finishDischargeCallback = finishDischargeCallback
+function PipeController:setFinishDischargeToGroundCallback(finishDischargeToGroundCallback)
+    self.finishDischargeToGroundCallback = finishDischargeToGroundCallback
 end
 
 --- Callback for ai discharge.
-function PipeController:finishedDischarge()
+function PipeController:finishedDischargeToGround()
     self:debug("Finished unloading.")
-    if self.finishDischargeCallback then 
-        self.finishDischargeCallback(self.driveStrategy, self)
+    if self.finishDischargeToGroundCallback then 
+        self.finishDischargeToGroundCallback(self.driveStrategy, self)
     end
     self.isDischargingToGround = false
     self.dischargeData = {}

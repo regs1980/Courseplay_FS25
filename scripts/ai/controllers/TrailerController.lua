@@ -122,7 +122,7 @@ function TrailerController:startDischargeToGround(dischargeNode)
 end
 
 --- Callback for the drive strategy, when the unloading finished.
-function TrailerController:setFinishDischargeCallback(finishDischargeCallback)
+function TrailerController:setFinishDischargeToGroundCallback(finishDischargeCallback)
     self.finishDischargeCallback = finishDischargeCallback
 end
 
