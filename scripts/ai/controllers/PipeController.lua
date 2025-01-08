@@ -62,11 +62,17 @@ function PipeController:getDriveData()
             self:debugSparse("Waiting for pipe unfolding!")
         end
     end
-    if not self:isInAllowedState() then
-        maxSpeed = 0
-        self:debugSparse("Pipe state prevents driving")
-    end
     return nil, nil, nil, maxSpeed
+end
+
+--- @see PipeController.isInAllowedState()
+function PipeController:canContinueWork()
+    if self:isInAllowedState() then
+        return true
+    else
+        self:debugSparse("Pipe is not in allowed state, can't continue work")
+        return false
+    end
 end
 
 function PipeController:update(dt)
