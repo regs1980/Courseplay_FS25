@@ -201,9 +201,9 @@ function AIParameterSettingList:refresh(includeDisabledValues)
 		local newValue
 		self.values, self.texts, newValue = self:getCallback(self.data.generateValuesFunction, lastValue)
 		if newValue ~= nil then 
-			self:setValue(newValue)
+			self:setValue(newValue, true)
 		else
-			self:setValue(lastValue)
+			self:setValue(lastValue, true)
 		end
 		self:debug("Refreshed from %s to %s", tostring(lastValue), tostring(self.values[self.current]))
 		self:validateTexts()
