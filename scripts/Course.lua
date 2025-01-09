@@ -1812,7 +1812,7 @@ function Course.MultiVehicleData.createFromStream(stream, nVehicles)
     for i = 1, nVehicles do
         local position = streamReadInt32(stream)
         local nWaypoints = streamReadInt32(stream)
-        mvd.waypoints[position] = {}
+        mvd.waypoints[position] = Course.initWaypoints()
         for ix = 1, nWaypoints do
             table.insert(mvd.waypoints[position], Waypoint.createFromStream(stream, ix))
         end
