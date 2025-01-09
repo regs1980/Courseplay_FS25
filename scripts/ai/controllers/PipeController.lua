@@ -40,7 +40,8 @@ function PipeController:init(vehicle, implement, doMeasure)
     self.isDischargingToGround = false
     self.dischargeData = {}
 
-    self.timeDischargingStopped = 0
+    -- somewhere in the distant future
+    self.timeDischargingStopped = math.huge
 
     local ix = g_vehicleConfigurations:get(self.implement, "tipSideIndex")
     if ix and self.implement.setPreferedTipSide then 
@@ -109,7 +110,8 @@ function PipeController:updateDischargeMonitor()
     end
 end
 
----@return number time in seconds since the discharge stopped (note it does not say anything about whether it is discharging
+---@return number time in seconds since the discharge stopped, < 0 if it has never been discharging before
+---(note it does not say anything about whether it is discharging
 --- now)
 function PipeController:getTimeSinceDischargingStopped()
     return getTimeSec() - self.timeDischargingStopped
@@ -118,7 +120,7 @@ end
 ---@param seconds number
 ---@return boolean true if the pipe has not been discharging for the given number of seconds
 function PipeController:hasNotBeenDischargingFor(seconds)
-    return self:getTimeSinceDischargingStopped() > seconds
+    return not self:isDischarging() and (self:getTimeSinceDischargingStopped() > seconds)
 end
 
 function PipeController:needToOpenPipe()
@@ -299,7 +301,7 @@ function PipeController:prepareForUnload(tipToGround)
     return true
 end
 
---- Callback for the drive strategy, when the unloading finished.
+--- Callback for the drive strategy, when the unloading to ground finished.
 function PipeController:setFinishDischargeToGroundCallback(finishDischargeToGroundCallback)
     self.finishDischargeToGroundCallback = finishDischargeToGroundCallback
 end

@@ -1491,13 +1491,13 @@ function AIDriveStrategyCombineCourse:handleCombinePipe(dt)
             self.pipeController:closePipe(true)
         end
     end
-end
-
-function AIDriveStrategyCombineCourse:closePipeWhenConfigured()
-    if g_vehicleConfigurations:get(self.vehicle, 'closePipeAfterUnload') then
-        self:debug('Closing pipe after unloading done.')
-        self.pipeController:closePipe()
-        self.forcePipeClose:set(true, 10000)
+    -- Close the pipe if configured to do so after unloading
+    if self.pipeController:isPipeOpen() and self.pipeController:hasNotBeenDischargingFor(0.5) then
+        if g_vehicleConfigurations:get(self.vehicle, 'closePipeAfterUnload') then
+            self:debug('Closing pipe after unloading done.')
+            self.pipeController:closePipe()
+            self.forcePipeClose:set(true, 10000)
+        end
     end
 end
 

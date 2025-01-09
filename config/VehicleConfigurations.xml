@@ -219,6 +219,10 @@ You can define the following custom settings:
     <Vehicle name="evo290.xml"
              toolOffsetX = "-2.1"
     />
+    <!--\vehicles\oxbo-->
+    <Vehicle name="mkb4TR.xml"
+             closePipeAfterUnload = "true"
+    />
 
     <!-- Implements -->
 
