@@ -672,7 +672,7 @@ function AIDriveStrategyCombineCourse:isUnloadFinished()
     local fillLevel = self.combineController:getFillLevel()
     -- unload is done when fill levels are ok (not full) and not discharging anymore (either because we
     -- are empty or the trailer is full)
-    return (not self:isFull() and self.pipeController:hasNotBeenDischargingFor(0.5)) or fillLevel < 0.1
+    return (not self:isFull() and self.pipeController:justStoppedDischarging()) or fillLevel < 0.1
 end
 
 function AIDriveStrategyCombineCourse:isFull(fillLevelFullPercentage)
@@ -1482,7 +1482,11 @@ function AIDriveStrategyCombineCourse:handleCombinePipe(dt)
     -- don't open the pipe while turning or driving to self unload
     -- open it when there's a trailer in range or when AutoDrive wants us to open it
     if self:isPipeOpenEnabled() and (self:isAGoodTrailerInRange() or self:isAutoDriveWaitingForPipe()) then
-        self.pipeController:openPipe()
+        if not self.forcePipeClose:get() then
+            -- just closed it after unloading, don't open it again right away, wait a bit, as we should now be moving
+            -- away from the trailer
+            self.pipeController:openPipe()
+        end
     else
         if not self.forcePipeOpen:get() then
             -- when driving to self unload, we may open the pipe well before reaching the trailer to avoid
@@ -1492,10 +1496,11 @@ function AIDriveStrategyCombineCourse:handleCombinePipe(dt)
         end
     end
     -- Close the pipe if configured to do so after unloading
-    if self.pipeController:isPipeOpen() and self.pipeController:hasNotBeenDischargingFor(0.5) then
+    if self.pipeController:isPipeOpen() and self.pipeController:justStoppedDischarging() then
         if g_vehicleConfigurations:get(self.vehicle, 'closePipeAfterUnload') then
             self:debug('Closing pipe after unloading done.')
             self.pipeController:closePipe()
+            -- TODO: now with the canWorkWhenOpen() check we may not need this anymore
             self.forcePipeClose:set(true, 10000)
         end
     end
@@ -1508,10 +1513,9 @@ function AIDriveStrategyCombineCourse:isPipeOpenEnabled()
     elseif self.state == self.states.UNLOADING_ON_FIELD and
             self:isUnloadStateOneOf(self.drivingToSelfUnloadStates) and not self:isCloseToCourseEnd(10) then
         return false
-    elseif self.forcePipeClose:get() then
-        -- just closed it after unloading, don't open it again right away, wait a bit, as we should now be moving
-        -- away from the trailer
-        return false
+    elseif self.state == self.states.WORKING then
+        -- do not open pipe if it is not in a state allowed for working
+        return self.pipeController:canWorkWhenOpen()
     else
         return true
     end

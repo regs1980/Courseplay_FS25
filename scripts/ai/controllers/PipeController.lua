@@ -40,8 +40,7 @@ function PipeController:init(vehicle, implement, doMeasure)
     self.isDischargingToGround = false
     self.dischargeData = {}
 
-    -- somewhere in the distant future
-    self.timeDischargingStopped = math.huge
+    self.stoppedDischarging = CpTemporaryObject()
 
     local ix = g_vehicleConfigurations:get(self.implement, "tipSideIndex")
     if ix and self.implement.setPreferedTipSide then 
@@ -78,6 +77,10 @@ function PipeController:canContinueWork()
     end
 end
 
+function PipeController:canWorkWhenOpen()
+    return self:isInAllowedState(PipeController.PIPE_STATE_OPEN)
+end
+
 function PipeController:update(dt)
     if self.isDischargingToGround then
         if self:isEmpty() and self.implement:getAIHasFinishedDischarge(self.dischargeData.dischargeNode) then 
@@ -100,27 +103,20 @@ end
 
 --- Keep track of the time when the discharging stopped
 function PipeController:updateDischargeMonitor()
-    if self:isDischarging() then
-        self.wasDischarging = true
-    else
+    local dischargingNow = self:isDischarging() and not self:isEmpty()
+    if not dischargingNow then
         if self.wasDischarging then
-            self.timeDischargingStopped = getTimeSec()
+            self.stoppedDischarging:set(true, 1000, 500)
         end
-        self.wasDischarging = false
+    else
+        self.stoppedDischarging:reset()
     end
+    self.wasDischarging = dischargingNow
 end
 
----@return number time in seconds since the discharge stopped, < 0 if it has never been discharging before
----(note it does not say anything about whether it is discharging
---- now)
-function PipeController:getTimeSinceDischargingStopped()
-    return getTimeSec() - self.timeDischargingStopped
-end
-
----@param seconds number
----@return boolean true if the pipe has not been discharging for the given number of seconds
-function PipeController:hasNotBeenDischargingFor(seconds)
-    return not self:isDischarging() and (self:getTimeSinceDischargingStopped() > seconds)
+---@return boolean true if the pipe just stopped discharging (in less than a second)
+function PipeController:justStoppedDischarging()
+    return not self:isDischarging() and self.stoppedDischarging:get()
 end
 
 function PipeController:needToOpenPipe()
@@ -710,15 +706,16 @@ function PipeController:movePipeUp(tool, childToolNode, dt)
     ImplementUtil.moveMovingToolToRotation(self.implement, tool, dt, CpMathUtil.clamp(targetRot, tool.rotMin, tool.rotMax))
 end
 
+---@param state number|nil the pipe state to check. If nil, the current pipe state will be used.
 ---@return boolean true if the pipe is in a state which allows turning on the harvester. This is to prevent some
 --- harvesters like the OXBO MKB-4TR driving with the bunker up right after unloading, as with the bunker up they
 --- are not able to harvest
-function PipeController:isInAllowedState()
+function PipeController:isInAllowedState(state)
     if self.pipeSpec.hasMovablePipe then
         if next(self.pipeSpec.turnOnAllowedStates) ~= nil then
             local isAllowed = false
             for pipeState,_ in pairs(self.pipeSpec.turnOnAllowedStates) do
-                if pipeState == self.pipeSpec.currentState then
+                if pipeState == (state or self.pipeSpec.currentState) then
                     isAllowed = true
                     break
                 end
