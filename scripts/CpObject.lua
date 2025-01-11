@@ -97,6 +97,22 @@ function CpObject(base, baseClassInit)
 		return c._base
 	end
 	setmetatable(c, mt)
+	--- Supports Giants Class check
+	c.isa = function (self, other)
+		local m = getmetatable(self)
+		if m == other then 
+			return true
+		end
+		local curClass = self
+		while curClass ~= nil do
+			if curClass == other then
+				return true
+			else
+				curClass = curClass:superClass()
+			end
+		end
+		return false	
+	end
 	return c
 end
 
