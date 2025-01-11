@@ -322,7 +322,7 @@ function CpAIJob:readStream(streamId, connection)
 
 	self.currentTaskIndex = streamReadUInt8(streamId)
 	if self.cpJobParameters then
-		self.cpJobParameters:validateSettings()
+		self.cpJobParameters:validateSettings(true)
 		self.cpJobParameters:readStream(streamId, connection)
 	end
 	if streamReadBool(streamId) then 

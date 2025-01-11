@@ -129,7 +129,7 @@ function CpVehicleSettings:onStateChange(state, data)
     local spec = self.spec_cpVehicleSettings
     if state == VehicleStateChange.FILLTYPE_CHANGE and self:getIsSynchronized() then
         local _, hasSprayer = AIUtil.getAllChildVehiclesWithSpecialization(self, Sprayer, nil)
-        if hasSprayer then 
+        if self.isServer and hasSprayer then 
             local width, offset = WorkWidthUtil.getAutomaticWorkWidthAndOffset(self, nil, nil)
             local oldWidth = self:getCourseGeneratorSettings().workWidth:getValue()
             if not MathUtil.equalEpsilon(width, oldWidth, 1)  then 
@@ -167,8 +167,8 @@ function CpVehicleSettings:setAutomaticWorkWidthAndOffset(ignoreObject)
     local spec = self.spec_cpVehicleSettings
     local width, offset = WorkWidthUtil.getAutomaticWorkWidthAndOffset(self, nil, ignoreObject)
     self:getCourseGeneratorSettings().workWidth:refresh()
-    self:getCourseGeneratorSettings().workWidth:setFloatValue(width)
-    spec.toolOffsetX:setFloatValue(offset)
+    self:getCourseGeneratorSettings().workWidth:setFloatValue(width, nil, true)
+    spec.toolOffsetX:setFloatValue(offset, nil, true)
 end
 
 function CpVehicleSettings:onReadStream(streamId, connection)
@@ -290,7 +290,7 @@ end
 ---@param vehicleConfigurationName string name of the setting in the vehicle configuration XML
 function CpVehicleSettings:setFromVehicleConfiguration(object, setting, vehicleConfigurationName)
     local value = g_vehicleConfigurations:get(object, vehicleConfigurationName)
-    if value then
+    if self.isServer and value then
         CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, self, '%s: setting configured %s to %s',
                 CpUtil.getName(object), vehicleConfigurationName, tostring(value))
         if type(value) == 'number' then
@@ -309,7 +309,7 @@ end
 ---@param defaultValue any default value to reset the setting to
 function CpVehicleSettings:resetToDefault(object, setting, vehicleConfigurationName, defaultValue)
     local value = g_vehicleConfigurations:get(object, vehicleConfigurationName)
-    if value then
+    if self.isServer and value then
         CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, self, '%s: resetting to default %s to %s',
                 CpUtil.getName(object), vehicleConfigurationName, tostring(defaultValue))
         if type(defaultValue) == 'number' then
@@ -408,7 +408,7 @@ end
 function CpVehicleSettings:setAutomaticBunkerSiloWorkWidth(ignoreObject)
     local spec = self.spec_cpVehicleSettings
     local width = WorkWidthUtil.getAutomaticWorkWidthAndOffset(self, nil, ignoreObject)
-    spec.bunkerSiloWorkWidth:setFloatValue(width)
+    spec.bunkerSiloWorkWidth:setFloatValue(width, nil, true)
 end
 
 function CpVehicleSettings:isBaleCollectorOffsetVisible()
@@ -416,18 +416,20 @@ function CpVehicleSettings:isBaleCollectorOffsetVisible()
 end
 
 function CpVehicleSettings:setAutomaticBaleCollectorOffset()
-    local spec = self.spec_cpVehicleSettings
-    local halfVehicleWidth = AIUtil.getWidth(self) / 2
-    local configValue = g_vehicleConfigurations:getRecursively(self, "baleCollectorOffset")
-    local offset = configValue ~= nil and configValue or halfVehicleWidth + 0.2
-    spec.baleCollectorOffset:setFloatValue(offset)
+    if self.isServer then
+        local spec = self.spec_cpVehicleSettings
+        local halfVehicleWidth = AIUtil.getWidth(self) / 2
+        local configValue = g_vehicleConfigurations:getRecursively(self, "baleCollectorOffset")
+        local offset = configValue ~= nil and configValue or halfVehicleWidth + 0.2
+        spec.baleCollectorOffset:setFloatValue(offset)
+    end
 end
 
 --- If the vehicle has a pipe, instantiate a pipe controller to measure the pipe offsets. This is better
 --- done here and not when the vehicle starts as measuring is a hack and may mess up the vehicle states.
 function CpVehicleSettings:setPipeOffset()
     local pipeObject = AIUtil.getImplementOrVehicleWithSpecialization(self, Pipe)
-    if pipeObject then
+    if self.isServer and pipeObject then
         local spec = self.spec_cpVehicleSettings
         -- ask the pipe controller to get the offsets
         local pipeController = PipeController(self, pipeObject, true)
