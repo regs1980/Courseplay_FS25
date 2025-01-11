@@ -253,6 +253,11 @@ function AIDriveStrategyCombineCourse:getDriveData(dt, vX, vY, vZ)
             self:startWaitingForUnloadBeforeNextRow()
         end
 
+        if not self.pipeController:isInAllowedState() then
+            self:debugSparse('Pipe is not in allowed state, stop')
+            self:setMaxSpeed(0)
+        end
+
         if self:shouldStopForUnloading() then
             -- player does not want us to move while discharging
             self:setMaxSpeed(0)
@@ -1501,8 +1506,12 @@ function AIDriveStrategyCombineCourse:handleCombinePipe(dt)
             self:debug('Closing pipe after unloading done.')
             self.pipeController:closePipe()
             -- TODO: now with the canWorkWhenOpen() check we may not need this anymore
-            self.forcePipeClose:set(true, 10000)
+            self.forcePipeClose:set(true, 2000)
         end
+    end
+    if self.forcePipeClose:get() and self:isAGoodTrailerInRange() then
+        self.forcePipeClose:prolong(true, 2000)
+        self:debugSparse('Pipe open disabled, trailer still in range after unloading...')
     end
 end
 
@@ -1515,7 +1524,7 @@ function AIDriveStrategyCombineCourse:isPipeOpenEnabled()
         return false
     elseif self.state == self.states.WORKING then
         -- do not open pipe if it is not in a state allowed for working
-        return self.pipeController:canWorkWhenOpen()
+        return true or self.pipeController:canWorkWhenOpen()
     else
         return true
     end
