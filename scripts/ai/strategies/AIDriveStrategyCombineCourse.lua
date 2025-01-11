@@ -1509,9 +1509,9 @@ function AIDriveStrategyCombineCourse:handleCombinePipe(dt)
             self.forcePipeClose:set(true, 2000)
         end
     end
-    if self.forcePipeClose:get() and self:isAGoodTrailerInRange() then
-        self.forcePipeClose:prolong(true, 2000)
-        self:debugSparse('Pipe open disabled, trailer still in range after unloading...')
+    if self.forcePipeClose:get() and self.pipeController:isSomethingInRange() then
+        self.forcePipeClose:setAndProlong(true, 2000)
+        self:debug('Pipe open disabled, trailer still in range after unloading...')
     end
 end
 

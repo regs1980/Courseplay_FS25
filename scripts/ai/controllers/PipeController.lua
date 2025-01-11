@@ -164,6 +164,11 @@ function PipeController:getFillType()
     return nil
 end
 
+---@return boolean true if some object is in the range
+function PipeController:isSomethingInRange()
+    return self.pipeSpec.numObjectsInTriggers > 0
+end
+
 ---@return boolean true if there is a fillable trailer under the pipe
 ---@return table|nil the trailer vehicle, if there is one
 function PipeController:isFillableTrailerInRange()
