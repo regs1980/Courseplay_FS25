@@ -218,9 +218,17 @@ You can define the following custom settings:
 
     <Vehicle name="evo290.xml"
              toolOffsetX = "-2.1"
+             closePipeAfterUnload = "true"
     />
+    
     <!--\vehicles\oxbo-->
     <Vehicle name="mkb4TR.xml"
+             closePipeAfterUnload = "true"
+    />
+    <Vehicle name="bp2140e.xml"
+             closePipeAfterUnload = "true"
+    />
+    <Vehicle name="epd540E.xml"
              closePipeAfterUnload = "true"
     />
 
@@ -290,7 +298,9 @@ You can define the following custom settings:
     <!--\vehicles\ropa-->
     <Vehicle name="keiler2.xml"
              toolOffsetX = "-2.0"
+             closePipeAfterUnload = "true"
     />
+
 	<!--\vehicles\ropa-->
     <Vehicle name="nawaRoMaus.xml"
              armMovingToolIx = "2"
