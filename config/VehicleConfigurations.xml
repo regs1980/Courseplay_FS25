@@ -154,6 +154,11 @@ You can define the following custom settings:
     This is useful for combines with a pipe that folds up from below, making sure by the time the harvester
     reaches the trailer, the pipe is already open.
 
+- closePipeAfterUnload: boolean
+    This will close the pipe of a harvester after unloading into a trailer.
+    Should be set for harvesters which can't work with the pipe/bunker open, so they close the pipe and move
+    away from the trailer after unloading.
+
 - tipSideIndex: int
     Forced tip side index for unloading. For now only for an auger wagon.
     As an example the Hawe SUW 5000 has two tipside, but only the one with the pipe is needed. 
@@ -188,6 +193,7 @@ You can define the following custom settings:
 		<Configuration type="FLOAT">unloadOffsetX</Configuration>
         <Configuration type="FLOAT">tightTurnOffsetDistanceInTurns</Configuration>
         <Configuration type="BOOL">openPipeEarly</Configuration>
+        <Configuration type="BOOL">closePipeAfterUnload</Configuration>
         <Configuration type="INT">tipSideIndex</Configuration>
 	</Configurations>
     <!--[GIANTS]-->
@@ -212,6 +218,18 @@ You can define the following custom settings:
 
     <Vehicle name="evo290.xml"
              toolOffsetX = "-2.1"
+             closePipeAfterUnload = "true"
+    />
+    
+    <!--\vehicles\oxbo-->
+    <Vehicle name="mkb4TR.xml"
+             closePipeAfterUnload = "true"
+    />
+    <Vehicle name="bp2140e.xml"
+             closePipeAfterUnload = "true"
+    />
+    <Vehicle name="epd540E.xml"
+             closePipeAfterUnload = "true"
     />
 
     <!-- Implements -->
@@ -280,7 +298,9 @@ You can define the following custom settings:
     <!--\vehicles\ropa-->
     <Vehicle name="keiler2.xml"
              toolOffsetX = "-2.0"
+             closePipeAfterUnload = "true"
     />
+
 	<!--\vehicles\ropa-->
     <Vehicle name="nawaRoMaus.xml"
              armMovingToolIx = "2"

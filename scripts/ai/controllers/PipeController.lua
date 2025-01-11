@@ -36,9 +36,11 @@ function PipeController:init(vehicle, implement, doMeasure)
         self.pipeOnLeftSide = self.pipeOffsetX >= 0
     end
 
-    self.isDischargingTimer = CpTemporaryObject(false)
+    self.isDischargingToGroundTimer = CpTemporaryObject(false)
     self.isDischargingToGround = false
     self.dischargeData = {}
+
+    self.stoppedDischarging = CpTemporaryObject()
 
     local ix = g_vehicleConfigurations:get(self.implement, "tipSideIndex")
     if ix and self.implement.setPreferedTipSide then 
@@ -51,7 +53,7 @@ end
 function PipeController:getDriveData()
     local maxSpeed
     if self.isDischargingToGround then
-        if self.isDischargingTimer:get() then
+        if self.isDischargingToGroundTimer:get() then
             --- Slows down the driver while unloading
             maxSpeed = self.unloadingToGroundSpeed
             self:debugSparse("Waiting for unloading!")
@@ -62,22 +64,32 @@ function PipeController:getDriveData()
             self:debugSparse("Waiting for pipe unfolding!")
         end
     end
-    if not self:isInAllowedState() then
-        maxSpeed = 0
-        self:debugSparse("Pipe state prevents driving")
-    end
     return nil, nil, nil, maxSpeed
+end
+
+--- @see PipeController.isInAllowedState()
+function PipeController:canContinueWork()
+    if self:isInAllowedState() then
+        return true
+    else
+        self:debugSparse("Pipe is not in allowed state, can't continue work")
+        return false
+    end
+end
+
+function PipeController:canWorkWhenOpen()
+    return self:isInAllowedState(PipeController.PIPE_STATE_OPEN)
 end
 
 function PipeController:update(dt)
     if self.isDischargingToGround then
         if self:isEmpty() and self.implement:getAIHasFinishedDischarge(self.dischargeData.dischargeNode) then 
-            self:finishedDischarge()
+            self:finishedDischargeToGround()
             return
         end
         if self.implement:getCanDischargeToGround(self.dischargeData.dischargeNode) then 
             --- Update discharge timer
-            self.isDischargingTimer:set(true, 500)
+            self.isDischargingToGroundTimer:set(true, 500)
             if not self:isDischarging() then
                 self.implement:setDischargeState(Dischargeable.DISCHARGE_STATE_GROUND)
             end
@@ -85,7 +97,26 @@ function PipeController:update(dt)
             self.implement:setDischargeState(Dischargeable.DISCHARGE_STATE_OFF)
         end
     end
+    self:updateDischargeMonitor()
     self:updateMoveablePipe(dt)
+end
+
+--- Keep track of the time when the discharging stopped
+function PipeController:updateDischargeMonitor()
+    local dischargingNow = self:isDischarging() and not self:isEmpty()
+    if not dischargingNow then
+        if self.wasDischarging then
+            self.stoppedDischarging:set(true, 1000, 500)
+        end
+    else
+        self.stoppedDischarging:reset()
+    end
+    self.wasDischarging = dischargingNow
+end
+
+---@return boolean true if the pipe just stopped discharging (in less than a second)
+function PipeController:justStoppedDischarging()
+    return not self:isDischarging() and self.stoppedDischarging:get()
 end
 
 function PipeController:needToOpenPipe()
@@ -131,6 +162,11 @@ function PipeController:getFillType()
         return self.implement:getFillUnitFillType(dischargeNode.fillUnitIndex)
     end
     return nil
+end
+
+---@return boolean true if some object is in the range
+function PipeController:isSomethingInRange()
+    return self.pipeSpec.numObjectsInTriggers > 0
 end
 
 ---@return boolean true if there is a fillable trailer under the pipe
@@ -266,16 +302,16 @@ function PipeController:prepareForUnload(tipToGround)
     return true
 end
 
---- Callback for the drive strategy, when the unloading finished.
-function PipeController:setFinishDischargeCallback(finishDischargeCallback)
-    self.finishDischargeCallback = finishDischargeCallback
+--- Callback for the drive strategy, when the unloading to ground finished.
+function PipeController:setFinishDischargeToGroundCallback(finishDischargeToGroundCallback)
+    self.finishDischargeToGroundCallback = finishDischargeToGroundCallback
 end
 
 --- Callback for ai discharge.
-function PipeController:finishedDischarge()
+function PipeController:finishedDischargeToGround()
     self:debug("Finished unloading.")
-    if self.finishDischargeCallback then 
-        self.finishDischargeCallback(self.driveStrategy, self)
+    if self.finishDischargeToGroundCallback then 
+        self.finishDischargeToGroundCallback(self.driveStrategy, self)
     end
     self.isDischargingToGround = false
     self.dischargeData = {}
@@ -675,15 +711,16 @@ function PipeController:movePipeUp(tool, childToolNode, dt)
     ImplementUtil.moveMovingToolToRotation(self.implement, tool, dt, CpMathUtil.clamp(targetRot, tool.rotMin, tool.rotMax))
 end
 
+---@param state number|nil the pipe state to check. If nil, the current pipe state will be used.
 ---@return boolean true if the pipe is in a state which allows turning on the harvester. This is to prevent some
 --- harvesters like the OXBO MKB-4TR driving with the bunker up right after unloading, as with the bunker up they
 --- are not able to harvest
-function PipeController:isInAllowedState()
+function PipeController:isInAllowedState(state)
     if self.pipeSpec.hasMovablePipe then
         if next(self.pipeSpec.turnOnAllowedStates) ~= nil then
             local isAllowed = false
             for pipeState,_ in pairs(self.pipeSpec.turnOnAllowedStates) do
-                if pipeState == self.pipeSpec.currentState then
+                if pipeState == (state or self.pipeSpec.currentState) then
                     isAllowed = true
                     break
                 end

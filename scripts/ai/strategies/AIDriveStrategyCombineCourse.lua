@@ -92,6 +92,8 @@ function AIDriveStrategyCombineCourse:init(task, job)
     self.unloaderRequestedToIgnoreProximity = CpTemporaryObject()
     -- we want to keep to pipe open, even if there is no trailer under it
     self.forcePipeOpen = CpTemporaryObject()
+    -- and sometimes, we want to keep it close, even if there is a trailer under it
+    self.forcePipeClose = CpTemporaryObject()
     self.pocketHelperNode = HelperTerrainNode('pocketHelperNode')
     --- Register info texts
     self:registerInfoTextForStates(self:getFillLevelInfoText(), {
@@ -249,6 +251,11 @@ function AIDriveStrategyCombineCourse:getDriveData(dt, vX, vY, vZ)
             end
         elseif self:shouldWaitAtEndOfRow() then
             self:startWaitingForUnloadBeforeNextRow()
+        end
+
+        if not self.pipeController:isInAllowedState() then
+            self:debugSparse('Pipe is not in allowed state, stop')
+            self:setMaxSpeed(0)
         end
 
         if self:shouldStopForUnloading() then
@@ -667,21 +674,10 @@ function AIDriveStrategyCombineCourse:reconfirmRendezvous()
 end
 
 function AIDriveStrategyCombineCourse:isUnloadFinished()
-    local discharging = true
-    local dischargingNow = self:isDischarging()
-    --wait for 10 frames before taking discharging as false
-    if not dischargingNow then
-        self.notDischargingSinceLoopIndex = self.notDischargingSinceLoopIndex and self.notDischargingSinceLoopIndex or g_updateLoopIndex
-        if g_updateLoopIndex - self.notDischargingSinceLoopIndex > 10 then
-            discharging = false
-        end
-    else
-        self.notDischargingSinceLoopIndex = nil
-    end
     local fillLevel = self.combineController:getFillLevel()
     -- unload is done when fill levels are ok (not full) and not discharging anymore (either because we
     -- are empty or the trailer is full)
-    return (not self:isFull() and not discharging) or fillLevel < 0.1
+    return (not self:isFull() and self.pipeController:justStoppedDischarging()) or fillLevel < 0.1
 end
 
 function AIDriveStrategyCombineCourse:isFull(fillLevelFullPercentage)
@@ -1493,7 +1489,11 @@ function AIDriveStrategyCombineCourse:handleCombinePipe(dt)
     -- don't open the pipe while turning or driving to self unload
     -- open it when there's a trailer in range or when AutoDrive wants us to open it
     if self:isPipeOpenEnabled() and (self:isAGoodTrailerInRange() or self:isAutoDriveWaitingForPipe()) then
-        self.pipeController:openPipe()
+        if not self.forcePipeClose:get() then
+            -- just closed it after unloading, don't open it again right away, wait a bit, as we should now be moving
+            -- away from the trailer
+            self.pipeController:openPipe()
+        end
     else
         if not self.forcePipeOpen:get() then
             -- when driving to self unload, we may open the pipe well before reaching the trailer to avoid
@@ -1501,6 +1501,19 @@ function AIDriveStrategyCombineCourse:handleCombinePipe(dt)
             -- upwards
             self.pipeController:closePipe(true)
         end
+    end
+    -- Close the pipe if configured to do so after unloading
+    if self.pipeController:isPipeOpen() and self.pipeController:justStoppedDischarging() then
+        if g_vehicleConfigurations:get(self.vehicle, 'closePipeAfterUnload') then
+            self:debug('Closing pipe after unloading done.')
+            self.pipeController:closePipe()
+            -- TODO: now with the canWorkWhenOpen() check we may not need this anymore
+            self.forcePipeClose:set(true, 2000)
+        end
+    end
+    if self.forcePipeClose:get() and self.pipeController:isSomethingInRange() then
+        self.forcePipeClose:setAndProlong(true, 2000)
+        self:debug('Pipe open disabled, trailer still in range after unloading...')
     end
 end
 
@@ -1511,6 +1524,9 @@ function AIDriveStrategyCombineCourse:isPipeOpenEnabled()
     elseif self.state == self.states.UNLOADING_ON_FIELD and
             self:isUnloadStateOneOf(self.drivingToSelfUnloadStates) and not self:isCloseToCourseEnd(10) then
         return false
+    elseif self.state == self.states.WORKING then
+        -- do not open pipe if it is not in a state allowed for working
+        return true or self.pipeController:canWorkWhenOpen()
     else
         return true
     end

@@ -307,7 +307,7 @@ function ShovelController:startDischargeToGround(dischargeNode)
 end
 
 --- Callback for the drive strategy, when the unloading finished.
-function ShovelController:setFinishDischargeCallback(finishDischargeCallback)
+function ShovelController:setFinishDischargeToGroundCallback(finishDischargeCallback)
     self.sugarCaneTrailer.finishDischargeCallback = finishDischargeCallback
 end
 
