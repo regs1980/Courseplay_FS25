@@ -1511,9 +1511,12 @@ function AIDriveStrategyCombineCourse:handleCombinePipe(dt)
             self.forcePipeClose:set(true, 2000)
         end
     end
+    -- This is to avoid reopening the pipe, if it is configured to close after unloading.
+    -- After unloading finished, check for anything in range, ignore trailer fill state, as all we want
+    -- is to wait until the trailer is out of range.
     if self.forcePipeClose:get() and self.pipeController:isSomethingInRange() then
         self.forcePipeClose:setAndProlong(true, 2000)
-        self:debug('Pipe open disabled, trailer still in range after unloading...')
+        self:debugSparse('Pipe open disabled, trailer still in range after unloading...')
     end
 end
 
@@ -1524,9 +1527,6 @@ function AIDriveStrategyCombineCourse:isPipeOpenEnabled()
     elseif self.state == self.states.UNLOADING_ON_FIELD and
             self:isUnloadStateOneOf(self.drivingToSelfUnloadStates) and not self:isCloseToCourseEnd(10) then
         return false
-    elseif self.state == self.states.WORKING then
-        -- do not open pipe if it is not in a state allowed for working
-        return true or self.pipeController:canWorkWhenOpen()
     else
         return true
     end
