@@ -73,7 +73,6 @@ end
 ---@param isStartPositionInvalid boolean resets the drive to target position by giants and the field position to the vehicle position.
 function CpAIJobFieldWork:applyCurrentState(vehicle, mission, farmId, isDirectStart, isStartPositionInvalid)
     CpAIJob.applyCurrentState(self, vehicle, mission, farmId, isDirectStart)
-    print('CpAIJobFieldWork:applyCurrentState')
     if isStartPositionInvalid then
         local x, _, z = getWorldTranslation(vehicle.rootNode)
         local dirX, _, dirZ = localDirectionToWorld(vehicle.rootNode, 0, 0, 1)
@@ -94,7 +93,6 @@ end
 
 --- Checks the field position setting.
 function CpAIJobFieldWork:validateFieldSetup(isValid, errorMessage)
-    print('CpAIJobFieldWork:validateFieldSetup')
     if not isValid then
         return isValid, errorMessage
     end
