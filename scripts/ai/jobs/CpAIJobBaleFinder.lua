@@ -90,7 +90,7 @@ function CpAIJobBaleFinder:validateFieldPosition(isValid, errorMessage)
 	if tx == nil or tz == nil then 
 		return false, g_i18n:getText("CP_error_not_on_field")
 	end
-	local fieldPolygon, _ = CpFieldUtil.getFieldPolygonAtWorldPosition(tx, tz)
+		local fieldPolygon, _ = CpFieldUtil.getFieldPolygonAtWorldPosition(tx, tz)
 	self:setFieldPolygon(fieldPolygon)
 	if fieldPolygon then 
 		self.selectedFieldPlot:setWaypoints(fieldPolygon)

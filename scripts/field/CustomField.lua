@@ -106,6 +106,7 @@ function CustomField:getFieldNumber()
     return s and tonumber(s)
 end
 
+---@return [{x, z}] vertices of the field polygon
 function CustomField:getVertices()
     return self.vertices
 end
