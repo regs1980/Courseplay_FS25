@@ -74,13 +74,13 @@ function CpAIJobCombineUnloader:applyCurrentState(vehicle, mission, farmId, isDi
 		x, _, z = getWorldTranslation(vehicle.rootNode)
 		self.cpJobParameters.fieldPosition:setPosition(x, z)
 	end
-	local x, z = self.cpJobParameters.fieldUnloadPosition:getPosition()
+	x, z = self.cpJobParameters.fieldUnloadPosition:getPosition()
 	local angle = self.cpJobParameters.fieldUnloadPosition:getAngle()
 	-- no field position from the previous job, use the vehicle's current position
 	if x == nil or z == nil or angle == nil then
 		x, _, z = getWorldTranslation(vehicle.rootNode)
 		local dirX, _, dirZ = localDirectionToWorld(vehicle.rootNode, 0, 0, 1)
-		local angle = MathUtil.getYRotationFromDirection(dirX, dirZ)
+		angle = MathUtil.getYRotationFromDirection(dirX, dirZ)
 		self.cpJobParameters.fieldUnloadPosition:setPosition(x, z)
 		self.cpJobParameters.fieldUnloadPosition:setAngle(angle)
 	end
@@ -140,7 +140,7 @@ function CpAIJobCombineUnloader:validate(farmId)
 	------------------------------------
 	--- Validate selected field
 	-------------------------------------
-	local isValid, errorMessage = self:validateFieldPosition(isValid, errorMessage)
+	isValid, errorMessage = self:validateFieldPosition(isValid, errorMessage)
 
 	if not isValid then
 		return isValid, errorMessage

@@ -203,6 +203,7 @@ function CustomFieldManager:onClickRenameDialog(newName, clickOk, fieldToRename)
     end
 end
 
+---@return CustomField|nil first custom field found at the given x and z coordinates.
 function CustomFieldManager:getCustomField(x, z)
     for _, field in pairs(self.fields) do
         if field:isPointOnField(x, z) then
