@@ -111,8 +111,8 @@
     <!---->
     <!--AI error messages-->
     <!---->
-    <text name="CP_ai_messageErrorIsFull" text="Il lavoratore IA %s ha feramto il lavoro - il cassone è pieno!"/>
-    <text name="CP_ai_messageError" text="Il lavoratore IA %s ha feramto il lavoro - ha lasciato il percorso!"/>
+    <text name="CP_ai_messageErrorIsFull" text="Il lavoratore IA %s ha fermato il lavoro - il cassone è pieno!"/>
+    <text name="CP_ai_messageError" text="Il lavoratore IA %s ha fermato il lavoro - ha lasciato il percorso!"/>
     <text name="CP_ai_messageErrorWrongBaleWrapType" text="L'operatore CP %s ha interrotto il lavoro in modo imprevisto - non sono state trovate balle del tipo selezionato!"/>
     <text name="CP_ai_messageErrorNoPathFound" text="L'operatore IA %s ha interrotto il lavoro in modo imprevisto - nessun percorso trovato!"/>
     <text name="CP_ai_messageErrorGroundUnloadNotSupported" text="Il lavoratore IA %s ha interrotto il lavoro in modo imprevisto - lo scarico sul campo non è possibile!"/>
@@ -373,7 +373,7 @@
     <text name="CP_global_setting_waitForRefueling_title" text="In attesa del rifornimento"/>
     <text name="CP_global_setting_waitForRefueling_tooltip" text="Il veicolo attende il rifornimento."/>
     <text name="CP_global_setting_brokenThreshold_title" text="Livello riparazione"/>
-    <text name="CP_global_setting_brokenThreshold_tooltip" text="Il conducente verrà feramto se il veicolo od un attrezzo ha un livello di riparazione basso. Al 100% è spento."/>
+    <text name="CP_global_setting_brokenThreshold_tooltip" text="Il conducente verrà fermato se il veicolo od un attrezzo ha un livello di riparazione basso. Al 100% è spento."/>
     <text name="CP_global_setting_stopThreshingDuringRain_title" text="Ferma la mietitrebbia quando piove."/>
     <text name="CP_global_setting_stopThreshingDuringRain_tooltip" text="Se l'impostazione è attiva, tutti i mietitori aspettano che smetta di piovere."/>
     <text name="CP_global_setting_fruitDestruction_title" text="Distruzione del raccolto dell'aiutante IA"/>
