@@ -168,6 +168,7 @@ end
 
 --- Updates the parameter values.
 function CpAIJob:applyCurrentState(vehicle, mission, farmId, isDirectStart)
+	-- the only thing this does, is setting self.isDirectStart
 	AIJob.applyCurrentState(self, vehicle, mission, farmId, isDirectStart)
 	self.vehicleParameter:setVehicle(vehicle)
 	if not self.cpJobParameters or not self.cpJobParameters.startPosition then 
@@ -233,6 +234,7 @@ function CpAIJob:setValues()
 end
 
 --- Is the job valid?
+---@param farmId number not used
 function CpAIJob:validate(farmId)
 	--- TODO_25
 	-- self:setParamterValid(true)
