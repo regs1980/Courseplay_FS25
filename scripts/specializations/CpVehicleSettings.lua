@@ -418,7 +418,7 @@ end
 function CpVehicleSettings:setAutomaticBaleCollectorOffset()
     if self.isServer then
         local spec = self.spec_cpVehicleSettings
-        local halfVehicleWidth = AIUtil.getWidth(self) / 2
+        local halfVehicleWidth = AIUtil.getWidth(self, 3) / 2
         local configValue = g_vehicleConfigurations:getRecursively(self, "baleCollectorOffset")
         local offset = configValue ~= nil and configValue or halfVehicleWidth + 0.2
         spec.baleCollectorOffset:setFloatValue(offset)
