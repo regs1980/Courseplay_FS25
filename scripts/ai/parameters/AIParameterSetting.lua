@@ -43,6 +43,14 @@ function AIParameterSetting:getTitle()
 	return g_i18n:getText(self.title)
 end
 
+--- Gets a translation text for texts like these: "CP_fieldWorkJobParameters_startAt_nearest",
+--- where "nearest" the sub name is.
+---@param subName string
+---@return string
+function AIParameterSetting:getSubText(subName)
+	return g_i18n:getText(self.data.setupName .. "_" .. subName)
+end
+
 function AIParameterSetting:getType()
 	return self.guiParameterType	
 end
