@@ -974,6 +974,8 @@ function CpCourseGeneratorFrame:generateFieldworkCourse()
 				nil, nil, DialogElement.TYPE_ERROR)
 			return
 		end
+		self:validateParameters()
+		self:updateParameterValueTexts()
 	end)
 	return true
 end
@@ -1596,8 +1598,8 @@ function CpCourseGeneratorFrame:setActiveJobTypeSelection(jobTypeIndex)
 				end
 			end
 		end
-		self:updateParameterValueTexts()
 		self:validateParameters()
+		self:updateParameterValueTexts()
 		self.jobMenuLayout:invalidateLayout()
 		FocusManager:setFocus(self.jobTypeElement)
 		self:updateCourseGenerator(self.currentJob.is_a and self.currentJob:is_a(CpAIJobFieldWork), self.currentJobVehicle)

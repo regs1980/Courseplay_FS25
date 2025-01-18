@@ -180,6 +180,7 @@ function CpSettingsUtil.loadSettingsFromSetup(class, filePath)
 			local settingParameters = {}
 			settingParameters.classType = xmlFile:getValue(baseKey.."#classType")
 			settingParameters.name = xmlFile:getValue(baseKey.."#name")
+			settingParameters.setupName = setupKey..settingParameters.name
 			local title = xmlFile:getValue(baseKey.."#title")
 			if title then
 				settingParameters.title = title
