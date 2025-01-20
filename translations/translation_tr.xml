@@ -17,6 +17,7 @@
     <text name="CP_infoText" text="Courseplay(%s): Yardım almak, hata raporları veya yama notlarını görüntülemek için lütfen şu adresi ziyaret edin: https://github.com/Courseplay/Courseplay_FS25."/>
     <text name="CP_error_no_course" text="İşe başlamadan önce bir rota oluşturun."/>
     <text name="CP_error_could_not_generate_course" text="Rota oluşturulamadı. Günlükte daha fazla bilgi bulunabilir."/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
     <text name="CP_error_not_on_field" text="Hedef, bir tarlada değil."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Boşaltıcı tarladan çok uzakta."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Başlangıç konumu tarladan çok uzakta."/>

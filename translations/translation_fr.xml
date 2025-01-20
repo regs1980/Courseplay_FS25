@@ -17,6 +17,7 @@
     <text name="CP_infoText" text="Courseplay(%s): Pour toute demande d'assistance, signalement de bug ou suivi des mises à jour, rendez vous sur le site officiel : https://github.com/Courseplay/Courseplay_FS22."/>
     <text name="CP_error_no_course" text="Générez ou chargez une course avant de démarrer la tâche"/>
     <text name="CP_error_could_not_generate_course" text="Impossible de générer la course. Plus d'informations dans le journal."/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
     <text name="CP_error_not_on_field" text="Le point de départ n'est pas dans un champ"/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Benne ou transbordeur trop éloigné(e) du champ."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Position de départ trop éloignée du champ."/>
