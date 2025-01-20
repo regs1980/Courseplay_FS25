@@ -109,35 +109,42 @@ function CpAIJobFieldWork:validateFieldSetup()
     if tx == nil or tz == nil then
         return false, g_i18n:getText("CP_error_not_on_field")
     end
-    if self.fieldPolygonPosition then
-        if self.fieldPolygonPosition.x == tx and self.fieldPolygonPosition.z == tz then
-            self.logger:debug(vehicle, 'Field position still at %.1f/%.1f, do not detect field boundary again', tx, tz)
-            return true, ''
-        end
+    if vehicle:cpIsFieldBoundaryDetectionRunning() then
+        return false, g_i18n:getText("CP_error_field_detection_still_running")
+    end
+    local x, z = vehicle:cpGetFieldPosition()
+    if x == tx and z == tz then
+        self.logger:debug(vehicle, 'Field position still at %.1f/%.1f, do not detect field boundary again', tx, tz)
+        return true, ''
     end
     self.logger:debug(vehicle, 'Field position changed to %.1f/%.1f, start field boundary detection', tx, tz)
     self.hasValidPosition = false
     self.foundVines = nil
-    local fieldPolygon
-    fieldPolygon, self.isCustomField = CpFieldUtil.getFieldPolygonAtWorldPosition(tx, tz)
+
+    vehicle:cpDetectFieldBoundary(tx, tz, self, CpAIJobFieldWork.onFieldBoundaryDetectionFinished)
+    -- TODO: return false and nothing, as the detection is still running?
+end
+
+function CpAIJobFieldWork:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+
     self:setFieldPolygon(fieldPolygon)
     if fieldPolygon then
         self.hasValidPosition = true
-        self.fieldPolygonPosition = { x = tx, z = tz }
-        self.foundVines = g_vineScanner:findVineNodesInField(fieldPolygon, tx, tz, self.customField ~= nil)
+        local x, z = vehicle:cpGetFieldPosition()
+        self.foundVines = g_vineScanner:findVineNodesInField(fieldPolygon, x, z, self.customField ~= nil)
         if self.foundVines then
             CpUtil.debugVehicle(CpDebug.DBG_FIELDWORK, vehicle, "Found vine nodes, generating a vine field border.")
-            fieldPolygon = g_vineScanner:getCourseGeneratorVertices(0, tx, tz)
+            fieldPolygon = g_vineScanner:getCourseGeneratorVertices(0, x, z)
         end
         self.selectedFieldPlot:setWaypoints(fieldPolygon)
         self.selectedFieldPlot:setVisible(true)
         self.selectedFieldPlot:setBrightColor(true)
     else
         self.selectedFieldPlot:setVisible(false)
+        -- TODO: here we need to tell somehow the frame about the detection success/failure
         return false, g_i18n:getText("CP_error_not_on_field")
     end
-
-    return true, ''
+    -- TODO: here we need to tell somehow the frame about the detection success/failure
 end
 
 function CpAIJobFieldWork:setValues()

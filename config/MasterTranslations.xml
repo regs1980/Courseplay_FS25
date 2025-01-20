@@ -47,6 +47,10 @@
 			<Text language="de"><![CDATA[Konnte keinen Kurs generieren. Bitte versuchen es mit anderen Einstellungen.]]></Text>
 			<Text language="en"><![CDATA[Could not generate course. Please try other settings.]]></Text>
 		</Translation>
+		<Translation name="CP_error_field_detection_still_running">
+			<Text language="de"><![CDATA[Felderkennung läuft noch.]]></Text>
+			<Text language="en"><![CDATA[Field detection still running.]]></Text>
+		</Translation>
 		<Translation name="CP_error_not_on_field">
 			<Text language="de"><![CDATA[Ziel ist nicht auf einem Feld.]]></Text>
 			<Text language="en"><![CDATA[Target is not on a field.]]></Text>
