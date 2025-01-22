@@ -94,10 +94,25 @@ function AIDriveStrategyFieldWorkCourse:start(course, startIx, jobParameters)
     --- Store a reference to the original generated course
     self.originalGeneratedFieldWorkCourse = self.vehicle:getFieldWorkCourse()
 
-    if self.fieldPolygon == nil then
-        self:debug("No field polygon received, so regenerate it by the course.")
-        self.fieldPolygon = self.fieldWorkCourse:getFieldPolygon()
+    if self:needsFieldPolygon() then
+        self.fieldPolygon = self.vehicle:cpGetFieldPolygon()
+        if self.fieldPolygon == nil then
+            self:debug("Need field boundary to work, start detection now.")
+            -- TODO: should really store the field position (or the polygon itself?) with the course, as
+            -- in some rare cases, for instance when using field margin, the start waypoint may be outside
+            -- of the field, and thus the detection won't work.
+            local x, _, z = self.fieldWorkCourse:getWaypointPosition(startIx)
+            -- no callback, haveFieldPolygon() will take care of the result
+            self.vehicle:cpDetectFieldBoundary(x, z)
+        end
     end
+end
+
+--- If the strategy needs a field polygon to work, it won't transition out of the INITIAL state
+--- until the field detection, an asynchronous process that may have started only when the job was started, is finished.
+---@return boolean true if the strategy needs the field polygon to work
+function AIDriveStrategyFieldWorkCourse:needsFieldPolygon()
+    return false
 end
 
 --- Make sure all implements are in the working state
@@ -163,8 +178,11 @@ function AIDriveStrategyFieldWorkCourse:getDriveData(dt, vX, vY, vZ)
     ----------------------------------------------------------------
     if self.state == self.states.INITIAL then
         self:setMaxSpeed(0)
-        self:startWaitingForLower()
-        self:lowerImplements()
+        if not self:needsFieldPolygon() or (self:needsFieldPolygon() and self:haveFieldPolygon()) then
+            -- continue only if we have the field polygon, if we need it.
+            self:startWaitingForLower()
+            self:lowerImplements()
+        end
     elseif self.state == self.states.WAITING_FOR_LOWER then
         self:setMaxSpeed(0)
         if self:getCanContinueWork() then
@@ -753,10 +771,6 @@ function AIDriveStrategyFieldWorkCourse:setAllStaticParameters()
     self:setFrontAndBackMarkers()
     self.loweringDurationMs = AIUtil.findLoweringDurationMs(self.vehicle)
     self.fieldWorkerProximityController = FieldWorkerProximityController(self.vehicle, self.workWidth)
-end
-
-function AIDriveStrategyFieldWorkCourse:setFieldPolygon(polygon)
-    self.fieldPolygon = polygon
 end
 
 -----------------------------------------------------------------------------------------------------------------------

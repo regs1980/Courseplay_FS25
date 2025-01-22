@@ -20,6 +20,8 @@ end
 function CpCourseGenerator.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onUpdate", CpCourseGenerator)
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", CpCourseGenerator)
+    SpecializationUtil.registerEventListener(vehicleType, "onReadStream", CpCourseGenerator)
+    SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", CpCourseGenerator)
 end
 
 function CpCourseGenerator.registerFunctions(vehicleType)
@@ -45,7 +47,7 @@ end
 function CpCourseGenerator:cpDetectFieldBoundary(x, z, object, onFinishedFunc)
     local spec = self.spec_cpCourseGenerator
     if spec.isFieldBoundaryDetectionRunning then
-        self.logger:warning(self, 'Not starting field boundary detection for %.1f/%.1f, previous for %.1f/%.1f is still running',
+        spec.logger:warning(self, 'Not starting field boundary detection for %.1f/%.1f, previous for %.1f/%.1f is still running',
                 x, z, spec.position.x, spec.position.z)
         return
     end
@@ -78,10 +80,12 @@ function CpCourseGenerator:onUpdate(dt)
             spec.fieldPolygon = spec.fieldBoundaryDetector:getFieldPolygon()
             spec.islandPolygons = spec.fieldBoundaryDetector:getIslandPolygons()
             spec.fieldBoundaryDetector = nil
-            if spec.object then
+            if spec.object and spec.onFinishedFunc then
                 spec.onFinishedFunc(spec.object, self, spec.fieldPolygon, spec.islandPolygons)
-            else
+            elseif spec.onFinishedFunc then
                 spec.onFinishedFunc(self, spec.fieldPolygon, spec.islandPolygons)
+            else
+                spec.logger:debug('Field boundary detection finished, but no callback given')
             end
         end
     end
@@ -108,5 +112,35 @@ function CpCourseGenerator:cpDrawFieldPolygon()
         for _, p in ipairs(spec.islandPolygons) do
             drawPolygon(p)
         end
+    end
+end
+
+function CpCourseGenerator:onReadStream(streamId, connection)
+    local spec = self.spec_cpCourseGenerator
+    local numVertices = streamReadInt32(streamId)
+    if numVertices == 0 then
+        spec.fieldPolygon = nil
+    else
+        spec.fieldPolygon = {}
+        for _ = 1, numVertices do
+            local x = streamReadFloat32(streamId)
+            local y = streamReadFloat32(streamId)
+            local z = streamReadFloat32(streamId)
+            table.insert(spec.fieldPolygon, { x = x, y = y, z = z })
+        end
+    end
+end
+
+function CpCourseGenerator:onWriteStream(streamId, connection)
+    local spec = self.spec_cpCourseGenerator
+    if spec.fieldPolygon then
+        streamWriteInt32(streamId, #spec.fieldPolygon)
+        for _, point in pairs(spec.fieldPolygon) do
+            streamWriteFloat32(streamId, point.x)
+            streamWriteFloat32(streamId, point.y)
+            streamWriteFloat32(streamId, point.z)
+        end
+    else
+        streamWriteInt32(streamId, 0)
     end
 end

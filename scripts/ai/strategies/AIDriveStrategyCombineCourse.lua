@@ -122,6 +122,14 @@ function AIDriveStrategyCombineCourse:getStateAsString()
     return s
 end
 
+--- Combine needs a field polygon for the self-unload to work. Although it is a user setting, but it can be
+--- changed during the work, so we always require the field polygon, regardless of the setting, as it is checked
+--- only after starting the CP driver.
+---@return boolean true if the strategy needs the field polygon to work
+function AIDriveStrategyCombineCourse:needsFieldPolygon()
+    return true
+end
+
 -----------------------------------------------------------------------------------------------------------------------
 --- Initialization
 -----------------------------------------------------------------------------------------------------------------------

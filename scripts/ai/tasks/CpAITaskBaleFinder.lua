@@ -1,12 +1,11 @@
 
----@class CpAIJobBaleFinder : CpAITask
+---@class CpAITaskBaleFinder : CpAITask
 CpAITaskBaleFinder = CpObject(CpAITask)
 
 function CpAITaskBaleFinder:start()	
 	if self.isServer then
 		self:debug("CP bale finder task started.")
 		local strategy = AIDriveStrategyFindBales(self, self.job)
-		strategy:setFieldPolygon(self.job:getFieldPolygon())
 		strategy:setAIVehicle(self.vehicle, self.job:getCpJobParameters())
 		self.vehicle:startCpWithStrategy(strategy)
 	end

@@ -54,6 +54,13 @@ function AIMessageErrorWrongMissionFruitType:getI18NText()
 	return g_i18n:getText("CP_ai_messageErrorWrongMissionFruitType")
 end
 
+---@class AIMessageErrorTooFarFromField
+AIMessageErrorTooFarFromField = CpObject(AIMessage, AIMessage.new)
+AIMessageErrorTooFarFromField.name = "CP_ERROR_TOO_FAR_FROM_FIELD"
+function AIMessageErrorTooFarFromField:getI18NText()
+	return g_i18n:getText("CP_ai_messageErrorTooFarFromField")
+end
+
 CpAIMessages = {}
 function CpAIMessages.register()
 	local function register(messageClass)
@@ -67,6 +74,7 @@ function CpAIMessages.register()
 	register(AIMessageErrorCutterNotSupported)
 	register(AIMessageErrorAutomaticCutterAttachNotActive)
 	register(AIMessageErrorWrongMissionFruitType)
+	register(AIMessageErrorTooFarFromField)
 end
 
 --- Another ugly hack, as the giants code to get the message index in mp isn't working ..

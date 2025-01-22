@@ -25,6 +25,7 @@ AIDriveStrategyCourse = CpObject()
 AIDriveStrategyCourse.myStates = {
     INITIAL = {},
     WAITING_FOR_PATHFINDER = {},
+    WAITING_FOR_FIELD_BOUNDARY_DETECTION = {},
 }
 
 --- Implement controller events.
@@ -702,5 +703,33 @@ function AIDriveStrategyCourse:updateInfoTexts()
         else
             self:clearInfoText(infoText)
         end
+    end
+end
+
+------------------------------------------------------------------------------------------------------------------------
+--- Field boundary detection
+---------------------------------------------------------------------------------------------------------------------------
+--- Some strategies need to know the field boundaries. Bale finder must search for bales on the field, combine
+--- unload will look for harvesters on the field, self-unload will look for trailers around the field. When
+--- these strategies are started directly from the HUD or by a shortcut, they won't necessarily have a the
+--- field boundary yet, as detection is an asynchronous process. Once the detection is done, the field polygon is
+--- available in the CpCourseGenerator specialization by calling cpGetFieldPolygon().
+---
+--- Strategies that need the boundary should set the state WAITING_FOR_FIELD_BOUNDARY_DETECTION and call this on
+--- until it returns true and only then transition to the INITIAL state.
+---
+---@return boolean true if the field boundary is already available
+function AIDriveStrategyCourse:haveFieldPolygon()
+    if self.fieldPolygon == nil then
+        if self.vehicle:cpGetFieldPolygon() then
+            self:clearInfoText(InfoTextManager.WAITING_FOR_FIELD_BOUNDARY_DETECTION)
+            self.fieldPolygon = self.vehicle:cpGetFieldPolygon()
+            return true
+        else
+            self:setInfoText(InfoTextManager.WAITING_FOR_FIELD_BOUNDARY_DETECTION)
+            return false
+        end
+    else
+        return true
     end
 end

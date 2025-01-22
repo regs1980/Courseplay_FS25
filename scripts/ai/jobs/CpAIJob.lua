@@ -248,6 +248,38 @@ function CpAIJob:validate(farmId)
 	return isValid, errorMessage
 end
 
+--- Start an asynchronous field boundary detection. Results are delivered by the callback
+--- onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+--- If the field position hasn't changed since the last call, the detection is skipped and this returns true.
+--- In that case, the polygon from the previous run is still available from vehicle:cpGetFieldPolygon()
+---@return boolean, string TODO
+function CpAIJob:detectFieldBoundary()
+	local vehicle = self.vehicleParameter:getVehicle()
+
+	local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
+	if tx == nil or tz == nil then
+		return false, g_i18n:getText("CP_error_not_on_field")
+	end
+	if vehicle:cpIsFieldBoundaryDetectionRunning() then
+		return false, g_i18n:getText("CP_error_field_detection_still_running")
+	end
+	local x, z = vehicle:cpGetFieldPosition()
+	if x == tx and z == tz then
+		self:debug('Field position still at %.1f/%.1f, do not detect field boundary again', tx, tz)
+		return true, ''
+	end
+	self:debug('Field position changed to %.1f/%.1f, start field boundary detection', tx, tz)
+	self.foundVines = nil
+
+	vehicle:cpDetectFieldBoundary(tx, tz, self, self.onFieldBoundaryDetectionFinished)
+	-- TODO: return false and nothing, as the detection is still running?
+	return true, g_i18n:getText('CP_error_field_detection_still_running')
+end
+
+function CpAIJob:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+	-- override in the derived classes to handle the detected field boundary
+end
+
 function CpAIJob:getIsStartable(connection)
 
 	local vehicle = self.vehicleParameter:getVehicle()

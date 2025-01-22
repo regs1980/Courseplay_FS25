@@ -166,7 +166,6 @@ function CourseGeneratorInterface:generate(fieldPolygon,
     local course = Course.createFromGeneratedCourse(vehicle, self.generatedCourse,
             settings.workWidth:getValue(), numberOfHeadlands, settings.multiTools:getValue(),
             settings.headlandClockwise:getValue(), settings.islandHeadlandClockwise:getValue(), not settings.useBaseLineEdge:getValue())
-    course:setFieldPolygon(fieldPolygon)
     self:setCourse(vehicle, course)
     return true, course
 end
@@ -228,7 +227,6 @@ function CourseGeneratorInterface:generateVineCourse(
 
     local course = Course.createFromGeneratedCourse(vehicle, self.generatedCourse,
             workWidth, 0, multiTools, true, true, true)
-    course:setFieldPolygon(fieldPolygon)
     self:setCourse(vehicle, course)
     return true, course
 end

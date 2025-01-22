@@ -10,11 +10,10 @@ CpAIJobFieldWork.jobName = "CP_job_fieldWork"
 CpAIJobFieldWork.GenerateButton = "FIELDWORK_BUTTON"
 function CpAIJobFieldWork:init(isServer)
     CpAIJob.init(self, isServer)
-    self.logger = Logger('CpAIJobFieldWork', nil, CpDebug.DBG_FIELDWORK)
-    self.hasValidPosition = false
     self.foundVines = nil
     self.selectedFieldPlot = FieldPlot(true)
     self.selectedFieldPlot:setVisible(false)
+    self.selectedFieldPlot:setBrightColor(true)
     self.courseGeneratorInterface = CourseGeneratorInterface()
 end
 
@@ -77,7 +76,6 @@ end
 ---@param isDirectStart boolean disables the drive to by giants
 ---@param resetToVehiclePosition boolean resets the drive to target position by giants and the field position to the vehicle position.
 function CpAIJobFieldWork:applyCurrentState(vehicle, mission, farmId, isDirectStart, resetToVehiclePosition)
-    print('********************** Apply current state **********************')
     CpAIJob.applyCurrentState(self, vehicle, mission, farmId, isDirectStart)
     if resetToVehiclePosition then
         -- set the start and the field position to the vehicle's position (
@@ -97,39 +95,16 @@ function CpAIJobFieldWork:applyCurrentState(vehicle, mission, farmId, isDirectSt
             self.cpJobParameters.fieldPosition:setPosition(x, z)
         end
     end
-end
-
---- Checks the field position setting.
-function CpAIJobFieldWork:validateFieldSetup()
-    print('********************** Validate field setup **********************')
-    local vehicle = self.vehicleParameter:getVehicle()
-
-    -- everything else is valid, now find the field
-    local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
-    if tx == nil or tz == nil then
-        return false, g_i18n:getText("CP_error_not_on_field")
+    local fieldPolygon = vehicle:cpGetFieldPolygon()
+    if fieldPolygon then
+        -- if we already have a field polygon, show it
+        self.selectedFieldPlot:setWaypoints(fieldPolygon)
+        self.selectedFieldPlot:setVisible(true)
     end
-    if vehicle:cpIsFieldBoundaryDetectionRunning() then
-        return false, g_i18n:getText("CP_error_field_detection_still_running")
-    end
-    local x, z = vehicle:cpGetFieldPosition()
-    if x == tx and z == tz then
-        self.logger:debug(vehicle, 'Field position still at %.1f/%.1f, do not detect field boundary again', tx, tz)
-        return true, ''
-    end
-    self.logger:debug(vehicle, 'Field position changed to %.1f/%.1f, start field boundary detection', tx, tz)
-    self.hasValidPosition = false
-    self.foundVines = nil
-
-    vehicle:cpDetectFieldBoundary(tx, tz, self, CpAIJobFieldWork.onFieldBoundaryDetectionFinished)
-    -- TODO: return false and nothing, as the detection is still running?
 end
 
 function CpAIJobFieldWork:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
-
-    self:setFieldPolygon(fieldPolygon)
     if fieldPolygon then
-        self.hasValidPosition = true
         local x, z = vehicle:cpGetFieldPosition()
         self.foundVines = g_vineScanner:findVineNodesInField(fieldPolygon, x, z, self.customField ~= nil)
         if self.foundVines then
@@ -138,7 +113,6 @@ function CpAIJobFieldWork:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon
         end
         self.selectedFieldPlot:setWaypoints(fieldPolygon)
         self.selectedFieldPlot:setVisible(true)
-        self.selectedFieldPlot:setBrightColor(true)
     else
         self.selectedFieldPlot:setVisible(false)
         -- TODO: here we need to tell somehow the frame about the detection success/failure
@@ -167,7 +141,7 @@ function CpAIJobFieldWork:validate(farmId)
 
     --- Only check the valid field position in the in game menu.
     if not self.isDirectStart then
-        isValid, errorMessage = self:validateFieldSetup()
+        isValid, errorMessage = self:detectFieldBoundary()
         if not isValid then
             return isValid, errorMessage
         end
@@ -190,7 +164,8 @@ function CpAIJobFieldWork:draw(map, isOverviewMap)
 end
 
 function CpAIJobFieldWork:getCanGenerateFieldWorkCourse()
-    return self.hasValidPosition
+    local vehicle = self:getVehicle()
+    return vehicle and vehicle:cpGetFieldPolygon() ~= nil and not vehicle:cpIsFieldBoundaryDetectionRunning()
 end
 
 -- To pass an alignment course from the drive to fieldwork start to the fieldwork, so the
