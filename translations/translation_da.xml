@@ -23,7 +23,6 @@
     <text name="CP_error_start_position_to_far_away_from_field" text="Startpunkt for langt væk fra marken."/>
     <text name="CP_error_giants_unloader_not_available" text="Giants aflæsser er ikke tilgængelig."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Aflæsningspunket er for langt væk fra marken."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Køretøjet er for langt væk fra marken til at starte."/>
     <text name="CP_error_no_bunkerSilo_found" text="Ingen silo fundet."/>
     <text name="CP_error_no_heap_found" text="Ingen silo fundet."/>
     <text name="CP_error_no_unload_trigger_found" text="Intet aflæsningspunkt fundet."/>
@@ -120,6 +119,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="AI-medarbejder %s har stoppet arbejdet uventet - attaching of the header is impossible!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI-medarbejder %s har stoppet arbejdet uventet - automatic cutter attach disabled!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI-medarbejder %s har stoppet arbejdet uventet - wrong fill type for mission selected!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -488,6 +488,7 @@ Ruten gemmes automatisk ved lukning af editoren og tilsidesætter den valgte rut
     <text name="CP_infoTexts_workFinished" text="Arbejdet er udført"/>
     <text name="CP_infoTexts_drivingToCombine" text="køre til mejetærsker"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="køre til anhænger"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="Ikke nok penge"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Venter på at regnen stopper"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Waits for snow to disappear"/>

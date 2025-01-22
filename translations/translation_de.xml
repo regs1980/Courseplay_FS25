@@ -23,7 +23,6 @@
     <text name="CP_error_start_position_to_far_away_from_field" text="Startposition ist zu weit vom Feld entfernt."/>
     <text name="CP_error_giants_unloader_not_available" text="Giants Ablader nicht möglich."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Feldabladeposition ist zu weit vom Feld entfernt."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Fahrzeug ist zu weit vom Feld entfernt."/>
     <text name="CP_error_no_bunkerSilo_found" text="Kein Silo gefunden."/>
     <text name="CP_error_no_heap_found" text="Keinen Haufen gefunden."/>
     <text name="CP_error_no_unload_trigger_found" text="Keinen Abladepunkt gefunden."/>
@@ -120,6 +119,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="Helfer %s hat die Arbeit gestoppt - Ankuppeln des Schneidwerks nicht möglich!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="Helfer %s hat die Arbeit gestoppt - Schneidwerk automatisch ankuppeln deaktiviert!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="Helfer %s hat die Arbeit gestoppt - Falsche Frucht für die Mission ausgewählt!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Fahrzeug ist zu weit vom Feld entfernt."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -488,6 +488,7 @@ Der Kurs wird beim Schließen automatisch gespeichert und überschrieben.
     <text name="CP_infoTexts_workFinished" text="Arbeit beendet"/>
     <text name="CP_infoTexts_drivingToCombine" text="Fährt zum Drescher"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="ÜLW entladen"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Felderkennung"/>
     <text name="CP_infoTexts_outOfMoney" text="Kein Geld mehr"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Warte auf besseres Wetter"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Warte solange Schnee liegt"/>

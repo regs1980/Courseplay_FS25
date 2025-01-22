@@ -23,7 +23,6 @@
     <text name="CP_error_start_position_to_far_away_from_field" text="起始点距离田地太远。"/>
     <text name="CP_error_giants_unloader_not_available" text="找不到卸载位置。"/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="田地卸载点距离该田地太远。"/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="车辆距离田地太远，无法启动。"/>
     <text name="CP_error_no_bunkerSilo_found" text="找不到筒仓或青贮池。"/>
     <text name="CP_error_no_heap_found" text="找不到筒仓或青贮池。"/>
     <text name="CP_error_no_unload_trigger_found" text="找不到卸载位置。"/>
@@ -120,6 +119,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="AI 工人 %s 已意外停止工作- 无法连接收割台！"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI 工人 %s 已意外停止工作 - 禁用自动切割器连接！"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI 工人 %s 已意外停止工作 - 所选任务的填充类型错误!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -488,6 +488,7 @@
     <text name="CP_infoTexts_workFinished" text="完成工作"/>
     <text name="CP_infoTexts_drivingToCombine" text="行驶至联合收割机"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="行驶至拖车"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="资金不足"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="等待雨停"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="等待雪停"/>
