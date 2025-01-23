@@ -252,28 +252,30 @@ end
 --- onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
 --- If the field position hasn't changed since the last call, the detection is skipped and this returns true.
 --- In that case, the polygon from the previous run is still available from vehicle:cpGetFieldPolygon()
----@return boolean, string TODO
+---@return boolean, boolean, string true if we already have a field boundary false otherwise,
+--- second boolean true if the detection is still running false on error
+--- error message
 function CpAIJob:detectFieldBoundary()
 	local vehicle = self.vehicleParameter:getVehicle()
 
 	local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
 	if tx == nil or tz == nil then
-		return false, g_i18n:getText("CP_error_not_on_field")
+		return false, false, g_i18n:getText("CP_error_not_on_field")
 	end
 	if vehicle:cpIsFieldBoundaryDetectionRunning() then
-		return false, g_i18n:getText("CP_error_field_detection_still_running")
+		return false, false, g_i18n:getText("CP_error_field_detection_still_running")
 	end
 	local x, z = vehicle:cpGetFieldPosition()
 	if x == tx and z == tz then
 		self:debug('Field position still at %.1f/%.1f, do not detect field boundary again', tx, tz)
-		return true, ''
+		return true, false, ''
 	end
 	self:debug('Field position changed to %.1f/%.1f, start field boundary detection', tx, tz)
 	self.foundVines = nil
 
 	vehicle:cpDetectFieldBoundary(tx, tz, self, self.onFieldBoundaryDetectionFinished)
 	-- TODO: return false and nothing, as the detection is still running?
-	return true, g_i18n:getText('CP_error_field_detection_still_running')
+	return false, true, g_i18n:getText('CP_error_field_detection_still_running')
 end
 
 function CpAIJob:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
@@ -385,10 +387,6 @@ end
 
 function CpAIJob:getCpJobParameters()
 	return self.cpJobParameters
-end
-
-function CpAIJob:getFieldPolygon()
-	return self.fieldPolygon
 end
 
 function CpAIJob:setFieldPolygon(polygon)

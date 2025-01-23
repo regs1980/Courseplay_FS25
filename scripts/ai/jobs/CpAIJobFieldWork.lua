@@ -133,7 +133,7 @@ end
 --- Called when parameters change, scan field
 ---@param farmId number not used
 function CpAIJobFieldWork:validate(farmId)
-    local isValid, errorMessage = CpAIJob.validate(self, farmId)
+    local isValid, isRunning, errorMessage = CpAIJob.validate(self, farmId)
     if not isValid then
         return isValid, errorMessage
     end
@@ -141,7 +141,7 @@ function CpAIJobFieldWork:validate(farmId)
 
     --- Only check the valid field position in the in game menu.
     if not self.isDirectStart then
-        isValid, errorMessage = self:detectFieldBoundary()
+        isValid, isRunning, errorMessage = self:detectFieldBoundary()
         if not isValid then
             return isValid, errorMessage
         end

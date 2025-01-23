@@ -93,19 +93,6 @@ function AIDriveStrategyFieldWorkCourse:start(course, startIx, jobParameters)
     end
     --- Store a reference to the original generated course
     self.originalGeneratedFieldWorkCourse = self.vehicle:getFieldWorkCourse()
-
-    if self:needsFieldPolygon() then
-        self.fieldPolygon = self.vehicle:cpGetFieldPolygon()
-        if self.fieldPolygon == nil then
-            self:debug("Need field boundary to work, start detection now.")
-            -- TODO: should really store the field position (or the polygon itself?) with the course, as
-            -- in some rare cases, for instance when using field margin, the start waypoint may be outside
-            -- of the field, and thus the detection won't work.
-            local x, _, z = self.fieldWorkCourse:getWaypointPosition(startIx)
-            -- no callback, haveFieldPolygon() will take care of the result
-            self.vehicle:cpDetectFieldBoundary(x, z)
-        end
-    end
 end
 
 --- If the strategy needs a field polygon to work, it won't transition out of the INITIAL state
@@ -176,13 +163,16 @@ function AIDriveStrategyFieldWorkCourse:getDriveData(dt, vX, vY, vZ)
         gx, _, gz = self.ppc:getGoalPointPosition()
     end
     ----------------------------------------------------------------
-    if self.state == self.states.INITIAL then
+    if self.state == self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION then
         self:setMaxSpeed(0)
-        if not self:needsFieldPolygon() or (self:needsFieldPolygon() and self:haveFieldPolygon()) then
-            -- continue only if we have the field polygon, if we need it.
-            self:startWaitingForLower()
-            self:lowerImplements()
+        if self:waitForFieldBoundary() then
+            self:debug('Have field boundary now.')
+            self.state = self.states.INITIAL
         end
+    elseif self.state == self.states.INITIAL then
+        self:setMaxSpeed(0)
+        self:startWaitingForLower()
+        self:lowerImplements()
     elseif self.state == self.states.WAITING_FOR_LOWER then
         self:setMaxSpeed(0)
         if self:getCanContinueWork() then

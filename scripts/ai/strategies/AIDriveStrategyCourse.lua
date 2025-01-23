@@ -719,7 +719,7 @@ end
 --- until it returns true and only then transition to the INITIAL state.
 ---
 ---@return boolean true if the field boundary is already available
-function AIDriveStrategyCourse:haveFieldPolygon()
+function AIDriveStrategyCourse:waitForFieldBoundary()
     if self.fieldPolygon == nil then
         if self.vehicle:cpGetFieldPolygon() then
             self:clearInfoText(InfoTextManager.WAITING_FOR_FIELD_BOUNDARY_DETECTION)

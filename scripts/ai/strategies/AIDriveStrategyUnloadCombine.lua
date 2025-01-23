@@ -255,10 +255,6 @@ function AIDriveStrategyUnloadCombine:getGeneratedCourse(jobParameters)
     return nil
 end
 
-function AIDriveStrategyUnloadCombine:setFieldPolygon(fieldPolygon)
-    self.fieldPolygon = fieldPolygon
-end
-
 function AIDriveStrategyUnloadCombine:setJobParameterValues(jobParameters)
     self.jobParameters = jobParameters
     local x, z = jobParameters.fieldPosition:getPosition()

@@ -51,7 +51,7 @@ end
 
 --- Called when parameters change, scan field
 function CpAIJobBaleFinder:validate(farmId)
-	local isValid, errorMessage = CpAIJob.validate(self, farmId)
+	local isValid, isRunning, errorMessage = CpAIJob.validate(self, farmId)
 	if not isValid then
 		return isValid, errorMessage
 	end
@@ -62,9 +62,21 @@ function CpAIJobBaleFinder:validate(farmId)
 	--------------------------------------------------------------
 	--- Validate field setup
 	--------------------------------------------------------------
-	isValid, errorMessage = self:detectFieldBoundary(isValid, errorMessage)
+	isValid, isRunning, errorMessage = self:detectFieldBoundary(isValid, errorMessage)
 
 	return isValid, errorMessage
+end
+
+function CpAIJobBaleFinder:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+	if fieldPolygon then
+		self.selectedFieldPlot:setWaypoints(fieldPolygon)
+		self.selectedFieldPlot:setVisible(true)
+		-- TODO: here we need to tell somehow the frame about the detection success/failure
+	else
+		self.selectedFieldPlot:setVisible(false)
+		-- TODO: here we need to tell somehow the frame about the detection success/failure
+		return false, g_i18n:getText("CP_error_not_on_field")
+	end
 end
 
 function CpAIJobBaleFinder:draw(map, isOverviewMap)
