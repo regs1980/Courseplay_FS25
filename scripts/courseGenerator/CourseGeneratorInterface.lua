@@ -22,7 +22,13 @@ function CourseGeneratorInterface:startGeneration(startPosition, vehicle, settin
     self.settings = settings
     self.object = object
     self.onFinishedFunc = onFinishedFunc
-    vehicle:cpDetectFieldBoundary(startPosition.x, startPosition.z, self, self.onFieldDetectionFinished)
+    local x, z = vehicle:cpGetFieldPosition()
+    if x == startPosition.x and z == startPosition.z and vehicle:cpGetFieldPolygon() then
+        self.logger:debug(vehicle, 'Same start position, using existing field polygon')
+        self:onFieldDetectionFinished(vehicle, vehicle:cpGetFieldPolygon(), vehicle:cpGetIslandPolygons())
+    else
+        vehicle:cpDetectFieldBoundary(startPosition.x, startPosition.z, self, self.onFieldDetectionFinished)
+    end
 end
 
 function CourseGeneratorInterface:onFieldDetectionFinished(vehicle, fieldPolygon, islandPolygons)

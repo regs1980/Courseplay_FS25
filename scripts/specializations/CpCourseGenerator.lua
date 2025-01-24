@@ -29,6 +29,7 @@ function CpCourseGenerator.registerFunctions(vehicleType)
     SpecializationUtil.registerFunction(vehicleType, 'cpIsFieldBoundaryDetectionRunning', CpCourseGenerator.cpIsFieldBoundaryDetectionRunning)
     SpecializationUtil.registerFunction(vehicleType, 'cpGetFieldPosition', CpCourseGenerator.cpGetFieldPosition)
     SpecializationUtil.registerFunction(vehicleType, 'cpGetFieldPolygon', CpCourseGenerator.cpGetFieldPolygon)
+    SpecializationUtil.registerFunction(vehicleType, 'cpGetIslandPolygons', CpCourseGenerator.cpGetIslandPolygons)
     SpecializationUtil.registerFunction(vehicleType, 'cpDrawFieldPolygon', CpCourseGenerator.cpDrawFieldPolygon)
 end
 
@@ -36,7 +37,7 @@ function CpCourseGenerator:onLoad(savegame)
     -- create shortcut to this spec
     self.spec_cpCourseGenerator = self["spec_" .. CpCourseGenerator.SPEC_NAME]
     self.spec_cpCourseGenerator.logger = Logger(CpCourseGenerator.SPEC_NAME, nil, CpDebug.DBG_COURSES)
-    -- make sure cpGetFieldPosition always returns at least an empty table
+    -- make sure cpGetFieldPosition always has spec.position
     self.spec_cpCourseGenerator.position = {}
 end
 
@@ -91,8 +92,14 @@ function CpCourseGenerator:onUpdate(dt)
     end
 end
 
+---@return table|nil [{x, y, z}] field polygon with game vertices
 function CpCourseGenerator:cpGetFieldPolygon()
     return self.spec_cpCourseGenerator.fieldPolygon
+end
+
+---@return table|nil [[{x, y, z}]] array of island polygons with game vertices (x, y, z)
+function CpCourseGenerator:cpGetIslandPolygons()
+    return self.spec_cpCourseGenerator.islandPolygons
 end
 
 -- For debug, if there is a field polygon or island polygons, draw them
