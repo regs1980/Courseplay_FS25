@@ -241,7 +241,20 @@ function AIDriveStrategyCombineCourse:getDriveData(dt, vX, vY, vZ)
     if self.temporaryHold:get() then
         self:setMaxSpeed(0)
     end
-    if self.state == self.states.WORKING then
+
+    if self.state == self.states.INITIAL and not self.vehicle:cpGetFieldPolygon() then
+        self:setMaxSpeed(0)
+        self:debug('Have no field boundary, wait for it')
+        self.state = self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION
+    end
+
+    if self.state == self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION then
+        self:setMaxSpeed(0)
+        if self:waitForFieldBoundary() then
+            self:debug('Have field boundary now.')
+            self.state = self.states.INITIAL
+        end
+    elseif self.state == self.states.WORKING then
         -- Harvesting
         self:checkRendezvous()
         self:checkBlockingUnloader()
@@ -2182,7 +2195,7 @@ function AIDriveStrategyCombineCourse:waitForFieldBoundary()
         -- TODO: should really store the field position (or the polygon itself?) with the course, as
         -- in some rare cases, for instance when using field margin, the start waypoint may be outside
         -- of the field, and thus the detection won't work.
-        local x, _, z = self.fieldWorkCourse:getWaypointPosition(startIx)
+        local x, _, z = self.fieldWorkCourse:getWaypointPosition(self.fieldWorkCourse:getCurrentWaypointIx())
         -- no callback, waitForFieldBoundary() will take care of the result
         self.vehicle:cpDetectFieldBoundary(x, z)
     end

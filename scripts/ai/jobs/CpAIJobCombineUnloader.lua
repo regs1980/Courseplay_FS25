@@ -147,9 +147,10 @@ function CpAIJobCombineUnloader:validate(farmId)
 
 	if isValid then
 		-- already have a valid boundary, continue the validation now
-		self:onFieldBoundaryDetectionFinished(vehicle, vehicle:cpGetFieldPolygon())
+		return self:onFieldBoundaryDetectionFinished(vehicle, vehicle:cpGetFieldPolygon())
 	else
-		return isValid, errorMessage
+		-- if the detection is now running at least, we are ok, the strategy will take care of the result
+		return isValid or isRunning, errorMessage
 	end
 end
 

@@ -63,8 +63,8 @@ function CpAIJobBaleFinder:validate(farmId)
 	--- Validate field setup
 	--------------------------------------------------------------
 	isValid, isRunning, errorMessage = self:detectFieldBoundary(isValid, errorMessage)
-
-	return isValid, errorMessage
+	-- if the field detection is still running, it's ok
+	return isValid or isRunning, errorMessage
 end
 
 function CpAIJobBaleFinder:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
