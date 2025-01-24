@@ -875,7 +875,7 @@ function CpCourseGeneratorFrame:validateParameters()
 	self.errorMessage:setVisible(not isValid)
 end
 
-function CpCourseGenerator:onFieldBoundaryDetectionFinished(isValid, errorText)
+function CpCourseGeneratorFrame:onFieldBoundaryDetectionFinished(isValid, errorText)
 	self:updateWarnings()
 	self:updateContextActions()
 	self.errorMessage:setText(errorText)
