@@ -71,11 +71,10 @@ function CpAIJobBaleFinder:onFieldBoundaryDetectionFinished(vehicle, fieldPolygo
 	if fieldPolygon then
 		self.selectedFieldPlot:setWaypoints(fieldPolygon)
 		self.selectedFieldPlot:setVisible(true)
-		-- TODO: here we need to tell somehow the frame about the detection success/failure
+		self:callFieldBoundaryDetectionFinishedCallback(true)
 	else
 		self.selectedFieldPlot:setVisible(false)
-		-- TODO: here we need to tell somehow the frame about the detection success/failure
-		return false, g_i18n:getText("CP_error_not_on_field")
+		self:callFieldBoundaryDetectionFinishedCallback(false, 'CP_error_field_detection_failed')
 	end
 end
 

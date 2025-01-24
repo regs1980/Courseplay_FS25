@@ -51,6 +51,10 @@
 			<Text language="de"><![CDATA[Felderkennung läuft noch.]]></Text>
 			<Text language="en"><![CDATA[Field detection still running.]]></Text>
 		</Translation>
+		<Translation name="CP_error_field_detection_failed">
+			<Text language="de"><![CDATA[Felderkennung fehlgeschlagen.]]></Text>
+			<Text language="en"><![CDATA[Field detection failed.]]></Text>
+		</Translation>
 		<Translation name="CP_error_not_on_field">
 			<Text language="de"><![CDATA[Ziel ist nicht auf einem Feld.]]></Text>
 			<Text language="en"><![CDATA[Target is not on a field.]]></Text>

@@ -115,10 +115,9 @@ function CpAIJobFieldWork:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon
         self.selectedFieldPlot:setVisible(true)
     else
         self.selectedFieldPlot:setVisible(false)
-        -- TODO: here we need to tell somehow the frame about the detection success/failure
-        return false, g_i18n:getText("CP_error_not_on_field")
+        self:callFieldBoundaryDetectionFinishedCallback(false, 'CP_error_field_detection_failed')
     end
-    -- TODO: here we need to tell somehow the frame about the detection success/failure
+    self:callFieldBoundaryDetectionFinishedCallback(true)
 end
 
 function CpAIJobFieldWork:setValues()

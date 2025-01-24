@@ -866,10 +866,18 @@ function CpCourseGeneratorFrame:validateParameters()
 	local errorText = ""
 	if self.currentJob ~= nil then
 		self.currentJob:setValues()
-		errorText = self.currentJob:validate()
+		self.currentJob:registerFieldBoundaryDetectionCallback(self, self.onFieldBoundaryDetectionFinished)
+		isValid, errorText = self.currentJob:validate()
 		self:updateWarnings()
 		self:updateContextActions()
 	end
+	self.errorMessage:setText(errorText)
+	self.errorMessage:setVisible(not isValid)
+end
+
+function CpCourseGenerator:onFieldBoundaryDetectionFinished(isValid, errorText)
+	self:updateWarnings()
+	self:updateContextActions()
 	self.errorMessage:setText(errorText)
 	self.errorMessage:setVisible(not isValid)
 end

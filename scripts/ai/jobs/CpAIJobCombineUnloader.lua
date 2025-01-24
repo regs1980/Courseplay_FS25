@@ -175,13 +175,12 @@ function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldP
 			isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
 				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minStartDistanceToField
 			if not isValid then
-				-- TODO notify the frame? But what about the direct start? The same is check in the strategy, but has no consequence
-				return false, g_i18n:getText("CP_error_start_position_to_far_away_from_field")
+				self:callFieldBoundaryDetectionFinishedCallback(false, "CP_error_start_position_to_far_away_from_field")
 			end 
 		end
 		if not isValid then
-			-- TODO notify the frame? But what about the direct start? The bale finder does this check in the strategy
-			return false, g_i18n:getText("CP_error_unloader_to_far_away_from_field")
+    		self:callFieldBoundaryDetectionFinishedCallback(false, "CP_error_unloader_to_far_away_from_field")
+			return
 		end
 	end
 	------------------------------------
@@ -197,8 +196,8 @@ function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldP
 		isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
 				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minFieldUnloadDistanceToField
 		if not isValid then
-			-- TODO notify the frame? But what about the direct start?
-			return false, g_i18n:getText("CP_error_fieldUnloadPosition_too_far_away_from_field")
+			self:callFieldBoundaryDetectionFinishedCallback(false, 'CP_error_fieldUnloadPosition_too_far_away_from_field')
+			return
 		end
 		--- Draws the silo
 		local angle = self.cpJobParameters.fieldUnloadPosition:getAngle()
@@ -210,9 +209,7 @@ function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldP
 			self.heapPlot:setVisible(true)
 		end
 	end
-
-	-- TODO notify the frame? But what about the direct start?
-	return isValid, errorMessage
+	self:callFieldBoundaryDetectionFinishedCallback(true)
 end
 
 function CpAIJobCombineUnloader:draw(map, isOverviewMap)

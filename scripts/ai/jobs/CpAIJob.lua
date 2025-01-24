@@ -282,6 +282,23 @@ function CpAIJob:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandP
 	-- override in the derived classes to handle the detected field boundary
 end
 
+--- If registered, call the field boundary detection finished callback. This is to notify the frame
+--- at the end of the async field detection.
+function CpAIJob:callFieldBoundaryDetectionFinishedCallback(isValid, errorTextName)
+	local c = self.onFieldBoundaryDetectionFinishedCallback
+	if c and c.object and c.func then
+		c.func(c.object, isValid, errorTextName and g_i18n:getText(errorTextName) or '')
+	end
+end
+
+--- Register a callback for the field boundary detection finished event.
+--- @param object table object to call the function on
+--- @param func function function to call func(boolean isValid, string|nil errorTextName), errorTextName is the
+--- name of the text in MasterTranslations.xml
+function CpAIJob:registerFieldBoundaryDetectionCallback(object, func)
+	self.onFieldBoundaryDetectionFinishedCallback = {object = object, func = func}
+end
+
 function CpAIJob:getIsStartable(connection)
 
 	local vehicle = self.vehicleParameter:getVehicle()
