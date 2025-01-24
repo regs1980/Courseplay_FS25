@@ -18,6 +18,7 @@
     <text name="CP_error_no_course" text="Opret først en rute inden start."/>
     <text name="CP_error_could_not_generate_course" text="Kunne ikke oprette en rute. Logfilen kan indeholde yderligere informationer."/>
     <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
+    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
     <text name="CP_error_not_on_field" text="Målet er ikke på en mark."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Aflæsser for langt væk fra marken."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Startpunkt for langt væk fra marken."/>
