@@ -284,11 +284,16 @@ end
 
 --- If registered, call the field boundary detection finished callback. This is to notify the frame
 --- at the end of the async field detection.
+--- It'll also return the result as a synchronous validate call would, and as the frame expects it, in case
+--- someone calls the registered callback directly from validate()
+---@return boolean isValid, string errorText
 function CpAIJob:callFieldBoundaryDetectionFinishedCallback(isValid, errorTextName)
 	local c = self.onFieldBoundaryDetectionFinishedCallback
+	local errorText = errorTextName and g_i18n:getText(errorTextName) or ''
 	if c and c.object and c.func then
-		c.func(c.object, isValid, errorTextName and g_i18n:getText(errorTextName) or '')
+		c.func(c.object, isValid, errorText)
 	end
+	return isValid, errorText
 end
 
 --- Register a callback for the field boundary detection finished event.

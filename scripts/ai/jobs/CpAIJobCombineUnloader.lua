@@ -175,12 +175,11 @@ function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldP
 			isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
 				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minStartDistanceToField
 			if not isValid then
-				self:callFieldBoundaryDetectionFinishedCallback(false, "CP_error_start_position_to_far_away_from_field")
-			end 
+				return self:callFieldBoundaryDetectionFinishedCallback(false, "CP_error_start_position_to_far_away_from_field")
+			end
 		end
 		if not isValid then
-    		self:callFieldBoundaryDetectionFinishedCallback(false, "CP_error_unloader_to_far_away_from_field")
-			return
+			return self:callFieldBoundaryDetectionFinishedCallback(false, "CP_error_unloader_to_far_away_from_field")
 		end
 	end
 	------------------------------------
@@ -196,8 +195,7 @@ function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldP
 		isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
 				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minFieldUnloadDistanceToField
 		if not isValid then
-			self:callFieldBoundaryDetectionFinishedCallback(false, 'CP_error_fieldUnloadPosition_too_far_away_from_field')
-			return
+			return self:callFieldBoundaryDetectionFinishedCallback(false, 'CP_error_fieldUnloadPosition_too_far_away_from_field')
 		end
 		--- Draws the silo
 		local angle = self.cpJobParameters.fieldUnloadPosition:getAngle()
@@ -209,7 +207,7 @@ function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldP
 			self.heapPlot:setVisible(true)
 		end
 	end
-	self:callFieldBoundaryDetectionFinishedCallback(true)
+	return self:callFieldBoundaryDetectionFinishedCallback(true)
 end
 
 function CpAIJobCombineUnloader:draw(map, isOverviewMap)
