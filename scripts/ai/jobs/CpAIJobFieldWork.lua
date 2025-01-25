@@ -195,10 +195,7 @@ end
 function CpAIJobFieldWork:onClickGenerateFieldWorkCourse(callback)
     local vehicle = self.vehicleParameter:getVehicle()
     local settings = vehicle:getCourseGeneratorSettings()
-    if self.isCustomField then
-        CpUtil.infoVehicle(vehicle, 'disabling island bypass on custom field')
-        settings.bypassIslands:setValue(false)
-    end
+
     local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
     local ok, course
     if self.foundVines then
@@ -226,7 +223,10 @@ function CpAIJobFieldWork:onClickGenerateFieldWorkCourse(callback)
             vehicle,
             settings,
             nil,
-            callback)
+            callback,
+            -- this button is only enabled if we already detected the field boundary, so use the existing polygons
+            vehicle:cpGetFieldPolygon(),
+            vehicle:cpGetIslandPolygons())
     end
     return true
 end
