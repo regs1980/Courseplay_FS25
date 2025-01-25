@@ -417,11 +417,51 @@ function HybridAStar.NodeList:getHeuristicValue(node, goal)
 end
 
 function HybridAStar.NodeList:print()
-    for _, row in pairs(self.nodes) do
-        for _, column in pairs(row) do
-            for _, cell in pairs(column) do
-                print(cell)
+    for i, row in pairs(self.nodes) do
+        for j, column in pairs(row) do
+            for k, cell in pairs(column) do
+                print(i, j, k, cell)
             end
+        end
+    end
+end
+
+function HybridAStar.NodeList:iterator()
+    local x, y, t
+    local f = {}
+    function f.getNextT()
+        t = next(self.nodes[x][y], t)
+        if not t then
+            f.getNextY()
+        end
+    end
+    function f.getNextY()
+        y = next(self.nodes[x], y)
+        if y then
+            t = next(self.nodes[x][y], nil)
+        else
+            f.getNextX()
+        end
+    end
+    function f.getNextX()
+        x = next(self.nodes, x)
+        if x then
+            y = nil
+            f.getNextY()
+        end
+    end
+    return function()
+        if x and y then
+            f.getNextT()
+        elseif x and not y then
+            f.getNextY()
+        else
+            f.getNextX()
+        end
+        if x and y and t then
+            return self.nodes[x][y][t], self.lowestCost, self.highestCost
+        else
+            return nil
         end
     end
 end
@@ -725,6 +765,10 @@ function HybridAStar:printOpenList(openList)
     print('--- Open list end ----')
 end
 
+function HybridAStar:nodeIterator()
+    return self.nodes and self.nodes:iterator() or function()  end
+end
+
 --- A simple A star implementation based on the hybrid A star. The difference is that the state space isn't really
 --- 3 dimensional as we do not take the heading into account and we use a different set of motion primitives
 ---@class AStar : HybridAStar
@@ -769,8 +813,11 @@ function HybridAStarWithAStarInTheMiddle:init(vehicle, hybridRange, yieldAfter, 
     self.hybridRange = hybridRange
     self.yieldAfter = yieldAfter or 100
     self.maxIterations = maxIterations
-    self.hybridAStarPathfinder = HybridAStar(vehicle, self.yieldAfter, maxIterations, mustBeAccurate)
+    -- the only reason we have a separate instance for start and end is to be able to draw the nodes after
+    -- the pathfinding is done for debug purposes
+    self.startHybridAStarPathfinder = HybridAStar(vehicle, self.yieldAfter, maxIterations, mustBeAccurate)
     self.aStarPathfinder = self:getAStar()
+    self.endHybridAStarPathfinder = HybridAStar(vehicle, self.yieldAfter, maxIterations, mustBeAccurate)
     self.analyticSolver = analyticSolver
 end
 
@@ -817,8 +864,8 @@ end
 function HybridAStarWithAStarInTheMiddle:findHybridStartToEnd()
     self.phase = self.ALL_HYBRID
     self:debug('Goal is closer than %d, use one phase pathfinding only', self.hybridRange * 3)
-    self.coroutine = coroutine.create(self.hybridAStarPathfinder.run)
-    self.currentPathfinder = self.hybridAStarPathfinder
+    self.coroutine = coroutine.create(self.startHybridAStarPathfinder.run)
+    self.currentPathfinder = self.startHybridAStarPathfinder
     return self:resume(self.startNode, self.goalNode, self.turnRadius, self.allowReverse, self.constraints, self.hitchLength)
 end
 
@@ -827,8 +874,8 @@ function HybridAStarWithAStarInTheMiddle:findPathFromStartToMiddle()
     self:debug('Finding path between start and middle section...')
     self.phase = self.START_TO_MIDDLE
     -- generate a hybrid part from the start to the middle section's start
-    self.coroutine = coroutine.create(self.hybridAStarPathfinder.run)
-    self.currentPathfinder = self.hybridAStarPathfinder
+    self.coroutine = coroutine.create(self.startHybridAStarPathfinder.run)
+    self.currentPathfinder = self.startHybridAStarPathfinder
     local goal = State3D(self.middlePath[1].x, self.middlePath[1].y, (self.middlePath[2] - self.middlePath[1]):heading())
     return self:resume(self.startNode, goal, self.turnRadius, self.allowReverse, self.constraints, self.hitchLength)
 end
@@ -838,8 +885,8 @@ function HybridAStarWithAStarInTheMiddle:findPathFromMiddleToEnd()
     -- generate middle to end
     self.phase = self.MIDDLE_TO_END
     self:debug('Finding path between middle section and goal (allow reverse %s)...', tostring(self.allowReverse))
-    self.coroutine = coroutine.create(self.hybridAStarPathfinder.run)
-    self.currentPathfinder = self.hybridAStarPathfinder
+    self.coroutine = coroutine.create(self.endHybridAStarPathfinder.run)
+    self.currentPathfinder = self.endHybridAStarPathfinder
     return self:resume(self.middleToEndStart, self.goalNode, self.turnRadius, self.allowReverse, self.constraints, self.hitchLength)
 end
 
@@ -900,8 +947,8 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
                 self.middleToEndStart = State3D.copy(self.middlePath[#self.middlePath])
                 -- now shorten both ends of middlePath to avoid short fwd/reverse sections due to overlaps (as the
                 -- pathfinding may end anywhere within deltaPosGoal
-                HybridAStar.shortenStart(self.middlePath, self.hybridAStarPathfinder.deltaPosGoal * 2)
-                HybridAStar.shortenEnd(self.middlePath, self.hybridAStarPathfinder.deltaPosGoal * 2)
+                HybridAStar.shortenStart(self.middlePath, self.startHybridAStarPathfinder.deltaPosGoal * 2)
+                HybridAStar.shortenEnd(self.middlePath, self.startHybridAStarPathfinder.deltaPosGoal * 2)
                 -- append middle to start
                 for i = 1, #self.middlePath do
                     table.insert(self.path, self.middlePath[i])
@@ -934,6 +981,35 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
         end
     end
     return PathfinderResult(false)
+end
+
+function HybridAStarWithAStarInTheMiddle:nodeIterator()
+    local startIt = self.startHybridAStarPathfinder:nodeIterator()
+    local middleIt = self.aStarPathfinder:nodeIterator()
+    local endIt = self.endHybridAStarPathfinder:nodeIterator()
+    return function()
+        local node, lowestCost, highestCost = startIt()
+        if node then
+            return node, lowestCost, highestCost
+        end
+        node, lowestCost, highestCost = middleIt()
+        if node then
+            return node, lowestCost, highestCost
+        end
+        return endIt()
+    end
+end
+
+function HybridAStarWithAStarInTheMiddle:nodeIteratorStart()
+    return self.startHybridAStarPathfinder:nodeIterator()
+end
+
+function HybridAStarWithAStarInTheMiddle:nodeIteratorMiddle()
+    return self.aStarPathfinder:nodeIterator()
+end
+
+function HybridAStarWithAStarInTheMiddle:nodeIteratorEnd()
+    return self.endHybridAStarPathfinder:nodeIterator()
 end
 
 --- Dummy A* pathfinder implementation, does not calculate a path, just returns a pre-calculated path passed in
