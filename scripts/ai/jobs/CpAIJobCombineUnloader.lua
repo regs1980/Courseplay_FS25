@@ -155,6 +155,11 @@ function CpAIJobCombineUnloader:validate(farmId)
 end
 
 function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+	-- show the field
+	if fieldPolygon then
+		self.selectedFieldPlot:setWaypoints(fieldPolygon)
+		self.selectedFieldPlot:setVisible(true)
+	end
 	------------------------------------
 	--- Validate start distance to field
 	-------------------------------------
