@@ -202,7 +202,7 @@ function FieldworkCourse:generateHeadlandsFromInside()
     end
     for i = self.nHeadlandsWithRoundCorners - 1, 1, -1 do
         self.headlands[i] = CourseGenerator.Headland(self.headlands[i + 1]:getPolygon(), self.context.headlandClockwise, i,
-                self:_getHeadlandWorkingWidth(i), true, self.boundary)
+                self:_getHeadlandWorkingWidth(i + 1), true, self.boundary)
         self.headlands[i]:roundCorners(self.context.turningRadius)
     end
 end
@@ -455,7 +455,7 @@ function FieldworkCourse:_getHeadlandOffset(n)
         return self:_getHeadlandWorkingWidth(1) / 2
     else
         -- for n > 1, the headland width is with the overlap
-        return self:_getHeadlandWorkingWidth(1) + (n - 1 - 0.5) * self:_getHeadlandWorkingWidth(n)
+        return self:_getHeadlandWorkingWidth(1) / 2 + (n - 1) * self:_getHeadlandWorkingWidth(n)
     end
 end
 
