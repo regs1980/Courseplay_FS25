@@ -352,11 +352,12 @@ function Course:isTurnStartAtIx(ix)
     -- Don't start turns at the last waypoint
     -- TODO: do a row finish maneuver instead
     return ix < #self.waypoints and
-            -- if there is a turn start just before a connecting path
+            -- don't start any turns just before a connecting path as there the pathfinder should take over
             (self.waypoints[ix]:isRowEnd() and
                     not self:isOnConnectingPath(ix + 1) and
                     not self:shouldUsePathfinderToNextWaypoint(ix)) or
-            (self.waypoints[ix + 1] and self.waypoints[ix + 1]:isHeadlandTurn())
+            (self.waypoints[ix + 1] and self.waypoints[ix + 1]:isHeadlandTurn() and
+                    self.waypoints[ix + 2] and not self:isOnConnectingPath(ix + 2))
 end
 
 function Course:isHeadlandTurnAtIx(ix)
