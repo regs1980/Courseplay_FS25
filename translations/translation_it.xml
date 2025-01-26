@@ -17,8 +17,8 @@
     <text name="CP_infoText" text="Courseplay (%s): Per aiuto, report bug o note sulla patch, visita: https://github.com/Courseplay/Courseplay_FS25 "/>
     <text name="CP_error_no_course" text="Genera il percorso prima di iniziare il lavoro sul campo!"/>
     <text name="CP_error_could_not_generate_course" text="Impossibile generare il corso. Prova altre impostazioni."/>
-    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
-    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
+    <text name="CP_error_field_detection_still_running" text="Rilevamento del campo ancora in corso."/>
+    <text name="CP_error_field_detection_failed" text="Rilevamento del campo fallito."/>	
     <text name="CP_error_not_on_field" text="L'obiettivo non si trova su di un campo!"/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Scaricatore lontano dal campo."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Posizione di partenza troppo lontana dal campo."/>
@@ -69,7 +69,7 @@
     <text name="CP_combineUnloaderJobParameters_unloadTarget_title" text="Scaricare:"/>
     <text name="CP_combineUnloaderJobParameters_unloadTarget_combine" text="Mietitrebbia"/>
     <text name="CP_combineUnloaderJobParameters_unloadTarget_siloLoader" text="Caricatore di silos"/>
-    <text name="CP_combineUnloaderJobParameters_subTitle_giantsUnloader" text="scaricatore Giants:"/>
+    <text name="CP_combineUnloaderJobParameters_subTitle_giantsUnloader" text="Scaricatore Giants:"/>
     <text name="CP_combineUnloaderJobParameters_useGiantsUnload_title" text="Usa scaricatore Giants:"/>
     <text name="CP_combineUnloaderJobParameters_unloadingStation_title" text="Stazione di scarico:"/>
     <text name="CP_combineUnloaderJobParameters_subTitle_fieldUnload" text="Scaricatore Giants:"/>
@@ -120,7 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="L'operatore IA %s ha smesso di funzionare in modo imprevisto: il collegamento in testa è impossibile!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="L'operatore IA %s ha interrotto il lavoro in modo imprevisto: attacco Barra Falciante automatico disattivato!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="Il lavoratore IA %s ha interrotto il lavoro in modo imprevisto: tipo di riempimento errato per la missione selezionata!"/>
-    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Il veicolo è troppo lontano dal campo."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -313,7 +313,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_lands" text="Sezioni alternate"/>
     <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_title" text="Spirale dall'interno"/>
     <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_tooltip" text="Avvia la spirale dall'interno."/>
-    <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_title" text="Anche la fila con"/>
+    <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_title" text="Stessa larghezza della corsia"/>
     <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_tooltip" text="Riduce la larghezza di lavoro per ottenere una distribuzione uniforme su tutte le corsie."/>
     <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_title" text="Squadrare gli angoli di fine campo"/>
     <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_tooltip" text="Rendere più squadrati gli angoli dei promontori non arrotondati"/>
@@ -489,7 +489,7 @@ Il percorso viene salvato automaticamente alla chiusura dell'editor e sovrascriv
     <text name="CP_infoTexts_workFinished" text="Ha finito il lavoro"/>
     <text name="CP_infoTexts_drivingToCombine" text="Guida verso combine"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Guida al rimorchio"/>
-    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
+	<text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Rilevamento del campo"/>
     <text name="CP_infoTexts_outOfMoney" text="Senza soldi"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="In attesa che finisca la pioggia"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Aspetta che la neve scompaia"/>
@@ -570,7 +570,7 @@ Quindi, cliccando su crea lavoro, puoi selezionare un lavoro CP per l'attrezzo o
     <text name="CP_help_page_readyJobMenuBase_text" text="
 Con un lavoro CP selezionato, è necessario posizionare la posizione del campo su un campo per generare il percorso o utilizzare il cercatore di balle su di esso.
 La posizione controlla anche approssimativamente il punto di partenza del tuo percorso.
-Se vuoi usare l'aiutante Giants per guidare fino al campo, devi anche impostare la posizione target vicino al punto di partenza del percorso.
+Se vuoi usare l'aiutante Giants per guidare fino al campo, devi anche impostare la posizione obiettivo vicino al punto di partenza del percorso.
 L'impostazione della compensazione della corsia viene utilizzata solo se si desidera avere più assistenti che lavorano sullo stesso campo. Per questo, controlla la pagina del menu di aiuto separata di seguito.
 Suggerimento:Sei già su un campo quando attraversi. &quot;nessun percorso&quot; Quando arrivi a questo menu, i marcatori sono già posizionati sul campo.
 "/>
@@ -952,7 +952,7 @@ Puoi usare un rimorchio normale o un carro a coclea per scaricare una mietitrebb
 Per svuotare i rimorchi, puoi usare Giants Helper o AutoDrive.
 Per avviare lo scaricatore sono necessarie alcune cose:
 - Devi avere un singolo rimorchio o carro a coclea collegato. Non sono supportati più rimorchi.
-- Usa l'icona Target sull'HUD per selezionare il campo da raccogliere. Lo scaricatore scaricherà tutte le mietitrici guidate da Courseplay che lavorano su quel campo.
+- Usa l'icona Obiettivo sull'HUD per selezionare il campo da raccogliere. Lo scaricatore scaricherà tutte le mietitrici guidate da Courseplay che lavorano su quel campo.
 - Devi essere sul campo o entro 20 metri dal campo per avviare lo scaricatore.
 
 Gli scaricatori hanno solo poche impostazioni che puoi modificare:
@@ -1047,7 +1047,7 @@ La posizione di caricamento funziona allo stesso modo di quella della modalità 
 La posizione di scarico dipende se si desidera scaricare su un rimorchio o su una stazione di scarico.
 Se viene selezionato lo scarico nel rimorchio, è necessario selezionare l'area in cui verrà parcheggiato il rimorchio nel menu IA.
 L'aiutante si dirigerà verso qualsiasi rimorchio parcheggiato nella zona. La direzione del marcatore non ha alcun significato reale.
-Se si desidera scaricare in una stazione di scarico, è necessario cambiare il target e quindi contrassegnare il grilletto con la posizione di scarico.
+Se si desidera scaricare in una stazione di scarico, è necessario cambiare l'obiettivo e quindi contrassegnare il grilletto con la posizione di scarico.
 "/>
     <text name="CP_help_page_shovelLoaderTrigger_text" text="
 La selezione di un trigger all'inizio sembra un po' complicata, ma in realtà è davvero semplice.
