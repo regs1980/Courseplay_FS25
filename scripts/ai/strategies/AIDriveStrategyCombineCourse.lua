@@ -1891,27 +1891,15 @@ function AIDriveStrategyCombineCourse:getPipeOffsetFromCourse()
 end
 
 function AIDriveStrategyCombineCourse:initUnloadStates()
-    self.safeUnloadFieldworkStates = {
-        self.states.WORKING,
-        self.states.WAITING_FOR_LOWER,
-        self.states.WAITING_FOR_LOWER_DELAYED,
-        self.states.WAITING_FOR_STOP,
+
+    self.maneuveringUnloadStates = {
+        self.states.PULLING_BACK_FOR_UNLOAD,
+        self.states.RETURNING_FROM_PULL_BACK,
+        self.states.REVERSING_TO_MAKE_A_POCKET,
+        self.states.MAKING_POCKET,
+        self.states.RETURNING_FROM_POCKET
     }
 
-    self.safeFieldworkUnloadOrRefillStates = {
-        self.states.WAITING_FOR_UNLOAD_AFTER_FIELDWORK_ENDED,
-        self.states.WAITING_FOR_UNLOAD_ON_FIELD,
-        self.states.WAITING_FOR_UNLOAD_AFTER_PULLED_BACK,
-        self.states.WAITING_FOR_UNLOAD_IN_POCKET,
-        self.states.WAITING_FOR_UNLOAD_BEFORE_STARTING_NEXT_ROW
-    }
-
-    self.willWaitForUnloadToFinishFieldworkStates = {
-        self.states.WAITING_FOR_UNLOAD_AFTER_PULLED_BACK,
-        self.states.WAITING_FOR_UNLOAD_IN_POCKET,
-        self.states.WAITING_FOR_UNLOAD_AFTER_FIELDWORK_ENDED,
-        self.states.WAITING_FOR_UNLOAD_BEFORE_STARTING_NEXT_ROW
-    }
     --- All self unload states.
     self.selfUnloadStates = {
         self.states.DRIVING_TO_SELF_UNLOAD,
@@ -1962,7 +1950,8 @@ function AIDriveStrategyCombineCourse:isManeuvering()
     return self:isTurning() or
             (
                     self.state == self.states.UNLOADING_ON_FIELD and
-                            not self:isUnloadStateOneOf(self.safeFieldworkUnloadOrRefillStates)
+                            (self:isUnloadStateOneOf(self.maneuveringUnloadStates) or
+                            self:isUnloadStateOneOf(self.selfUnloadStates))
             )
 end
 
