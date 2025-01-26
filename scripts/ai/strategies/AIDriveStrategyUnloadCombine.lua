@@ -200,7 +200,7 @@ function AIDriveStrategyUnloadCombine:init(task, job)
     self.states = CpUtil.copyStates(self.states, self.trailerUnloadStates)
     self.states = CpUtil.copyStates(self.states, self.fieldUnloadStates)
 
-    self.state = self.states.INITIAL
+    self.state = self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION
     self.debugChannel = CpDebug.DBG_UNLOAD_COMBINE
     ---@type ImplementController[]
     self.controllers = {}
@@ -255,29 +255,8 @@ function AIDriveStrategyUnloadCombine:getGeneratedCourse(jobParameters)
     return nil
 end
 
-function AIDriveStrategyUnloadCombine:setFieldPolygon(fieldPolygon)
-    self.fieldPolygon = fieldPolygon
-end
-
 function AIDriveStrategyUnloadCombine:setJobParameterValues(jobParameters)
     self.jobParameters = jobParameters
-    local x, z = jobParameters.fieldPosition:getPosition()
-    x, z = jobParameters.startPosition:getPosition()
-    local angle = jobParameters.startPosition:getAngle()
-    if x ~= nil and z ~= nil and angle ~= nil then
-        --- Additional safety check, if the position is on the field or near it.
-        if CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z)
-                or CpMathUtil.getClosestDistanceToPolygonEdge(self.fieldPolygon, x, z) < 2 * CpAIJobCombineUnloader.minStartDistanceToField then
-            --- Goal position marker set in the ai menu rotated by 180 degree.
-            self.invertedStartPositionMarkerNode = CpUtil.createNode("Inverted Start position marker",
-                    x, z, angle + math.pi)
-            self:debug("Valid goal position marker was set.")
-        else
-            self:debug("Start position is too far away from the field for a valid goal position!")
-        end
-    else
-        self:debug("Invalid start position found!")
-    end
     if jobParameters.useFieldUnload:getValue() and not jobParameters.useFieldUnload:getIsDisabled() then
         local fieldUnloadPosition = jobParameters.fieldUnloadPosition
         if fieldUnloadPosition ~= nil and fieldUnloadPosition.x ~= nil and fieldUnloadPosition.z ~= nil and fieldUnloadPosition.angle ~= nil then
@@ -407,6 +386,14 @@ function AIDriveStrategyUnloadCombine:getDriveData(dt, vX, vY, vZ)
         if self:isDriveUnloadNowRequested() then
             self:debug('Drive unload now requested')
             self:startUnloadingTrailers()
+        end
+    elseif self.state == self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION then
+        self:setMaxSpeed(0)
+        if self:waitForFieldBoundary() then
+            self:debug('Have field boundary now, checking positions.')
+            if self:isPositionOk() then
+                self.state = self.states.INITIAL
+            end
         end
     elseif self.state == self.states.INITIAL then
         if not self.startTimer then
@@ -2972,6 +2959,28 @@ function AIDriveStrategyUnloadCombine:onFieldUnloadParkPositionReached()
     self:startWaitingForSomethingToDo()
     self.fieldUnloadData = nil
 end
+
+function AIDriveStrategyUnloadCombine:isPositionOk()
+    local x, z = self.jobParameters.startPosition:getPosition()
+    local angle = self.jobParameters.startPosition:getAngle()
+    if x ~= nil and z ~= nil and angle ~= nil then
+        --- Additional safety check, if the position is on the field or near it.
+        if CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z)
+                or CpMathUtil.getClosestDistanceToPolygonEdge(self.fieldPolygon, x, z) < 2 * CpAIJobCombineUnloader.minStartDistanceToField then
+            --- Goal position marker set in the ai menu rotated by 180 degree.
+            self.invertedStartPositionMarkerNode = CpUtil.createNode("Inverted Start position marker",
+                    x, z, angle + math.pi)
+            self:debug("Valid goal position marker was set.")
+        else
+            self:debug("Start position is too far away from the field for a valid goal position!")
+        end
+    else
+        self:debug("Invalid start position found!")
+    end
+    -- TODO Looks like we are making these checks but pretty much ignore the result other than some debug outputs.
+    return true
+end
+
 
 ------------------------------------------------------------------------------------------------------------------------
 -- Debug

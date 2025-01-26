@@ -17,12 +17,13 @@
     <text name="CP_infoText" text="Courseplay(%s): Ha segítségre van szükséged, hibajelentéseket vagy javításokat szeretnél benyújtani, látogass el a következő oldalra: https://github.com/Courseplay/Courseplay_FS22."/>
     <text name="CP_error_no_course" text="Először hozz létre egy útvonalat"/>
     <text name="CP_error_could_not_generate_course" text="Hiba az útvonaltervezéskor"/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
+    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
     <text name="CP_error_not_on_field" text="Csak szántóföldön lehet munkát végezni"/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Az kirakodó jármű túl messze van a táblától."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="A kezdő pozíció túl messze van a táblától."/>
     <text name="CP_error_giants_unloader_not_available" text="Giants kirakodó nem elérhető."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="A szántóföldi kirakodó pozíció túl messze van a táblától."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="A jármű túl messze van a táblától a kezdéshez."/>
     <text name="CP_error_no_bunkerSilo_found" text="Siló nem található."/>
     <text name="CP_error_no_heap_found" text="Bunker siló nem található."/>
     <text name="CP_error_no_unload_trigger_found" text="Kirakodási pont nem található."/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="AI munkás %s váratlanul abbahagyta a munkát - vágóasztal felcsatolása nem lehetséges!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI munkás %s váratlanul abbahagyta a munkát - automatikus vágóasztal felcsatolás kikapcsolva!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI munkás %s váratlanul abbahagyta a munkát - Helytelen vetőmag ehhez a megbízáshoz!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -487,6 +489,7 @@ Az útvonal automatikusan mentésre kerül a szerkesztő bezárásakor és felü
     <text name="CP_infoTexts_workFinished" text="készen van"/>
     <text name="CP_infoTexts_drivingToCombine" text="Kombájnhoz vezetés"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Pótkocsihoz vezetés"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="elfogyott a pénz"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Várja hogy elálljon az eső"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Várja hogy elolvadjon a hó"/>

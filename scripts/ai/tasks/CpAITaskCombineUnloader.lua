@@ -6,7 +6,6 @@ function CpAITaskCombineUnloader:start()
 	if self.isServer then
 		self:debug("CP combine unloader task started.")
 		local strategy = AIDriveStrategyUnloadCombine(self, self.job)
-		strategy:setFieldPolygon(self.job:getFieldPolygon())
 		strategy:setAIVehicle(self.vehicle, self.job:getCpJobParameters())
 		self.vehicle:startCpWithStrategy(strategy)
 	end

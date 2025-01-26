@@ -47,6 +47,14 @@
 			<Text language="de"><![CDATA[Konnte keinen Kurs generieren. Bitte versuchen es mit anderen Einstellungen.]]></Text>
 			<Text language="en"><![CDATA[Could not generate course. Please try other settings.]]></Text>
 		</Translation>
+		<Translation name="CP_error_field_detection_still_running">
+			<Text language="de"><![CDATA[Felderkennung läuft noch.]]></Text>
+			<Text language="en"><![CDATA[Field detection still running.]]></Text>
+		</Translation>
+		<Translation name="CP_error_field_detection_failed">
+			<Text language="de"><![CDATA[Felderkennung fehlgeschlagen.]]></Text>
+			<Text language="en"><![CDATA[Field detection failed.]]></Text>
+		</Translation>
 		<Translation name="CP_error_not_on_field">
 			<Text language="de"><![CDATA[Ziel ist nicht auf einem Feld.]]></Text>
 			<Text language="en"><![CDATA[Target is not on a field.]]></Text>
@@ -66,10 +74,6 @@
 		<Translation name="CP_error_fieldUnloadPosition_too_far_away_from_field">
 			<Text language="de"><![CDATA[Feldabladeposition ist zu weit vom Feld entfernt.]]></Text>
 			<Text language="en"><![CDATA[Field unload position is too far away from the field.]]></Text>
-		</Translation>
-		<Translation name="CP_error_vehicle_too_far_away_from_field">
-			<Text language="de"><![CDATA[Fahrzeug ist zu weit vom Feld entfernt.]]></Text>
-			<Text language="en"><![CDATA[Vehicle is too far away from the field.]]></Text>
 		</Translation>
 		<Translation name="CP_error_no_bunkerSilo_found">
 			<Text language="de"><![CDATA[Kein Silo gefunden.]]></Text>
@@ -384,6 +388,10 @@
 		<Translation name="CP_ai_messageErrorWrongMissionFruitType">
 			<Text language="de"><![CDATA[Helfer %s hat die Arbeit gestoppt - Falsche Frucht für die Mission ausgewählt!]]></Text>
 			<Text language="en"><![CDATA[AI worker %s has stopped work unexpectedly - wrong fill type for mission selected!]]></Text>
+		</Translation>
+		<Translation name="CP_ai_messageErrorTooFarFromField">
+			<Text language="de"><![CDATA[Fahrzeug ist zu weit vom Feld entfernt.]]></Text>
+			<Text language="en"><![CDATA[Vehicle is too far away from the field.]]></Text>
 		</Translation>
 	</Category>
 	<Category name="AI fieldwork task descriptions">	
@@ -1719,6 +1727,10 @@ The course is saved automatically on closing of the editor and overrides the sel
 		<Translation name="CP_infoTexts_drivingToSelfUnload">
 			<Text language="de"><![CDATA[ÜLW entladen]]></Text>
 			<Text language="en"><![CDATA[Driving to trailer]]></Text>
+		</Translation>
+		<Translation name="CP_infoTexts_waitingForFieldBoundaryDetection">
+			<Text language="de"><![CDATA[Felderkennung]]></Text>
+			<Text language="en"><![CDATA[Field detection]]></Text>
 		</Translation>
 		<Translation name="CP_infoTexts_outOfMoney">
 			<Text language="de"><![CDATA[Kein Geld mehr]]></Text>

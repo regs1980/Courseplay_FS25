@@ -17,12 +17,13 @@
     <text name="CP_infoText" text="Courseplay(%s): Pour toute demande d'assistance, signalement de bug ou suivi des mises à jour, rendez vous sur le site officiel : https://github.com/Courseplay/Courseplay_FS22."/>
     <text name="CP_error_no_course" text="Générez ou chargez une course avant de démarrer la tâche"/>
     <text name="CP_error_could_not_generate_course" text="Impossible de générer la course. Plus d'informations dans le journal."/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
+    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
     <text name="CP_error_not_on_field" text="Le point de départ n'est pas dans un champ"/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Benne ou transbordeur trop éloigné(e) du champ."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Position de départ trop éloignée du champ."/>
     <text name="CP_error_giants_unloader_not_available" text="Aucun ouvrier IA disponible pour le déchargement."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Le point de déchargement est trop loin du champ."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Le véhicule est trop éloigné du champ pour démarrer."/>
     <text name="CP_error_no_bunkerSilo_found" text="Aucun silo détecté."/>
     <text name="CP_error_no_heap_found" text="Aucun tas ou silo détecté."/>
     <text name="CP_error_no_unload_trigger_found" text="Aucun point de déchargement trouvé."/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="L'ouvrier %s a interrompu son travail - impossible d'attacher la barre de coupe !"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="L'ouvrier %s a interrompu son travail - l'attachement auto de la barre de coupe est désactivé !"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="L'ouvrier %s a interrompu son travail - mauvais type de contenu pour ce type de travail !"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -487,6 +489,7 @@ La course est automatiquement sauvegardée à la fermeture de l'éditeur et remp
     <text name="CP_infoTexts_workFinished" text="a terminé son travail"/>
     <text name="CP_infoTexts_drivingToCombine" text="en route vers la batteuse"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="en route vers la benne"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="Plus d'argent disponible"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Attend que la pluie s'arrête pour continuer"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Attend que la neige fonde"/>

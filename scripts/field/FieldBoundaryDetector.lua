@@ -45,6 +45,10 @@ function FieldBoundaryDetector:init(x, z, vehicle)
                         self.updates, customField:getName(), x, z)
                 self:_useCustomField(customField)
                 return
+            else
+                self.logger:info('Field boundary detection failed after %d updates and no custom field found at %.1f %.1f',
+                        self.updates, x, z)
+                return
             end
         end
     end)

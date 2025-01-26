@@ -36,11 +36,13 @@ AIDriveStrategyFindBales.myStates = {
 }
 --- Offset to apply at the goal marker, so we don't crash with an empty unloader waiting there with the same position.
 AIDriveStrategyFindBales.invertedGoalPositionOffset = -4.5
+AIDriveStrategyFindBales.minStartDistanceToField = 20
 
 function AIDriveStrategyFindBales:init(task, job)
     AIDriveStrategyCourse.init(self, task, job)
     AIDriveStrategyCourse.initStates(self, AIDriveStrategyFindBales.myStates)
-    self.state = self.states.INITIAL
+    -- we always need a field boundary to work
+    self.state = self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION
     self.debugChannel = CpDebug.DBG_FIND_BALES
     self.bales = {}
 end
@@ -183,32 +185,11 @@ function AIDriveStrategyFindBales:setAllStaticParameters()
     self.numBalesLeftOver = 0
 end
 
-function AIDriveStrategyFindBales:setFieldPolygon(fieldPolygon)
-    self.fieldPolygon = fieldPolygon
-end
-
 --- Bale wrap type for the bale loader.
 function AIDriveStrategyFindBales:setAIVehicle(vehicle, jobParameters)
     AIDriveStrategyCourse.setAIVehicle(self, vehicle, jobParameters)
     self.baleWrapType = jobParameters.baleWrapType:getValue()
     self:debug("Bale type selected: %s", tostring(self.baleWrapType))
-
-    local x, z = jobParameters.startPosition:getPosition()
-    local angle = jobParameters.startPosition:getAngle()
-    if x ~= nil and z ~= nil and angle ~= nil then
-        --- Additionally safety check, if the position is on the field or near it.
-        if CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z)
-                or CpMathUtil.getClosestDistanceToPolygonEdge(self.fieldPolygon, x, z) < 2 * CpAIJobBaleFinder.minStartDistanceToField then
-            --- Goal position marker set in the ai menu rotated by 180 degree.
-            self.invertedStartPositionMarkerNode = CpUtil.createNode("Inverted Start position marker",
-                    x, z, angle + math.pi)
-            self:debug("Valid goal position marker was set.")
-        else
-            self:debug("Start position is too far away from the field for a valid goal position!")
-        end
-    else
-        self:debug("Invalid start position found!")
-    end
 end
 -----------------------------------------------------------------------------------------------------------------------
 --- Bale finding
@@ -536,7 +517,15 @@ end
 function AIDriveStrategyFindBales:getDriveData(dt, vX, vY, vZ)
     self:updateLowFrequencyImplementControllers()
     self:updateLowFrequencyPathfinder()
-    if self.state == self.states.INITIAL then
+    if self.state == self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION then
+        self:setMaxSpeed(0)
+        if self:waitForFieldBoundary() then
+            self:debug('Have field boundary now, checking positions.')
+            if self:isPositionOk() then
+                self.state = self.states.INITIAL
+            end
+        end
+    elseif self.state == self.states.INITIAL then
         if self:getCanContinueWork() then
             self.state = self.states.SEARCHING_FOR_NEXT_BALE
         else
@@ -605,6 +594,39 @@ function AIDriveStrategyFindBales:approachBale()
             self.numBalesLeftOver = math.max(self.numBalesLeftOver - 1, 0)
         end
     end
+end
+
+--- Check if we have the field polygon (as we need it to find the bales) and if we are on or close to the field.
+--- The field polygon generation is started by the job and if we direct start, may not have finished yet.
+--- Once we have it, check the vehicle and start positions.
+function AIDriveStrategyFindBales:isPositionOk()
+    --- check, if the vehicle is near the field.
+    local x, _, z = getWorldTranslation(self.vehicle.rootNode)
+    if CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z) or
+            CpMathUtil.getClosestDistanceToPolygonEdge(self.fieldPolygon, x, z) < AIDriveStrategyFindBales.minStartDistanceToField then
+        -- now check the start position
+        x, z = self.jobParameters.startPosition:getPosition()
+        local angle = self.jobParameters.startPosition:getAngle()
+        if x ~= nil and z ~= nil and angle ~= nil then
+            --- Additionally safety check, if the position is on the field or near it.
+            if CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z)
+                    or CpMathUtil.getClosestDistanceToPolygonEdge(self.fieldPolygon, x, z) < 2 * AIDriveStrategyFindBales.minStartDistanceToField then
+                --- Goal position marker set in the ai menu rotated by 180 degree.
+                self.invertedStartPositionMarkerNode = CpUtil.createNode("Inverted Start position marker",
+                        x, z, angle + math.pi)
+                self:debug("Valid goal position marker was set.")
+            else
+                self:debug("Start position is too far away from the field for a valid goal position!")
+            end
+        else
+            self:debug("Invalid start position found!")
+        end
+    else
+        self:debug('Vehicle not on field or too far away from field')
+        self.vehicle:stopCurrentAIJob(AIMessageErrorTooFarFromField.new())
+        return false
+    end
+    return true
 end
 
 function AIDriveStrategyFindBales:workOnBale()

@@ -53,7 +53,7 @@ function CpAIJobCombineUnloader:getIsAvailableForVehicle(vehicle, cpJobsAllowed)
 end
 
 function CpAIJobCombineUnloader:getCanStartJob()
-	return self:getFieldPolygon()
+	return self:getVehicle():cpGetFieldPolygon() ~= nil
 end
 
 ---@param vehicle table
@@ -108,28 +108,11 @@ function CpAIJobCombineUnloader:setValues()
 	self:setupGiantsUnloaderData(vehicle)
 end
 
-function CpAIJobCombineUnloader:validateFieldPosition(isValid, errorMessage)
-	local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
-	if tx == nil or tz == nil then 
-		return false, g_i18n:getText("CP_error_not_on_field")
-	end
-	local _
-	local fieldPolygon, _ = CpFieldUtil.getFieldPolygonAtWorldPosition(tx, tz)
-	self:setFieldPolygon(fieldPolygon)
-	if fieldPolygon then 
-		self.selectedFieldPlot:setWaypoints(fieldPolygon)
-        self.selectedFieldPlot:setVisible(true)
-	else
-		return false, g_i18n:getText("CP_error_not_on_field")
-	end
-	return isValid, errorMessage
-end
-
 --- Called when parameters change, scan field
 function CpAIJobCombineUnloader:validate(farmId)
 	self.selectedFieldPlot:setVisible(false)
 	self.heapPlot:setVisible(false)
-	local isValid, errorMessage = CpAIJob.validate(self, farmId)
+	local isValid, isRunning, errorMessage = CpAIJob.validate(self, farmId)
 	if not isValid then
 		return isValid, errorMessage
 	end
@@ -138,14 +121,45 @@ function CpAIJobCombineUnloader:validate(farmId)
 		vehicle:applyCpCombineUnloaderJobParameters(self)
 	end
 	------------------------------------
+	--- Validate giants unload if needed
+	-------------------------------------
+	if not self.cpJobParameters.useGiantsUnload:getIsDisabled() and self.cpJobParameters.useGiantsUnload:getValue() then
+		isValid, errorMessage = self.cpJobParameters.unloadingStation:validateUnloadingStation()
+
+		if not isValid then
+			return false, errorMessage
+		end
+
+		if not AIJobDeliver.getIsAvailableForVehicle(self, vehicle) then
+			return false, g_i18n:getText("CP_error_giants_unloader_not_available")
+		end
+
+		isValid, errorMessage = self.cpJobParameters.startPosition:validate()
+		if not isValid then
+			return false, errorMessage
+		end
+	end
+
+	------------------------------------
 	--- Validate selected field
 	-------------------------------------
-	isValid, errorMessage = self:validateFieldPosition(isValid, errorMessage)
+	isValid, isRunning, errorMessage = self:detectFieldBoundary()
 
-	if not isValid then
-		return isValid, errorMessage
+	if isValid then
+		-- already have a valid boundary, continue the validation now
+		return self:onFieldBoundaryDetectionFinished(vehicle, vehicle:cpGetFieldPolygon())
+	else
+		-- if the detection is now running at least, we are ok, the strategy will take care of the result
+		return isValid or isRunning, errorMessage
 	end
-	local fieldPolygon = self:getFieldPolygon()
+end
+
+function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+	-- show the field
+	if fieldPolygon then
+		self.selectedFieldPlot:setWaypoints(fieldPolygon)
+		self.selectedFieldPlot:setVisible(true)
+	end
 	------------------------------------
 	--- Validate start distance to field
 	-------------------------------------
@@ -153,7 +167,8 @@ function CpAIJobCombineUnloader:validate(farmId)
 	if not self.cpJobParameters.useGiantsUnload:getIsDisabled() then 
 		useGiantsUnload =  self.cpJobParameters.useGiantsUnload:getValue() 
 	end
-	if isValid and self.isDirectStart then 
+	local isValid, errorMessage = true
+	if fieldPolygon and self.isDirectStart then
 		--- Checks the distance for starting with the hud, as a safety check.
 		--- Firstly check, if the vehicle is near the field.
 		local x, _, z = getWorldTranslation(vehicle.rootNode)
@@ -161,34 +176,16 @@ function CpAIJobCombineUnloader:validate(farmId)
 				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minStartDistanceToField
 		if not isValid and useGiantsUnload then 
 			--- Alternatively check, if the start marker is close to the field and giants unload is active.
-			local x, z = self.cpJobParameters.startPosition:getPosition()
+			x, z = self.cpJobParameters.startPosition:getPosition()
 			isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
 				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minStartDistanceToField
 			if not isValid then
-				return false, g_i18n:getText("CP_error_start_position_to_far_away_from_field")
-			end 
+				return self:callFieldBoundaryDetectionFinishedCallback(false, "CP_error_start_position_to_far_away_from_field")
+			end
 		end
 		if not isValid then
-			return false, g_i18n:getText("CP_error_unloader_to_far_away_from_field")
+			return self:callFieldBoundaryDetectionFinishedCallback(false, "CP_error_unloader_to_far_away_from_field")
 		end
-	end
-	------------------------------------
-	--- Validate giants unload if needed
-	-------------------------------------
-	if useGiantsUnload then 
-		isValid, errorMessage = self.cpJobParameters.unloadingStation:validateUnloadingStation()
-		
-		if not isValid then
-			return false, errorMessage
-		end
-
-		if not AIJobDeliver.getIsAvailableForVehicle(self, vehicle) then 
-			return false, g_i18n:getText("CP_error_giants_unloader_not_available")
-		end
-		isValid, message = self.cpJobParameters.startPosition:validate()
-	end
-	if not isValid then
-		return isValid, errorMessage
 	end
 	------------------------------------
 	--- Validate field unload if needed
@@ -203,7 +200,7 @@ function CpAIJobCombineUnloader:validate(farmId)
 		isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
 				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minFieldUnloadDistanceToField
 		if not isValid then
-			return false, g_i18n:getText("CP_error_fieldUnloadPosition_too_far_away_from_field")
+			return self:callFieldBoundaryDetectionFinishedCallback(false, 'CP_error_fieldUnloadPosition_too_far_away_from_field')
 		end
 		--- Draws the silo
 		local angle = self.cpJobParameters.fieldUnloadPosition:getAngle()
@@ -215,8 +212,7 @@ function CpAIJobCombineUnloader:validate(farmId)
 			self.heapPlot:setVisible(true)
 		end
 	end
-
-	return isValid, errorMessage
+	return self:callFieldBoundaryDetectionFinishedCallback(true)
 end
 
 function CpAIJobCombineUnloader:draw(map, isOverviewMap)
@@ -343,7 +339,7 @@ function CpAIJobCombineUnloader:getStartTaskIndex()
 		return startTask
 	end
 	local vehicle = self:getVehicle()
-	local fieldPolygon = self:getFieldPolygon()
+	local fieldPolygon = vehicle:cpGetFieldPolygon()
 	local x, _, z = getWorldTranslation(vehicle.rootNode)
 	local fillLevelPercentage = FillLevelUtil.getTotalTrailerFillLevelPercentage(vehicle)
 	local readyToDriveUnloading = vehicle:getCpSettings().fullThreshold:getValue() <= fillLevelPercentage

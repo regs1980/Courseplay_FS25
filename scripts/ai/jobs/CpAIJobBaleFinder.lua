@@ -4,7 +4,6 @@
 CpAIJobBaleFinder = CpObject(CpAIJob)
 CpAIJobBaleFinder.name = "BALE_FINDER_CP"
 CpAIJobBaleFinder.jobName = "CP_job_baleCollect"
-CpAIJobBaleFinder.minStartDistanceToField = 20
 function CpAIJobBaleFinder:init(isServer)
 	CpAIJob.init(self, isServer)
 	self.selectedFieldPlot = FieldPlot(true)
@@ -28,9 +27,8 @@ function CpAIJobBaleFinder:getIsAvailableForVehicle(vehicle, cpJobsAllowed)
 end
 
 function CpAIJobBaleFinder:getCanStartJob()
-	return self:getFieldPolygon() ~= nil
+	return self:getVehicle():cpGetFieldPolygon() ~= nil
 end
-
 
 function CpAIJobBaleFinder:applyCurrentState(vehicle, mission, farmId, isDirectStart, isStartPositionInvalid)
 	CpAIJob.applyCurrentState(self, vehicle, mission, farmId, isDirectStart)
@@ -53,7 +51,7 @@ end
 
 --- Called when parameters change, scan field
 function CpAIJobBaleFinder:validate(farmId)
-	local isValid, errorMessage = CpAIJob.validate(self, farmId)
+	local isValid, isRunning, errorMessage = CpAIJob.validate(self, farmId)
 	if not isValid then
 		return isValid, errorMessage
 	end
@@ -64,41 +62,20 @@ function CpAIJobBaleFinder:validate(farmId)
 	--------------------------------------------------------------
 	--- Validate field setup
 	--------------------------------------------------------------
-	
-	isValid, errorMessage = self:validateFieldPosition(isValid, errorMessage)	
-	local fieldPolygon = self:getFieldPolygon()
-	--------------------------------------------------------------
-	--- Validate start distance to field, if started with the hud
-	--------------------------------------------------------------
-	if isValid and self.isDirectStart and fieldPolygon then 
-		--- Checks the distance for starting with the hud, as a safety check.
-		--- Firstly check, if the vehicle is near the field.
-		local x, _, z = getWorldTranslation(vehicle.rootNode)
-		isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
-				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minStartDistanceToField
-		if not isValid then
-			return false, g_i18n:getText("CP_error_vehicle_too_far_away_from_field")
-		end
-	end
-
-
-	return isValid, errorMessage
+	isValid, isRunning, errorMessage = self:detectFieldBoundary(isValid, errorMessage)
+	-- if the field detection is still running, it's ok
+	return isValid or isRunning, errorMessage
 end
 
-function CpAIJobBaleFinder:validateFieldPosition(isValid, errorMessage)
-	local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
-	if tx == nil or tz == nil then 
-		return false, g_i18n:getText("CP_error_not_on_field")
-	end
-	local fieldPolygon, _ = CpFieldUtil.getFieldPolygonAtWorldPosition(tx, tz)
-	self:setFieldPolygon(fieldPolygon)
-	if fieldPolygon then 
+function CpAIJobBaleFinder:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+	if fieldPolygon then
 		self.selectedFieldPlot:setWaypoints(fieldPolygon)
-        self.selectedFieldPlot:setVisible(true)
+		self.selectedFieldPlot:setVisible(true)
+		self:callFieldBoundaryDetectionFinishedCallback(true)
 	else
-		return false, g_i18n:getText("CP_error_not_on_field")
+		self.selectedFieldPlot:setVisible(false)
+		self:callFieldBoundaryDetectionFinishedCallback(false, 'CP_error_field_detection_failed')
 	end
-	return isValid, errorMessage
 end
 
 function CpAIJobBaleFinder:draw(map, isOverviewMap)

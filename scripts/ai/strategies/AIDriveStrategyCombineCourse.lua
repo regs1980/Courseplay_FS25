@@ -76,6 +76,10 @@ AIDriveStrategyCombineCourse.isAAIDriveStrategyCombineCourse = true
 function AIDriveStrategyCombineCourse:init(task, job)
     AIDriveStrategyFieldWorkCourse.init(self, task, job)
     AIDriveStrategyCourse.initStates(self, AIDriveStrategyCombineCourse.myStates)
+    --- Combine needs a field polygon for the self-unload to work. Although it is a user setting, but it can be
+    --- changed during the work, so we always require the field polygon, regardless of the setting, as it is checked
+    --- only after starting the CP driver.
+    self.state = self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION
     self.fruitLeft, self.fruitRight = 0, 0
     self.litersPerMeter = 0
     self.litersPerSecond = 0
@@ -237,7 +241,20 @@ function AIDriveStrategyCombineCourse:getDriveData(dt, vX, vY, vZ)
     if self.temporaryHold:get() then
         self:setMaxSpeed(0)
     end
-    if self.state == self.states.WORKING then
+
+    if self.state == self.states.INITIAL and not self.vehicle:cpGetFieldPolygon() then
+        self:setMaxSpeed(0)
+        self:debug('Have no field boundary, wait for it')
+        self.state = self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION
+    end
+
+    if self.state == self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION then
+        self:setMaxSpeed(0)
+        if self:waitForFieldBoundary() then
+            self:debug('Have field boundary now.')
+            self.state = self.states.INITIAL
+        end
+    elseif self.state == self.states.WORKING then
         -- Harvesting
         self:checkRendezvous()
         self:checkBlockingUnloader()
@@ -2164,4 +2181,23 @@ function AIDriveStrategyCombineCourse:updateInfoTexts()
             self:clearInfoText(infoText)
         end
     end
+end
+
+------------------------------------------------------------------------------------------------------------------------
+--- Field polygon
+---------------------------------------------------------------------------------------------------------------------------
+--- We don't save the field polygon with the savegame, so if a combine is started directly from the HUD after the
+--- game loaded, it doesn't have the field polygon. This makes sure that in this case the detection is started.
+---@return boolean true if the field boundary is already available
+function AIDriveStrategyCombineCourse:waitForFieldBoundary()
+    if not self.vehicle:cpIsFieldBoundaryDetectionRunning() and self.vehicle:cpGetFieldPolygon() == nil then
+        self:debug("Need field boundary to work, start detection now.")
+        -- TODO: should really store the field position (or the polygon itself?) with the course, as
+        -- in some rare cases, for instance when using field margin, the start waypoint may be outside
+        -- of the field, and thus the detection won't work.
+        local x, _, z = self.fieldWorkCourse:getWaypointPosition(self.fieldWorkCourse:getCurrentWaypointIx())
+        -- no callback, waitForFieldBoundary() will take care of the result
+        self.vehicle:cpDetectFieldBoundary(x, z)
+    end
+    return AIDriveStrategyFieldWorkCourse.waitForFieldBoundary(self)
 end

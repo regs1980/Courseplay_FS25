@@ -168,6 +168,7 @@ end
 
 --- Updates the parameter values.
 function CpAIJob:applyCurrentState(vehicle, mission, farmId, isDirectStart)
+	-- the only thing this does, is setting self.isDirectStart
 	AIJob.applyCurrentState(self, vehicle, mission, farmId, isDirectStart)
 	self.vehicleParameter:setVehicle(vehicle)
 	if not self.cpJobParameters or not self.cpJobParameters.startPosition then 
@@ -233,6 +234,7 @@ function CpAIJob:setValues()
 end
 
 --- Is the job valid?
+---@param farmId number not used
 function CpAIJob:validate(farmId)
 	--- TODO_25
 	-- self:setParamterValid(true)
@@ -244,6 +246,62 @@ function CpAIJob:validate(farmId)
 	end
 
 	return isValid, errorMessage
+end
+
+--- Start an asynchronous field boundary detection. Results are delivered by the callback
+--- onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+--- If the field position hasn't changed since the last call, the detection is skipped and this returns true.
+--- In that case, the polygon from the previous run is still available from vehicle:cpGetFieldPolygon()
+---@return boolean, boolean, string true if we already have a field boundary false otherwise,
+--- second boolean true if the detection is still running false on error
+--- error message
+function CpAIJob:detectFieldBoundary()
+	local vehicle = self.vehicleParameter:getVehicle()
+
+	local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
+	if tx == nil or tz == nil then
+		return false, false, g_i18n:getText("CP_error_not_on_field")
+	end
+	if vehicle:cpIsFieldBoundaryDetectionRunning() then
+		return false, false, g_i18n:getText("CP_error_field_detection_still_running")
+	end
+	local x, z = vehicle:cpGetFieldPosition()
+	if x == tx and z == tz then
+		self:debug('Field position still at %.1f/%.1f, do not detect field boundary again', tx, tz)
+		return true, false, ''
+	end
+	self:debug('Field position changed to %.1f/%.1f, start field boundary detection', tx, tz)
+	self.foundVines = nil
+
+	vehicle:cpDetectFieldBoundary(tx, tz, self, self.onFieldBoundaryDetectionFinished)
+	-- TODO: return false and nothing, as the detection is still running?
+	return false, true, g_i18n:getText('CP_error_field_detection_still_running')
+end
+
+function CpAIJob:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+	-- override in the derived classes to handle the detected field boundary
+end
+
+--- If registered, call the field boundary detection finished callback. This is to notify the frame
+--- at the end of the async field detection.
+--- It'll also return the result as a synchronous validate call would, and as the frame expects it, in case
+--- someone calls the registered callback directly from validate()
+---@return boolean isValid, string errorText
+function CpAIJob:callFieldBoundaryDetectionFinishedCallback(isValid, errorTextName)
+	local c = self.onFieldBoundaryDetectionFinishedCallback
+	local errorText = errorTextName and g_i18n:getText(errorTextName) or ''
+	if c and c.object and c.func then
+		c.func(c.object, isValid, errorText)
+	end
+	return isValid, errorText
+end
+
+--- Register a callback for the field boundary detection finished event.
+--- @param object table object to call the function on
+--- @param func function function to call func(boolean isValid, string|nil errorTextName), errorTextName is the
+--- name of the text in MasterTranslations.xml
+function CpAIJob:registerFieldBoundaryDetectionCallback(object, func)
+	self.onFieldBoundaryDetectionFinishedCallback = {object = object, func = func}
 end
 
 function CpAIJob:getIsStartable(connection)
@@ -351,10 +409,6 @@ end
 
 function CpAIJob:getCpJobParameters()
 	return self.cpJobParameters
-end
-
-function CpAIJob:getFieldPolygon()
-	return self.fieldPolygon
 end
 
 function CpAIJob:setFieldPolygon(polygon)

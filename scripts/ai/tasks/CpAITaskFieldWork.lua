@@ -76,7 +76,7 @@ function CpAITaskFieldWork:start()
 		--- Remembers the last lane offset setting value that was used.
         cpSpec.cpJobStartAtLastWp:getCpJobParameters().laneOffset:setValue(self.job:getCpJobParameters().laneOffset:getValue())
 		if spec.driveStrategies ~= nil then
-			-- This deltition code could be removed, but just to be sure we let it stay here for now.
+			-- This deletion code could be removed, but just to be sure we let it stay here for now.
 			for i = #spec.driveStrategies, 1, -1 do
 				spec.driveStrategies[i]:delete()
 				table.remove(spec.driveStrategies, i)
@@ -105,7 +105,6 @@ function CpAITaskFieldWork:start()
 				cpDriveStrategy = AIDriveStrategyFieldWorkCourse(self, self.job)
 			end
 		end
-		cpDriveStrategy:setFieldPolygon(self.job:getFieldPolygon())
 		cpDriveStrategy:setAIVehicle(self.vehicle, self.job:getCpJobParameters())
 		cpSpec.driveStrategy = cpDriveStrategy
 		--- Only the last driving strategy can stop the helper, while it is running.

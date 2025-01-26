@@ -17,12 +17,13 @@
     <text name="CP_infoText" text="Courseplay(%s): Yardım almak, hata raporları veya yama notlarını görüntülemek için lütfen şu adresi ziyaret edin: https://github.com/Courseplay/Courseplay_FS25."/>
     <text name="CP_error_no_course" text="İşe başlamadan önce bir rota oluşturun."/>
     <text name="CP_error_could_not_generate_course" text="Rota oluşturulamadı. Günlükte daha fazla bilgi bulunabilir."/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
+    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
     <text name="CP_error_not_on_field" text="Hedef, bir tarlada değil."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Boşaltıcı tarladan çok uzakta."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Başlangıç konumu tarladan çok uzakta."/>
     <text name="CP_error_giants_unloader_not_available" text="Standart GIANTS boşaltıcısı kullanılamıyor."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Boşaltma noktası tarladan çok uzakta."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Araç çalışmaya başlayacağı tarladan çok uzakta."/>
     <text name="CP_error_no_bunkerSilo_found" text="Silo bulunamadı."/>
     <text name="CP_error_no_heap_found" text="Yığın bulunamadı."/>
     <text name="CP_error_no_unload_trigger_found" text="Boşaltma noktası bulunamadı."/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="Yapay zeka çalışanı %s beklenmedik bir şekilde çalışmayı durdurdu - kesicinin takılması mümkün değil!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="Yapay zeka çalışanı %s beklenmedik bir şekilde çalışmayı durdurdu - otomatik kesici takma devre dışı!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="Yapay zeka çalışanı %s beklenmedik bir şekilde çalışmayı durdurdu - seçili iş için yanlış ürün tipi!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -487,6 +489,7 @@ Düzenleyici kapatıldığında rota otomatik olarak kaydedilir ve önceki rotay
     <text name="CP_infoTexts_workFinished" text="Bitmiş iş"/>
     <text name="CP_infoTexts_drivingToCombine" text="Biçerdövere gidiyor"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Römorka gidiyor"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="Para kalmadı"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Yağmurun dinmesini bekliyor"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Karın kalkmasını bekliyor"/>

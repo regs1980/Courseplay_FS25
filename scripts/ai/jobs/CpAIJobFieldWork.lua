@@ -1,15 +1,19 @@
 --- AI job derived of CpAIJob.
----@class CpAIJobFieldWork : CpAIJob
-CpAIJobFieldWork = CpObject(CpAIJob)
+if CpAIJobFieldWork == nil then
+    -- create class only on game load once, otherwise just overwrite the members, so the class can be reloaded without
+    -- restarting the game
+    ---@class CpAIJobFieldWork : CpAIJob
+    CpAIJobFieldWork = CpObject(CpAIJob)
+end
 CpAIJobFieldWork.name = "FIELDWORK_CP"
 CpAIJobFieldWork.jobName = "CP_job_fieldWork"
 CpAIJobFieldWork.GenerateButton = "FIELDWORK_BUTTON"
 function CpAIJobFieldWork:init(isServer)
     CpAIJob.init(self, isServer)
-    self.hasValidPosition = false
     self.foundVines = nil
     self.selectedFieldPlot = FieldPlot(true)
     self.selectedFieldPlot:setVisible(false)
+    self.selectedFieldPlot:setBrightColor(true)
     self.courseGeneratorInterface = CourseGeneratorInterface()
 end
 
@@ -70,10 +74,11 @@ end
 ---@param mission table
 ---@param farmId number
 ---@param isDirectStart boolean disables the drive to by giants
----@param isStartPositionInvalid boolean resets the drive to target position by giants and the field position to the vehicle position.
-function CpAIJobFieldWork:applyCurrentState(vehicle, mission, farmId, isDirectStart, isStartPositionInvalid)
+---@param resetToVehiclePosition boolean resets the drive to target position by giants and the field position to the vehicle position.
+function CpAIJobFieldWork:applyCurrentState(vehicle, mission, farmId, isDirectStart, resetToVehiclePosition)
     CpAIJob.applyCurrentState(self, vehicle, mission, farmId, isDirectStart)
-    if isStartPositionInvalid then
+    if resetToVehiclePosition then
+        -- set the start and the field position to the vehicle's position (
         local x, _, z = getWorldTranslation(vehicle.rootNode)
         local dirX, _, dirZ = localDirectionToWorld(vehicle.rootNode, 0, 0, 1)
         local angle = MathUtil.getYRotationFromDirection(dirX, dirZ)
@@ -85,46 +90,34 @@ function CpAIJobFieldWork:applyCurrentState(vehicle, mission, farmId, isDirectSt
     else
         local x, z = self.cpJobParameters.fieldPosition:getPosition()
         if x == nil or z == nil then
+            -- if there is no field position set, set it to the vehicle's position
             x, _, z = getWorldTranslation(vehicle.rootNode)
             self.cpJobParameters.fieldPosition:setPosition(x, z)
         end
     end
+    local fieldPolygon = vehicle:cpGetFieldPolygon()
+    if fieldPolygon then
+        -- if we already have a field polygon, show it
+        self.selectedFieldPlot:setWaypoints(fieldPolygon)
+        self.selectedFieldPlot:setVisible(true)
+    end
 end
 
---- Checks the field position setting.
-function CpAIJobFieldWork:validateFieldSetup(isValid, errorMessage)
-    if not isValid then
-        return isValid, errorMessage
-    end
-
-    local vehicle = self.vehicleParameter:getVehicle()
-
-    -- everything else is valid, now find the field
-    local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
-    if tx == nil or tz == nil then
-        return false, g_i18n:getText("CP_error_not_on_field")
-    end
-    self.hasValidPosition = false
-    self.foundVines = nil
-    local fieldPolygon
-    fieldPolygon, self.isCustomField = CpFieldUtil.getFieldPolygonAtWorldPosition(tx, tz)
-    self:setFieldPolygon(fieldPolygon)
+function CpAIJobFieldWork:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
     if fieldPolygon then
-        self.hasValidPosition = true
-        self.foundVines = g_vineScanner:findVineNodesInField(fieldPolygon, tx, tz, self.customField ~= nil)
+        local x, z = vehicle:cpGetFieldPosition()
+        self.foundVines = g_vineScanner:findVineNodesInField(fieldPolygon, x, z, self.customField ~= nil)
         if self.foundVines then
             CpUtil.debugVehicle(CpDebug.DBG_FIELDWORK, vehicle, "Found vine nodes, generating a vine field border.")
-            fieldPolygon = g_vineScanner:getCourseGeneratorVertices(0, tx, tz)
+            fieldPolygon = g_vineScanner:getCourseGeneratorVertices(0, x, z)
         end
         self.selectedFieldPlot:setWaypoints(fieldPolygon)
         self.selectedFieldPlot:setVisible(true)
-        self.selectedFieldPlot:setBrightColor(true)
     else
         self.selectedFieldPlot:setVisible(false)
-        return false, g_i18n:getText("CP_error_not_on_field")
+        self:callFieldBoundaryDetectionFinishedCallback(false, 'CP_error_field_detection_failed')
     end
-
-    return true, ''
+    self:callFieldBoundaryDetectionFinishedCallback(true)
 end
 
 function CpAIJobFieldWork:setValues()
@@ -137,8 +130,9 @@ function CpAIJobFieldWork:setValues()
 end
 
 --- Called when parameters change, scan field
+---@param farmId number not used
 function CpAIJobFieldWork:validate(farmId)
-    local isValid, errorMessage = CpAIJob.validate(self, farmId)
+    local isValid, isRunning, errorMessage = CpAIJob.validate(self, farmId)
     if not isValid then
         return isValid, errorMessage
     end
@@ -146,7 +140,7 @@ function CpAIJobFieldWork:validate(farmId)
 
     --- Only check the valid field position in the in game menu.
     if not self.isDirectStart then
-        isValid, errorMessage = self:validateFieldSetup(isValid, errorMessage)
+        isValid, isRunning, errorMessage = self:detectFieldBoundary()
         if not isValid then
             return isValid, errorMessage
         end
@@ -169,7 +163,8 @@ function CpAIJobFieldWork:draw(map, isOverviewMap)
 end
 
 function CpAIJobFieldWork:getCanGenerateFieldWorkCourse()
-    return self.hasValidPosition
+    local vehicle = self:getVehicle()
+    return vehicle and vehicle:cpGetFieldPolygon() ~= nil and not vehicle:cpIsFieldBoundaryDetectionRunning()
 end
 
 -- To pass an alignment course from the drive to fieldwork start to the fieldwork, so the
@@ -200,10 +195,7 @@ end
 function CpAIJobFieldWork:onClickGenerateFieldWorkCourse(callback)
     local vehicle = self.vehicleParameter:getVehicle()
     local settings = vehicle:getCourseGeneratorSettings()
-    if self.isCustomField then
-        CpUtil.infoVehicle(vehicle, 'disabling island bypass on custom field')
-        settings.bypassIslands:setValue(false)
-    end
+
     local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
     local ok, course
     if self.foundVines then
@@ -231,7 +223,10 @@ function CpAIJobFieldWork:onClickGenerateFieldWorkCourse(callback)
             vehicle,
             settings,
             nil,
-            callback)
+            callback,
+            -- this button is only enabled if we already detected the field boundary, so use the existing polygons
+            vehicle:cpGetFieldPolygon(),
+            vehicle:cpGetIslandPolygons())
     end
     return true
 end
@@ -251,12 +246,6 @@ end
 
 function CpAIJobFieldWork:getIsAvailableForVehicle(vehicle, cpJobsAllowed)
     return CpAIJob.getIsAvailableForVehicle(self, vehicle, cpJobsAllowed) and vehicle.getCanStartCpFieldWork and vehicle:getCanStartCpFieldWork() -- TODO_25
-end
-
-function CpAIJobFieldWork:resetStartPositionAngle(vehicle)
-    CpAIJob.resetStartPositionAngle(self, vehicle)
-    local x, _, z = getWorldTranslation(vehicle.rootNode)
-    self.cpJobParameters.fieldPosition:setPosition(x, z)
 end
 
 --- Ugly hack to fix a mp problem from giants, where the helper is not always reset correctly on the client side.

@@ -16,13 +16,35 @@ end
 ---@param object table|nil optional object with callback
 ---@param onFinishedFunc function callback function to call when finished: onFinishedFunc([object,] course) where
 --- course may be nil on failure
-function CourseGeneratorInterface:startGeneration(startPosition, vehicle, settings, object, onFinishedFunc)
+function CourseGeneratorInterface:startGenerationWithDetection(startPosition, vehicle, settings, object, onFinishedFunc)
     self.startPosition = startPosition
     self.vehicle = vehicle
     self.settings = settings
     self.object = object
     self.onFinishedFunc = onFinishedFunc
     vehicle:cpDetectFieldBoundary(startPosition.x, startPosition.z, self, self.onFieldDetectionFinished)
+end
+
+--- Start generating a normal (non-vine) fieldwork course, with field boundary and islands already detected
+---@param startPosition table {x, z}
+---@param vehicle table
+---@param settings CpCourseGeneratorSettings
+---@param object table|nil optional object with callback
+---@param onFinishedFunc function callback function to call when finished: onFinishedFunc([object,] course) where
+--- course may be nil on failure
+---@param fieldPolygon table [{x, z}] field boundary polygon
+---@param islandPolygons table [[{x, z}]] island polygons
+function CourseGeneratorInterface:startGeneration(startPosition, vehicle, settings, object, onFinishedFunc,
+                                                  fieldPolygon, islandPolygons)
+    self.vehicle = vehicle
+    self.object = object
+    self.onFinishedFunc = onFinishedFunc
+    local ok, course = self:generate(fieldPolygon, startPosition, vehicle, settings, islandPolygons)
+    if ok then
+        self:triggerCallback(course)
+    else
+        self:triggerCallback(nil)
+    end
 end
 
 function CourseGeneratorInterface:onFieldDetectionFinished(vehicle, fieldPolygon, islandPolygons)
@@ -33,12 +55,8 @@ function CourseGeneratorInterface:onFieldDetectionFinished(vehicle, fieldPolygon
         return
     end
     self.logger:info(vehicle, "Field detection finished, now start generating course")
-    local ok, course = self:generate(fieldPolygon, self.startPosition, vehicle, self.settings, islandPolygons)
-    if ok then
-        self:triggerCallback(course)
-    else
-        self:triggerCallback(nil)
-    end
+    self:startGeneration(self.startPosition, vehicle, self.settings, self.object, self.onFinishedFunc,
+            fieldPolygon, islandPolygons)
 end
 
 function CourseGeneratorInterface:triggerCallback(...)
@@ -53,7 +71,7 @@ end
 ---@param startPosition table {x, z}
 ---@param vehicle table
 ---@param settings CpCourseGeneratorSettings
----@param islandPolygons|nil table [[{x, z}]] island polygons, if not given, we'll attempt to find islands
+---@param islandPolygons|nil table [[{x, z}]] island polygons
 function CourseGeneratorInterface:generate(fieldPolygon,
                                            startPosition,
                                            vehicle,
@@ -104,10 +122,6 @@ function CourseGeneratorInterface:generate(fieldPolygon,
                 context.field:addIsland(CourseGenerator.Island.createFromBoundary(i,
                         Polygon(CpMathUtil.pointsFromGame(islandPolygon))))
             end
-        else
-            -- detect islands ourselves
-            context.field:findIslands()
-            context.field:setupIslands()
         end
     end
 
@@ -161,12 +175,11 @@ function CourseGeneratorInterface:generate(fieldPolygon,
     -- the actual number of headlands generated may be less than the requested
     local numberOfHeadlands = self.generatedCourse:getNumberOfHeadlands()
 
-    self.logger:debug(self.vehicle, 'Generated course: %s', self.generatedCourse)
+    self.logger:debug(vehicle, 'Generated course: %s', self.generatedCourse)
 
     local course = Course.createFromGeneratedCourse(vehicle, self.generatedCourse,
             settings.workWidth:getValue(), numberOfHeadlands, settings.multiTools:getValue(),
             settings.headlandClockwise:getValue(), settings.islandHeadlandClockwise:getValue(), not settings.useBaseLineEdge:getValue())
-    course:setFieldPolygon(fieldPolygon)
     self:setCourse(vehicle, course)
     return true, course
 end
@@ -228,7 +241,6 @@ function CourseGeneratorInterface:generateVineCourse(
 
     local course = Course.createFromGeneratedCourse(vehicle, self.generatedCourse,
             workWidth, 0, multiTools, true, true, true)
-    course:setFieldPolygon(fieldPolygon)
     self:setCourse(vehicle, course)
     return true, course
 end
@@ -246,7 +258,7 @@ function CourseGeneratorInterface:generateDefaultCourse(vehicle)
     local settings = vehicle:getCourseGeneratorSettings()
     local x, _, z = getWorldTranslation(vehicle.rootNode)
     self.logger:info(vehicle, 'Generating course at x = %.1f, z = %.1f', x, z)
-    self:startGeneration({x = x, z = z}, vehicle, settings, nil, function()
+    self:startGenerationWithDetection({x = x, z = z}, vehicle, settings, nil, function()
         self.logger:info(vehicle, 'Course generation finished')
     end)
 end

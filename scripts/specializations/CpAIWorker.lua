@@ -263,7 +263,7 @@ function CpAIWorker:cpStartStopDriver(isStartedByHud)
 
             job:applyCurrentState(self, g_currentMission, g_currentMission.playerSystem:getLocalPlayer().farmId, true, true)
             job:setValues()
-            local success, message = job:validate(false)
+            local success, message = job:validate()
             if success then
                 g_client:getServerConnection():sendEvent(AIJobStartRequestEvent.new(job, self:getOwnerFarmId()))
                 CpUtil.debugVehicle(CpDebug.DBG_FIELDWORK, self, "Cp helper started.")

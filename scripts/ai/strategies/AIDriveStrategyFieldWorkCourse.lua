@@ -93,11 +93,13 @@ function AIDriveStrategyFieldWorkCourse:start(course, startIx, jobParameters)
     end
     --- Store a reference to the original generated course
     self.originalGeneratedFieldWorkCourse = self.vehicle:getFieldWorkCourse()
+end
 
-    if self.fieldPolygon == nil then
-        self:debug("No field polygon received, so regenerate it by the course.")
-        self.fieldPolygon = self.fieldWorkCourse:getFieldPolygon()
-    end
+--- If the strategy needs a field polygon to work, it won't transition out of the INITIAL state
+--- until the field detection, an asynchronous process that may have started only when the job was started, is finished.
+---@return boolean true if the strategy needs the field polygon to work
+function AIDriveStrategyFieldWorkCourse:needsFieldPolygon()
+    return false
 end
 
 --- Make sure all implements are in the working state
@@ -753,10 +755,6 @@ function AIDriveStrategyFieldWorkCourse:setAllStaticParameters()
     self:setFrontAndBackMarkers()
     self.loweringDurationMs = AIUtil.findLoweringDurationMs(self.vehicle)
     self.fieldWorkerProximityController = FieldWorkerProximityController(self.vehicle, self.workWidth)
-end
-
-function AIDriveStrategyFieldWorkCourse:setFieldPolygon(polygon)
-    self.fieldPolygon = polygon
 end
 
 -----------------------------------------------------------------------------------------------------------------------

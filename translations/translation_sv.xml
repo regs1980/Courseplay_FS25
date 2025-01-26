@@ -17,12 +17,13 @@
     <text name="CP_infoText" text="Courseplay(%s): För hjälp, bug rapport och uppdaterings info, vänligen besök: https://github.com/Courseplay/Courseplay_FS22."/>
     <text name="CP_error_no_course" text="Generera en kurs innan du startat ett arbete."/>
     <text name="CP_error_could_not_generate_course" text="Kunde inte generera kursen. Loggen kan ha mer information."/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
+    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
     <text name="CP_error_not_on_field" text="Målet är inte på ett fält."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Avlastnings fordon för långt bort från fältet."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Startposition för långt borta från fältet."/>
     <text name="CP_error_giants_unloader_not_available" text="Giants avlastnings fordon inte tillgänglig."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Fältavlastningspositionen är för långt bort från fältet."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Fordonet är för långt bort från fältet för att starta."/>
     <text name="CP_error_no_bunkerSilo_found" text="Ingen silo hittades."/>
     <text name="CP_error_no_heap_found" text="Ingen silo hittades."/>
     <text name="CP_error_no_unload_trigger_found" text="No unloading point found."/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="AI-arbetaren %s har slutat arbeta oväntat - påkoppling av skärbord är inte möjligt!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI-arbetaren %s har slutat arbeta oväntat - automatiskt påkoppling av skärbord är Inaktiverad!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI worker %s has stopped work unexpectedly - wrong fill type for mission selected!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -487,6 +489,7 @@ Banan sparas automatiskt vid stängning av editorn och åsidosätter den valda b
     <text name="CP_infoTexts_workFinished" text="Slutfört arbetet"/>
     <text name="CP_infoTexts_drivingToCombine" text="Kör till tröskan"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Kör till trailern"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="Slut på pengar"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Väntar på att det ska sluta regna för att kunna slutföra"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Waits for snow to disappear"/>
