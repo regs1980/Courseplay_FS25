@@ -79,7 +79,7 @@ end
 
 ---@param nHeadlandsWithRoundCorners number of headlands that should have their corners rounded to the turning radius.
 function FieldworkContext:setHeadlandsWithRoundCorners(nHeadlandsWithRoundCorners)
-    self.nHeadlandsWithRoundCorners = math.min(self.nHeadlands, nHeadlandsWithRoundCorners)
+    self.nHeadlandsWithRoundCorners = nHeadlandsWithRoundCorners
     return self
 end
 

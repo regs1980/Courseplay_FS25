@@ -387,7 +387,7 @@ function FieldworkCourse:_setContext(context)
     self.context = context
     self.context:log()
     self.nHeadlands = self.context.nHeadlands
-    self.nHeadlandsWithRoundCorners = self.context.nHeadlandsWithRoundCorners
+    self.nHeadlandsWithRoundCorners = math.min(self.context.nHeadlands, self.context.nHeadlandsWithRoundCorners)
     ---@type Polygon
     self.boundary = CourseGenerator.FieldworkCourseHelper.createUsableBoundary(context.field:getBoundary(), self.context.headlandClockwise)
     if self.context.fieldMargin ~= 0 then
