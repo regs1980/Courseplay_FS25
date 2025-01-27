@@ -18,7 +18,7 @@
     <text name="CP_error_no_course" text="Genera il percorso prima di iniziare il lavoro sul campo!"/>
     <text name="CP_error_could_not_generate_course" text="Impossibile generare il corso. Prova altre impostazioni."/>
     <text name="CP_error_field_detection_still_running" text="Rilevamento del campo ancora in corso."/>
-    <text name="CP_error_field_detection_failed" text="Rilevamento del campo fallito."/>	
+    <text name="CP_error_field_detection_failed" text="Rilevamento del campo fallito."/>
     <text name="CP_error_not_on_field" text="L'obiettivo non si trova su di un campo!"/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Scaricatore lontano dal campo."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Posizione di partenza troppo lontana dal campo."/>
@@ -489,7 +489,7 @@ Il percorso viene salvato automaticamente alla chiusura dell'editor e sovrascriv
     <text name="CP_infoTexts_workFinished" text="Ha finito il lavoro"/>
     <text name="CP_infoTexts_drivingToCombine" text="Guida verso combine"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Guida al rimorchio"/>
-	<text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Rilevamento del campo"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Rilevamento del campo"/>
     <text name="CP_infoTexts_outOfMoney" text="Senza soldi"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="In attesa che finisca la pioggia"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Aspetta che la neve scompaia"/>
