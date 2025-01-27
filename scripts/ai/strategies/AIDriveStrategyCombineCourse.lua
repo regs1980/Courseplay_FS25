@@ -782,7 +782,13 @@ function AIDriveStrategyCombineCourse:estimateDistanceUntilFull(ix)
     if ix > 1 then
         local dToNext = self.course:getDistanceToNextWaypoint(ix - 1)
         if self.fillLevelAtLastWaypoint and self.fillLevelAtLastWaypoint > 0 and self.fillLevelAtLastWaypoint <= fillLevel then
-            local litersPerMeter = (fillLevel - self.fillLevelAtLastWaypoint) / dToNext
+            local litersPerMeter
+            if dToNext > 0.1 then
+                litersPerMeter = (fillLevel - self.fillLevelAtLastWaypoint) / dToNext
+            else
+                -- use the last known liters per meter if the distance is too short
+                litersPerMeter = self.litersPerMeter
+            end
             local litersPerSecond = 0
             if self.fillLevelLastCheckedTime and (self.fillLevelLastCheckedTime < g_currentMission.time) then
                 litersPerSecond = (fillLevel - self.fillLevelAtLastWaypoint) /
