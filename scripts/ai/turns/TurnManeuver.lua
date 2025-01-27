@@ -108,7 +108,7 @@ end
 -- startDir and stopDir are points (x,z). The arc starts where the line from the center of the circle
 -- to startDir intersects the circle and ends where the line from the center of the circle to stopDir
 -- intersects the circle.
---
+-- TODO: this is relic from probably FS15 and should be refactored
 function TurnManeuver:generateTurnCircle(center, startDir, stopDir, radius, clockwise, addEndPoint, reverse)
     -- Convert clockwise to the right format
     if clockwise == nil then
@@ -167,7 +167,12 @@ function TurnManeuver:generateTurnCircle(center, startDir, stopDir, radius, cloc
     -- Get the number of waypoints
     numWP = math.ceil(degreeToTurn / degreeStep)
     -- Recalculate degreeStep
-    degreeStep = (degreeToTurn / numWP) * clockwise
+    if numWP >= 1 then
+        degreeStep = (degreeToTurn / numWP) * clockwise
+    else
+        self:debug("generateTurnCircle: numberOfWaypoints=%d, skipping", numWP)
+        return
+    end
     -- Add extra waypoint if addEndPoint is true
     if addEndPoint then
         numWP = numWP + 1
