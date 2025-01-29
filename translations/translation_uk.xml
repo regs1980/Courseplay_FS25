@@ -17,12 +17,13 @@
     <text name="CP_infoText" text="Courseplay(%s): Щоб отримати довідку, звітувати про помилки чи дізнатися інформацію про виправлення, відвідайте: https://github.com/Courseplay/Courseplay_FS25."/>
     <text name="CP_error_no_course" text="Для початку роботи створіть курс."/>
     <text name="CP_error_could_not_generate_course" text="Не вдалося згенерувати курс. Будь ласка, спробуйте інші налаштування."/>
+    <text name="CP_error_field_detection_still_running" text="Виявлення поля все ще запущене."/>
+    <text name="CP_error_field_detection_failed" text="Помилка виявлення поля."/>
     <text name="CP_error_not_on_field" text="Ціль не на полі."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Розвантажуючий далеко від поля."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Початкова позиція далеко від поля."/>
     <text name="CP_error_giants_unloader_not_available" text="Розвантажуючий Giants не доступний."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Розташування місця розвантаження занадто далеко від поля."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Транспортний засіб надто далеко від поля, щоб почати."/>
     <text name="CP_error_no_bunkerSilo_found" text="Силосну яму не знайдено."/>
     <text name="CP_error_no_heap_found" text="Купи не знайдено."/>
     <text name="CP_error_no_unload_trigger_found" text="Пункт розвантаження не знайдено."/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="ШІ-робітник %s несподівано припинив роботу - неможливе приєднання жатки!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="ШІ-робітник %s несподівано припинив роботу - вимкнено автоприєднання жатки!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="ШІ-робітник %s несподівано припинив роботу - для обраного завдання неправильний тип наповнення!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Транспортний засіб надто далеко від поля."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -161,7 +163,7 @@
     <text name="CP_vehicle_setting_subTitle_implement" text="Налаштування обладнання"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Налаштування комбайну"/>
     <text name="CP_vehicle_setting_subTitle_seeder" text="Налаштування сівалки"/>
-    <text name="CP_vehicle_setting_subTitle_multitool" text="Налаштування сумісної роботи обладнання"/>
+    <text name="CP_vehicle_setting_subTitle_multitool" text="Налаштування сумісної роботи обладнання"/> <!-- Налаштування спільної роботи обладнання -->
     <text name="CP_vehicle_setting_subTitle_speed" text="Швидкість"/>
     <text name="CP_vehicle_setting_subTitle_debug" text="Налаштування відладки"/>
     <text name="CP_vehicle_setting_showCourse_title" text="Відображення маршруту"/>
@@ -487,6 +489,7 @@
     <text name="CP_infoTexts_workFinished" text="Закінчив роботу"/>
     <text name="CP_infoTexts_drivingToCombine" text="Рухається до комбайну"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Рухається до причепу"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Виявлення поля"/>
     <text name="CP_infoTexts_outOfMoney" text="Закінчились гроші"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Очікує, поки закінчиться дощ"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Очікує, поки розтане сніг"/>
