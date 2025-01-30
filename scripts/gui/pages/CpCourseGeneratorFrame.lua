@@ -238,6 +238,8 @@ function CpCourseGeneratorFrame:update(dt)
 	if self.updateTime < g_time then
 		for i = 1, self.activeWorkerList:getItemCount() do
 			local element = self.activeWorkerList:getElementAtSectionIndex(1, i)
+			-- TODO getJobByIndex() does not exist anymore
+--[[
 			if element ~= nil then
 				local job = g_currentMission.aiSystem:getJobByIndex(i)
 
@@ -245,6 +247,7 @@ function CpCourseGeneratorFrame:update(dt)
 					element:getAttribute("text"):setText(job:getDescription())
 				end
 			end
+]]
 		end
 		self.updateTime = g_time + 1000
 		local vehicle = self.cpMenu:getCurrentVehicle()
@@ -1187,6 +1190,8 @@ function CpCourseGeneratorFrame:onClickList(list, section, index, listElement)
 		self.ingameMapBase:restoreDefaultFilter()
 		self:saveHotspotFilter()
 	elseif list == self.activeWorkerList then
+		-- TODO getJobByIndex() does not exist anymore
+--[[
 		local job = g_currentMission.aiSystem:getJobByIndex(index)
 		if job ~= nil and not job.vehicleParameter then
 			local vehicle = job.vehicleParameter:getVehicle()
@@ -1195,6 +1200,7 @@ function CpCourseGeneratorFrame:onClickList(list, section, index, listElement)
 				self:showMapHotspot(hotspot)
 			end
 		end
+]]
 	elseif list == self.contextButtonList then
 		listElement.onClickCallback(self)	
 	elseif list == self.contextButtonCustomFieldList then
