@@ -67,6 +67,7 @@ function CpCourseGeneratorFrame.new(target, custom_mt)
 	self.subCategoryTabs = {}
 	self.contextActions = {}
 	self.contextActionMapping = {}
+	self.playerFarmActiveJobs = {}
 	self.activeInfoTexts = {}
 	self.hasFullScreenMap = true
 	self.dataTables = {}
@@ -238,16 +239,12 @@ function CpCourseGeneratorFrame:update(dt)
 	if self.updateTime < g_time then
 		for i = 1, self.activeWorkerList:getItemCount() do
 			local element = self.activeWorkerList:getElementAtSectionIndex(1, i)
-			-- TODO getJobByIndex() does not exist anymore
---[[
 			if element ~= nil then
-				local job = g_currentMission.aiSystem:getJobByIndex(i)
-
+				local job = g_currentMission.aiSystem:getJobById(self.playerFarmActiveJobs[i])
 				if job ~= nil then
 					element:getAttribute("text"):setText(job:getDescription())
 				end
 			end
-]]
 		end
 		self.updateTime = g_time + 1000
 		local vehicle = self.cpMenu:getCurrentVehicle()
@@ -314,7 +311,10 @@ function CpCourseGeneratorFrame:onFrameOpen()
 		end
 	end, self)
 
-	g_messageCenter:subscribe(MessageType.AI_JOB_STARTED, function(self)
+	g_messageCenter:subscribe(MessageType.AI_JOB_STARTED, function(self, job, farmId)
+		if g_localPlayer ~= nil and farmId == g_localPlayer.farmId then
+			table.insert(self.playerFarmActiveJobs, job.jobId)
+		end
 		self.activeWorkerList:reloadData()
 	end, self)
 
@@ -331,8 +331,11 @@ function CpCourseGeneratorFrame:onFrameOpen()
 		end
 	end, self)
 	g_messageCenter:subscribe(MessageType.AI_JOB_REMOVED, function(self, jobId)
+		table.removeElement(self.playerFarmActiveJobs, jobId)
 		self.activeWorkerList:reloadData()
-		-- InGameMenuMapUtil.hideContextBox(self.contextBox) 
+		InGameMenuMapUtil.hideContextBox(self.contextBox)
+		InGameMenuMapUtil.hideContextBox(self.contextBoxPlayer)
+		InGameMenuMapUtil.hideContextBox(self.contextBoxFarmland)
 	end, self)
 	g_messageCenter:subscribe(MessageType.CP_INFO_TEXT_CHANGED, function (menu)
 		self.infoTextList:reloadData()
@@ -376,6 +379,12 @@ function CpCourseGeneratorFrame:onFrameOpen()
 		self.buttonDeselectAllText:setText(g_i18n:getText(InGameMenuMapFrame.L10N_SYMBOL.SELECT_ALL))
 	else 
 		self.buttonDeselectAllText:setText(g_i18n:getText(InGameMenuMapFrame.L10N_SYMBOL.DESELECT_ALL))
+	end
+	local farmId = g_localPlayer == nil and 1 or g_localPlayer.farmId
+	for _, job in ipairs(g_currentMission.aiSystem:getActiveJobs()) do
+		if job.startedFarmId == farmId then
+			table.insert(self.playerFarmActiveJobs, job.jobId)
+		end
 	end
 	self.activeWorkerList:reloadData()
 	self.filterList:reloadData()
@@ -1190,9 +1199,7 @@ function CpCourseGeneratorFrame:onClickList(list, section, index, listElement)
 		self.ingameMapBase:restoreDefaultFilter()
 		self:saveHotspotFilter()
 	elseif list == self.activeWorkerList then
-		-- TODO getJobByIndex() does not exist anymore
---[[
-		local job = g_currentMission.aiSystem:getJobByIndex(index)
+		local job = g_currentMission.aiSystem:getJobById(self.playerFarmActiveJobs[index])
 		if job ~= nil and not job.vehicleParameter then
 			local vehicle = job.vehicleParameter:getVehicle()
 			if vehicle ~= nil then
@@ -1200,7 +1207,6 @@ function CpCourseGeneratorFrame:onClickList(list, section, index, listElement)
 				self:showMapHotspot(hotspot)
 			end
 		end
-]]
 	elseif list == self.contextButtonList then
 		listElement.onClickCallback(self)	
 	elseif list == self.contextButtonCustomFieldList then
@@ -1213,7 +1219,18 @@ function CpCourseGeneratorFrame:onClickList(list, section, index, listElement)
 end
 
 function CpCourseGeneratorFrame:onListSelectionChanged(list, section, index)
-	
+	if list == self.activeWorkerList then
+		-- local job = g_currentMission.aiSystem:getJobById(self.playerFarmActiveJobs[index])
+		-- if job ~= nil and job.vehicleParameter then
+		-- 	local vehicle = job.vehicleParameter:getVehicle()
+		-- 	if vehicle ~= nil then
+		-- 		local hotspot = vehicle:getMapHotspot()
+		-- 		self.mode = InGameMenuMapFrame.AI_MODE_WORKER_LIST
+		-- 		self:setMapSelectionItem(hotspot)
+		-- 		self.ingameMap:panToHotspot(hotspot)
+		-- 	end
+		-- end
+	end
 end
 
 function CpCourseGeneratorFrame:mouseEvent(posX, posY, isDown, isUp, button, eventUsed)
