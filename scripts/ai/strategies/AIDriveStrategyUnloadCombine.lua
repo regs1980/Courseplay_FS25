@@ -1414,7 +1414,7 @@ function AIDriveStrategyUnloadCombine:startPathfindingToMovingCombine(waypoint, 
     context:offFieldPenalty(self:getOffFieldPenalty(self.combineToUnload))
     context:useFieldNum(CpFieldUtil.getFieldNumUnderVehicle(self.combineToUnload))
     context:areaToAvoid(nil):vehiclesToIgnore({ self.combineToUnload })
-    context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.fieldPolygon))
+    context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.vehicle:cpGetFieldPolygon()))
     self.pathfinderController:registerListeners(self, self.onPathfindingDoneToMovingCombine,
             self.onPathfindingFailedToMovingTarget, self.onPathfindingObstacleAtStart)
     -- TODO: consider creating a variation of findPathToWaypoint() which accepts a Waypoint instead of Course/ix
@@ -1454,7 +1454,7 @@ function AIDriveStrategyUnloadCombine:startPathfindingToWaitingCombine(xOffset, 
     context:offFieldPenalty(self:getOffFieldPenalty(self.combineToUnload))
     context:useFieldNum(CpFieldUtil.getFieldNumUnderVehicle(self.combineToUnload))
     context:areaToAvoid(self.combineToUnload:getCpDriveStrategy():getAreaToAvoid())
-    context:vehiclesToIgnore({}):maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.fieldPolygon))
+    context:vehiclesToIgnore({}):maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.vehicle:cpGetFieldPolygon()))
     self.pathfinderController:registerListeners(self, self.onPathfindingDoneToWaitingCombine,
             self.onPathfindingFailedToStationaryTarget, self.onPathfindingObstacleAtStart)
     self.pathfinderController:findPathToNode(context, self:getPipeOffsetReferenceNode(), xOffset or 0, zOffset or 0, 3)
@@ -1555,8 +1555,8 @@ end
 ---@param outwardsOffset number
 ---@return boolean
 function AIDriveStrategyUnloadCombine:isServingPosition(x, z, outwardsOffset)
-    local closestDistance = CpMathUtil.getClosestDistanceToPolygonEdge(self.fieldPolygon, x, z)
-    return closestDistance < outwardsOffset or CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z)
+    local closestDistance = CpMathUtil.getClosestDistanceToPolygonEdge(self.vehicle:cpGetFieldPolygon(), x, z)
+    return closestDistance < outwardsOffset or CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z)
 end
 
 --- Am I ready to be assigned to a combine in need?
@@ -2387,7 +2387,7 @@ function AIDriveStrategyUnloadCombine:startPathfindingToInvertedGoalPositionMark
     local context = PathfinderContext(self.vehicle)
     context:maxFruitPercent(self:getMaxFruitPercent()):offFieldPenalty(PathfinderContext.defaultOffFieldPenalty)
     context:useFieldNum(fieldNum):allowReverse(self:getAllowReversePathfinding())
-    context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.fieldPolygon))
+    context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.vehicle:cpGetFieldPolygon()))
     self.pathfinderController:registerListeners(self, self.onPathfindingDoneToInvertedGoalPositionMarker,
             self.onPathfindingFailedToStationaryTarget, self.onPathfindingObstacleAtStart)
     self.pathfinderController:findPathToNode(context, self.invertedStartPositionMarkerNode,
@@ -2419,7 +2419,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------
 function AIDriveStrategyUnloadCombine:getSelfUnloadTargetParameters()
     return SelfUnloadHelper:getTargetParameters(
-            self.fieldPolygon,
+            self.vehicle:cpGetFieldPolygon(),
             self.vehicle,
             self.augerWagon,
             self.pipeController)
@@ -2457,7 +2457,7 @@ function AIDriveStrategyUnloadCombine:startSelfUnload(ignoreFruit)
         -- field and the trailer
         context:areaToIgnoreOffFieldPenalty(
                 PathfinderUtil.NodeArea.createVehicleArea(self.unloadTrailer, 1.5 * SelfUnloadHelper.maxDistanceFromField))
-        context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.fieldPolygon))
+        context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.vehicle:cpGetFieldPolygon()))
         self.pathfinderController:registerListeners(self,
                 self.onPathfindingDoneBeforeSelfUnload,
                 self.onPathfindingFailedBeforeSelfUnload, self.onPathfindingObstacleAtStart)
@@ -2721,7 +2721,7 @@ function AIDriveStrategyUnloadCombine:startUnloadingOnField(controller, allowRev
     context:maxFruitPercent(self:getMaxFruitPercent()):offFieldPenalty(PathfinderContext.defaultOffFieldPenalty)
     context:useFieldNum(CpFieldUtil.getFieldNumUnderVehicle(self.vehicle))
     context:allowReverse(self:getAllowReversePathfinding())
-    context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.fieldPolygon))
+    context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.vehicle:cpGetFieldPolygon()))
     self.pathfinderController:registerListeners(self, self.onPathfindingDoneBeforeUnloadingOnField,
             self.onPathfindingFailedToStationaryTarget, self.onPathfindingObstacleAtStart)
     self.pathfinderController:findPathToNode(context, self.fieldUnloadPositionNode,
@@ -2929,7 +2929,7 @@ function AIDriveStrategyUnloadCombine:onFieldUnloadingFinished()
     context:maxFruitPercent(self:getMaxFruitPercent()):offFieldPenalty(0)
     context:useFieldNum(CpFieldUtil.getFieldNumUnderVehicle(self.vehicle))
     context:allowReverse(self:getAllowReversePathfinding())
-    context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.fieldPolygon))
+    context:maxIterations(PathfinderUtil.getMaxIterationsForFieldPolygon(self.vehicle:cpGetFieldPolygon()))
     self.pathfinderController:registerListeners(self, self.onPathfindingDoneBeforeDrivingToFieldUnloadParkPosition,
             self.onPathfindingFailedToStationaryTarget, self.onPathfindingObstacleAtStart)
     self.pathfinderController:findPathToNode(context, self.fieldUnloadTurnEndNode,
@@ -2965,8 +2965,8 @@ function AIDriveStrategyUnloadCombine:isPositionOk()
     local angle = self.jobParameters.startPosition:getAngle()
     if x ~= nil and z ~= nil and angle ~= nil then
         --- Additional safety check, if the position is on the field or near it.
-        if CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z)
-                or CpMathUtil.getClosestDistanceToPolygonEdge(self.fieldPolygon, x, z) < 2 * CpAIJobCombineUnloader.minStartDistanceToField then
+        if CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z)
+                or CpMathUtil.getClosestDistanceToPolygonEdge(self.vehicle:cpGetFieldPolygon(), x, z) < 2 * CpAIJobCombineUnloader.minStartDistanceToField then
             --- Goal position marker set in the ai menu rotated by 180 degree.
             self.invertedStartPositionMarkerNode = CpUtil.createNode("Inverted Start position marker",
                     x, z, angle + math.pi)

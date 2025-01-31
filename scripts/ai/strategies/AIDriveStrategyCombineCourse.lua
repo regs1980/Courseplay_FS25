@@ -242,10 +242,10 @@ function AIDriveStrategyCombineCourse:getDriveData(dt, vX, vY, vZ)
         self:setMaxSpeed(0)
     end
 
-    if self.state == self.states.INITIAL and not self.vehicle:cpGetFieldPolygon() then
+    if self.state == self.states.INITIAL and self.vehicle:cpGetFieldPolygon() == nil then
         self:setMaxSpeed(0)
-        self:debug('Have no field boundary, wait for it')
         self.state = self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION
+        self:startFieldBoundaryDetection()
     end
 
     if self.state == self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION then
@@ -1668,7 +1668,7 @@ function AIDriveStrategyCombineCourse:startSelfUnload(unloadStateAfterPathfindin
         self.waypointIxAfterPathfinding = nil
 
         local targetNode, alignLength, offsetX, trailer = SelfUnloadHelper:getTargetParameters(
-                self.fieldPolygon,
+                self.vehicle:cpGetFieldPolygon(),
                 self.vehicle,
                 self.implementWithPipe,
                 self.pipeController,
@@ -1815,7 +1815,7 @@ function AIDriveStrategyCombineCourse:shouldSelfUnloadBeforeNextRow()
     if self:isFull(AIDriveStrategyCombineCourse.selfUnloadBeforeNextRowFillLevelThreshold) then
         local distance
         self.selfUnloadBestTrailer, self.selfUnloadFillRootNode, distance = SelfUnloadHelper:findBestTrailer(
-                self.fieldPolygon,
+                self.vehicle:cpGetFieldPolygon(),
                 self.vehicle,
                 self.implementWithPipe,
                 self.pipeController.pipeOffsetX)
@@ -2194,9 +2194,8 @@ end
 ---------------------------------------------------------------------------------------------------------------------------
 --- We don't save the field polygon with the savegame, so if a combine is started directly from the HUD after the
 --- game loaded, it doesn't have the field polygon. This makes sure that in this case the detection is started.
----@return boolean true if the field boundary is already available
-function AIDriveStrategyCombineCourse:waitForFieldBoundary()
-    if not self.vehicle:cpIsFieldBoundaryDetectionRunning() and self.vehicle:cpGetFieldPolygon() == nil then
+function AIDriveStrategyCombineCourse:startFieldBoundaryDetection()
+    if not self.vehicle:cpIsFieldBoundaryDetectionRunning() then
         self:debug("Need field boundary to work, start detection now.")
         -- TODO: should really store the field position (or the polygon itself?) with the course, as
         -- in some rare cases, for instance when using field margin, the start waypoint may be outside
@@ -2204,6 +2203,7 @@ function AIDriveStrategyCombineCourse:waitForFieldBoundary()
         local x, _, z = self.fieldWorkCourse:getWaypointPosition(self.fieldWorkCourse:getCurrentWaypointIx())
         -- no callback, waitForFieldBoundary() will take care of the result
         self.vehicle:cpDetectFieldBoundary(x, z)
+    else
+        self:debug("Field boundary detection already running.")
     end
-    return AIDriveStrategyFieldWorkCourse.waitForFieldBoundary(self)
 end

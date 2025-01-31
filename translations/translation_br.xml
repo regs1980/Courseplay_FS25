@@ -504,6 +504,7 @@ A rota é salva automaticamente ao fechar o editor e substituir a rota seleciona
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Fruta errada para a missão selecionada"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Pallet cheio"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Nenhum pallet"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->

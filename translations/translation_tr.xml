@@ -504,6 +504,7 @@ Düzenleyici kapatıldığında rota otomatik olarak kaydedilir ve önceki rotay
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Seçilen görev için yanlış ürün"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Paletler dolu"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Palet yok"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->

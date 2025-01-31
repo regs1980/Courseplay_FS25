@@ -504,6 +504,7 @@ Az útvonal automatikusan mentésre kerül a szerkesztő bezárásakor és felü
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Helytelen vetőmag kiválasztva a megbízáshoz"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="A raklapok tele vannak"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Nincs raklap"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->

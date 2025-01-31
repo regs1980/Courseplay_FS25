@@ -504,6 +504,7 @@ Kurs jest automatycznie zapisywany po zamknięciu edytora i nadpisuje wybrany ku
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Zły rodzaj uprawy dla tej pracy"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Skrzyniopalety są pełne"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Brak skrzyniopalet"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->

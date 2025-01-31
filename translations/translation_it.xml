@@ -504,6 +504,7 @@ Il percorso viene salvato automaticamente alla chiusura dell'editor e sovrascriv
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Raccolto sbagliato per la missione selezionata"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="I pallet sono pieni"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Nessun pallet"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->
