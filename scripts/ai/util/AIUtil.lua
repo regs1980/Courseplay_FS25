@@ -710,30 +710,40 @@ function AIUtil.getWidth(vehicle)
 		--- Due to invalid implement ai comfigurations this function call might break the save ...
 		--- So we try it and except the callstack, as every good vehicle/implement should cause this function to fail ..
 		local valid, width = CpUtil.try(vehicle.getAIAgentSize, vehicle)
-		if not valid then
-			return vehicle.size.width
+		if valid then
+			return width
+		else
+			CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, vehicle, 'has no valid ai agent size')
 		end
-		return width
-	else
+	end
+	if vehicle and vehicle.size and vehicle.size.width then
 		return vehicle.size.width
+	else
+		CpUtil.infoVehicle(CpDebug.DBG_IMPLEMENTS, vehicle, 'has no width, setting to default 3 m')
+		return 3
 	end
 end
 
 function AIUtil.getLength(vehicle)
 	if vehicle.getAIAgentSize then
-		--- Due to invalid implement ai comfigurations these function calls might break the save ...
+		--- Due to invalid implement ai configurations these function calls might break the save ...
 		--- So we try it and except the callstack, as every good vehicle/implement should cause this function to fail ..
-		local valid = CpUtil.try(vehicle.updateAIAgentAttachments, vehicle)
-		if not valid then
-			return vehicle.size.length
+		if CpUtil.try(vehicle.updateAIAgentAttachments, vehicle) then
+			local valid, width, length, lengthOffset, frontOffset, height = CpUtil.try(vehicle.getAIAgentSize, vehicle)
+			if valid then
+				return length
+			else
+				CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, vehicle, 'has no valid AI agent size')
+			end
+		else
+			CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, vehicle, 'could not update AI agent attachments')
 		end
-		local valid, width, length, lengthOffset, frontOffset, height = CpUtil.try(vehicle.getAIAgentSize, vehicle)
-		if not valid then
-			return vehicle.size.length
-		end
-		return length
-	else
+	end
+	if vehicle and vehicle.size and vehicle.size.length then
 		return vehicle.size.length
+	else
+		CpUtil.infoVehicle(CpDebug.DBG_IMPLEMENTS, vehicle, 'has no length, setting to default 6 m')
+		return 6
 	end
 end
 
