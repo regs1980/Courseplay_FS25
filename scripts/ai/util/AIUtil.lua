@@ -707,8 +707,8 @@ end
 
 function AIUtil.getWidth(vehicle)
 	if vehicle.getAIAgentSize then
-		--- Due to invalid implement ai comfigurations this function call might break the save ...
-		--- So we try it and except the callstack, as every good vehicle/implement should cause this function to fail ..
+		--- Due to invalid implement ai configurations this function call might break the save ...
+		--- So we try it and expect the callstack, as every good vehicle/implement should cause this function to fail ..
 		local valid, width = CpUtil.try(vehicle.getAIAgentSize, vehicle)
 		if not valid then
 			return vehicle.size.width

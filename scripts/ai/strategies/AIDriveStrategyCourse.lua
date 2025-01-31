@@ -720,16 +720,11 @@ end
 ---
 ---@return boolean true if the field boundary is already available
 function AIDriveStrategyCourse:waitForFieldBoundary()
-    if self.fieldPolygon == nil then
-        if self.vehicle:cpGetFieldPolygon() then
-            self:clearInfoText(InfoTextManager.WAITING_FOR_FIELD_BOUNDARY_DETECTION)
-            self.fieldPolygon = self.vehicle:cpGetFieldPolygon()
-            return true
-        else
-            self:setInfoText(InfoTextManager.WAITING_FOR_FIELD_BOUNDARY_DETECTION)
-            return false
-        end
-    else
+    if self.vehicle:cpGetFieldPolygon() then
+        self:clearInfoText(InfoTextManager.WAITING_FOR_FIELD_BOUNDARY_DETECTION)
         return true
+    else
+        self:setInfoText(InfoTextManager.WAITING_FOR_FIELD_BOUNDARY_DETECTION)
+        return false
     end
 end

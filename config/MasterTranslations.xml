@@ -1788,6 +1788,10 @@ The course is saved automatically on closing of the editor and overrides the sel
 			<Text language="de"><![CDATA[Keine Paletten]]></Text>
 			<Text language="en"><![CDATA[No pallets]]></Text>
 		</Translation>
+		<Translation name="CP_infoTexts_errorTooFarFromField">
+			<Text language="de"><![CDATA[Fahrzeug ist zu weit vom Feld entfernt.]]></Text>
+			<Text language="en"><![CDATA[Vehicle is too far away from the field.]]></Text>
+		</Translation>
 	</Category>
 	<Category name="Custom field manager">	
 		<Translation name="CP_customFieldManager_hotspotName">

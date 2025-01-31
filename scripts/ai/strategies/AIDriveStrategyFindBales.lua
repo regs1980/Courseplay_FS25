@@ -197,7 +197,7 @@ end
 ---@param bale BaleToCollect
 function AIDriveStrategyFindBales:isBaleOnField(bale)
     local x, _, z = bale:getPosition()
-    return CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z)
+    return CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z)
 end
 
 --- Find bales on field
@@ -602,15 +602,15 @@ end
 function AIDriveStrategyFindBales:isPositionOk()
     --- check, if the vehicle is near the field.
     local x, _, z = getWorldTranslation(self.vehicle.rootNode)
-    if CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z) or
-            CpMathUtil.getClosestDistanceToPolygonEdge(self.fieldPolygon, x, z) < AIDriveStrategyFindBales.minStartDistanceToField then
+    if CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z) or
+            CpMathUtil.getClosestDistanceToPolygonEdge(self.vehicle:cpGetFieldPolygon(), x, z) < AIDriveStrategyFindBales.minStartDistanceToField then
         -- now check the start position
         x, z = self.jobParameters.startPosition:getPosition()
         local angle = self.jobParameters.startPosition:getAngle()
         if x ~= nil and z ~= nil and angle ~= nil then
             --- Additionally safety check, if the position is on the field or near it.
-            if CpMathUtil.isPointInPolygon(self.fieldPolygon, x, z)
-                    or CpMathUtil.getClosestDistanceToPolygonEdge(self.fieldPolygon, x, z) < 2 * AIDriveStrategyFindBales.minStartDistanceToField then
+            if CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z)
+                    or CpMathUtil.getClosestDistanceToPolygonEdge(self.vehicle:cpGetFieldPolygon(), x, z) < 2 * AIDriveStrategyFindBales.minStartDistanceToField then
                 --- Goal position marker set in the ai menu rotated by 180 degree.
                 self.invertedStartPositionMarkerNode = CpUtil.createNode("Inverted Start position marker",
                         x, z, angle + math.pi)
