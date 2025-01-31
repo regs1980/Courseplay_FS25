@@ -504,6 +504,7 @@
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="为任务选择了错误的作物"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="托盘满"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="无托盘"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->

@@ -504,6 +504,7 @@ Der Kurs wird beim Schließen automatisch gespeichert und überschrieben.
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Falsche Frucht für Mission ausgewählt"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Paletten sind voll"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Keine Paletten"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Fahrzeug ist zu weit vom Feld entfernt."/>
     <!---->
     <!--Custom field manager-->
     <!---->

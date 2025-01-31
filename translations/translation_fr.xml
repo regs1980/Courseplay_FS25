@@ -504,6 +504,7 @@ La course est automatiquement sauvegardée à la fermeture de l'éditeur et remp
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Culture incompatible avec le travail demandé"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Toutes les palettes sont remplies"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Aucune palette disponible"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->

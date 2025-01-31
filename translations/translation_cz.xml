@@ -504,6 +504,7 @@ Trasa se automaticky uloží při zavření editoru a přepíše vybranou trasu.
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Špatná plodina pro vybranou misi"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Palety jsou plné"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Žádné palety"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->

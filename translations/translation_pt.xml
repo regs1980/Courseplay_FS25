@@ -504,6 +504,7 @@ A rota é guardada automaticamente ao fechar o editor e sobrepõe-se a qualquer 
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Selecionado a semente errado para a missão"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Palete está cheia"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Sem paletes"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->
