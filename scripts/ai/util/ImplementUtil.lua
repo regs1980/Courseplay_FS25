@@ -348,14 +348,16 @@ end
 -- Bale loaders / wrappers have no AI markers
 function ImplementUtil.getAIMarkersFromGrabberNode(object, spec)
     -- use the grabber node for all markers if exists
+    -- Giants functions, like for field boundary detection the FieldCourseSettings.generate() also use the getAIMarkers()
+    -- function and expect a working width also returned. So return a fake 1 (0 did not work due to division by 0)
     if spec.baleGrabber and spec.baleGrabber.grabNode then
-        return spec.baleGrabber.grabNode, spec.baleGrabber.grabNode, spec.baleGrabber.grabNode
+        return spec.baleGrabber.grabNode, spec.baleGrabber.grabNode, spec.baleGrabber.grabNode, false, 1
     else
-        return object.rootNode, object.rootNode, object.rootNode
+        return object.rootNode, object.rootNode, object.rootNode, false, 1
     end
 end
 
---- Is the vehicle/implement a Chopper 
+--- Is the vehicle/implement a Chopper
 function ImplementUtil.isChopper(implement)
     local spec = implement and implement.spec_combine
     return spec and implement:getFillUnitCapacity(spec.fillUnitIndex) > 10000000
@@ -400,7 +402,7 @@ end
 ---@param implement table
 ---@param tool table moving tool
 function ImplementUtil.stopMovingTool(implement, tool)
-    if tool == nil or tool.move == nil then 
+    if tool == nil or tool.move == nil then
         CpUtil.error("Invalid tool called this function!")
         return
     end
@@ -418,12 +420,12 @@ function ImplementUtil.stopMovingTool(implement, tool)
         local rot = {
             getRotation(node)
         }
-        if detachLock.detachingRotMinLimit ~=nil and 
-            math.abs(MathUtil.getAngleDifference(detachLock.detachingRotMinLimit, rot[tool.rotationAxis])) < math.pi/180 then 
+        if detachLock.detachingRotMinLimit ~=nil and
+            math.abs(MathUtil.getAngleDifference(detachLock.detachingRotMinLimit, rot[tool.rotationAxis])) < math.pi/180 then
             Cylindered.setAbsoluteToolRotation(implement, tool, detachLock.detachingRotMinLimit)
         end
-        if detachLock.detachingRotMaxLimit ~= nil and 
-            math.abs(MathUtil.getAngleDifference(detachLock.detachingRotMaxLimit, rot[tool.rotationAxis])) < math.pi/180 then 
+        if detachLock.detachingRotMaxLimit ~= nil and
+            math.abs(MathUtil.getAngleDifference(detachLock.detachingRotMaxLimit, rot[tool.rotationAxis])) < math.pi/180 then
             Cylindered.setAbsoluteToolRotation(implement, tool, detachLock.detachingRotMaxLimit)
         end
     end
@@ -443,7 +445,7 @@ end
 ---@param offset number
 function ImplementUtil.showBaleCollectorOffset(vehicle, offset)
     local implement = AIUtil.getImplementWithSpecialization(vehicle, BaleLoader)
-    if not implement then 
+    if not implement then
         implement = AIUtil.getImplementWithSpecialization(vehicle, BaleWrapper)
     end
     if implement then
@@ -464,32 +466,32 @@ end
 ---@return number|nil target exact fill root node
 ---@return number|nil alternative fill type, when the implement gets turned on
 function ImplementUtil.getCanLoadTo(loadTargetImplement, implementToLoadFrom, dischargeNode, debugFunc)
-    
+
     local function debug(str, ...)
         if debugFunc then
             debugFunc(str, ...)
         end
     end
 
-    if dischargeNode == nil then 
+    if dischargeNode == nil then
         dischargeNode = implementToLoadFrom:getCurrentDischargeNode()
     end
-    if dischargeNode == nil then 
+    if dischargeNode == nil then
         debug("No valid discharge node found!")
         return false, nil, nil, nil
     end
 
     local fillType = implementToLoadFrom:getDischargeFillType(dischargeNode)
     local alternativeFillType
-    if implementToLoadFrom.spec_turnOnVehicle then 
+    if implementToLoadFrom.spec_turnOnVehicle then
         --- The discharge node flips when the implement gets turned on.
         --- The fill type might be different then.
         local turnOnDischargeNode = implementToLoadFrom.spec_turnOnVehicle.activateableDischargeNode
-        if turnOnDischargeNode then 
+        if turnOnDischargeNode then
             alternativeFillType = implementToLoadFrom:getDischargeFillType(turnOnDischargeNode)
         end
     end
-    if fillType == nil or fillType == FillType.UNKNOWN then 
+    if fillType == nil or fillType == FillType.UNKNOWN then
         debug("No valid fill type to load!")
         return false, nil, nil, nil
     end
@@ -500,30 +502,30 @@ function ImplementUtil.getCanLoadTo(loadTargetImplement, implementToLoadFrom, di
     ---@return number|nil
     ---@return number|nil
     local function canLoad(fillUnitIndex)
-        if  not loadTargetImplement:getFillUnitSupportsFillType(fillUnitIndex, fillType) and 
+        if  not loadTargetImplement:getFillUnitSupportsFillType(fillUnitIndex, fillType) and
             not loadTargetImplement:getFillUnitSupportsFillType(fillUnitIndex, alternativeFillType)  then
             debug("Fill unit(%d) doesn't support fill type %s", fillUnitIndex, g_fillTypeManager:getFillTypeNameByIndex(fillType))
             return false
         end
-        if not loadTargetImplement:getFillUnitAllowsFillType(fillUnitIndex, fillType) and 
+        if not loadTargetImplement:getFillUnitAllowsFillType(fillUnitIndex, fillType) and
             not loadTargetImplement:getFillUnitAllowsFillType(fillUnitIndex, alternativeFillType) then
             debug("Fill unit(%d) doesn't allow fill type %s", fillUnitIndex, g_fillTypeManager:getFillTypeNameByIndex(fillType))
             return false
         end
-        if loadTargetImplement.getFillUnitFreeCapacity and 
+        if loadTargetImplement.getFillUnitFreeCapacity and
             loadTargetImplement:getFillUnitFreeCapacity(fillUnitIndex, fillType, implementToLoadFrom:getActiveFarm()) <= 0 and
             loadTargetImplement:getFillUnitFreeCapacity(fillUnitIndex, alternativeFillType, implementToLoadFrom:getActiveFarm()) <= 0 then
             debug("Fill unit(%d) is full with fill type %s!", fillUnitIndex, g_fillTypeManager:getFillTypeNameByIndex(fillType))
-            return false  
+            return false
         end
-        if loadTargetImplement.getIsFillAllowedFromFarm and 
+        if loadTargetImplement.getIsFillAllowedFromFarm and
             not loadTargetImplement:getIsFillAllowedFromFarm(implementToLoadFrom:getActiveFarm()) then
-            debug("Fill unit(%d) filling to target farm %s from %s not allowed!", 
+            debug("Fill unit(%d) filling to target farm %s from %s not allowed!",
                 fillUnitIndex, loadTargetImplement:getOwnerFarmId(), implementToLoadFrom:getActiveFarm())
             return false
         end
         local exactFillRootNode = loadTargetImplement:getFillUnitExactFillRootNode(fillUnitIndex)
-        if not exactFillRootNode then 
+        if not exactFillRootNode then
             debug("Fill unit(%d) has no valid exact fill root node!", fillUnitIndex)
             return false
         end
@@ -531,9 +533,9 @@ function ImplementUtil.getCanLoadTo(loadTargetImplement, implementToLoadFrom, di
     end
 
     local validTarget, targetFillUnitIndex, exactFillRootNode
-    for fillUnitIndex, fillUnit in pairs(loadTargetImplement:getFillUnits()) do 
+    for fillUnitIndex, fillUnit in pairs(loadTargetImplement:getFillUnits()) do
         validTarget, targetFillUnitIndex, exactFillRootNode = canLoad(fillUnitIndex)
-        if validTarget then 
+        if validTarget then
             break
         end
     end
@@ -541,26 +543,26 @@ function ImplementUtil.getCanLoadTo(loadTargetImplement, implementToLoadFrom, di
     return validTarget, targetFillUnitIndex, fillType, exactFillRootNode, alternativeFillType
 end
 
---- Checks the passed in implements for a fill level change 
+--- Checks the passed in implements for a fill level change
 --- and also caches the current fill levels.
---- Example input table format: {["implement"]["fillUnitIndex"] = 200}  
+--- Example input table format: {["implement"]["fillUnitIndex"] = 200}
 ---@param fillLevelData table<table, table<number, number>>
 ---@param reset boolean|nil
 function ImplementUtil.hasFillLevelChanged(fillLevelData, reset)
     local hasChanged = false
-    for implement, data in pairs(fillLevelData) do 
+    for implement, data in pairs(fillLevelData) do
         for fillUnitIndex, fillLevel in pairs(data) do
-            local curFillLevel = implement:getFillUnitFillLevel(fillUnitIndex) 
-            if reset then 
+            local curFillLevel = implement:getFillUnitFillLevel(fillUnitIndex)
+            if reset then
                 fillLevelData[implement][fillUnitIndex] = -1
             else
-                if fillLevel > -1 and curFillLevel ~= fillLevel then 
+                if fillLevel > -1 and curFillLevel ~= fillLevel then
                     hasChanged = true
                 end
                 fillLevelData[implement][fillUnitIndex] = curFillLevel
             end
         end
-    end 
+    end
     return hasChanged
 end
 
@@ -572,14 +574,14 @@ function ImplementUtil.tryAndCheckRefillingFillUnits(implements)
     for implement, _ in pairs(implements) do
         local spec = implement.spec_fillUnit
         local activatable = spec.fillTrigger.activatable
-        if not spec.fillTrigger.isFilling then 
+        if not spec.fillTrigger.isFilling then
             local rootVehicle = activatable.vehicle
-            if rootVehicle then 
+            if rootVehicle then
                 local oldFunc = rootVehicle.getIsActiveForInput
                 rootVehicle.getIsActiveForInput = function ()
                     return true
                 end
-                if activatable:getIsActivatable() then 
+                if activatable:getIsActivatable() then
                     activatable:run()
                 end
                 rootVehicle.getIsActiveForInput = oldFunc
