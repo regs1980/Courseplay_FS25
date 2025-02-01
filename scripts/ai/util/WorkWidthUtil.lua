@@ -209,7 +209,7 @@ function WorkWidthUtil.getAIMarkerWidth(object)
         object:updateAIMarkerWidth()
         local aiLeftMarker, aiRightMarker, aiBackMarker, inverted, aiMarkerWidth = object:getAIMarkers()
         local sideOffset = object:getAIImplementSideOffset()
-        if aiLeftMarker and aiRightMarker then
+        if aiLeftMarker and aiRightMarker and aiMarkerWidth then
             local left = aiMarkerWidth * 0.5 + sideOffset
             local right = -aiMarkerWidth * 0.5 + sideOffset
             WorkWidthUtil.debug(object, 'aiMarkers: left=%.2f, right=%.2f (width %.2f)', left, right, aiMarkerWidth)
