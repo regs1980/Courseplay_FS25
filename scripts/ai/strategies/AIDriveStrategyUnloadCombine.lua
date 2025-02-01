@@ -1555,8 +1555,14 @@ end
 ---@param outwardsOffset number
 ---@return boolean
 function AIDriveStrategyUnloadCombine:isServingPosition(x, z, outwardsOffset)
-    local closestDistance = CpMathUtil.getClosestDistanceToPolygonEdge(self.vehicle:cpGetFieldPolygon(), x, z)
-    return closestDistance < outwardsOffset or CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z)
+    if self.vehicle:cpGetFieldPolygon() then
+        local closestDistance = CpMathUtil.getClosestDistanceToPolygonEdge(self.vehicle:cpGetFieldPolygon(), x, z)
+        return closestDistance < outwardsOffset or CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z)
+    else
+        -- no field polygon yet. This may be called by the combine who has no idea where are we in the field boundary
+        -- detection process.
+        return false
+    end
 end
 
 --- Am I ready to be assigned to a combine in need?

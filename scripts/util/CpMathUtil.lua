@@ -129,8 +129,10 @@ end
 -- with long edges
 function CpMathUtil.getClosestDistanceToPolygonEdge(polygon, x, z)
     local closestDistance = math.huge
-    for _, p in ipairs(polygon) do
-        local d = MathUtil.getPointPointDistance(x, z, p.x, p.z)
+    for i = 1, #polygon do
+		local s, e = polygon[i], polygon[i + 1] or polygon[1]
+		local edge = CourseGenerator.LineSegment(s.x, -s.z, e.x, -e.z)
+        local d = edge:getDistanceFrom(Vector(x, -z))
         closestDistance = d < closestDistance and d or closestDistance
     end
     return closestDistance
