@@ -710,7 +710,7 @@ function AIUtil.getWidth(vehicle)
 		--- Due to invalid implement ai configurations this function call might break the save ...
 		--- So we try it and expect the callstack, as every good vehicle/implement should cause this function to fail ..
 		local valid, width = CpUtil.try(vehicle.getAIAgentSize, vehicle)
-		if valid then
+		if valid and width then
 			return width
 		else
 			CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, vehicle, 'has no valid ai agent size')
@@ -730,7 +730,7 @@ function AIUtil.getLength(vehicle)
 		--- So we try it and except the callstack, as every good vehicle/implement should cause this function to fail ..
 		if CpUtil.try(vehicle.updateAIAgentAttachments, vehicle) then
 			local valid, width, length, lengthOffset, frontOffset, height = CpUtil.try(vehicle.getAIAgentSize, vehicle)
-			if valid then
+			if valid and length then
 				return length
 			else
 				CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, vehicle, 'has no valid AI agent size')
