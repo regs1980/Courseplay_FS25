@@ -14,11 +14,11 @@
     <text name="CP_unit_meter" text="m"/>
     <text name="CP_unit_foot" text="st"/>
     <text name="CP_copy" text="Kopírovat trasu: "/>
-    <text name="CP_infoText" text="Courseplay(%s): Pro pomoc, chyby nebo poznámky o opravách navštivte: https://github.com/Courseplay/Courseplay_FS25. Překlad: SniperKittenCZ"/>
+    <text name="CP_infoText" text="Courseplay(%s): Pro pomoc, chyby nebo poznámky o opravách navštivte: https://github.com/Courseplay/Courseplay_FS25. Překlad: LadikSmyth"/>
     <text name="CP_error_no_course" text="Před zahájením práce vygenerujte trasu."/>
     <text name="CP_error_could_not_generate_course" text="Trasu se nepodařilo vygenerovat. Log může obsahovat více informací."/>
-    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
-    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
+    <text name="CP_error_field_detection_still_running" text="Detekce pole stále běží."/>
+    <text name="CP_error_field_detection_failed" text="Detekce pole se nezdařila."/>
     <text name="CP_error_not_on_field" text="Cíl není na poli."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Odvozce je příliš daleko od pole."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Startovní pozice příliš daleko od pole."/>
@@ -120,7 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="Pracovník AI %s přestal pracovat - připojení lišty není možné!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="Pracovník AI %s přestal pracovat - automatické připojení lišty deaktivováno!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="Pracovník AI %s přestal pracovat - zvolen nesprávný typ materiálu pro misi!"/>
-    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vozidlo je příliš daleko od pole."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -489,7 +489,7 @@ Trasa se automaticky uloží při zavření editoru a přepíše vybranou trasu.
     <text name="CP_infoTexts_workFinished" text="Dokončil práci"/>
     <text name="CP_infoTexts_drivingToCombine" text="Jede ke kombajnu"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Jede k odvozci"/>
-    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Detekce pole"/>
     <text name="CP_infoTexts_outOfMoney" text="Došly peníze"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Čeká na konec deště"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Čeká až roztaje sníh"/>
@@ -504,7 +504,7 @@ Trasa se automaticky uloží při zavření editoru a přepíše vybranou trasu.
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Špatná plodina pro vybranou misi"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Palety jsou plné"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Žádné palety"/>
-    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vozidlo je příliš daleko od pole."/>
     <!---->
     <!--Custom field manager-->
     <!---->
@@ -677,7 +677,7 @@ DŮLEŽITÉ UPOZORNĚNÍ: Pokud by vygenerovaný průběh nebyl dokonalý nebo d
 Správce tras vám umožňuje ukládat trasy a umožňuje vám uloženou trasu později znovu načíst.
 To je opravdu důležité, když chcete, aby více pracovníků použilo stejnou trasu (konvoj).
 Tato funkce vám také umožňuje sebrat řádek, který za sebou zanechal kombajn nebo řádkovač se sběracím vozem nebo lisem.
-Umístění pro uložení souborů tras je: ..\My Games\FarmingSimulator2022\modSettings\FS22_Courseplay\Courses\Mapname.SampleModMap (nebo např. MapUS).
+Umístění pro uložení souborů tras je: ..\My Games\FarmingSimulator2025\modSettings\FS25_Courseplay\Courses\Mapname.SampleModMap (nebo např. MapUS).
 Správce tras funguje jinak, než na co jste zvyklí ve FS19.
 Trasy se ukládají do složek, které se zobrazí vlevo. To znamená, že k ukládání tras budete potřebovat alespoň jednu složku.
 Složky lze jednoduše vytvořit tlačítkem v dolní části obrazovky a zadáním názvu.
