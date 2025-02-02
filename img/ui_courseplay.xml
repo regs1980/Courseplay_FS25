@@ -53,5 +53,6 @@
         <slice id="editorAdvancedMove" uvs="768px 640px 128px 128px"/>
         <slice id="editorAdvancedInsert" uvs="896px 640px 128px 128px"/>
         <slice id="skip" uvs="0px 768px 128px 128px"/>
+        <slice id="editor" uvs="128px 768px 128px 128px"/>
     </slices>
 </texture>

@@ -199,7 +199,7 @@ function CpInGameMenu:setupMenuPages()
 		{
 			self.pageConstruction,
 			CpInGameMenu.isContructionPageAvailiable,
-			"gui.icon_others_construction"
+			"cpUi.editor"
 		},
 		{
 			self.pageHelpLine,
