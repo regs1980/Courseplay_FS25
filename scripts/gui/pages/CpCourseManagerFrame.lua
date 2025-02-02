@@ -208,9 +208,6 @@ function CpCourseManagerFrame:initialize(menu)
 				text = g_i18n:getText(self.translations.createDirectory),
 				callback = function ()
 					local viewEntry = self:getCurrentEntry()
-					if not viewEntry then 
-						return
-					end 
 					CpCourseManagerFrame.showInputTextDialog(
 						self, self.translations.folderDialogTitle,
 						self.onClickCreateDirectoryDialog, viewEntry)
@@ -571,7 +568,7 @@ function CpCourseManagerFrame:onClickCreateDirectoryDialog(text, clickOk, viewEn
 	if clickOk then 
 		CpUtil.debugFormat(CpUtil.DBG_HUD, "onClickCreateDirectoryDialog - > %s", text)
 		local wasAdded = self.courseStorage:createDirectory(text)
-		if not wasAdded then 
+		if not wasAdded and viewEntry then 
 			self.showInfoDialog(
 				self.translations.entryExistAlreadyError, viewEntry)
 		end
