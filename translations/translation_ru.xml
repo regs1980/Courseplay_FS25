@@ -504,7 +504,7 @@
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Неправильная культура для выбранной миссии"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Поддоны полные"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Нет поддонов"/>
-    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Автомобиль слишком далеко от поля."/>
     <!---->
     <!--Custom field manager-->
     <!---->
