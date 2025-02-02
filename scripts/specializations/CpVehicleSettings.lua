@@ -102,6 +102,9 @@ end
 
 --- Resets the tool offset to a saved value after all implements are loaded and attached.
 function CpVehicleSettings:onUpdate()
+    if self.propertyState == VehiclePropertyState.SHOP_CONFIG then 
+        return
+    end
     local spec = self.spec_cpVehicleSettings
     if not spec.finishedFirstUpdate then
         CpVehicleSettings.validateSettings(self)
