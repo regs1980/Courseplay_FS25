@@ -308,7 +308,7 @@ function HybridAStar.MotionPrimitives:createSuccessor(node, primitive, hitchLeng
     local xSucc = node.x + primitive.dx * math.cos(node.t) - primitive.dy * math.sin(node.t)
     local ySucc = node.y + primitive.dx * math.sin(node.t) + primitive.dy * math.cos(node.t)
     -- if the motion primitive has a fixed heading, use that, otherwise the delta
-    local tSucc = primitive.t or node.t + primitive.dt
+    local tSucc = node.t + primitive.dt
     return State3D(xSucc, ySucc, tSucc, node.g, node, primitive.gear, primitive.steer,
             node:getNextTrailerHeading(primitive.d, hitchLength), node.d + primitive.d)
 end
@@ -331,6 +331,7 @@ HybridAStar.SimpleMotionPrimitives = CpObject(HybridAStar.MotionPrimitives)
 function HybridAStar.SimpleMotionPrimitives:init(gridSize, allowReverse)
     -- motion primitive table:
     self.primitives = {}
+    self.gridSize = gridSize
     local d = gridSize
     local dSqrt2 = math.sqrt(2) * d
     table.insert(self.primitives, { dx = d, dy = 0, dt = 0, d = d, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
@@ -338,9 +339,17 @@ function HybridAStar.SimpleMotionPrimitives:init(gridSize, allowReverse)
     table.insert(self.primitives, { dx = 0, dy = d, dt = 2 * math.pi / 4, d = d, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
     table.insert(self.primitives, { dx = -d, dy = d, dt = 3 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
     table.insert(self.primitives, { dx = -d, dy = 0, dt = 4 * math.pi / 4, d = d, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
-    table.insert(self.primitives, { dx = -d, dy = -d, dt = 6 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
+    table.insert(self.primitives, { dx = -d, dy = -d, dt = 5 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
     table.insert(self.primitives, { dx = 0, dy = -d, dt = 6 * math.pi / 4, d = d, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
     table.insert(self.primitives, { dx = d, dy = -d, dt = 7 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
+end
+
+function HybridAStar.SimpleMotionPrimitives:createSuccessor(node, primitive, hitchLength)
+    local xSucc = node.x + primitive.dx
+    local ySucc = node.y + primitive.dy
+    local tSucc = primitive.dt
+    return State3D(xSucc, ySucc, tSucc, node.g, node, primitive.gear, primitive.steer,
+            node:getNextTrailerHeading(primitive.d, hitchLength), node.d + primitive.d)
 end
 
 ---@class HybridAStar.NodeList
@@ -934,7 +943,7 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
                 return PathfinderResult(true, nil, goalNodeInvalid, self.currentPathfinder:getHighestDistance(),
                         self.constraints)
             end
-            State3D.smooth(self.middlePath)
+            --State3D.smooth(self.middlePath)
             State3D.setAllHeadings(self.middlePath)
             State3D.calculateTrailerHeadings(self.middlePath, self.hitchLength, true)
             return self:findPathFromStartToMiddle()
@@ -970,7 +979,7 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
                 for i = 1, #path do
                     table.insert(self.path, path[i])
                 end
-                State3D.smooth(self.path)
+                --State3D.smooth(self.path)
                 self.constraints:showStatistics()
                 return PathfinderResult(true, self.path)
             else
