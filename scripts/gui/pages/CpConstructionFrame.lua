@@ -40,6 +40,7 @@ function CpConstructionFrame.setupGui()
 	 	"CpConstructionFrame", frame, true)
 end
 
+---@param editor CourseEditor
 function CpConstructionFrame:setData(editor)
 	self.editor = editor
 	self.brushCategory = editor:getBrushCategory()
@@ -202,7 +203,7 @@ function CpConstructionFrame:requestClose(callback)
 		self.requestCloseCallback = function () end
 		self.cpMenu:updatePages()
 	end)
-	return false
+	return not self.editor:getIsActive()
 end
 
 function CpConstructionFrame:onClickBack()
