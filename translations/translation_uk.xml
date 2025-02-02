@@ -157,13 +157,13 @@
     <!---->
     <!--Vehicle settings-->
     <!---->
-    <text name="CP_vehicle_setting_title" text="Налаштування для (%s)"/> <!-- Або Налаштування транспортного засобу для (%s) -->
+    <text name="CP_vehicle_setting_title" text="Налаштування для (%s)"/>
     <text name="CP_vehicle_setting_subTitle_vehicle" text="Налаштування транспортного засобу"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="Основні налаштування"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="Налаштування обладнання"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Налаштування комбайну"/>
     <text name="CP_vehicle_setting_subTitle_seeder" text="Налаштування сівалки"/>
-    <text name="CP_vehicle_setting_subTitle_multitool" text="Налаштування сумісної роботи обладнання"/> <!-- Налаштування спільної роботи обладнання -->
+    <text name="CP_vehicle_setting_subTitle_multitool" text="Налаштування сумісної роботи обладнання"/>
     <text name="CP_vehicle_setting_subTitle_speed" text="Швидкість"/>
     <text name="CP_vehicle_setting_subTitle_debug" text="Налаштування відладки"/>
     <text name="CP_vehicle_setting_showCourse_title" text="Відображення маршруту"/>
@@ -309,7 +309,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_tooltip" text="Метод руху агрегата по полю."/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_up_down" text="човником"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_spiral" text="по спіралі"/>
-    <text name="CP_vehicle_courseGeneratorSetting_centerMode_circular" text="кільцевий"/> <!-- кільцевий всклад/врозгін-->
+    <text name="CP_vehicle_courseGeneratorSetting_centerMode_circular" text="кільцевий"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_lands" text="загінками"/>
     <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_title" text="Спіраль від центру"/>
     <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_tooltip" text="Починати роботу по спіралі від центру."/>
@@ -456,7 +456,7 @@
     <text name="CP_editor_delete_primary_text" text="Вилучає вибрану точку маршруту"/>
     <text name="CP_editor_delete_secondary_text" text="Продовжує видаляти точки, що поруч"/>
     <text name="CP_editor_delete_tertiary_text" text="Вилучає всі точки шляху до останньої точки маршруту."/>
-    <text name="CP_editor_delete_yesNo_deleteToLastWp_title" text="Ви впевнені, що всі дорожні точки звідси і до останнього повинні бути видалені?"/> <!-- waypoint дорожні точки, точки маршруту -->
+    <text name="CP_editor_delete_yesNo_deleteToLastWp_title" text="Ви впевнені, що всі дорожні точки звідси і до останнього повинні бути видалені?"/>
     <text name="CP_editor_delete_err" text="Декілька дорожніх точок, що залишилися."/>
     <text name="CP_editor_course_basic_title" text="Основні"/>
     <text name="CP_editor_course_basic_move_title" text="Пересування точки маршруту"/>
@@ -528,7 +528,7 @@
     <!---->
     <text name="CP_ingameMenu_map_title" text="Карта"/>
     <!---->
-	<!--Help menu--> <!-- Переклад українською від Kalderone. -->
+    <!--Help menu-->
     <!---->
     <text name="CP_help_title" text="CoursePlay"/>
     <text name="CP_help_subTitle" text="Модифікація для Farming Simulator 25"/>
@@ -654,18 +654,18 @@ CoursePlay також може працювати на рисових полях
     <text name="CP_help_page_courseGeneratorCenterExampleRacetrack_text" text="
 кільцевий
 "/>
-        <text name="CP_help_page_courseGeneratorIsland_text" text="
+    <text name="CP_help_page_courseGeneratorIsland_text" text="
 Рух навколо острівців тепер можливий тільки з виконанням повного проходу навколо нього.
 CoursePlay буде генерувати обхід навколо острівців, якщо обхід буде увімкнено, тож коли маршрут вперше зустрічається з острівцем, він зробить принаймні одне повне коло навколо нього. 
 Ви можете встановити кількість таких проходів навколо острівця, якщо вам потрібно більше місця для автомобілів, які рухаються біля нього. 
 Майте на увазі, що генератор може вирішити генерувати менше проходів, якщо острівець занадто близько до межі поля.
 "/>
-        <text name="CP_help_page_courseGeneratorIslandFunctions_text" text="
+    <text name="CP_help_page_courseGeneratorIslandFunctions_text" text="
 - Обхід острівців: вмикає або вимикає обхід острівців, якщо вони знайдені. Не працює для користувацьких полів!
 - Кількість проходів: кількість проходів навколо острівця тепер може бути встановлена незалежно від кількості розворотних смуг.
 - Напрямок обходу: у якому напрямку водій проходить навколо острівця, наприклад, щоб переконатися, що труба комбайна не знаходиться над культурами, або щоб не мати дивних змін напрямку.
 "/>
-        <text name="CP_help_page_courseGeneratorExpert_text" text="
+    <text name="CP_help_page_courseGeneratorExpert_text" text="
 Деякі налаштування видно тільки в тому випадку, якщо ви активізуєте експертний режим у глобальних налаштуваннях CoursePlay.
 Перш ніж грати з цими налаштуваннями, ви повинні переконатися, що знаєте, за що відповідають основні налаштування.
 Деякі експертні налаштування працюють тільки в певних умовах.
@@ -1039,7 +1039,7 @@ CoursePlay здатен розподіляти та пресувати січк�
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Показати/Сховати канали відладки"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Відкрити mini GUI"/>
     <text name="input_CP_START_STOP" text="CP: Відправити/Зупинити водія"/>
-	<text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Відправити/Зупинити водія (в першій точці)"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Відправити/Зупинити водія (в першій точці)"/>
     <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Відправити/Зупинити водія (в найближчій точці)"/>
     <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Відправити/Зупинити водія (в останній точці)"/>
     <text name="input_CP_GENERATE_COURSE" text="CP: Генератор курсу"/>
@@ -1053,6 +1053,6 @@ CoursePlay здатен розподіляти та пресувати січк�
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Відкрити глобальні налаштування"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Генератор курсів/меню робіт"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Відкрити керування курсами"/>
-	<text name="input_CP_OPEN_INGAME_MENU" text="CP: Відкрити меню"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Відкрити меню"/>
   </texts>
 </l10n>
