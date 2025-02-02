@@ -111,6 +111,9 @@ end
 
 --- Resets the work width to a saved value after all implements are loaded and attached.
 function CpCourseGeneratorSettings:onUpdate(savegame)
+    if self.propertyState == VehiclePropertyState.SHOP_CONFIG then 
+        return
+    end
     local spec = self.spec_cpCourseGeneratorSettings
     if not spec.finishedFirstUpdate then
         spec.workWidth:resetToLoadedValue()
