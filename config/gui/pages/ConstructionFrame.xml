@@ -62,7 +62,7 @@
                             <GuiElement profile="fs25_subCategoryListContainer">
                                 <GuiElement profile="fs25_aiJobTypeMultiTextOption" position="0 15px" id="currentSelectedBrushTitle">
                                     <Bitmap profile="fs25_aiCreateJobParameterVehicleIcon" name="icon"/>
-                                    <Text profile="fs25_multiTextOptionText" name="text"/>
+                                    <Text profile="fs25_multiTextOptionText" name="text" textMaxNumLines="2" textOffset="30px 0px" textAlignment="left"/>
                                 </GuiElement>
                                 <GuiElement profile="fs25_aiCreateJobLayout">
                                     <SmoothList profile="fs25_constructionList" id="itemList" onClick="onClickItem"
