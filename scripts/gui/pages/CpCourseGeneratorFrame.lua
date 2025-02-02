@@ -899,7 +899,7 @@ function CpCourseGeneratorFrame:updateWarnings()
 		local parameter = element.aiParameter
 		local invalidElement = element:getDescendantByName("invalid")
 		if invalidElement ~= nil then
-			invalidElement:setVisible(not parameter:getIsValid() and not parameter:getIsDisabled())
+			invalidElement:setVisible(not parameter:getIsValid() and parameter:getCanBeChanged())
 		end
 	end
 end
@@ -914,7 +914,7 @@ function CpCourseGeneratorFrame:updateParameterValueTexts()
 		local parameter = element.aiParameter
 		local invalidElement = element:getDescendantByName("invalid")
 		if invalidElement ~= nil then
-			invalidElement:setVisible(not parameter:getIsValid() and not parameter:getIsDisabled())
+			invalidElement:setVisible(not parameter:getIsValid() and parameter:getCanBeChanged())
 		end
 		element:setDisabled(not parameter:getCanBeChanged())
 		local parameterType = parameter:getType()
