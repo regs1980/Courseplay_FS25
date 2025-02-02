@@ -20,13 +20,15 @@ masterTranslationFile = workspaceDir + seperator +'config' + seperator + 'Master
 supportedLanguages = ["en", "de", "jp", "pl", "cz", "fr", 
                       "es", "ru", "it", "pt", "hu", "nl", 
                       "cs", "ct", "br", "tr", "ro", "kr",
-                      "ea", "da", "fi", "no", "sv", "fc"]
+                      "ea", "da", "fi", "no", "sv", "fc",
+                      "uk", "vi", "id"]
 
 languageNames = [
 	"English", "German", "Japanese", "Polski", "Czech",	"French",
 	"Spanish", "Russian", "Italiano", "Portuguese", "Hungarian", "Dutch",
 	"Chinese Simplified", "Chinese Traditional", "Brazilian Portuguese", "Turkish", "Romanian", "Korean",
-	"Spanish LA", "Danish", "Finnish", "Norwegian", "Swedish", "Canadian French"
+	"Spanish LA", "Danish", "Finnish", "Norwegian", "Swedish", "Canadian French", 
+	"Ukrainian", "Vietnamese", "Indonesian"
 ]
 translationText = "{} translation"
 
