@@ -764,7 +764,11 @@ end
 --- FS22_UniversalAutoload from Loki79uk: https://github.com/loki79uk/FS22_UniversalAutoload
 function AIUtil.hasValidUniversalTrailerAttached(vehicle)
     local implements, found = AIUtil.getAllChildVehiclesWithSpecialization(vehicle, nil, "spec_universalAutoload")
-	return found and implements[1].spec_universalAutoload.isAutoloadEnabled
+	if not found then 
+		return false
+	end
+	local spec = implements[1].spec_universalAutoload
+	return spec.isAutoloadAvailable and not spec.autoloadDisabled
 end
 
 --- Checks if cutter on an trailer is attached.
