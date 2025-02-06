@@ -307,7 +307,6 @@ end
 function HybridAStar.MotionPrimitives:createSuccessor(node, primitive, hitchLength)
     local xSucc = node.x + primitive.dx * math.cos(node.t) - primitive.dy * math.sin(node.t)
     local ySucc = node.y + primitive.dx * math.sin(node.t) + primitive.dy * math.cos(node.t)
-    -- if the motion primitive has a fixed heading, use that, otherwise the delta
     local tSucc = node.t + primitive.dt
     return State3D(xSucc, ySucc, tSucc, node.g, node, primitive.gear, primitive.steer,
             node:getNextTrailerHeading(primitive.d, hitchLength), node.d + primitive.d)
@@ -408,6 +407,8 @@ function HybridAStar.NodeList:print()
     end
 end
 
+---@return function iterator to iterate over all nodes in the configuration space, it also returns the highest
+--- and lowest cost calculated for any node so a visualization can color the nodes according to the cost
 function HybridAStar.NodeList:iterator()
     local x, y, t
     local f = {}

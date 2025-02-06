@@ -41,6 +41,7 @@ function AStar.SimpleMotionPrimitives:init(gridSize, allowReverse)
     table.insert(self.primitives, { dx = d, dy = -d, dt = 7 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
 end
 
+--- A* successors are simply the grid neighbors
 function AStar.SimpleMotionPrimitives:createSuccessor(node, primitive, hitchLength)
     local xSucc = node.x + primitive.dx
     local ySucc = node.y + primitive.dy
@@ -58,7 +59,11 @@ function AStar:rollUpPath(node, goal, path)
     table.insert(path, 1, currentNode)
     local nSkippedNodes = 0
     while currentNode.pred do
+        -- smoothing the path
         if currentNode.pred.pred then
+            -- if the predecessor has a predecessor, then check if we can skip the predecessor and go directly
+            -- to its parent. This will eliminate the zig-zag in the path when moving in a direction not aligned
+            -- with the grid (or its diagonal)
             if self:isObstacleBetween(path[1], currentNode.pred.pred) then
                 table.insert(path, 1, currentNode.pred)
             else
@@ -70,7 +75,8 @@ function AStar:rollUpPath(node, goal, path)
         currentNode = currentNode.pred
     end
     self:debug('Nodes %d (skipped %d for smoothing), iterations %d, yields %d', #path, nSkippedNodes, self.iterations, self.yields)
-
+    -- now that we straightened the path, we may end up with just 2 nodes, start and end, so let's add
+    -- some in between
     return self:addIntermediatePoints(path)
 end
 
@@ -91,6 +97,10 @@ function AStar:runForImmediatePoints(n1, n2, func, ...)
     end
 end
 
+--- Very conservatively check, if we can make a shortcut between two nodes, to smooth (straighten) the raw A* path.
+--- If there is any node penalty, we consider it an obstacle and thus won't skip this node
+---@param n1 State3D
+---@param n2 State3D
 function AStar:isObstacleBetween(n1, n2)
     return self:runForImmediatePoints(n1, n2,
             function(x, y)
