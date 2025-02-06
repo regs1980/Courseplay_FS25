@@ -534,7 +534,7 @@ end
 ---@param maxIterations number maximum number of iterations
 function PathfinderUtil.startPathfinding(vehicle, start, goal, constraints, allowReverse, mustBeAccurate, maxIterations)
     PathfinderUtil.overlapBoxes = {}
-    local pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, constraints.turnRadius * 4, 100, maxIterations, mustBeAccurate)
+    local pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, 100, maxIterations, mustBeAccurate)
     return pathfinder, pathfinder:start(start, goal, constraints.turnRadius, allowReverse,
             constraints, constraints.trailerHitchLength)
 end
@@ -591,7 +591,7 @@ function PathfinderUtil.findPathForTurn(vehicle, startOffset, goalReferenceNode,
     end
     if pathfinder == nil then
         PathfinderUtil.logger:debug('No headland, or there is a headland but wasn\'t able to get the shortest path on the headland to the next row, falling back to hybrid A*')
-        pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, turnRadius * 6, 200, 10000, true, analyticSolver)
+        pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, 200, 10000, true, analyticSolver)
     end
 
     local context = PathfinderContext(vehicle):useFieldNum(CpFieldUtil.getFieldNumUnderVehicle(vehicle))
