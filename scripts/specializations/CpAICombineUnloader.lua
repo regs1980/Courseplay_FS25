@@ -194,6 +194,9 @@ end
 
 --- Makes sure only trailers with discharge nodes are used.
 function CpAICombineUnloader:isValidTrailer(trailer)
+    if trailer.spec_woodCrusher then 
+        return false
+    end
     local spec = trailer.spec_dischargeable
     if not spec then 
         return false

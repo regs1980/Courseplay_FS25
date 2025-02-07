@@ -486,13 +486,14 @@ end
 ---@return table texts
 ---@return any correct current value after max speed adjustment
 function CpVehicleSettings:generateSpeedSettingValuesAndTexts(setting, lastValue)
-    local maxSpeed = self.getCruiseControlMaxSpeed and self:getCruiseControlMaxSpeed() or setting.data.max
+    local maxSpeed = self.getCruiseControlMaxSpeed and self:getCruiseControlMaxSpeed()
+    maxSpeed = maxSpeed or setting.data.max
     local values, texts = {}, {}
     for i = setting.data.min, maxSpeed, setting.data.incremental or 1 do 
         table.insert(values, i)
         table.insert(texts, i)
     end
-    return values, texts, math.min(lastValue, maxSpeed)
+    return values, texts, math.min(lastValue or setting.data.max, maxSpeed)
 end
 
 function CpVehicleSettings:isRefillOnTheFieldSettingVisible()
