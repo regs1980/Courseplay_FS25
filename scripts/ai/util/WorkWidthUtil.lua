@@ -208,11 +208,13 @@ function WorkWidthUtil.getAIMarkerWidth(object)
     if object.getAIMarkers then
         object:updateAIMarkerWidth()
         local aiLeftMarker, aiRightMarker, aiBackMarker, inverted, aiMarkerWidth = object:getAIMarkers()
-        local sideOffset = object:getAIImplementSideOffset()
+        -- Giants sideOffset is negative for left, positive for right, the opposite of what we have
+        local sideOffset = -object:getAIImplementSideOffset()
         if aiLeftMarker and aiRightMarker and aiMarkerWidth then
             local left = aiMarkerWidth * 0.5 + sideOffset
             local right = -aiMarkerWidth * 0.5 + sideOffset
-            WorkWidthUtil.debug(object, 'aiMarkers: left=%.2f, right=%.2f (width %.2f)', left, right, aiMarkerWidth)
+            WorkWidthUtil.debug(object, 'aiMarkers: left=%.2f, right=%.2f (width %.2f, sideOffset %.2f)',
+                    left, right, aiMarkerWidth, sideOffset)
             return aiMarkerWidth, left, right
         end
     end
