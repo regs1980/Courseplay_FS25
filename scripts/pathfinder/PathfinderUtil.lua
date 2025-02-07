@@ -583,10 +583,8 @@ function PathfinderUtil.findPathForTurn(vehicle, startOffset, goalReferenceNode,
             local _, y, _ = getWorldTranslation(vehicle:getAIDirectionNode())
             local dx, _, dz = worldToLocal(vehicle:getAIDirectionNode(), headlandPath[1].x, y, -headlandPath[1].y)
             local dirDeg = math.deg(math.abs(math.atan2(dx, dz)))
-            if dirDeg > 45 or true then
-                PathfinderUtil.logger:debug('First headland waypoint isn\'t in front of us (%.1f), remove first few waypoints to avoid making a circle %.1f %.1f', dirDeg, dx, dz)
-            end
-            pathfinder = HybridAStarWithPathInTheMiddle(vehicle, turnRadius * 6, 200, headlandPath, true, analyticSolver)
+            PathfinderUtil.logger:debug('First headland waypoint isn\'t in front of us (%.1f), remove first few waypoints to avoid making a circle %.1f %.1f', dirDeg, dx, dz)
+            pathfinder = HybridAStarWithPathInTheMiddle(vehicle, 200, headlandPath, true, analyticSolver)
         end
     end
     if pathfinder == nil then

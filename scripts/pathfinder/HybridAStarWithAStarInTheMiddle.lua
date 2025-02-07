@@ -243,7 +243,6 @@ end
 --- to the headland and from the headland to the start of the next row.
 HybridAStarWithPathInTheMiddle = CpObject(HybridAStarWithAStarInTheMiddle)
 
----@param hybridRange number range in meters around start/goal to use hybrid A *
 ---@param yieldAfter number coroutine yield after so many iterations (number of iterations in one update loop)
 ---@param path State3D[] path to use in the middle part
 ---@param mustBeAccurate boolean must be accurately find the goal position/angle (optional)
