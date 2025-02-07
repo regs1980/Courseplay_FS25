@@ -74,6 +74,17 @@ function UniversalAutoloadController:getDriveData()
     return nil, nil, nil, maxSpeed
 end
 
+function UniversalAutoloadController:update()
+    if self:isFull() then 
+        if not self:isBaleFinderMode() then 
+            --- In the fieldwork mode the driver has to stop once full
+            --- The bale finder mode controls this in the strategy.
+            --- TODO: Breaks multiple trailers in fieldwork (on one tractor)!
+            self.vehicle:stopCurrentAIJob(AIMessageErrorIsFull.new())
+        end
+    end
+end
+
 function UniversalAutoloadController:isChangingBaleSize()
     return false
 end
