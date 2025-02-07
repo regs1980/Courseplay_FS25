@@ -801,6 +801,7 @@ function CpCourseGeneratorFrame:onClickPositionParameter(element)
 	self.isPickingLocation = true
 	self:showActionMessage("ui_ai_pickTargetLocation")
 	function self.pickingCallback(success, x, z)
+		self.currentContextBox:setVisible(true)
 		self:showActionMessage()
 		self.ingameMap:setIsCursorAvailable(true)
 		if success then
@@ -909,7 +910,6 @@ function CpCourseGeneratorFrame:updateParameterValueTexts()
 	g_currentMission:removeMapHotspot(self.fieldSiloAiTargetMapHotspot)
 	g_currentMission:removeMapHotspot(self.unloadAiTargetMapHotspot)
 	g_currentMission:removeMapHotspot(self.loadAiTargetMapHotspot)
-	local addedPositionHotspot = false
 	for _, element in ipairs(self.currentJobElements) do 
 		local parameter = element.aiParameter
 		local invalidElement = element:getDescendantByName("invalid")
@@ -1495,7 +1495,27 @@ function CpCourseGeneratorFrame:setMapSelectionItem(hotspot)
 			if vehicle.getJob ~= nil then
 				local job = vehicle:getJob()					
 				if job ~= nil then
-					-- TODO_25
+					for _, parameter in pairs(job:getCpJobParameters()) do 
+						if parameter:isa(CpAIParameterPosition) then 
+							if parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.DRIVE_TO then 
+								if parameter:applyToMapHotspot(self.driveToAiTargetMapHotspot) then
+									g_currentMission:addMapHotspot(self.driveToAiTargetMapHotspot)
+								end
+							elseif parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.FIELD_OR_SILO then 
+								if parameter:applyToMapHotspot(self.fieldSiloAiTargetMapHotspot) then
+									g_currentMission:addMapHotspot(self.fieldSiloAiTargetMapHotspot)
+								end
+							elseif parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.UNLOAD then 
+								if parameter:applyToMapHotspot(self.unloadAiTargetMapHotspot) then
+									g_currentMission:addMapHotspot(self.unloadAiTargetMapHotspot)
+								end
+							elseif parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.LOAD then 
+								if parameter:applyToMapHotspot(self.loadAiTargetMapHotspot) then
+									g_currentMission:addMapHotspot(self.loadAiTargetMapHotspot)
+								end
+							end
+						end
+					end
 				end
 			end
 			showContextBox = true
