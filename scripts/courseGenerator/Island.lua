@@ -23,6 +23,8 @@ end
 function Island.createFromBoundary(id, boundary)
     local island = CourseGenerator.Island(id, {})
     island.boundary = boundary
+    -- Giants polygons are usually just the corner vertices, our generator likes many vertices...
+    island.boundary:splitEdges(CourseGenerator.cMaxEdgeLength)
     return island
 end
 
