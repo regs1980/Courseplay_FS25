@@ -26,11 +26,8 @@ function UniversalAutoloadController:init(vehicle, implement)
     
     self.autoLoader = implement
     self.autoLoaderSpec = implement.spec_universalAutoload
-end
 
-
-function UniversalAutoloadController:isGrabbingBale()
-    return false
+    self.balesToIgnoreOnStart = {}
 end
 
 --- Is at least one bale loaded?
@@ -86,4 +83,12 @@ end
 
 function UniversalAutoloadController:isChangingBaleSize()
     return false
+end
+
+function UniversalAutoloadController:onStartDrivingToBale()
+    self.balesToIgnoreOnStart = self:getBalesToIgnore()
+end
+
+function UniversalAutoloadController:isReadyToLoadNextBale()
+    return self:getBalesToIgnore() > table.size(self.balesToIgnoreOnStart)
 end

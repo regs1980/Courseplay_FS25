@@ -120,3 +120,8 @@ function BaleLoaderController:isBaleFinderMode()
     ---       or another instance should handle the is full check
     return self.driveStrategy:is_a(AIDriveStrategyFindBales)
 end
+
+--- This one is not used for the giants baleloaders
+function BaleLoaderController:isReadyToLoadNextBale()
+    return false
+end
