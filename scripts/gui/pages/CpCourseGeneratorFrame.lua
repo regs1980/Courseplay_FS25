@@ -1524,6 +1524,7 @@ function CpCourseGeneratorFrame:setMapSelectionItem(hotspot)
 			name = hotspot:getName()
 			uvs = Overlay.DEFAULT_UVS
 			self.currentHotspot = hotspot
+			self.contextBoxCustomField:getDescendantByName("farmlandSize"):setText(hotspot:getAreaText())
 			self.currentContextBox = self.contextBoxCustomField
 			showContextBox = true
 		end
