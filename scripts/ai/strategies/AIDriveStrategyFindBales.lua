@@ -586,7 +586,7 @@ end
 
 function AIDriveStrategyFindBales:approachBale()
     if self.baleLoaderController then
-        if not self.baleLoaderController:isGrabbingBale() then
+        if self.baleLoaderController:isGrabbingBale() then
             self:debug('Start picking up bale')
             self.state = self.states.WORKING_ON_BALE
             self.numBalesLeftOver = math.max(self.numBalesLeftOver - 1, 0)
@@ -642,7 +642,7 @@ end
 
 function AIDriveStrategyFindBales:workOnBale()
     if self.baleLoaderController then
-        if self.baleLoaderController:isGrabbingBale() then
+        if not self.baleLoaderController:isGrabbingBale() then
             self:debug('Bale picked up, moving on to the next')
             self:collectNextBale()
         end
