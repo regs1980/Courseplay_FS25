@@ -62,7 +62,10 @@ end
 
 --- Ignore all already loaded bales when pathfinding
 function UniversalAutoloadController:getBalesToIgnore()    
-    return self.autoLoader.ualGetLoadedBales and self.autoLoader:ualGetLoadedBales()
+    local bales = self.autoLoader.ualGetLoadedBales and self.autoLoader:ualGetLoadedBales()
+    if bales then 
+        return table.toList(bales)
+    end
 end
 
 function UniversalAutoloadController:getDriveData()
