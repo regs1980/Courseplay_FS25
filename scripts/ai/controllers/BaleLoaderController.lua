@@ -86,7 +86,7 @@ function BaleLoaderController:getDriveData()
         maxSpeed = 1
     end
     if self:isGrabbingBale() then 
-        self:debugSparse("Slowing down as another bale was found on the way.")
+        self:debugSparse("Slowing down down during the bale grabbing.")
         maxSpeed = 2
     end
     return nil, nil, nil, maxSpeed
@@ -119,4 +119,9 @@ function BaleLoaderController:isBaleFinderMode()
     --- TODO: this is a more a hack and the fieldwork strategy 
     ---       or another instance should handle the is full check
     return self.driveStrategy:is_a(AIDriveStrategyFindBales)
+end
+
+--- This one is not used for the giants baleloaders
+function BaleLoaderController:isReadyToLoadNextBale()
+    return false
 end

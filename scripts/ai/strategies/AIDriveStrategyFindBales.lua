@@ -103,19 +103,15 @@ function AIDriveStrategyFindBales:initializeImplementControllers(vehicle)
     self:addImplementController(vehicle, FoldableController, Foldable, {})
 end
 
---- Wait for the giants bale loader to finish grabbing the bale.
+--- Checks if at least one baleloader is ready to load the next bale.
 function AIDriveStrategyFindBales:isReadyToLoadNextBale()
-    local isGrabbingBale = false
+    local isReadyToLoadNextBale = false
     for i, controller in pairs(self.controllers) do
-        if controller.isGrabbingBale then
-            isGrabbingBale = isGrabbingBale or controller:isGrabbingBale()
+        if controller.isReadyToLoadNextBale then
+            isReadyToLoadNextBale = isReadyToLoadNextBale or controller:isReadyToLoadNextBale()
         end
     end
-    return not isGrabbingBale
-end
-
-function AIDriveStrategyFindBales:isGrabbingBale()
-    return not self:isReadyToLoadNextBale()
+    return isReadyToLoadNextBale
 end
 
 --- Have any bales been loaded?
@@ -167,6 +163,15 @@ function AIDriveStrategyFindBales:getBalesToIgnore()
         end
     end
     return objectsToIgnore
+end
+
+--- Gets called when we start driving to a bale.
+function AIDriveStrategyFindBales:onStartDrivingToBale()
+    for i, controller in pairs(self.controllers) do
+        if controller.onStartDrivingToBale then
+            controller:onStartDrivingToBale()
+        end
+    end
 end
 
 -----------------------------------------------------------------------------------------------------------------------
@@ -370,6 +375,7 @@ function AIDriveStrategyFindBales:onPathfindingFinished(controller,
         if success then
             self.balesTried = {}
             self:startCourse(course, 1)
+            self:onStartDrivingToBale()
         else
             g_baleToCollectManager:unlockBalesByDriver(self)
             if #self.balesTried < 5 and #self.bales > #self.balesTried then
@@ -544,7 +550,7 @@ function AIDriveStrategyFindBales:getDriveData(dt, vX, vY, vZ)
         self:setMaxSpeed(0)
     elseif self.state == self.states.DRIVING_TO_NEXT_BALE then
         self:setMaxSpeed(self.settings.fieldSpeed:getValue())
-        if not self.bumpedIntoAnotherBale and self:isGrabbingBale() then
+        if not self.bumpedIntoAnotherBale and self.baleLoaderController and self.baleLoaderController:isGrabbingBale() then
             -- we are not at the bale yet but grabbing something, likely bumped into another bale
             self.bumpedIntoAnotherBale = true
         end
@@ -579,18 +585,23 @@ function AIDriveStrategyFindBales:getDriveData(dt, vX, vY, vZ)
 end
 
 function AIDriveStrategyFindBales:approachBale()
-    if self.baleLoader then
-        if not self:isReadyToLoadNextBale() then
+    if self.baleLoaderController then
+        if self.baleLoaderController:isGrabbingBale() then
             self:debug('Start picking up bale')
             self.state = self.states.WORKING_ON_BALE
             self.numBalesLeftOver = math.max(self.numBalesLeftOver - 1, 0)
         end
-    end
-    if self.baleWrapper then
+    elseif self.baleWrapper then
         self.baleWrapperController:handleBaleWrapper()
         if self.baleWrapperController:isWorking() then
             self:debug('Start wrapping bale')
             self.state = self.states.WORKING_ON_BALE
+            self.numBalesLeftOver = math.max(self.numBalesLeftOver - 1, 0)
+        end
+    else
+        if self:isReadyToLoadNextBale() then 
+            self:debug('Successfully loaded a baled')
+            self:collectNextBale()
             self.numBalesLeftOver = math.max(self.numBalesLeftOver - 1, 0)
         end
     end
@@ -630,8 +641,8 @@ function AIDriveStrategyFindBales:isPositionOk()
 end
 
 function AIDriveStrategyFindBales:workOnBale()
-    if self.baleLoader then
-        if self:isReadyToLoadNextBale() then
+    if self.baleLoaderController then
+        if not self.baleLoaderController:isGrabbingBale() then
             self:debug('Bale picked up, moving on to the next')
             self:collectNextBale()
         end
