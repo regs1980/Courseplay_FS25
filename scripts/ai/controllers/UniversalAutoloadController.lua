@@ -63,6 +63,7 @@ function UniversalAutoloadController:getBalesToIgnore()
     if bales then 
         return table.toList(bales)
     end
+    return {}
 end
 
 function UniversalAutoloadController:getDriveData()
@@ -90,5 +91,5 @@ function UniversalAutoloadController:onStartDrivingToBale()
 end
 
 function UniversalAutoloadController:isReadyToLoadNextBale()
-    return self:getBalesToIgnore() > table.size(self.balesToIgnoreOnStart)
+    return #self:getBalesToIgnore() > #self.balesToIgnoreOnStart
 end
