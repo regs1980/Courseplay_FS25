@@ -1475,7 +1475,7 @@ function CpCourseGeneratorFrame:setMapSelectionItem(hotspot)
 
 	local showContextBox = false
 	self.currentHotspot = nil
-	if hotspot ~= nil then 
+	if hotspot ~= nil and hotspot.isa ~= nil then 
 		local vehicle = InGameMenuMapUtil.getHotspotVehicle(hotspot)
 		if vehicle ~= nil and not vehicle.spec_rideable then
 			playerName = nil
