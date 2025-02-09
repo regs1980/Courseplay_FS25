@@ -534,7 +534,7 @@ end
 ---@param maxIterations number maximum number of iterations
 function PathfinderUtil.startPathfinding(vehicle, start, goal, constraints, allowReverse, mustBeAccurate, maxIterations)
     PathfinderUtil.overlapBoxes = {}
-    local pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, constraints.turnRadius * 4, 100, maxIterations, mustBeAccurate)
+    local pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, 100, maxIterations, mustBeAccurate)
     return pathfinder, pathfinder:start(start, goal, constraints.turnRadius, allowReverse,
             constraints, constraints.trailerHitchLength)
 end
@@ -583,15 +583,13 @@ function PathfinderUtil.findPathForTurn(vehicle, startOffset, goalReferenceNode,
             local _, y, _ = getWorldTranslation(vehicle:getAIDirectionNode())
             local dx, _, dz = worldToLocal(vehicle:getAIDirectionNode(), headlandPath[1].x, y, -headlandPath[1].y)
             local dirDeg = math.deg(math.abs(math.atan2(dx, dz)))
-            if dirDeg > 45 or true then
-                PathfinderUtil.logger:debug('First headland waypoint isn\'t in front of us (%.1f), remove first few waypoints to avoid making a circle %.1f %.1f', dirDeg, dx, dz)
-            end
-            pathfinder = HybridAStarWithPathInTheMiddle(vehicle, turnRadius * 6, 200, headlandPath, true, analyticSolver)
+            PathfinderUtil.logger:debug('First headland waypoint isn\'t in front of us (%.1f), remove first few waypoints to avoid making a circle %.1f %.1f', dirDeg, dx, dz)
+            pathfinder = HybridAStarWithPathInTheMiddle(vehicle, 200, headlandPath, true, analyticSolver)
         end
     end
     if pathfinder == nil then
         PathfinderUtil.logger:debug('No headland, or there is a headland but wasn\'t able to get the shortest path on the headland to the next row, falling back to hybrid A*')
-        pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, turnRadius * 6, 200, 10000, true, analyticSolver)
+        pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, 200, 10000, true, analyticSolver)
     end
 
     local context = PathfinderContext(vehicle):useFieldNum(CpFieldUtil.getFieldNumUnderVehicle(vehicle))

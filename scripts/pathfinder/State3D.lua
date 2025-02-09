@@ -55,7 +55,7 @@ function State3D.copy(other)
 end
 
 
---- Comparision for the binary heap to find the node with the lowest cost
+--- Comparison for the binary heap to find the node with the lowest cost
 function State3D:lt(other)
     return self.cost < other.cost
 end
