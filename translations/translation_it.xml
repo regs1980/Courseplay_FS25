@@ -392,9 +392,9 @@
     <text name="CP_global_setting_controllerHudSelected_tooltip" text="La Hud, può essere controllata con un Gamepad."/>
     <text name="CP_global_setting_showActionEventHelp_title" text="Aiuto per eventi d'azione"/>
     <text name="CP_global_setting_showActionEventHelp_tooltip" text="Visualizza testo aiuto eventi d'azione."/>
-    <text name="CP_global_setting_showsAllActiveCourses_title" text="Visualizza percorsicorsi attivi"/>
+    <text name="CP_global_setting_showsAllActiveCourses_title" text="Visualizza percorsi attivi"/>
     <text name="CP_global_setting_showsAllActiveCourses_tooltip" text="Mostra tutti i percorsi attivi sulla mappa di gioco"/>
-    <text name="CP_global_setting_drawOntoTheHudMap_title" text="Mostra i corsi sulla minimappa"/>
+    <text name="CP_global_setting_drawOntoTheHudMap_title" text="Mostra i percorsi sulla minimappa"/>
     <text name="CP_global_setting_drawOntoTheHudMap_tooltip" text="Consente di visualizzare il percorso sulla minimappa."/>
     <text name="CP_global_setting_infoTextHudActive_title" text="Mostra la finestra dei testi informativi"/>
     <text name="CP_global_setting_infoTextHudActive_tooltip" text="Visualizza una finestra di testo informativo."/>
