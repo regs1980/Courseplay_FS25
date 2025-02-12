@@ -327,6 +327,12 @@ You can define the following custom settings:
 	<Vehicle name="poettingerNovaCatX8.xml"
 			workingWidth = "8.4"
 	/>
+    <Vehicle name="servoT6000Plus.xml"
+			implementWheelAlwaysOnGround = "true"
+            raiseLate = "true"
+            lowerEarly = "true"
+	/>
+
     <!--\vehicles\hardi-->
     <Vehicle name="navigator6000.xml"
              ignoreCollisionBoxesWhenFolded = "true"
