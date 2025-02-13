@@ -1496,7 +1496,7 @@ function CpCourseGeneratorFrame:setMapSelectionItem(hotspot)
 				local job = vehicle:getJob()					
 				if job ~= nil then
 					for _, parameter in pairs(job:getCpJobParameters()) do 
-						if parameter:isa(CpAIParameterPosition) then 
+						if type(parameter) == 'table' and parameter.isa and parameter:isa(CpAIParameterPosition) then
 							if parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.DRIVE_TO then 
 								if parameter:applyToMapHotspot(self.driveToAiTargetMapHotspot) then
 									g_currentMission:addMapHotspot(self.driveToAiTargetMapHotspot)
