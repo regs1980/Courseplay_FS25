@@ -1495,24 +1495,23 @@ function CpCourseGeneratorFrame:setMapSelectionItem(hotspot)
 			if vehicle.getJob ~= nil then
 				local job = vehicle:getJob()					
 				if job ~= nil then
-					for _, parameter in pairs(job:getCpJobParameters()) do 
-						if type(parameter) == 'table' and parameter.isa and parameter:isa(CpAIParameterPosition) then
-							if parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.DRIVE_TO then 
-								if parameter:applyToMapHotspot(self.driveToAiTargetMapHotspot) then
-									g_currentMission:addMapHotspot(self.driveToAiTargetMapHotspot)
-								end
-							elseif parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.FIELD_OR_SILO then 
-								if parameter:applyToMapHotspot(self.fieldSiloAiTargetMapHotspot) then
-									g_currentMission:addMapHotspot(self.fieldSiloAiTargetMapHotspot)
-								end
-							elseif parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.UNLOAD then 
-								if parameter:applyToMapHotspot(self.unloadAiTargetMapHotspot) then
-									g_currentMission:addMapHotspot(self.unloadAiTargetMapHotspot)
-								end
-							elseif parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.LOAD then 
-								if parameter:applyToMapHotspot(self.loadAiTargetMapHotspot) then
-									g_currentMission:addMapHotspot(self.loadAiTargetMapHotspot)
-								end
+					--- Shows the target marker of the current job on the map.
+					for _, parameter in pairs(job:getCpJobParameters():getAiTargetMapHotspotParameters()) do
+						if parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.DRIVE_TO then 
+							if parameter:applyToMapHotspot(self.driveToAiTargetMapHotspot) then
+								g_currentMission:addMapHotspot(self.driveToAiTargetMapHotspot)
+							end
+						elseif parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.FIELD_OR_SILO then 
+							if parameter:applyToMapHotspot(self.fieldSiloAiTargetMapHotspot) then
+								g_currentMission:addMapHotspot(self.fieldSiloAiTargetMapHotspot)
+							end
+						elseif parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.UNLOAD then 
+							if parameter:applyToMapHotspot(self.unloadAiTargetMapHotspot) then
+								g_currentMission:addMapHotspot(self.unloadAiTargetMapHotspot)
+							end
+						elseif parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.LOAD then 
+							if parameter:applyToMapHotspot(self.loadAiTargetMapHotspot) then
+								g_currentMission:addMapHotspot(self.loadAiTargetMapHotspot)
 							end
 						end
 					end
