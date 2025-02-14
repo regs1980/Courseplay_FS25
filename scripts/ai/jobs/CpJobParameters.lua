@@ -76,7 +76,7 @@ end
 function CpJobParameters:getAiTargetMapHotspotParameters()
     local parameters = {}
     for i, setting in ipairs(self.settings) do
-        if setting:is_a(CpAIParameterPosition) or setting:is_a(CpAIParameterUnloadingStation) then
+        if setting:is_a(CpAIParameterPosition) then
             table.insert(parameters, setting)
         end
     end
