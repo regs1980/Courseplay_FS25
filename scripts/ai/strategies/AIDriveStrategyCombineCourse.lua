@@ -714,7 +714,9 @@ function AIDriveStrategyCombineCourse:shouldMakePocket()
         self:debug('Always need unloader so not making a pocket')
         return false
     end
-    if self.fruitLeft > 0.75 and self.fruitRight > 0.75 then
+    -- fruitLeft/fruitRight are percentage of fruit covered area. Also, sugarbeet and some other fruits
+    -- return 50% even after harvested, so check for 75% to be on the safe side
+    if self.fruitLeft > 75 and self.fruitRight > 75 then
         -- fruit both sides
         return true
     elseif self:isPipeOnLeft() then
