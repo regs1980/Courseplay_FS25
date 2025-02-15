@@ -136,10 +136,21 @@ function CpConstructionFrame:onFrameOpen()
 	g_currentMission.hud.warningDisplay:setPosition(
 		self.oldBlinkingWarningDisplayPosition[1] - rOffset, 
 		self.oldBlinkingWarningDisplayPosition[2] - tOffset)
-	self.oldSideNotificationsPosition = {g_currentMission.hud.sideNotifications:getPosition()}
+
+	local sideNotifications = g_currentMission.hud.sideNotifications
+	local sx2 = sideNotifications.progressBarBgBottom:getPosition()
+	local sx, sy = sideNotifications:getPosition()
+	self.oldSideNotificationsPosition = {
+		sx, sy, sx2}
 	g_currentMission.hud.sideNotifications:setPosition(
 		self.oldSideNotificationsPosition[1] - rOffset, 
 		self.oldSideNotificationsPosition[2] - tOffset)
+	sideNotifications.progressBarBgBottom:setPosition(
+		self.oldSideNotificationsPosition[3] - rOffset, nil)
+	sideNotifications.progressBarBgScale:setPosition(
+		self.oldSideNotificationsPosition[3] - rOffset, nil)
+	sideNotifications.progressBarBgTop:setPosition(
+		self.oldSideNotificationsPosition[3] - rOffset, nil)
 
 	self.camera:setTerrainRootNode(g_terrainNode)
 	self.camera:setEdgeScrollingOffset(lOffset, bOffset, 1 - rOffset, 1 - tOffset)
@@ -151,7 +162,11 @@ function CpConstructionFrame:onFrameOpen()
 	end
 	self.isMouseMode = g_inputBinding.lastInputMode == GS_INPUT_HELP_MODE_KEYBOARD
 	self:toggleCustomInputContext(true, self.INPUT_CONTEXT)
-
+	g_messageCenter:subscribe(MessageType.INPUT_MODE_CHANGED, function(self)
+		self.isMouseMode = g_inputBinding.lastInputMode == GS_INPUT_HELP_MODE_KEYBOARD
+	end, self)
+	self.originalInputHelpVisibility = g_currentMission.hud.inputHelp:getVisible()
+	g_currentMission.hud:setInputHelpVisible(true, true)
 	self.itemList:reloadData()
 	self:setBrush(nil, true)
 	if g_localPlayer ~= nil then
@@ -173,13 +188,21 @@ function CpConstructionFrame:onFrameClose()
 		g_localPlayer.graphicsComponent:setModelVisibility(false)
 		self.wasFirstPerson = nil
 	end
+	g_currentMission.hud:setInputHelpVisible(self.originalInputHelpVisibility)
 	g_currentMission.hud.gameInfoDisplay:setPosition(
 		self.oldGameInfoDisplayPosition[1], self.oldGameInfoDisplayPosition[2])
 	g_currentMission.hud.warningDisplay:setPosition(
 		self.oldBlinkingWarningDisplayPosition[1], self.oldBlinkingWarningDisplayPosition[2])
-	g_currentMission.hud.sideNotifications:setPosition(
+	local sideNotifications = g_currentMission.hud.sideNotifications
+	sideNotifications:setPosition(
 		self.oldSideNotificationsPosition[1], self.oldSideNotificationsPosition[2])
-		
+	sideNotifications.progressBarBgBottom:setPosition(
+		self.oldSideNotificationsPosition[3], nil)
+	sideNotifications.progressBarBgScale:setPosition(
+		self.oldSideNotificationsPosition[3], nil)
+	sideNotifications.progressBarBgTop:setPosition(
+		self.oldSideNotificationsPosition[3], nil)
+
 	self.camera:setEdgeScrollingOffset(0, 0, 1, 1)
 	self.cursor:deactivate()
 	self.camera:deactivate()
