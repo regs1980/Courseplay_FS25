@@ -215,7 +215,7 @@ end
 ---@param onlyAroundCurrentWaypointVisible boolean|nil display waypoints around the current highlighted point?
 ---@return boolean visible
 function CourseDataSourceDisplay:getIsPointVisible(ix, onlyStartStopVisible, onlyAroundCurrentWaypointVisible)
-	local showWaypoint = true
+	local showWaypoint = false
 	local currentWaypointIx = self.course:getCurrentWaypointIx()
 	if onlyAroundCurrentWaypointVisible then
 		--- Shows a few waypoints in front or after the last passed waypoint in between the lower and upper limit.
@@ -224,7 +224,7 @@ function CourseDataSourceDisplay:getIsPointVisible(ix, onlyStartStopVisible, onl
 		showWaypoint = lowerBound <= ix and ix <= upperBound
 	end
 	if onlyStartStopVisible then 
-		showWaypoint =  ix == 1 or (ix <= self.course:getNumberOfWaypoints() and ix >= self.course:getNumberOfWaypoints())
+		showWaypoint =  ix == 1 or (ix <= self.course:getNumberOfWaypoints() and ix >= (self.course:getNumberOfWaypoints() - 1))
 	end
 	return showWaypoint
 end

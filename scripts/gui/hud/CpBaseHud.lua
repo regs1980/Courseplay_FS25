@@ -18,6 +18,9 @@ CpBaseHud.HEADER_COLOR = {
     0.22323, 0.40724, 0.00368, 1
 }
 CpBaseHud.BASE_COLOR = {1, 1, 1, 1}
+CpBaseHud.BLUE_COLOR = {
+    0, 0.4, 0.6, 1
+}
 
 CpBaseHud.basePosition = {
     x = 810,
