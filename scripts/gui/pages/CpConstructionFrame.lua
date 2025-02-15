@@ -98,7 +98,7 @@ end
 function CpConstructionFrame:getOffsets()
 	local lOffset = self.menuBox.absPosition[1] + self.menuBox.size[1]
 	local bOffset = self.bottomBackground.absPosition[2] + self.bottomBackground.size[2]
-	local rOffset = self.rightBackground.size[1]
+	local rOffset = 1 - self.rightBackground.absPosition[1]
 	local tOffset = self.topBackground.size[2]
 	return lOffset, bOffset, rOffset, tOffset
 end
