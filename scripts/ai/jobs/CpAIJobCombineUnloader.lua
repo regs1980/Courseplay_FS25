@@ -173,12 +173,12 @@ function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldP
 		--- Firstly check, if the vehicle is near the field.
 		local x, _, z = getWorldTranslation(vehicle.rootNode)
 		isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
-				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minStartDistanceToField
+				  CpMathUtil.isWithinDistanceToPolygon(fieldPolygon, x, z, self.minStartDistanceToField)
 		if not isValid and useGiantsUnload then 
 			--- Alternatively check, if the start marker is close to the field and giants unload is active.
 			x, z = self.cpJobParameters.startPosition:getPosition()
 			isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
-				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minStartDistanceToField
+				  CpMathUtil.isWithinDistanceToPolygon(fieldPolygon, x, z, self.minStartDistanceToField)
 			if not isValid then
 				return self:callFieldBoundaryDetectionFinishedCallback(false, "CP_error_start_position_to_far_away_from_field")
 			end
@@ -198,7 +198,7 @@ function CpAIJobCombineUnloader:onFieldBoundaryDetectionFinished(vehicle, fieldP
 		
 		local x, z = self.cpJobParameters.fieldUnloadPosition:getPosition()
 		isValid = CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
-				  CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < self.minFieldUnloadDistanceToField
+				  CpMathUtil.isWithinDistanceToPolygon(fieldPolygon, x, z, self.minFieldUnloadDistanceToField)
 		if not isValid then
 			return self:callFieldBoundaryDetectionFinishedCallback(false, 'CP_error_fieldUnloadPosition_too_far_away_from_field')
 		end
@@ -358,7 +358,7 @@ function CpAIJobCombineUnloader:getStartTaskIndex()
 		return self.driveToUnloadingTask.taskIndex
 	end
 	if CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
-		CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z) < 2*self.minStartDistanceToField then
+		CpMathUtil.isWithinDistanceToPolygon(fieldPolygon, x, z, 2 * self.minStartDistanceToField) then
 		CpUtil.debugVehicle(CpDebug.DBG_FIELDWORK, vehicle, "Close to the field, start cp drive strategy.")
 		return startTask
 	end
