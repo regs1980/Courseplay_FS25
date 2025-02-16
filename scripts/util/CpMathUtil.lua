@@ -125,24 +125,18 @@ function CpMathUtil.isPointInPolygon(polygon, x, z)
 	return pointInPolygon ~= -1
 end
 
-function CpMathUtil.getClosestDistanceToPolygonEdge(polygon, x, z)
-    local closestDistance = math.huge
-    for i = 1, #polygon do
-		local s, e = polygon[i], polygon[i + 1] or polygon[1]
-		local edge = CourseGenerator.LineSegment(s.x, -s.z, e.x, -e.z)
-        local d = edge:getDistanceFrom(Vector(x, -z))
-        closestDistance = d < closestDistance and d or closestDistance
-    end
-    return closestDistance
-end
-
---- Is a point within a certain distance to any of the edges of a polygon
+--- Is a point within a certain distance to any of the edges of a polygon. Note that this is not accurate
+--- around the vertices for performance reasons. If scalar projection of the point is outside of the segment,
+--- but the scalar projection is within the limit, it is still considered within the distance. The accurate
+--- version would be checking if the point is within the half circle around the end vertices.
 ---@param polygon [{x, z}]
 ---@param x number x coordinate of the point
 ---@param z number z coordinate of the point
 ---@param distance number distance in meters
 ---@return boolean true if the point is within the distance to any of the edges
+---@return number the distance to the closest edge
 function CpMathUtil.isWithinDistanceToPolygon(polygon, x, z, distance)
+	local closestDistance = math.huge
 	local point = Vector(x, -z)
 	for i = 1, #polygon do
 		local s, e = polygon[i], polygon[i + 1] or polygon[1]
@@ -151,11 +145,14 @@ function CpMathUtil.isWithinDistanceToPolygon(polygon, x, z, distance)
 		-- d is distance from the line defined by the line segment, could be anywhere from -infinity to +infinity
 		local scalarProjection = edge:getScalarProjection(point)
 		-- so make sure it is around the segment
-		if d <= distance and scalarProjection >= -distance and scalarProjection <= edge:getLength() + distance then
-			return true
+		if scalarProjection >= -distance and scalarProjection <= edge:getLength() + distance then
+			closestDistance = d < closestDistance and d or closestDistance
+			if closestDistance <= distance then
+				return true, closestDistance
+			end
 		end
 	end
-	return false
+	return false, closestDistance
 end
 
 

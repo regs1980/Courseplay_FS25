@@ -45,9 +45,8 @@ function SelfUnloadHelper:findBestTrailer(fieldPolygon, myVehicle, implementWith
                 attacherVehicle = otherVehicle.spec_attachable:getAttacherVehicle()
             end
             local x, _, z = getWorldTranslation(otherVehicle.rootNode)
-            local closestDistance = CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z)
             -- if the trailer is within 20 m of the field perimeter, we are good
-            local isOnField = closestDistance <= SelfUnloadHelper.maxDistanceFromField
+            local isOnField, closestDistance = CpMathUtil.isWithinDistanceToPolygon(fieldPolygon, x, z, SelfUnloadHelper.maxDistanceFromField)
             if not isOnField then
                 -- not within 20 m, but could still be on the field
                 isOnField = CpMathUtil.isPointInPolygon(fieldPolygon, x, z)

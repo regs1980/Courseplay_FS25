@@ -162,5 +162,18 @@ function testExtend()
     a:getBase():assertAlmostEquals(Vector(0, 0))
 end
 
+function testGetDistanceFrom()
+    local e = CourseGenerator.LineSegment(0, 0, 100, 0)
+    local v = Vector(-4, 10)
+    lu.assertAlmostEquals(e:getDistanceFrom(v), 0)
+    print(e:getScalarProjection(v))
+    --[[
+    local e = CourseGenerator.LineSegment(-887.250000, -127.250000, -872.250000, -133.750000)
+    e.base:assertAlmostEquals(Vector(-887.250000, -127.250000))
+    e.slope:assertAlmostEquals(Vector(15, -6.5))
+    lu.assertAlmostEquals(e:getDistanceFrom(Vector(-706.601379, -225.356705)), 0)
+]]
+end
+
 os.exit(lu.LuaUnit.run())
 

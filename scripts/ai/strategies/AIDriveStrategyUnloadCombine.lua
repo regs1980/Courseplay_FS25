@@ -1556,8 +1556,8 @@ end
 ---@return boolean
 function AIDriveStrategyUnloadCombine:isServingPosition(x, z, outwardsOffset)
     if self.vehicle:cpGetFieldPolygon() then
-        local closestDistance = CpMathUtil.getClosestDistanceToPolygonEdge(self.vehicle:cpGetFieldPolygon(), x, z)
-        return closestDistance < outwardsOffset or CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z)
+        local closeEnough = CpMathUtil.isWithinDistanceToPolygon(self.vehicle:cpGetFieldPolygon(), x, z, outwardsOffset)
+        return closeEnough or CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z)
     else
         -- no field polygon yet. This may be called by the combine who has no idea where are we in the field boundary
         -- detection process.
@@ -2972,7 +2972,8 @@ function AIDriveStrategyUnloadCombine:isPositionOk()
     if x ~= nil and z ~= nil and angle ~= nil then
         --- Additional safety check, if the position is on the field or near it.
         if CpMathUtil.isPointInPolygon(self.vehicle:cpGetFieldPolygon(), x, z)
-                or CpMathUtil.getClosestDistanceToPolygonEdge(self.vehicle:cpGetFieldPolygon(), x, z) < 2 * CpAIJobCombineUnloader.minStartDistanceToField then
+                or CpMathUtil.isWithinDistanceToPolygon(self.vehicle:cpGetFieldPolygon(), x, z,
+                2 * CpAIJobCombineUnloader.minStartDistanceToField) then
             --- Goal position marker set in the ai menu rotated by 180 degree.
             self.invertedStartPositionMarkerNode = CpUtil.createNode("Inverted Start position marker",
                     x, z, angle + math.pi)
