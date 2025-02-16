@@ -2,8 +2,6 @@ name: Bug melden [DE]
 description: Einen Bug melden.
 labels:
 - Bug
-assignees:
-- Tensuko
 body:
 - type: markdown
   attributes:

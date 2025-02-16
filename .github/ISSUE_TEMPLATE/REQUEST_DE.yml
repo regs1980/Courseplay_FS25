@@ -2,8 +2,6 @@ name: Feature Idee/Anfrage [DE]
 description: Eine Anfrage oder Idee für ein Feature.
 labels:
 - Suggestion
-assignees:
-- Tensuko
 body:
 - type: markdown
   attributes:

@@ -2,8 +2,6 @@ name: Question [EN]
 description: You got a question? Just ask!
 labels:
 - question
-assignees:
-- Tensuko
 body:
 - type: markdown
   attributes:

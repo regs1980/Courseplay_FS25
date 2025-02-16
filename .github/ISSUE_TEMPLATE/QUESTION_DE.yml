@@ -2,8 +2,6 @@ name: Frage [DE]
 description: Du hast eine Frage? Stell sie einfach!
 labels:
 - question
-assignees:
-- Tensuko
 body:
 - type: markdown
   attributes:

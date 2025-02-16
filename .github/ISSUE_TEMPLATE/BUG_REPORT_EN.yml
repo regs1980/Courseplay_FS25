@@ -2,8 +2,6 @@ name: Bug report [EN]
 description: Reporting a bug.
 labels:
 - bug
-assignees:
-- Tensuko
 body:
 - type: markdown
   attributes:

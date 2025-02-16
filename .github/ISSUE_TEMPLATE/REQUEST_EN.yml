@@ -2,8 +2,6 @@ name: Feature Idea/Request [EN]
 description: A feature request or Idea.
 labels:
 - Suggestion
-assignees:
-- Tensuko
 body:
 - type: markdown
   attributes:
