@@ -436,8 +436,8 @@
     <text name="CP_courseManager_course_dialog" text="경로 이름:"/>
     <text name="CP_courseManager_deleteWarning" text="(%s)를 삭제하시겠습니까?"/>
     <text name="CP_courseManager_editCourseWarning" text="경로를 편집할 경우 자동운전에 문제가 발생할 수 있습니다.
-    경로 생성기가 적절한 경로를 생성할 수 없을 때만 이 도구를 사용하세요.
-    편집기를 닫으면 경로가 자동으로 저장되며 선택한 경로를 덮어씁니다."/>
+경로 생성기가 적절한 경로를 생성할 수 없을 때만 이 도구를 사용하세요.
+편집기를 닫으면 경로가 자동으로 저장되며 선택한 경로를 덮어씁니다."/>
     <text name="CP_courseManager_deleteError" text="(%s) 폴더가 비어 있지 않습니다!"/>
     <text name="CP_courseManager_entryExistAlreadyError" text="(%s) 폴더에 이미 동일한 파일이 존재합니다!"/>
     <text name="CP_courseManager_noAccessError" text="(%s) 폴더에 접근할 수 없습니다!"/>
