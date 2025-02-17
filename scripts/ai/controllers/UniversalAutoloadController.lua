@@ -26,11 +26,8 @@ function UniversalAutoloadController:init(vehicle, implement)
     
     self.autoLoader = implement
     self.autoLoaderSpec = implement.spec_universalAutoload
-end
 
-
-function UniversalAutoloadController:isGrabbingBale()
-    return false
+    self.balesToIgnoreOnStart = {}
 end
 
 --- Is at least one bale loaded?
@@ -62,18 +59,37 @@ end
 
 --- Ignore all already loaded bales when pathfinding
 function UniversalAutoloadController:getBalesToIgnore()    
-    return self.autoLoader.ualGetLoadedBales and self.autoLoader:ualGetLoadedBales()
+    local bales = self.autoLoader.ualGetLoadedBales and self.autoLoader:ualGetLoadedBales()
+    if bales then 
+        return table.toList(bales)
+    end
+    return {}
 end
 
 function UniversalAutoloadController:getDriveData()
     local maxSpeed 
-    if self:isFull() then
-        self:debugSparse("is full and waiting for release after animation has finished.")
-        maxSpeed = 0
-    end
     return nil, nil, nil, maxSpeed
+end
+
+function UniversalAutoloadController:update()
+    if self:isFull() then 
+        if not self:isBaleFinderMode() then 
+            --- In the fieldwork mode the driver has to stop once full
+            --- The bale finder mode controls this in the strategy.
+            --- TODO: Breaks multiple trailers in fieldwork (on one tractor)!
+            self.vehicle:stopCurrentAIJob(AIMessageErrorIsFull.new())
+        end
+    end
 end
 
 function UniversalAutoloadController:isChangingBaleSize()
     return false
+end
+
+function UniversalAutoloadController:onStartDrivingToBale()
+    self.balesToIgnoreOnStart = self:getBalesToIgnore()
+end
+
+function UniversalAutoloadController:isReadyToLoadNextBale()
+    return #self:getBalesToIgnore() > #self.balesToIgnoreOnStart
 end

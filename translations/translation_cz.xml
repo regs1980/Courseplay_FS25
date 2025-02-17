@@ -14,15 +14,16 @@
     <text name="CP_unit_meter" text="m"/>
     <text name="CP_unit_foot" text="st"/>
     <text name="CP_copy" text="Kopírovat trasu: "/>
-    <text name="CP_infoText" text="Courseplay(%s): Pro pomoc, chyby nebo poznámky o opravách navštivte: https://github.com/Courseplay/Courseplay_FS22. Překlad: SniperKittenCZ"/>
+    <text name="CP_infoText" text="Courseplay(%s): Pro pomoc, chyby nebo poznámky o opravách navštivte: https://github.com/Courseplay/Courseplay_FS25. Překlad: LadikSmyth"/>
     <text name="CP_error_no_course" text="Před zahájením práce vygenerujte trasu."/>
     <text name="CP_error_could_not_generate_course" text="Trasu se nepodařilo vygenerovat. Log může obsahovat více informací."/>
+    <text name="CP_error_field_detection_still_running" text="Detekce pole stále běží."/>
+    <text name="CP_error_field_detection_failed" text="Detekce pole se nezdařila."/>
     <text name="CP_error_not_on_field" text="Cíl není na poli."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Odvozce je příliš daleko od pole."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Startovní pozice příliš daleko od pole."/>
     <text name="CP_error_giants_unloader_not_available" text="Giants odvozce není k dispozici."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Pozice vyložení je příliš daleko od pole."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Vozidlo je příliš daleko od pole."/>
     <text name="CP_error_no_bunkerSilo_found" text="Silážní jáma nenalezena."/>
     <text name="CP_error_no_heap_found" text="Hromada nenalezena."/>
     <text name="CP_error_no_unload_trigger_found" text="Místo vykládky nenalezeno."/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="Pracovník AI %s přestal pracovat - připojení lišty není možné!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="Pracovník AI %s přestal pracovat - automatické připojení lišty deaktivováno!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="Pracovník AI %s přestal pracovat - zvolen nesprávný typ materiálu pro misi!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vozidlo je příliš daleko od pole."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -156,6 +158,7 @@
     <!--Vehicle settings-->
     <!---->
     <text name="CP_vehicle_setting_title" text="Nastavení pro vozidlo (%s)"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Nastavení vozidla"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="Základní nastavení"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="Nastavení nástroje"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Nastavení kombajnu"/>
@@ -271,6 +274,8 @@
     <!---->
     <text name="CP_vehicle_courseGeneratorSetting_title" text="Nastavení generátoru tras (%s)"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_basic" text="Základní"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Nastavení pro vinice"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Nastavení polních prací"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_headland" text="Souvrať"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_center" text="Střed"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="Nastavení ostrova"/>
@@ -310,8 +315,8 @@
     <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_tooltip" text="Spouští spirálu zevnitř."/>
     <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_title" text="Rovnoměrná šířka řádků"/>
     <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_tooltip" text="Zmenšuje pracovní šířku, aby se dosáhlo rovnoměrného rozložení ve všech řádcích."/>
-    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_title" text="Zaostření rohů souvratí"/>
-    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_tooltip" text="Zaostření rohů nezaoblených souvratí"/>
+    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_title" text="Zaoblení rohů souvratí"/>
+    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_tooltip" text="Zaoblení rohů nezaoblených souvratí"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_title" text="Počet kulatých rohů"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_tooltip" text="Počet kulatých rohů, počínaje první souvratí."/>
     <text name="CP_vehicle_courseGeneratorSetting_turningRadius_title" text="Poloměr rohu"/>
@@ -367,8 +372,8 @@
     <text name="CP_global_setting_autoRepair_always" text="Udržovat v dobrém stavu"/>
     <text name="CP_global_setting_fuelThreshold_title" text="Hladina paliva"/>
     <text name="CP_global_setting_fuelThreshold_tooltip" text="Řidič bude uvolněn, pokud je procento paliva nižší."/>
-    <text name="CP_global_setting_waitForRefueling_title" text="Waits for refueling"/>
-    <text name="CP_global_setting_waitForRefueling_tooltip" text="Vehicle waits until it is refueled."/>
+    <text name="CP_global_setting_waitForRefueling_title" text="Čekání na doplnění paliva"/>
+    <text name="CP_global_setting_waitForRefueling_tooltip" text="Vozidlo bude čekat na dotankování."/>
     <text name="CP_global_setting_brokenThreshold_title" text="Hodnota opotřebení"/>
     <text name="CP_global_setting_brokenThreshold_tooltip" text="Řidič bude propuštěn, pokud je vozidlo nebo nářadí více rozbité. 100% je vypnuto."/>
     <text name="CP_global_setting_stopThreshingDuringRain_title" text="Zastavit kombajn, když prší"/>
@@ -446,13 +451,15 @@ Trasa se automaticky uloží při zavření editoru a přepíše vybranou trasu.
     <!--Course editor-->
     <!---->
     <text name="CP_editor_course_title" text="Editor tras"/>
-    <text name="CP_editor_change_lane_offset" text="Change selected lane offset(%s)"/>
-    <text name="CP_editor_delete_title" text="Vymazat body"/>
-    <text name="CP_editor_delete_primary_text" text="Primární"/>
-    <text name="CP_editor_delete_secondary_text" text="Sekundární"/>
-    <text name="CP_editor_delete_tertiary_text" text="Smaže všechny trasové body až do posledního trasového bodu."/>
-    <text name="CP_editor_delete_yesNo_deleteToLastWp_title" text="Jste si jisti, že všechny body až do posledního by měly být smazány?"/>
-    <text name="CP_editor_delete_err" text="Příliš málo bodů na trase"/>
+    <text name="CP_editor_custom_field_title" text="Vlastní editor polí : %s"/>
+    <text name="CP_editor_change_lane_offset" text="Změnit vybrané odsazení trasy(%s)"/>
+    <text name="CP_editor_save_changes" text="Mají být změny %s uloženy?"/>
+    <text name="CP_editor_course_basic_delete_title" text="Vymazat body"/>
+    <text name="CP_editor_course_basic_delete_primary_text" text="Primární"/>
+    <text name="CP_editor_course_basic_delete_secondary_text" text="Sekundární"/>
+    <text name="CP_editor_course_basic_delete_tertiary_text" text="Smaže všechny trasové body až do posledního trasového bodu."/>
+    <text name="CP_editor_course_basic_delete_yesNo_deleteToLastWp_title" text="Jste si jisti, že všechny body až do posledního by měly být smazány?"/>
+    <text name="CP_editor_course_basic_delete_err" text="Příliš málo bodů na trase"/>
     <text name="CP_editor_course_basic_title" text="Základní"/>
     <text name="CP_editor_course_basic_move_title" text="Posunout bod"/>
     <text name="CP_editor_course_basic_move_primary_text" text="Primární"/>
@@ -470,7 +477,7 @@ Trasa se automaticky uloží při zavření editoru a přepíše vybranou trasu.
     <text name="CP_editor_course_advanced_curveInsert_title" text="Vložit trasové body jako křivku"/>
     <text name="CP_editor_course_advanced_curveInsert_primary_text" text="Primární"/>
     <text name="CP_editor_course_advanced_curveInsert_secondary_text" text="Sekundární"/>
-    <text name="CP_editor_course_advanced_curveInsert_err" text="Výběr bodu obrat není povolen."/>
+    <text name="CP_editor_course_advanced_curveInsert_err" text="Výběr bodu pro obrat není povolen."/>
     <!---->
     <!--Info texts-->
     <!---->
@@ -484,6 +491,7 @@ Trasa se automaticky uloží při zavření editoru a přepíše vybranou trasu.
     <text name="CP_infoTexts_workFinished" text="Dokončil práci"/>
     <text name="CP_infoTexts_drivingToCombine" text="Jede ke kombajnu"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Jede k odvozci"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Detekce pole"/>
     <text name="CP_infoTexts_outOfMoney" text="Došly peníze"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Čeká na konec deště"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Čeká až roztaje sníh"/>
@@ -498,9 +506,11 @@ Trasa se automaticky uloží při zavření editoru a přepíše vybranou trasu.
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Špatná plodina pro vybranou misi"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Palety jsou plné"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Žádné palety"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vozidlo je příliš daleko od pole."/>
     <!---->
     <!--Custom field manager-->
     <!---->
+    <text name="CP_customFieldManager_hotspotName" text="Vlastní pole"/>
     <text name="CP_customFieldManager_confirm_save" text="Chcete uložit zaznamenanou trasu jako vlastní pole %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Chcete odstranit vlastní pole %s?"/>
     <text name="CP_customFieldManager_delete" text="Vymazat vlastní pole"/>
@@ -516,10 +526,14 @@ Trasa se automaticky uloží při zavření editoru a přepíše vybranou trasu.
     <text name="CP_controllerGui_pauseRecording" text="Pozastavit nahrávání vlastního pole."/>
     <text name="CP_controllerGui_unpauseRecording" text="Znovu spustit nahrávání vlastního pole."/>
     <!---->
+    <!--CP ingame menu-->
+    <!---->
+    <text name="CP_ingameMenu_map_title" text="Mapa"/>
+    <!---->
     <!--Help menu-->
     <!---->
     <text name="CP_help_title" text="Courseplay"/>
-    <text name="CP_help_subTitle" text="Modifikace pro Farming Simulator 22 "/>
+    <text name="CP_help_subTitle" text="Modifikace pro Farming Simulator 25 "/>
     <text name="CP_help_page_blank" text=""/>
     <text name="CP_help_page_General_title" text="Všeobecné informace"/>
     <text name="CP_help_page_GeneralBase_text" text="
@@ -531,7 +545,7 @@ Trasy polních prací lze nastavit v režimu více nástrojů, který umožňuje
 Je také možné nechat sklízecí mlátičku automaticky vyložit do vleku na poli/v blízkosti pole.
 Pro hru lze přiřadit vlastní ohraničení pole, která se použijí například: v případě louky, která není rozpoznána jako normální pole.
 Konečně CP má rozhraní pro Autodrive, které umožňuje doplnění secího stroje v nedalekém sile nebo vyložení secího vozu a tak dále.
-Pro více informací navštivte náš github: https://github.com/Courseplay/Courseplay_FS22.
+Pro více informací navštivte náš github: https://github.com/Courseplay/Courseplay_FS25.
 Zde můžete získat pomoc nebo nahlásit jakýkoli problém, se kterým jste se setkali.
 Nakonec děkujeme všem překladatelům a naší komunitě za nahlášení chyb, poskytnutí zpětné vazby a nových nápadů.
 Co je expertní režim:
@@ -665,7 +679,7 @@ DŮLEŽITÉ UPOZORNĚNÍ: Pokud by vygenerovaný průběh nebyl dokonalý nebo d
 Správce tras vám umožňuje ukládat trasy a umožňuje vám uloženou trasu později znovu načíst.
 To je opravdu důležité, když chcete, aby více pracovníků použilo stejnou trasu (konvoj).
 Tato funkce vám také umožňuje sebrat řádek, který za sebou zanechal kombajn nebo řádkovač se sběracím vozem nebo lisem.
-Umístění pro uložení souborů tras je: ..\My Games\FarmingSimulator2022\modSettings\FS22_Courseplay\Courses\Mapname.SampleModMap (nebo např. MapUS).
+Umístění pro uložení souborů tras je: ..\My Games\FarmingSimulator2025\modSettings\FS25_Courseplay\Courses\Mapname.SampleModMap (nebo např. MapUS).
 Správce tras funguje jinak, než na co jste zvyklí ve FS19.
 Trasy se ukládají do složek, které se zobrazí vlevo. To znamená, že k ukládání tras budete potřebovat alespoň jednu složku.
 Složky lze jednoduše vytvořit tlačítkem v dolní části obrazovky a zadáním názvu.
@@ -1004,7 +1018,11 @@ Nyní by váš výběr měl vypadat podobně jako na obrázku.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Zobrazit nabídku kanálu ladění ano/ne"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Otevřt/zavřít nastavení vozidla"/>
     <text name="input_CP_START_STOP" text="CP: Spustit mini GUI"/>
-    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Změnit aktuální úlohu"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Start/stop driver (at first waypoint)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Start/stop driver (at nearest waypoint)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Start/stop driver (at last waypoint)"/>
+    <text name="input_CP_GENERATE_COURSE" text="CP: Změnit aktuálně zvolenou práci"/>
+    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Změnit aktuálně zvolenou práci"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Změnit startovní bod"/>
     <text name="input_CP_CLEAR_COURSE" text="CP: Vymazat aktuálně nahranou trasu"/>
     <text name="input_CP_CHANGE_COURSE_VISIBILITY" text="Zobrazit aktuální trasu vozidla"/>
@@ -1014,5 +1032,6 @@ Nyní by váš výběr měl vypadat podobně jako na obrázku.
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Otevřít globální nastavení"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Otevřít generátor tras/nabídky pracovníků"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Otevřít správce tras"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Otevřít nabídku"/>
   </texts>
 </l10n>

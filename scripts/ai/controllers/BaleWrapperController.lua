@@ -36,6 +36,12 @@ function BaleWrapperController:init(vehicle, baleWrapper)
     self:debug('Bale wrapper controller initialized')
 end
 
+function BaleWrapperController:update()
+    if not self.implement:getConsumableIsAvailable(BaleWrapper.CONSUMABLE_TYPE_NAME) then
+        self.vehicle:stopCurrentAIJob(AIMessageErrorOutOfFill.new())
+    end
+end
+
 function BaleWrapperController:getDriveData()
     local maxSpeed = self:handleBaleWrapper()
     return nil, nil, nil, maxSpeed

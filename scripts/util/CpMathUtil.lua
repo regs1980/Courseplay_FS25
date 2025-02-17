@@ -7,8 +7,8 @@ function CpMathUtil.getIntersectionPoint(A1x, A1y, A2x, A2y, B1x, B1y, B2x, B2y)
 	s2_y = B2y - B1y
 
 	local s, t
-	s = (-s1_y * (A1x - B1x) + s1_x * (A1y - B1y)) / (-s2_x * s1_y + s1_x * s2_y)
-	t = ( s2_x * (A1y - B1y) - s2_y * (A1x - B1x)) / (-s2_x * s1_y + s1_x * s2_y)
+	s = CpMathUtil.divide(-s1_y * (A1x - B1x) + s1_x * (A1y - B1y), -s2_x * s1_y + s1_x * s2_y)
+	t = CpMathUtil.divide( s2_x * (A1y - B1y) - s2_y * (A1x - B1x), -s2_x * s1_y + s1_x * s2_y)
 
 	if (s >= 0 and s <= 1 and t >= 0 and t <= 1) then
 		--Collision detected
@@ -125,14 +125,36 @@ function CpMathUtil.isPointInPolygon(polygon, x, z)
 	return pointInPolygon ~= -1
 end
 
-function CpMathUtil.getClosestDistanceToPolygonEdge(polygon, x, z)
-    local closestDistance = math.huge
-    for _, p in ipairs(polygon) do
-        local d = MathUtil.getPointPointDistance(x, z, p.x, p.z)
-        closestDistance = d < closestDistance and d or closestDistance
-    end
-    return closestDistance
+--- Is a point within a certain distance to any of the edges of a polygon. Note that this is not accurate
+--- around the vertices for performance reasons. If scalar projection of the point is outside of the segment,
+--- but the scalar projection is within the limit, it is still considered within the distance. The accurate
+--- version would be checking if the point is within the half circle around the end vertices.
+---@param polygon [{x, z}]
+---@param x number x coordinate of the point
+---@param z number z coordinate of the point
+---@param distance number distance in meters
+---@return boolean true if the point is within the distance to any of the edges
+---@return number the distance to the closest edge
+function CpMathUtil.isWithinDistanceToPolygon(polygon, x, z, distance)
+	local closestDistance = math.huge
+	local point = Vector(x, -z)
+	for i = 1, #polygon do
+		local s, e = polygon[i], polygon[i + 1] or polygon[1]
+		local edge = CourseGenerator.LineSegment(s.x, -s.z, e.x, -e.z)
+		local d = edge:getDistanceFrom(point)
+		-- d is distance from the line defined by the line segment, could be anywhere from -infinity to +infinity
+		local scalarProjection = edge:getScalarProjection(point)
+		-- so make sure it is around the segment
+		if scalarProjection >= -distance and scalarProjection <= edge:getLength() + distance then
+			closestDistance = d < closestDistance and d or closestDistance
+			if closestDistance <= distance then
+				return true, closestDistance
+			end
+		end
+	end
+	return false, closestDistance
 end
+
 
 --- Get the area of polygon in square meters
 ---@param polygon [] array elements can be {x, z}, {x, y, z} or {x, y}
@@ -307,4 +329,38 @@ function CpMathUtil.angleFromGame(angle)
 		a = 2 * math.pi + a
 	end
 	return a
+end
+
+-- TODO: consider math.clamp instead, that is part of Luau
+function CpMathUtil.clamp(val, min, max)
+	return math.min(math.max(val, min), max)
+end
+
+--- Divide a by b, but instead of throwing an error when b is 0, return math.huge
+function CpMathUtil.divide(a, b)
+	return b == 0 and math.huge or a / b
+end
+
+--- Legancy function form LS22
+function CpMathUtil.getCircleLineIntersection(circleX, circleZ, radius, lineStartX, lineStartZ, lineEndX, lineEndZ)
+	local p3x = lineStartX - circleX
+	local p3z = lineStartZ - circleZ
+	local p4x = lineEndX - circleX
+	local p4z = lineEndZ - circleZ
+	local m = (p4z - p3z) / (p4x - p3x)
+	local b = p3z - m * p3x
+	local dis = math.pow(radius, 2) * math.pow(m, 2) + math.pow(radius, 2) - math.pow(b, 2)
+
+	if dis < 0 then
+		return false
+	else
+		local t1 = (-m * b + math.sqrt(dis)) / (math.pow(m, 2) + 1)
+		local t2 = (-m * b - math.sqrt(dis)) / (math.pow(m, 2) + 1)
+		local intersect1X = t1 + circleX
+		local intersect1Z = m * t1 + b + circleZ
+		local intersect2X = t2 + circleX
+		local intersect2Z = m * t2 + b + circleZ
+
+		return true, intersect1X, intersect1Z, intersect2X, intersect2Z
+	end
 end

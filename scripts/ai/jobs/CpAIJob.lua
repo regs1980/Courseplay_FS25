@@ -16,26 +16,13 @@
 ---@field groupedParameters table
 ---@field isServer boolean
 ---@field helperIndex number
-CpAIJob = {
-	name = "",
-	jobName = "",
-}
-local AIJobCp_mt = Class(CpAIJob, AIJob)
-
-function CpAIJob.new(isServer, customMt)
-	local self = AIJob.new(isServer, customMt or AIJobCp_mt)
+CpAIJob = CpObject(AIJob, AIJob.new)
+function CpAIJob:init(isServer)
 	self.isDirectStart = false
 	self.debugChannel = CpDebug.DBG_FIELDWORK
-
-	--- Small translation fix, needs to be removed once giants fixes it.
-	local ai = g_currentMission.aiJobTypeManager
-	ai:getJobTypeByIndex(ai:getJobTypeIndexByName(self.name)).title = g_i18n:getText(self.jobName)
-
 	self:setupJobParameters()
 	self:setupTasks(isServer)
-
-	return self
-end
+end 
 
 ---@param task CpAITask
 function CpAIJob:removeTask(task)
@@ -123,9 +110,17 @@ end
 
 function CpAIJob:start(farmId)
 	self:onPreStart()
-	CpAIJob:superClass().start(self, farmId)
-
+	--- If we use more than the base game helper limit, 
+	--- than we have to reuse already used helper indices.
+	if #g_helperManager.availableHelpers > 0 then 
+		self.helperIndex = g_helperManager:getRandomHelper().index
+	else 
+		self.helperIndex = g_helperManager:getRandomIndex()
+	end
+	self.startedFarmId = farmId
+	self.isRunning = true
 	if self.isServer then
+		self.currentTaskIndex = 0
 		local vehicle = self.vehicleParameter:getVehicle()
 
 		vehicle:createAgent(self.helperIndex)
@@ -135,7 +130,7 @@ end
 
 function CpAIJob:stop(aiMessage)
 	if not self.isServer then 
-		CpAIJob:superClass().stop(self, aiMessage)
+		AIJob.stop(self, aiMessage)
 		return
 	end
 	local vehicle = self.vehicleParameter:getVehicle()
@@ -148,7 +143,7 @@ function CpAIJob:stop(aiMessage)
 		if driveStrategy then
 			driveStrategy:onFinished()
 		end
-		CpAIJob:superClass().stop(self, aiMessage)
+		AIJob.stop(self, aiMessage)
 		return
 	end
 	local releaseMessage, hasFinished, event, isOnlyShownOnPlayerStart = 
@@ -161,7 +156,7 @@ function CpAIJob:stop(aiMessage)
 		--- TODO: Add check if passing to ad is active maybe?
 		vehicle:setCpInfoTextActive(releaseMessage)
 	end
-	CpAIJob:superClass().stop(self, aiMessage)
+	AIJob.stop(self, aiMessage)
 	if event then
 		SpecializationUtil.raiseEvent(vehicle, event)
 	end
@@ -173,7 +168,8 @@ end
 
 --- Updates the parameter values.
 function CpAIJob:applyCurrentState(vehicle, mission, farmId, isDirectStart)
-	CpAIJob:superClass().applyCurrentState(self, vehicle, mission, farmId, isDirectStart)
+	-- the only thing this does, is setting self.isDirectStart
+	AIJob.applyCurrentState(self, vehicle, mission, farmId, isDirectStart)
 	self.vehicleParameter:setVehicle(vehicle)
 	if not self.cpJobParameters or not self.cpJobParameters.startPosition then 
 		return
@@ -206,8 +202,8 @@ function CpAIJob:applyCurrentState(vehicle, mission, farmId, isDirectStart)
 end
 
 --- Can the vehicle be used for this job?
-function CpAIJob:getIsAvailableForVehicle(vehicle)
-	return true
+function CpAIJob:getIsAvailableForVehicle(vehicle, cpJobsAllowed)
+	return cpJobsAllowed
 end
 
 function CpAIJob:getTitle()
@@ -238,8 +234,10 @@ function CpAIJob:setValues()
 end
 
 --- Is the job valid?
+---@param farmId number not used
 function CpAIJob:validate(farmId)
-	self:setParamterValid(true)
+	--- TODO_25
+	-- self:setParamterValid(true)
 
 	local isValid, errorMessage = self.vehicleParameter:validate()
 
@@ -248,6 +246,62 @@ function CpAIJob:validate(farmId)
 	end
 
 	return isValid, errorMessage
+end
+
+--- Start an asynchronous field boundary detection. Results are delivered by the callback
+--- onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+--- If the field position hasn't changed since the last call, the detection is skipped and this returns true.
+--- In that case, the polygon from the previous run is still available from vehicle:cpGetFieldPolygon()
+---@return boolean, boolean, string true if we already have a field boundary false otherwise,
+--- second boolean true if the detection is still running false on error
+--- error message
+function CpAIJob:detectFieldBoundary()
+	local vehicle = self.vehicleParameter:getVehicle()
+
+	local tx, tz = self.cpJobParameters.fieldPosition:getPosition()
+	if tx == nil or tz == nil then
+		return false, false, g_i18n:getText("CP_error_not_on_field")
+	end
+	if vehicle:cpIsFieldBoundaryDetectionRunning() then
+		return false, false, g_i18n:getText("CP_error_field_detection_still_running")
+	end
+	local x, z = vehicle:cpGetFieldPosition()
+	if x == tx and z == tz then
+		self:debug('Field position still at %.1f/%.1f, do not detect field boundary again', tx, tz)
+		return true, false, ''
+	end
+	self:debug('Field position changed to %.1f/%.1f, start field boundary detection', tx, tz)
+	self.foundVines = nil
+
+	vehicle:cpDetectFieldBoundary(tx, tz, self, self.onFieldBoundaryDetectionFinished)
+	-- TODO: return false and nothing, as the detection is still running?
+	return false, true, g_i18n:getText('CP_error_field_detection_still_running')
+end
+
+function CpAIJob:onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+	-- override in the derived classes to handle the detected field boundary
+end
+
+--- If registered, call the field boundary detection finished callback. This is to notify the frame
+--- at the end of the async field detection.
+--- It'll also return the result as a synchronous validate call would, and as the frame expects it, in case
+--- someone calls the registered callback directly from validate()
+---@return boolean isValid, string errorText
+function CpAIJob:callFieldBoundaryDetectionFinishedCallback(isValid, errorTextName)
+	local c = self.onFieldBoundaryDetectionFinishedCallback
+	local errorText = errorTextName and g_i18n:getText(errorTextName) or ''
+	if c and c.object and c.func then
+		c.func(c.object, isValid, errorText)
+	end
+	return isValid, errorText
+end
+
+--- Register a callback for the field boundary detection finished event.
+--- @param object table object to call the function on
+--- @param func function function to call func(boolean isValid, string|nil errorTextName), errorTextName is the
+--- name of the text in MasterTranslations.xml
+function CpAIJob:registerFieldBoundaryDetectionCallback(object, func)
+	self.onFieldBoundaryDetectionFinishedCallback = {object = object, func = func}
 end
 
 function CpAIJob:getIsStartable(connection)
@@ -326,7 +380,7 @@ function CpAIJob:readStream(streamId, connection)
 
 	self.currentTaskIndex = streamReadUInt8(streamId)
 	if self.cpJobParameters then
-		self.cpJobParameters:validateSettings()
+		self.cpJobParameters:validateSettings(true)
 		self.cpJobParameters:readStream(streamId, connection)
 	end
 	if streamReadBool(streamId) then 
@@ -338,7 +392,7 @@ function CpAIJob:readStream(streamId, connection)
 end
 
 function CpAIJob:saveToXMLFile(xmlFile, key, usedModNames)
-	CpAIJob:superClass().saveToXMLFile(self, xmlFile, key, usedModNames)
+	AIJob.saveToXMLFile(self, xmlFile, key, usedModNames)
 	if self.cpJobParameters then
 		self.cpJobParameters:saveToXMLFile(xmlFile, key)
 	end
@@ -346,7 +400,7 @@ function CpAIJob:saveToXMLFile(xmlFile, key, usedModNames)
 end
 
 function CpAIJob:loadFromXMLFile(xmlFile, key)
-	CpAIJob:superClass().loadFromXMLFile(self, xmlFile, key)
+	AIJob.loadFromXMLFile(self, xmlFile, key)
 	if self.cpJobParameters then
 		self.cpJobParameters:validateSettings()
 		self.cpJobParameters:loadFromXMLFile(xmlFile, key)
@@ -355,10 +409,6 @@ end
 
 function CpAIJob:getCpJobParameters()
 	return self.cpJobParameters
-end
-
-function CpAIJob:getFieldPolygon()
-	return self.fieldPolygon
 end
 
 function CpAIJob:setFieldPolygon(polygon)
@@ -377,7 +427,7 @@ end
 --- Applies the global wage modifier. 
 function CpAIJob:getPricePerMs()
 	local modifier = g_Courseplay.globalSettings:getSettings().wageModifier:getValue()/100
-	return CpAIJob:superClass().getPricePerMs(self) * modifier
+	return AIJob.getPricePerMs(self) * modifier
 end
 
 --- Fix for precision farming ...
@@ -438,13 +488,13 @@ end
 
 function CpAIJob:showNotification(aiMessage)
 	if g_Courseplay.globalSettings.infoTextHudActive:getValue() == g_Courseplay.globalSettings.DISABLED then 
-		CpAIJob:superClass().showNotification(self, aiMessage)
+		AIJob.showNotification(self, aiMessage)
 		return
 	end
 	local releaseMessage, hasFinished, event = g_infoTextManager:getInfoTextDataByAIMessage(aiMessage)
 	if not releaseMessage and not aiMessage:isa(AIMessageSuccessStoppedByUser) then 
 		self:debug("No release message found, so we use the giants notification!")
-		CpAIJob:superClass().showNotification(self, aiMessage)
+		AIJob.showNotification(self, aiMessage)
 		return
 	end
 	local vehicle = self:getVehicle()
@@ -467,7 +517,6 @@ function CpAIJob:debug(...)
 	end
 end
 
-
 --- Ugly hack to fix a mp problem from giants, where the job class can not be found.
 function CpAIJob.getJobTypeIndex(aiJobTypeManager, superFunc, job)
 	local ret = superFunc(aiJobTypeManager, job)
@@ -481,9 +530,9 @@ end
 AIJobTypeManager.getJobTypeIndex = Utils.overwrittenFunction(AIJobTypeManager.getJobTypeIndex ,CpAIJob.getJobTypeIndex)
 
 --- Registers additional jobs.
-function CpAIJob.registerJob(AIJobTypeManager)
+function CpAIJob.registerJob(aiJobTypeManager)
 	local function register(class)
-		AIJobTypeManager:registerJobType(class.name, class.jobName, class)
+		aiJobTypeManager:registerJobType(class.name, g_i18n:getText(class.jobName), class)
 	end
 	register(CpAIJobBaleFinder)
 	register(CpAIJobFieldWork)
@@ -491,6 +540,4 @@ function CpAIJob.registerJob(AIJobTypeManager)
 	register(CpAIJobSiloLoader)
 	register(CpAIJobBunkerSilo)
 end
-
-AIJobTypeManager.loadMapData = Utils.appendedFunction(AIJobTypeManager.loadMapData,CpAIJob.registerJob)
 

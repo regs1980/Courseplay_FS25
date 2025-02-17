@@ -1,5 +1,5 @@
 --[[
-This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS22)
+This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS25)
 Copyright (C) 2018-2023 Peter Vaiko
 
 This program is free software: you can redistribute it and/or modify
@@ -139,7 +139,7 @@ local BlockSequencer = CpObject()
 ---@param blocks CourseGenerator.Block[]
 function BlockSequencer:init(blocks)
     self.blocks = blocks
-    self.logger = Logger('BlockSequencer')
+    self.logger = Logger('BlockSequencer', nil, CpDebug.DBG_COURSES)
 end
 
 --- Find the (near) optimum sequence of blocks and entry/exit points.

@@ -127,21 +127,56 @@ function CpAIWorker:onRegisterActionEvents(isActiveForInput, isActiveForInputIgn
                 end
             end
 
-            addActionEvent(self, InputAction.CP_START_STOP, CpAIWorker.startStopCpActionEvent)
-            addActionEvent(self, InputAction.CP_CHANGE_SELECTED_JOB, CpAIWorker.changeCurrentSelectedJob)
-            addActionEvent(self, InputAction.CP_CHANGE_STARTING_POINT, CpAIWorker.changeStartingPoint)
-            addActionEvent(self, InputAction.CP_CLEAR_COURSE, CpAIWorker.clearCourse,
-                    g_i18n:getText("input_CP_CLEAR_COURSE"))
-            addActionEvent(self, InputAction.CP_CHANGE_COURSE_VISIBILITY, CpAIWorker.changeCourseVisibility)
-
-            addActionEvent(self, InputAction.CP_OPEN_VEHICLE_SETTINGS, CpGuiUtil.openVehicleSettingsGui,
-                    g_i18n:getText("input_CP_OPEN_VEHICLE_SETTINGS"))
-            addActionEvent(self, InputAction.CP_OPEN_GLOBAL_SETTINGS, CpGuiUtil.openGlobalSettingsGui,
-                    g_i18n:getText("input_CP_OPEN_GLOBAL_SETTINGS"))
-            addActionEvent(self, InputAction.CP_OPEN_COURSEGENERATOR_SETTINGS, CpGuiUtil.openCourseGeneratorGui,
-                    g_i18n:getText("input_CP_OPEN_COURSEGENERATOR_SETTINGS"))
-            addActionEvent(self, InputAction.CP_OPEN_COURSEMANAGER, CpGuiUtil.openCourseManagerGui,
-                    g_i18n:getText("input_CP_OPEN_COURSEMANAGER"))
+            addActionEvent(self, InputAction.CP_START_STOP, function ()
+                    self:cpStartStopDriver(true)
+                end)
+            addActionEvent(self, InputAction.CP_START_STOP_AT_FIRST_WAYPOINT, function (self)
+                    local startingPointSetting = self:getCpStartingPointSetting()
+                    startingPointSetting:setValue(CpFieldWorkJobParameters.START_AT_FIRST_POINT)
+                    self:cpStartStopDriver(true)
+                end)
+            addActionEvent(self, InputAction.CP_START_STOP_AT_NEAREST_WAYPOINT, function (self)
+                    local startingPointSetting = self:getCpStartingPointSetting()
+                    startingPointSetting:setValue(CpFieldWorkJobParameters.START_AT_NEAREST_POINT)
+                    self:cpStartStopDriver(true)
+                end)
+            addActionEvent(self, InputAction.CP_START_STOP_AT_LAST_WAYPOINT, function (self)
+                    local startingPointSetting = self:getCpStartingPointSetting()
+                    startingPointSetting:setValue(CpFieldWorkJobParameters.START_AT_LAST_POINT)
+                    self:cpStartStopDriver(true)
+                end)
+            
+            addActionEvent(self, InputAction.CP_GENERATE_COURSE, function (self)
+                    if self:getCanStartCpFieldWork() then
+                        CourseGeneratorInterface():generateDefaultCourse(self)
+                    end
+                end)
+            addActionEvent(self, InputAction.CP_CHANGE_SELECTED_JOB, function (self)
+                    local currentJobSetting = self:cpGetHudSelectedJobSetting()
+                    currentJobSetting:setNextItem()
+                end)
+            addActionEvent(self, InputAction.CP_CHANGE_STARTING_POINT, function (self)
+                    local startingPointSetting = self:getCpStartingPointSetting()
+                    startingPointSetting:setNextItem()
+                end)
+            addActionEvent(self, InputAction.CP_CLEAR_COURSE, function (self)
+                    self:resetCpCoursesFromGui()
+                end, g_i18n:getText("input_CP_CLEAR_COURSE"))
+            addActionEvent(self, InputAction.CP_CHANGE_COURSE_VISIBILITY, function ()
+                    self:getCpSettings().showCourse:setNextItem()
+                end)
+            addActionEvent(self, InputAction.CP_OPEN_VEHICLE_SETTINGS, function ()
+                    CpGuiUtil.openVehicleSettingsGui(self)
+                end, g_i18n:getText("input_CP_OPEN_VEHICLE_SETTINGS"))
+            addActionEvent(self, InputAction.CP_OPEN_GLOBAL_SETTINGS, function ()
+                    CpGuiUtil.openGlobalSettingsGui(self)
+                end, g_i18n:getText("input_CP_OPEN_GLOBAL_SETTINGS"))
+            addActionEvent(self, InputAction.CP_OPEN_COURSEGENERATOR_SETTINGS, function ()
+                    CpGuiUtil.openCourseGeneratorGui(self)
+                end, g_i18n:getText("input_CP_OPEN_COURSEGENERATOR_SETTINGS"))
+            addActionEvent(self, InputAction.CP_OPEN_COURSEMANAGER, function ()
+                    CpGuiUtil.openCourseManagerGui(self)
+                end, g_i18n:getText("input_CP_OPEN_COURSEMANAGER"))
 
             CpAIWorker.updateActionEvents(self)
         end
@@ -205,29 +240,10 @@ function CpAIWorker:updateActionEvents()
 
         actionEvent = spec.actionEvents[InputAction.CP_CLEAR_COURSE]
         g_inputBinding:setActionEventActive(actionEvent.actionEventId, self:hasCpCourse())
+
+        actionEvent = spec.actionEvents[InputAction.CP_GENERATE_COURSE]
+        g_inputBinding:setActionEventActive(actionEvent.actionEventId, self:getCanStartCpFieldWork())
     end
-end
-
-function CpAIWorker:changeStartingPoint()
-    local startingPointSetting = self:getCpStartingPointSetting()
-    startingPointSetting:setNextItem()
-end
-
-function CpAIWorker:changeCurrentSelectedJob()
-    local currentJobSetting = self:cpGetHudSelectedJobSetting()
-    currentJobSetting:setNextItem()
-end
-
-function CpAIWorker:clearCourse()
-    self:resetCpCoursesFromGui()
-end
-
-function CpAIWorker:changeCourseVisibility()
-    self:getCpSettings().showCourse:setNextItem()
-end
-
-function CpAIWorker:startStopCpActionEvent()
-    self:cpStartStopDriver(true)
 end
 
 --- Directly starts a cp job or stops a currently active job.
@@ -245,9 +261,9 @@ function CpAIWorker:cpStartStopDriver(isStartedByHud)
         end
         if self:getCanStartCp() and job then
 
-            job:applyCurrentState(self, g_currentMission, g_currentMission.player.farmId, true, true)
+            job:applyCurrentState(self, g_currentMission, g_currentMission.playerSystem:getLocalPlayer().farmId, true, true)
             job:setValues()
-            local success, message = job:validate(false)
+            local success, message = job:validate()
             if success then
                 g_client:getServerConnection():sendEvent(AIJobStartRequestEvent.new(job, self:getOwnerFarmId()))
                 CpUtil.debugVehicle(CpDebug.DBG_FIELDWORK, self, "Cp helper started.")
@@ -270,13 +286,17 @@ end
 --- Is a cp worker active ?
 --- Every cp job should be an instance of type CpAIJob.
 function CpAIWorker:getIsCpActive()
-    return self:getIsAIActive() and self:getJob() and self:getJob():isa(CpAIJob)
+    return self:getIsAIActive() and self:getJob() and self:getJob().is_a and self:getJob():is_a(CpAIJob)
 end
 
 --- Is cp drive to field work active
 function CpAIWorker:getIsCpDriveToFieldWorkActive()
-    local spec = self.spec_cpAIWorker
-    return self:getIsCpActive() and spec.driveToTask ~= nil
+    if not self:getIsCpActive() then
+        return false
+    end
+    local job = self:getJob()
+    local task = job:getTaskByIndex(job.currentTaskIndex)
+    return task and task.is_a and task:is_a(CpAITaskDriveTo)
 end
 
 --- Is a cp job ready to be started?
@@ -318,6 +338,7 @@ function CpAIWorker:stopCurrentAIJob(superFunc, message, ...)
         return superFunc(self, message, ...)
     end
     
+    local job = self:getJob()
     local wasCpActive = self:getIsCpActive()
     if wasCpActive then
         local driveStrategy = self:getCpDriveStrategy()
@@ -339,12 +360,11 @@ function CpAIWorker:stopCurrentAIJob(superFunc, message, ...)
                 end
             end
         end
-        local job = self:getJob()
-        if not job:isFinishingAllowed(message) then 
+        if not job:isFinishingAllowed(message) then
             return
         end
     end
-    CpUtil.debugVehicle(CpDebug.DBG_FIELDWORK, self, "stop message: %s", message:getMessage())
+    CpUtil.debugVehicle(CpDebug.DBG_FIELDWORK, self, "stop message: %s", message:getI18NText())
     superFunc(self, message,...)
 end
 
@@ -533,11 +553,11 @@ function CpAIWorker:onStartAutoDrive()
             --- Use last job parameters.
             --- Only the start point needs to be forced back!
             SpecializationUtil.raiseEvent(self, "onCpADRestarted")
-        elseif g_currentMission.controlledVehicle == self then
+        elseif CpUtil.getCurrentVehicle() == self then
             --- Apply hud variables
             SpecializationUtil.raiseEvent(self, "onCpADStartedByPlayer")
         end
-    elseif g_currentMission.controlledVehicle == self then
+    elseif CpUtil.getCurrentVehicle() == self then
         --- Apply hud variables
         SpecializationUtil.raiseEvent(self, "onCpADStartedByPlayer")
         CpJobStartAtLastWpSyncRequestEvent.sendEvent(self)
@@ -549,10 +569,10 @@ end
 ---------------------------------------------
 
 function CpAIWorker.registerConsoleCommands()
-    g_devHelper.consoleCommands:registerConsoleCommand("cpVehicleOnWorkStartTest",
+    g_consoleCommands:registerConsoleCommand("cpVehicleOnWorkStartTest",
             "Raise the field work start event.",
             "consoleCommandRaiseWorkStart", CpAIWorker)
-    g_devHelper.consoleCommands:registerConsoleCommand("cpSettingsPrintJob",
+    g_consoleCommands:registerConsoleCommand("cpSettingsPrintJob",
             "Prints the current job parameters",
             "consoleCommandPrintCurrentSelectedJobParameters", CpAIWorker)
     --- TODO: Adding functions to execute the lowering, raising and fieldwork end events.
@@ -562,7 +582,7 @@ end
 --- as these might turn on implements, that otherwise aren't turned on or
 --- disables the unfolding of a given implement.
 function CpAIWorker:consoleCommandRaiseWorkStart()
-    local vehicle = g_currentMission.controlledVehicle
+    local vehicle = CpUtil.getCurrentVehicle()
     if not vehicle then
         CpUtil.info("Not entered a valid vehicle!")
         return
@@ -583,7 +603,7 @@ end
 --- Either prints all settings or a desired setting by the name or index in the setting table.
 ---@param name any
 function CpAIWorker:consoleCommandPrintCurrentSelectedJobParameters(name)
-    local vehicle = g_currentMission.controlledVehicle
+    local vehicle = CpUtil.getCurrentVehicle()
     if not vehicle or vehicle.getCpStartableJob == nil then
         CpUtil.info("Not entered a valid vehicle!")
         return

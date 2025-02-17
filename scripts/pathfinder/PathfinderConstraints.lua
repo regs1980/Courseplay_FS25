@@ -1,5 +1,5 @@
 --[[
-This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS22)
+This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS25)
 Copyright (C) 2024 Courseplay Dev Team
 
 This program is free software: you can redistribute it and/or modify
@@ -72,6 +72,7 @@ function PathfinderConstraints:init(context)
     self.ignoreTrailerAtStartRange = context._ignoreTrailerAtStartRange or 0
     self.initialMaxFruitPercent = self.maxFruitPercent
     self.initialOffFieldPenalty = self.offFieldPenalty
+    self.collisionMask = context._collisionMask
     self.strictMode = false
     self:resetCounts()
     local areaToAvoidText = self.areaToAvoid and
@@ -104,8 +105,7 @@ function PathfinderConstraints:getNodePenalty(node)
         -- we are on a field
         if not PathfinderUtil.isWorldPositionOwned(node.x, -node.y) then
             -- but we do not own this field
-            local fieldIdUnderNode = CpFieldUtil.getFieldIdAtWorldPosition(node.x, -node.y)
-            if not CpFieldUtil.isActiveMissionField(fieldIdUnderNode) then
+            if not g_missionManager:getMissionAtWorldPosition(node.x, -node.y) then
                 -- the field we are on is not ours and not a mission field, more penalty!
                 offField = true
                 offFieldPenalty = self.offFieldPenalty * 1.2
@@ -205,8 +205,8 @@ function PathfinderConstraints:isValidNode(node, ignoreTrailer, offFieldValid)
             node.x, -node.y, CpMathUtil.angleToGame(node.t), 0.5)
 
     -- for debug purposes only, store validity info on node
-    node.collidingShapes = PathfinderUtil.collisionDetector:findCollidingShapes(
-            PathfinderUtil.helperNode, self.vehicleData, self.vehiclesToIgnore, self.objectsToIgnore, self.ignoreFruitHeaps)
+    node.collidingShapes = PathfinderUtil.collisionDetector:findCollidingShapes(PathfinderUtil.helperNode,
+            self.vehicleData, self.vehiclesToIgnore, self.objectsToIgnore, self.ignoreFruitHeaps, self.collisionMask)
     ignoreTrailer = ignoreTrailer or node.d < self.ignoreTrailerAtStartRange
     if self.vehicleData.trailer and not ignoreTrailer then
         -- now check the trailer or towed implement
@@ -218,7 +218,7 @@ function PathfinderConstraints:isValidNode(node, ignoreTrailer, offFieldValid)
 
         node.collidingShapes = node.collidingShapes + PathfinderUtil.collisionDetector:findCollidingShapes(
                 PathfinderUtil.helperNode, self.vehicleData.trailerRectangle, self.vehiclesToIgnore,
-                self.objectsToIgnore, self.ignoreFruitHeaps)
+                self.objectsToIgnore, self.ignoreFruitHeaps, self.collisionMask)
         if node.collidingShapes > 0 then
             self.trailerCollisionNodeCount = self.trailerCollisionNodeCount + 1
         end

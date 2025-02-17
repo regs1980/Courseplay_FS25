@@ -34,16 +34,15 @@ function AIParameterBooleanSetting:loadFromXMLFile(xmlFile, key)
 	local rawValue = xmlFile:getString(key .. "#currentValue")
 	if rawValue ~= nil then 
 		self.loadedValue = rawValue
-		self:setValue(rawValue == "true" or false)
+		self:setValue(rawValue == "true" or false, true)
 	else 
 		self:loadFromXMLFileLegacy(xmlFile, key)
 	end
 end
 
-function AIParameterBooleanSetting:resetToLoadedValue()
+function AIParameterBooleanSetting:resetToLoadedValue(noEventSend)
 	if self.loadedValue ~= nil then 
-		self:setValue(self.loadedValue)
-		self:raiseDirtyFlag()
+		self:setValue(self.loadedValue, noEventSend)
 	end
 end
 

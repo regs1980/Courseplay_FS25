@@ -40,3 +40,13 @@ function FoldableController:delete()
         Foldable.onRootVehicleChanged(self.implement, self.vehicle)
     end
 end
+
+function FoldableController:canContinueWork()
+    if self.foldActionWasRemoved then
+        return true
+        --- TODO_25 Do we need this here? Currently this breaks a few vehicle, like liquid manure spreaders.
+    -- else
+        -- return self.foldableSpec:getIsUnfolded()
+    end
+    return true
+end

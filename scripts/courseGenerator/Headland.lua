@@ -18,14 +18,19 @@ Headland.boundaryIdPrefix = 'F'
 ---@param mustNotCross|nil Polygon the headland must not cross this polygon, if it does, it is invalid. This is usually
 --- the outermost headland around the field, as when anything crosses that, it'll be at least partly outside of the field.
 function Headland:init(basePolygon, clockwise, passNumber, width, outward, mustNotCross)
-    self.logger = Logger('Headland ' .. passNumber or '')
+    self.logger = Logger('Headland ' .. passNumber or '', nil, CpDebug.DBG_COURSES)
     self.clockwise = clockwise
     self.passNumber = passNumber
-    self.logger:debug('start generating, base clockwise %s, desired clockwise %s, width %.1f, outward: %s',
-            basePolygon:isClockwise(), self.clockwise, width, outward)
     self.offsetVector = CourseGenerator.FieldworkCourseHelper.getOffsetVectorForHeadland(clockwise, outward)
-    ---@type Polygon
-    self.polygon = CourseGenerator.Offset.generate(basePolygon, self.offsetVector, width)
+    if width == 0 then
+        self.logger:debug('cloning base polygon as width 0, base clockwise %s, desired clockwise %s',
+                basePolygon:isClockwise(), self.clockwise)
+        self.polygon = basePolygon:clone()
+    else
+        self.logger:debug('start generating, base clockwise %s, desired clockwise %s, width %.1f, outward: %s',
+                basePolygon:isClockwise(), self.clockwise, width, outward)
+        self.polygon = CourseGenerator.Offset.generate(basePolygon:clone(), self.offsetVector, width)
+    end
     if self.polygon then
         self.polygon:calculateProperties()
         self.polygon:ensureMaximumEdgeLength(CourseGenerator.cMaxEdgeLength)

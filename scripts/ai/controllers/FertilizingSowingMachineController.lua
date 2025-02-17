@@ -22,6 +22,7 @@ local function onStartWorkAreaProcessing(sowingMachine, superFunc, ...)
 	local fertilizingEnabled = rootVehicle:getCpSettings().sowingMachineFertilizerEnabled:getValue()
 	if not fertilizingEnabled then
 		sprayerParams.sprayFillLevel = 0
+		sowingMachine.lastAIHasSprayed = nil
 	end
 end
 Sprayer.onStartWorkAreaProcessing = Utils.overwrittenFunction(Sprayer.onStartWorkAreaProcessing, onStartWorkAreaProcessing)

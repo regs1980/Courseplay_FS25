@@ -2,14 +2,12 @@ name: Question [EN]
 description: You got a question? Just ask!
 labels:
 - question
-assignees:
-- Tensuko
 body:
 - type: markdown
   attributes:
     value: 'Please use this template to ask your question!
 
-      Please make sure to read our [Wiki Page](https://github.com/Courseplay/Courseplay_FS22/wiki)
+      Please make sure to read our [Wiki Page](https://github.com/Courseplay/Courseplay_FS25/wiki)
       before creating a new issue!
 
       Our help pages from the game can also be found at [Courseplay.dev]!(https://courseplay.github.io/Courseplay_FS22.github.io/),
@@ -22,11 +20,21 @@ body:
     label: Version
     description: Which CoursePlay version are you using?
     options:
-    - 7.4.0.0
-    - 7.4.2.4
-    - 7.5.0.0
-    - 7.5.0.1
-    default: 3
+    - '0'
+    - 8.0.0.0
+    - 8.0.0.1
+    - 8.0.0.2
+    - 8.0.0.3
+    - 8.0.0.4
+    - 8.0.0.5
+    - 8.0.0.6
+    - 8.0.0.7
+    - 8.0.0.8
+    - 8.0.0.9
+    - 8.0.0.10
+    - 8.0.0.11
+    - 8.0.0.12
+    default: 13
   validations:
     required: true
 - type: dropdown

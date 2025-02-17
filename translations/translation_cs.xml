@@ -17,12 +17,13 @@
     <text name="CP_infoText" text="Courseplay(%s):如需帮助、错误报告或查看更新说明，请访问: https://github.com/Courseplay/Courseplay_FS22."/>
     <text name="CP_error_no_course" text="在开始任务之前创建或加载一个任务"/>
     <text name="CP_error_could_not_generate_course" text="无法创建任务"/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
+    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
     <text name="CP_error_not_on_field" text="不在田地中"/>
     <text name="CP_error_unloader_to_far_away_from_field" text="卸载位置距离田地太远。"/>
     <text name="CP_error_start_position_to_far_away_from_field" text="起始点距离田地太远。"/>
     <text name="CP_error_giants_unloader_not_available" text="找不到卸载位置。"/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="田地卸载点距离该田地太远。"/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="车辆距离田地太远，无法启动。"/>
     <text name="CP_error_no_bunkerSilo_found" text="找不到筒仓或青贮池。"/>
     <text name="CP_error_no_heap_found" text="找不到筒仓或青贮池。"/>
     <text name="CP_error_no_unload_trigger_found" text="找不到卸载位置。"/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="AI 工人 %s 已意外停止工作- 无法连接收割台！"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI 工人 %s 已意外停止工作 - 禁用自动切割器连接！"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI 工人 %s 已意外停止工作 - 所选任务的填充类型错误!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -156,6 +158,7 @@
     <!--Vehicle settings-->
     <!---->
     <text name="CP_vehicle_setting_title" text="车辆设置(%s)"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Vehicle settings"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="基本设置"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="工具设置"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="收割机设置"/>
@@ -271,6 +274,8 @@
     <!---->
     <text name="CP_vehicle_courseGeneratorSetting_title" text="工作路线设置 (%s)"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_basic" text="基本设置"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Vine field settings"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Fieldwork settings"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_headland" text="田间地头设置"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_center" text="田地中心路线设置"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="障碍绕行设置"/>
@@ -446,13 +451,15 @@
     <!--Course editor-->
     <!---->
     <text name="CP_editor_course_title" text="任务线路编辑"/>
+    <text name="CP_editor_custom_field_title" text="Custom field editor : %s"/>
     <text name="CP_editor_change_lane_offset" text="Change selected lane offset(%s)"/>
-    <text name="CP_editor_delete_title" text="删除路线"/>
-    <text name="CP_editor_delete_primary_text" text="主要路线"/>
-    <text name="CP_editor_delete_secondary_text" text="次要路线"/>
-    <text name="CP_editor_delete_tertiary_text" text="删除所有路线直到最后一个路点."/>
-    <text name="CP_editor_delete_yesNo_deleteToLastWp_title" text="确定删除所有吗?"/>
-    <text name="CP_editor_delete_err" text="到剩下的几个路点。"/>
+    <text name="CP_editor_save_changes" text="Should the changes to %s be saved?"/>
+    <text name="CP_editor_course_basic_delete_title" text="删除路线"/>
+    <text name="CP_editor_course_basic_delete_primary_text" text="主要路线"/>
+    <text name="CP_editor_course_basic_delete_secondary_text" text="次要路线"/>
+    <text name="CP_editor_course_basic_delete_tertiary_text" text="删除所有路线直到最后一个路点."/>
+    <text name="CP_editor_course_basic_delete_yesNo_deleteToLastWp_title" text="确定删除所有吗?"/>
+    <text name="CP_editor_course_basic_delete_err" text="到剩下的几个路点。"/>
     <text name="CP_editor_course_basic_title" text="普通"/>
     <text name="CP_editor_course_basic_move_title" text="移动一个路点"/>
     <text name="CP_editor_course_basic_move_primary_text" text="主要路点"/>
@@ -484,6 +491,7 @@
     <text name="CP_infoTexts_workFinished" text="完成工作"/>
     <text name="CP_infoTexts_drivingToCombine" text="行驶至联合收割机"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="行驶至拖车"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="资金不足"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="等待雨停"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="等待雪停"/>
@@ -498,9 +506,11 @@
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="为任务选择了错误的作物"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="托盘满"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="无托盘"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->
+    <text name="CP_customFieldManager_hotspotName" text="Custom field"/>
     <text name="CP_customFieldManager_confirm_save" text="是否要将录制的线路范围保存为自定义田地 %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="要删除自定义田地吗 %s?"/>
     <text name="CP_customFieldManager_delete" text="删除自定义田地"/>
@@ -515,6 +525,10 @@
     <text name="CP_controllerGui_stopRecording" text="停止自定义田地记录。"/>
     <text name="CP_controllerGui_pauseRecording" text="暂停自定义田地记录。"/>
     <text name="CP_controllerGui_unpauseRecording" text="继续自定义田地记录。"/>
+    <!---->
+    <!--CP ingame menu-->
+    <!---->
+    <text name="CP_ingameMenu_map_title" text="Map"/>
     <!---->
     <!--Help menu-->
     <!---->
@@ -1006,7 +1020,11 @@ hud还显示助手工作时堆或思洛存储器的剩余填充水平。
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: 打开迷你HUB"/>
     <text name="input_CP_START_STOP" text="CP: 启动/停止司机
 "/>
-    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: 更改当前选定的任务路线"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Start/stop driver (at first waypoint)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Start/stop driver (at nearest waypoint)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Start/stop driver (at last waypoint)"/>
+    <text name="input_CP_GENERATE_COURSE" text="CP: Change current selected job"/>
+    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Change current selected job"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: 更改起始点"/>
     <text name="input_CP_CLEAR_COURSE" text="CP: 清除当前加载的任务路线"/>
     <text name="input_CP_CHANGE_COURSE_VISIBILITY" text="显示车辆的当前路线"/>
@@ -1016,5 +1034,6 @@ hud还显示助手工作时堆或思洛存储器的剩余填充水平。
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP:打开全局设置"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: 打开任务生成器菜单"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: 打开任务管理"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Open menu"/>
   </texts>
 </l10n>

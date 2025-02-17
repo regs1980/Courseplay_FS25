@@ -105,16 +105,18 @@ end
 
 function CpAIFieldWorker:onStateChange(state, data)
     local spec = self.spec_cpAIFieldWorker
-    if state == Vehicle.STATE_CHANGE_ATTACH then 
+    if state == VehicleStateChange.ATTACH then
         spec.cpJob:getCpJobParameters():validateSettings()
-    elseif state == Vehicle.STATE_CHANGE_DETACH then
+    elseif state == VehicleStateChange.DETACH then
         spec.cpJob:getCpJobParameters():validateSettings()
     end
 end
 
 function CpAIFieldWorker:onCpCourseChange()
     local spec = self.spec_cpAIFieldWorker
-    spec.cpJob:getCpJobParameters():validateSettings()
+    if spec.cpJob then
+        spec.cpJob:getCpJobParameters():validateSettings()
+    end
 end
 
 function CpAIFieldWorker:getCpStartingPointSetting()
@@ -133,7 +135,7 @@ end
 
 --- Is a cp fieldwork job active ?
 function CpAIFieldWorker:getIsCpFieldWorkActive()
-    return self:getIsAIActive() and self:getJob() and self:getJob():isa(CpAIJobFieldWork)
+    return self:getIsAIActive() and self:getJob() and self:getJob().is_a and self:getJob():is_a(CpAIJobFieldWork)
 end
 
 function CpAIFieldWorker:getCpFieldWorkProgress()
@@ -196,7 +198,7 @@ function CpAIFieldWorker:startCpAtFirstWp()
     local spec = self.spec_cpAIFieldWorker
     self:updateAIFieldWorkerImplementData()
     if self:hasCpCourse() and self:getCanStartCpFieldWork() then
-        spec.cpJobStartAtFirstWp:applyCurrentState(self, g_currentMission, g_currentMission.player.farmId, true)
+        spec.cpJobStartAtFirstWp:applyCurrentState(self, g_currentMission, g_currentMission.playerSystem:getLocalPlayer().farmId, true, false)
         --- Applies the lane offset set in the hud, so ad can start with the correct lane offset.
         spec.cpJobStartAtFirstWp:getCpJobParameters().laneOffset:setValue(self:getCpLaneOffsetSetting():getValue())
         spec.cpJobStartAtFirstWp:setValues()
@@ -213,7 +215,7 @@ function CpAIFieldWorker:startCpAtLastWp()
     local spec = self.spec_cpAIFieldWorker
     self:updateAIFieldWorkerImplementData()
     if self:hasCpCourse() and self:getCanStartCpFieldWork() then
-        spec.cpJobStartAtLastWp:applyCurrentState(self, g_currentMission, g_currentMission.player.farmId, true)
+        spec.cpJobStartAtLastWp:applyCurrentState(self, g_currentMission, g_currentMission.playerSystem:getLocalPlayer().farmId, true, false)
         spec.cpJobStartAtLastWp:setValues()
         CpUtil.debugVehicle(CpDebug.DBG_FIELDWORK, self, "lane offset: %s", spec.cpJobStartAtLastWp:getCpJobParameters().laneOffset:getString())
         local success = spec.cpJobStartAtLastWp:validate(false)
@@ -308,3 +310,14 @@ local function onUpdate(vehicle, superFunc, ...)
 end
 
 AIFieldWorker.onUpdate = Utils.overwrittenFunction(AIFieldWorker.onUpdate, onUpdate)
+
+--- Ugly hack to avoid restarting the giants helper after loading a savegame,
+--- if cp was active prior to saving the game ...
+local function saveToXMLFile(vehicle, superFunc, xmlFile, key, ...)
+    superFunc(vehicle, xmlFile, key, ...)
+    if vehicle.getIsCpActive and vehicle:getIsCpActive() then 
+        xmlFile:setValue(key .. "#isActive", false)
+    end
+end
+
+AIFieldWorker.saveToXMLFile = Utils.overwrittenFunction(AIFieldWorker.saveToXMLFile, saveToXMLFile)

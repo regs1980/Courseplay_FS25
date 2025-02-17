@@ -7,15 +7,22 @@ Courseplay.MOD_NAME = g_currentModName
 Courseplay.BASE_DIRECTORY = g_currentModDirectory
 Courseplay.baseXmlKey = "Courseplay"
 Courseplay.xmlKey = Courseplay.baseXmlKey.."."
+--- Makes sure other mods can access the courseplay mod,
+--- if they are accessing this after this call.
+g_modManager.CP_MOD_NAME = g_currentModName
 
 function Courseplay:init()
-	g_gui:loadProfiles( Utils.getFilename("config/gui/GUIProfiles.xml", Courseplay.BASE_DIRECTORY) )
+	---TODO_25
+	-- g_gui:loadProfiles( Utils.getFilename("config/gui/GUIProfiles.xml", Courseplay.BASE_DIRECTORY) )
 
 	--- Base cp folder
 	self.baseDir = getUserProfileAppPath() .. "modSettings/" .. Courseplay.MOD_NAME ..  "/"
 	createFolder(self.baseDir)
 	--- Base cp folder
 	self.cpFilePath = self.baseDir.."courseplay.xml"
+
+	g_overlayManager:addTextureConfigFile(Utils.getFilename("img/iconSprite.xml", self.BASE_DIRECTORY), "cpIconSprite")
+	g_overlayManager:addTextureConfigFile(Utils.getFilename("img/ui_courseplay.xml", self.BASE_DIRECTORY), "cpUi")
 end
 
 function Courseplay:registerXmlSchema()
@@ -24,6 +31,7 @@ function Courseplay:registerXmlSchema()
 	self.globalSettings:registerXmlSchema(self.xmlSchema, self.xmlKey)
 	CpBaseHud.registerXmlSchema(self.xmlSchema, self.xmlKey)
 	CpHudInfoTexts.registerXmlSchema(self.xmlSchema, self.xmlKey)
+	CpInGameMenu.registerXmlSchema(self.xmlSchema, self.xmlKey)
 end
 
 --- Loads data not tied to a savegame.
@@ -32,8 +40,9 @@ function Courseplay:loadUserSettings()
 	if xmlFile then
 		self:showUserInformation(xmlFile, self.baseXmlKey)
 		self.globalSettings:loadFromXMLFile(xmlFile, self.xmlKey)
+		g_cpInGameMenu:loadFromXMLFile(xmlFile, self.xmlKey)
 		CpBaseHud.loadFromXmlFile(xmlFile, self.xmlKey)
-		CpHudInfoTexts.loadFromXmlFile(xmlFile, self.xmlKey)
+		self.infoTextsHud:loadFromXmlFile(xmlFile, self.xmlKey)
 		xmlFile:save()
 		xmlFile:delete()
 	else
@@ -47,10 +56,11 @@ function Courseplay:saveUserSettings()
 	if xmlFile then 
 		self.globalSettings:saveUserSettingsToXmlFile(xmlFile, self.xmlKey)
 		CpBaseHud.saveToXmlFile(xmlFile, self.xmlKey)
-		CpHudInfoTexts.saveToXmlFile(xmlFile, self.xmlKey)
+		self.infoTextsHud:saveToXmlFile(xmlFile, self.xmlKey)
 		if self.currentVersion then
-			xmlFile:setValue(self.baseXmlKey.."#lastVersion", self.currentVersion)
+			xmlFile:setValue(self.baseXmlKey .. "#lastVersion", self.currentVersion)
 		end
+		g_cpInGameMenu:saveToXMLFile(xmlFile, self.xmlKey)
 		xmlFile:save()
 		xmlFile:delete()
 	end
@@ -74,9 +84,7 @@ function Courseplay:showUserInformation(xmlFile, key)
 		self.MOD_NAME, self.currentVersion, lastLoadedVersion)
 
 	if showInfoDialog then
-		g_gui:showInfoDialog({
-			text = string.format(g_i18n:getText("CP_infoText"), self.currentVersion)
-		})
+		InfoDialog.show(string.format(g_i18n:getText("CP_infoText"), self.currentVersion))
 		if xmlFile then 
 			xmlFile:setValue(key.."#lastVersion", self.currentVersion)
 		end
@@ -90,9 +98,9 @@ end
 --- This function is called on loading a savegame.
 ---@param filename string
 function Courseplay:loadMap(filename)
+	CpAIJob.registerJob(g_currentMission.aiJobTypeManager)
 	self.globalSettings = CpGlobalSettings()
 	self:registerXmlSchema()
-	self:loadUserSettings()
 	--- Savegame infos here
 	CpUtil.info("Map loaded: %s, Savegame name: %s(%d)", 
 		g_currentMission.missionInfo.mapId, 
@@ -100,83 +108,62 @@ function Courseplay:loadMap(filename)
 		g_currentMission.missionInfo.savegameIndex)
 	self:load()
 	self:setupGui()
-	if g_currentMission.missionInfo.savegameDirectory ~= nil then
+	self:loadUserSettings()
+	if g_server ~= nil and g_currentMission.missionInfo.savegameDirectory ~= nil then
 		local saveGamePath = g_currentMission.missionInfo.savegameDirectory .."/"
 		local filePath = saveGamePath .. "Courseplay.xml"
 		self.xmlFile = XMLFile.load("cpXml", filePath , self.xmlSchema)
 		if self.xmlFile == nil then return end
 		self.globalSettings:loadFromXMLFile(self.xmlFile, g_Courseplay.xmlKey)
 		self.xmlFile:delete()
-
-		g_assignedCoursesManager:loadAssignedCourses(saveGamePath)
 	end
 
 	--- Ugly hack to get access to the global AutoDrive table, as this global is dependent on the auto drive folder name.
-	self.autoDrive = FS22_AutoDrive and FS22_AutoDrive.AutoDrive
+	self.autoDrive = FS25_AutoDrive and FS25_AutoDrive.AutoDrive
 	CpUtil.info("Auto drive found: %s", tostring(self.autoDrive~=nil))
-
-	g_courseEditor:load()
 end
 
 function Courseplay:deleteMap()
 	g_courseEditor:delete()
 	BufferedCourseDisplay.deleteBuffer()
 	g_signPrototypes:delete()
-	g_devHelper:delete()
+	g_consoleCommands:delete()
 end
 
 function Courseplay:setupGui()
-	local vehicleSettingsFrame = CpVehicleSettingsFrame.new()
-	local globalSettingsFrame = CpGlobalSettingsFrame.new()
-	local courseManagerFrame = CpCourseManagerFrame.new(self.courseStorage)
-	g_gui:loadGui(Utils.getFilename("config/gui/VehicleSettingsFrame.xml", Courseplay.BASE_DIRECTORY),
-				 "CpVehicleSettingsFrame", vehicleSettingsFrame, true)
-	g_gui:loadGui(Utils.getFilename("config/gui/GlobalSettingsFrame.xml", Courseplay.BASE_DIRECTORY),
-				 "CpGlobalSettingsFrame", globalSettingsFrame, true)
-	g_gui:loadGui(Utils.getFilename("config/gui/CourseManagerFrame.xml", Courseplay.BASE_DIRECTORY),
-				 "CpCourseManagerFrame", courseManagerFrame, true)
-	local function predicateFunc()
-		-- Only allow the vehicle bound pages, when a vehicle with cp functionality is chosen/entered.
-		local vehicle = CpInGameMenuAIFrameExtended.getVehicle()
-		return vehicle ~= nil and vehicle.spec_cpAIWorker ~= nil
-	end
-	
-	--- As precision farming decided to be moved in between the normal map and the ai map,
-	--- we move it down one position.
-	local pos = g_modIsLoaded["FS22_precisionFarming"] and 4 or 3
-
-	CpGuiUtil.fixInGameMenuPage(vehicleSettingsFrame, "pageCpVehicleSettings",
-			{896, 0, 128, 128}, pos + 1, predicateFunc)
-	CpGuiUtil.fixInGameMenuPage(globalSettingsFrame, "pageCpGlobalSettings",
-			{768, 0, 128, 128}, pos + 1, function () return true end)
-	CpGuiUtil.fixInGameMenuPage(courseManagerFrame, "pageCpCourseManager",
-			{256, 0, 128, 128}, pos + 1, predicateFunc)
+	CpInGameMenu.setupGui(self.courseStorage)
 	self.infoTextsHud = CpHudInfoTexts()
 
-	g_currentMission.hud.ingameMap.drawFields = Utils.appendedFunction(g_currentMission.hud.ingameMap.drawFields, Courseplay.drawHudMap)
+	--- Adding Player input bindings 
+	local function addPlayerActionEvents(self, superFunc, ...)
+		superFunc(self, ...)
+		local _, id = g_inputBinding:registerActionEvent(InputAction.CP_OPEN_INGAME_MENU, self, function ()
+			g_messageCenter:publishDelayed(MessageType.GUI_CP_INGAME_OPEN)
+		end, false, true, false, true)
+		g_inputBinding:setActionEventTextVisibility(id, false)
+		-- CpDebug.registerEvents()
+	end
+	PlayerInputComponent.registerGlobalPlayerActionEvents = Utils.overwrittenFunction(
+		PlayerInputComponent.registerGlobalPlayerActionEvents, addPlayerActionEvents)
+	
+	-- TODO_25
+	-- g_currentMission.hud.ingameMap.drawFields = Utils.appendedFunction(g_currentMission.hud.ingameMap.drawFields, Courseplay.drawHudMap)
 
+	-- local page = g_gui.currentGui.target.pageSettings
+
+	-- local newPage = page.subCategoryPages[1].copy(page.subCategoryPages[1].parent)
+	-- self:fixGui()
 end
 
 --- Enables drawing onto the hud map.
 function Courseplay.drawHudMap(map)
 	if g_Courseplay.globalSettings.drawOntoTheHudMap:getValue() then
-		local vehicle = g_currentMission.controlledVehicle
+		local vehicle = CpUtil.getCurrentVehicle()
 		if vehicle and vehicle:getIsEntered() and not g_gui:getIsGuiVisible() and vehicle.spec_cpAIWorker and not vehicle.spec_locomotive then 
 			SpecializationUtil.raiseEvent(vehicle, "onCpDrawHudMap", map)
 		end
 	end
 end
-
---- Adds cp help info to the in game help menu.
-function Courseplay:loadMapDataHelpLineManager(superFunc, ...)
-	local ret = superFunc(self, ...)
-	if ret then
-		self:loadFromXML(Utils.getFilename("config/HelpMenu.xml", Courseplay.BASE_DIRECTORY))
-		return true
-	end
-	return false
-end
-HelpLineManager.loadMapData = Utils.overwrittenFunction( HelpLineManager.loadMapData, Courseplay.loadMapDataHelpLineManager)
 
 --- Saves all global data, for example global settings.
 function Courseplay.saveToXMLFile(missionInfo)
@@ -208,8 +195,9 @@ function Courseplay:update(dt)
             local factor = 2*mapElement.terrainSize/2048
             mapElement.zoomMax = mapElement.zoomMax * factor
         end
-        setIngameMapFix(g_currentMission.inGameMenu.pageAI.ingameMap)
-        setIngameMapFix(g_currentMission.inGameMenu.pageMapOverview.ingameMap)
+		--- TODO_25
+        -- setIngameMapFix(g_currentMission.inGameMenu.pageAI.ingameMap)
+        -- setIngameMapFix(g_currentMission.inGameMenu.pageMapOverview.ingameMap)
     end
 end
 
@@ -234,7 +222,7 @@ end
 ---@param button number
 function Courseplay:mouseEvent(posX, posY, isDown, isUp, button)
 	if not g_gui:getIsGuiVisible() then
-		local vehicle = g_currentMission.controlledVehicle
+		local vehicle = CpUtil.getCurrentVehicle()
 		local hud = vehicle and vehicle.getCpHud and vehicle:getCpHud()
 		if hud then
 			hud:mouseEvent(posX, posY, isDown, isUp, button)
@@ -277,74 +265,16 @@ function Courseplay:load()
 	g_vineScanner:setup()
 end
 
-------------------------------------------------------------------------------------------------------------------------
--- Player action events
-------------------------------------------------------------------------------------------------------------------------
-
---- Adds player mouse action event, for global info texts.
-function Courseplay.addPlayerActionEvents(mission)
-	if mission.player then
-		CpUtil.debugFormat(CpDebug.DBG_HUD, "Added player input events")
-		mission.player.inputInformation.registrationList[InputAction.CP_TOGGLE_MOUSE] = {
-			text = "",
-			triggerAlways = false,
-			triggerDown = false,
-			eventId = "",
-			textVisibility = false,
-			triggerUp = true,
-			callback = Courseplay.onOpenCloseMouseEvent,
-			activeType = Player.INPUT_ACTIVE_TYPE.STARTS_ENABLED
-		}
-		mission.player.updateActionEvents = Utils.appendedFunction(mission.player.updateActionEvents, Courseplay.updatePlayerActionEvents)
-		mission.player.removeActionEvents = Utils.prependedFunction(mission.player.removeActionEvents, Courseplay.removePlayerActionEvents)
-	end
-end
-FSBaseMission.onStartMission = Utils.appendedFunction(FSBaseMission.onStartMission , Courseplay.addPlayerActionEvents)
-
---- Open/close mouse in player state.
-function Courseplay.onOpenCloseMouseEvent(player, forceReset)
-	if g_Courseplay.infoTextsHud:isVisible() and not player:hasHandtoolEquipped() then
-		if forceReset or g_Courseplay.globalSettings.infoTextHudPlayerMouseActive:getValue() then
-			local showMouseCursor = not g_inputBinding:getShowMouseCursor()
-			g_inputBinding:setShowMouseCursor(showMouseCursor)
-			local leftRightRotationEventId = player.inputInformation.registrationList[InputAction.AXIS_LOOK_LEFTRIGHT_PLAYER].eventId
-			local upDownRotationEventId = player.inputInformation.registrationList[InputAction.AXIS_LOOK_UPDOWN_PLAYER].eventId
-			g_inputBinding:setActionEventActive(leftRightRotationEventId, not showMouseCursor)
-			g_inputBinding:setActionEventActive(upDownRotationEventId, not showMouseCursor)
-			player.wasCpMouseActive = showMouseCursor
-		end
-	end
-end
-
---- Enables/disables the player mouse action event, if there are any info texts.
-function Courseplay.updatePlayerActionEvents(player)
-	local eventId = player.inputInformation.registrationList[InputAction.CP_TOGGLE_MOUSE].eventId
-	g_inputBinding:setActionEventTextVisibility(eventId, false)
-	if not player:hasHandtoolEquipped() then
-		if g_Courseplay.infoTextsHud:isVisible() and g_Courseplay.globalSettings.infoTextHudPlayerMouseActive:getValue() then 
-			g_inputBinding:setActionEventTextVisibility(eventId, true)
-		elseif player.wasCpMouseActive then 
-			Courseplay.onOpenCloseMouseEvent(player, true)
-		end
-	end
-end
-
---- Resets the mouse cursor on entering a vehicle for example.
-function Courseplay.removePlayerActionEvents(player)
-	if player.wasCpMouseActive then
-		g_inputBinding:setShowMouseCursor(false)
-	end
-	player.wasCpMouseActive = nil
-end
-
 --- Registers all cp specializations.
 ---@param typeManager table
 function Courseplay.register(typeManager)
 	if typeManager.typeName == "vehicle" and g_modIsLoaded[Courseplay.MOD_NAME] then
 		--- TODO: make this function async. 
 		for typeName, typeEntry in pairs(typeManager.types) do	
+			CpAIImplement.register(typeManager, typeName, typeEntry.specializations)
 			CpAIWorker.register(typeManager, typeName, typeEntry.specializations)
 			CpVehicleSettings.register(typeManager, typeName, typeEntry.specializations)
+			CpCourseGenerator.register(typeManager, typeName, typeEntry.specializations)
 			CpCourseGeneratorSettings.register(typeManager, typeName, typeEntry.specializations)
 			CpCourseManager.register(typeManager, typeName, typeEntry.specializations)
 			CpAIFieldWorker.register(typeManager, typeName, typeEntry.specializations)
@@ -352,7 +282,7 @@ function Courseplay.register(typeManager)
 			CpAICombineUnloader.register(typeManager, typeName, typeEntry.specializations)
 			CpAISiloLoaderWorker.register(typeManager, typeName, typeEntry.specializations)
 			CpAIBunkerSiloWorker.register(typeManager, typeName, typeEntry.specializations)
-			CpGamePadHud.register(typeManager, typeName,typeEntry.specializations)
+			-- TODO 25 CpGamePadHud.register(typeManager, typeName,typeEntry.specializations)
 			CpHud.register(typeManager, typeName, typeEntry.specializations)
 			CpInfoTexts.register(typeManager, typeName, typeEntry.specializations)
 			CpShovelPositions.register(typeManager, typeName, typeEntry.specializations)

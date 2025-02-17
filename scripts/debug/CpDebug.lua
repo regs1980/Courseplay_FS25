@@ -143,7 +143,7 @@ function CpDebug:deactivateEvents()
 end
 
 function CpDebug:updateActionEventTextVisibility()
-	if CpDebug.eventIds then
+	if CpDebug.menuEventId then
 		local textVisible = g_Courseplay.globalSettings.showActionEventHelp:getValue()
 		for _, id in pairs(CpDebug.eventIds) do 
 			g_inputBinding:setActionEventTextVisibility(id, textVisible)
@@ -169,9 +169,9 @@ end
 function CpDebug:drawVehicleDebugTable(vehicle, info, height, size)
 	
 	local d = DebugInfoTable.new()
-
-	d:createWithNodeToCamera(vehicle.rootNode, height or 4, info, size or 0.05)
-	g_debugManager:addFrameElement(d)
+	-- TODO 25
+	--d:createWithNodeToCamera(vehicle.rootNode, height or 4, info, size or 0.05)
+	--g_debugManager:addFrameElement(d)
 
 end
 
@@ -182,16 +182,15 @@ CpDebug = CpDebug()
 --- - toggle current channel
 --- - next channel 
 --- - previous channel 
-function CpDebug.addEvents(mission)
+function CpDebug.registerEvents(mission)
 	--- actionName, targetObject, eventCallback, triggerUp, triggerDown, triggerAlways, startActive, callbackState, disableConflictingBindings, reportAnyDeviceCollision
 	CpDebug.eventIds = {}
-	local _, eventId = mission.inputManager:registerActionEvent(InputAction.CP_DBG_CHANNEL_SELECT_PREVIOUS, CpDebug, CpDebug.setPrevious, false, true, false, CpDebug:isMenuVisible())
+	local _, eventId = g_inputBinding:registerActionEvent(InputAction.CP_DBG_CHANNEL_SELECT_PREVIOUS, CpDebug, CpDebug.setPrevious, false, true, false, CpDebug:isMenuVisible())
 	table.insert(CpDebug.eventIds, eventId)
-	local _, eventId = mission.inputManager:registerActionEvent(InputAction.CP_DBG_CHANNEL_SELECT_NEXT, CpDebug, CpDebug.setNext, false, true, false, CpDebug:isMenuVisible())
+	local _, eventId = g_inputBinding:registerActionEvent(InputAction.CP_DBG_CHANNEL_SELECT_NEXT, CpDebug, CpDebug.setNext, false, true, false, CpDebug:isMenuVisible())
 	table.insert(CpDebug.eventIds, eventId)
-	local _, eventId = mission.inputManager:registerActionEvent(InputAction.CP_DBG_CHANNEL_TOGGLE_CURRENT, CpDebug, CpDebug.toggleCurrentChannel, false, true, false, CpDebug:isMenuVisible())
+	local _, eventId = g_inputBinding:registerActionEvent(InputAction.CP_DBG_CHANNEL_TOGGLE_CURRENT, CpDebug, CpDebug.toggleCurrentChannel, false, true, false, CpDebug:isMenuVisible())
 	table.insert(CpDebug.eventIds, eventId)
-	local _, eventId = mission.inputManager:registerActionEvent(InputAction.CP_DBG_CHANNEL_MENU_VISIBILITY, CpDebug, CpDebug.toggleMenuVisibility, false, true, false, CpDebug.isEnabled)
+	local _, eventId = g_inputBinding:registerActionEvent(InputAction.CP_DBG_CHANNEL_MENU_VISIBILITY, CpDebug, CpDebug.toggleMenuVisibility, false, true, false, CpDebug.isEnabled)
 	CpDebug.menuEventId = eventId
 end
-FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, CpDebug.addEvents)

@@ -1,5 +1,5 @@
 --[[
-This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS22)
+This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS25)
 Copyright (C) 2022 Peter Vaiko
 
 This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,7 @@ function CollisionAvoidanceController:isCollisionWarningActive()
 end
 
 function CollisionAvoidanceController:findPotentialCollisions()
-    for _, vehicle in pairs(g_currentMission.vehicles) do
+    for _, vehicle in pairs(g_currentMission.vehicleSystem.vehicles) do
         if AIDriveStrategyCombineCourse.isActiveCpCombine(vehicle) then
             local d = calcDistanceFrom(self.vehicle.rootNode, vehicle.rootNode)
             if d < self.range then
@@ -69,7 +69,7 @@ function CollisionAvoidanceController:findPotentialCollisions()
                     -- for our own ETE, we always use the field speed and not the actual speed. This is to make sure
                     -- we come to a full stop on a warning and remain stopped while the warning is active
                     local myEte = myDistanceToCollision / (self.strategy:getFieldSpeed())
-                    local otherEte = otherDistanceToCollision / (vehicle.lastSpeedReal * 1000)
+                    local otherEte = CpMathUtil.divide(otherDistanceToCollision, (vehicle.lastSpeedReal * 1000))
                     -- self:debug('Checking %s at %.1f m, %.1f, ETE %.1f %.1f', CpUtil.getName(vehicle), d, myDistanceToCollision, myEte, otherEte)
                     if math.abs(myEte - otherEte) < self.eteDiffThreshold then
                         if not self.warning:get() or (self.warning:get() and vehicle ~= self.warningVehicle) then

@@ -250,7 +250,8 @@ function LineSegment:getRadiusTo(other)
 end
 
 ---@param point Vector
----@return number distance of point from the line segment (measured perpendicular to the segment, length of the rejection vector)
+---@return number distance of point from the line defined by the segment (not the segment!)
+---(measured perpendicular to the line, length of the rejection vector)
 function LineSegment:getDistanceFrom(point)
     local v = point - self.base
     return self.slope:rejection(v):length()

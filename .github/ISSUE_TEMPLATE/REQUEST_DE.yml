@@ -2,14 +2,12 @@ name: Feature Idee/Anfrage [DE]
 description: Eine Anfrage oder Idee für ein Feature.
 labels:
 - Suggestion
-assignees:
-- Tensuko
 body:
 - type: markdown
   attributes:
     value: 'Danke, dass du dir Zeit nimmst, diesen Report auszufüllen.
 
-      Lese dir bitte zuerst unsere [Wiki Seite](https://github.com/Courseplay/Courseplay_FS22/wiki)
+      Lese dir bitte zuerst unsere [Wiki Seite](https://github.com/Courseplay/Courseplay_FS25/wiki)
       durch, bevor du ein neues Issue erstellst!
 
       '
@@ -19,11 +17,21 @@ body:
     label: Version
     description: Welche CP Version verwendest du?
     options:
-    - 7.4.0.0
-    - 7.4.2.4
-    - 7.5.0.0
-    - 7.5.0.1
-    default: 3
+    - '0'
+    - 8.0.0.0
+    - 8.0.0.1
+    - 8.0.0.2
+    - 8.0.0.3
+    - 8.0.0.4
+    - 8.0.0.5
+    - 8.0.0.6
+    - 8.0.0.7
+    - 8.0.0.8
+    - 8.0.0.9
+    - 8.0.0.10
+    - 8.0.0.11
+    - 8.0.0.12
+    default: 13
   validations:
     required: true
 - type: dropdown

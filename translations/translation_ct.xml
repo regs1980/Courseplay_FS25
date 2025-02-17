@@ -17,12 +17,13 @@
     <text name="CP_infoText" text="Courseplay(%s):如需幫助、錯誤報告或查看更新說明，請訪問: https://github.com/Courseplay/Courseplay_FS22."/>
     <text name="CP_error_no_course" text="在開始任務之前建立或載入一個任務"/>
     <text name="CP_error_could_not_generate_course" text="無法建立任務"/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
+    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
     <text name="CP_error_not_on_field" text="不在田地中"/>
     <text name="CP_error_unloader_to_far_away_from_field" text="卸載機離田地太遠"/>
     <text name="CP_error_start_position_to_far_away_from_field" text="起始點位置離田地太遠"/>
     <text name="CP_error_giants_unloader_not_available" text="卸載點不可用"/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="田地卸載位置離田地太遠"/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="車輛離田地太遠，無法啟動."/>
     <text name="CP_error_no_bunkerSilo_found" text="未發現筒倉"/>
     <text name="CP_error_no_heap_found" text="未發現筒倉"/>
     <text name="CP_error_no_unload_trigger_found" text="No unloading point found."/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="AI worker %s has stopped work unexpectedly - attaching of the header is impossible!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI worker %s has stopped work unexpectedly - automatic cutter attach disabled!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI worker %s has stopped work unexpectedly - wrong fill type for mission selected!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -156,6 +158,7 @@
     <!--Vehicle settings-->
     <!---->
     <text name="CP_vehicle_setting_title" text="車輛設置(%s)"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Vehicle settings"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="基本設置"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="工具設置"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="收割機設置"/>
@@ -271,6 +274,8 @@
     <!---->
     <text name="CP_vehicle_courseGeneratorSetting_title" text="工作路線設置 (%s)"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_basic" text="基本設置"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Vine field settings"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Fieldwork settings"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_headland" text="田間地頭設置"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_center" text="中心路線設置"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="Settings island"/>
@@ -446,13 +451,15 @@
     <!--Course editor-->
     <!---->
     <text name="CP_editor_course_title" text="任務編輯器"/>
+    <text name="CP_editor_custom_field_title" text="Custom field editor : %s"/>
     <text name="CP_editor_change_lane_offset" text="Change selected lane offset(%s)"/>
-    <text name="CP_editor_delete_title" text="刪除航點"/>
-    <text name="CP_editor_delete_primary_text" text="主要"/>
-    <text name="CP_editor_delete_secondary_text" text="次要"/>
-    <text name="CP_editor_delete_tertiary_text" text="刪除最後一個航點之前的所有航點"/>
-    <text name="CP_editor_delete_yesNo_deleteToLastWp_title" text="你確定到最後一個的所有航點都應該被刪除嗎?"/>
-    <text name="CP_editor_delete_err" text="剩餘的航點太少."/>
+    <text name="CP_editor_save_changes" text="Should the changes to %s be saved?"/>
+    <text name="CP_editor_course_basic_delete_title" text="刪除航點"/>
+    <text name="CP_editor_course_basic_delete_primary_text" text="主要"/>
+    <text name="CP_editor_course_basic_delete_secondary_text" text="次要"/>
+    <text name="CP_editor_course_basic_delete_tertiary_text" text="刪除最後一個航點之前的所有航點"/>
+    <text name="CP_editor_course_basic_delete_yesNo_deleteToLastWp_title" text="你確定到最後一個的所有航點都應該被刪除嗎?"/>
+    <text name="CP_editor_course_basic_delete_err" text="剩餘的航點太少."/>
     <text name="CP_editor_course_basic_title" text="基本"/>
     <text name="CP_editor_course_basic_move_title" text="移動航點"/>
     <text name="CP_editor_course_basic_move_primary_text" text="主要"/>
@@ -484,6 +491,7 @@
     <text name="CP_infoTexts_workFinished" text="完成工作"/>
     <text name="CP_infoTexts_drivingToCombine" text="駕車前往聯合收割機"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="駕車前往拖車"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="資金不足"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="等待雨停"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Waits for snow to disappear"/>
@@ -498,9 +506,11 @@
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Wrong fruit for mission selected"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Pallets are full"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="No pallets"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->
+    <text name="CP_customFieldManager_hotspotName" text="Custom field"/>
     <text name="CP_customFieldManager_confirm_save" text="是否要將錄製的任務儲存為自訂田地 %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="要刪除自訂田地嗎 %s?"/>
     <text name="CP_customFieldManager_delete" text="刪除自訂田地"/>
@@ -515,6 +525,10 @@
     <text name="CP_controllerGui_stopRecording" text="停止自訂田地記錄。"/>
     <text name="CP_controllerGui_pauseRecording" text="暫停自訂田地記錄。"/>
     <text name="CP_controllerGui_unpauseRecording" text="取消暫停自訂田地記錄。"/>
+    <!---->
+    <!--CP ingame menu-->
+    <!---->
+    <text name="CP_ingameMenu_map_title" text="Map"/>
     <!---->
     <!--Help menu-->
     <!---->
@@ -1006,6 +1020,10 @@ Now your selection should look similar to the image.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: 顯示除錯通道菜單 是/否。"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: 打開迷你HUB"/>
     <text name="input_CP_START_STOP" text="CP: 啟動/停止司機"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Start/stop driver (at first waypoint)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Start/stop driver (at nearest waypoint)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Start/stop driver (at last waypoint)"/>
+    <text name="input_CP_GENERATE_COURSE" text="CP: Change current selected job"/>
     <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Change current selected job"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: 改變起始點"/>
     <text name="input_CP_CLEAR_COURSE" text="CP: 清除目前載入的任務"/>
@@ -1016,5 +1034,6 @@ Now your selection should look similar to the image.
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: 開啟全局設定"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: 開啟任務生成/工作選單"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: 開啟任務管理"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Open menu"/>
   </texts>
 </l10n>

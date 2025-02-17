@@ -14,15 +14,16 @@
     <text name="CP_unit_meter" text="m"/>
     <text name="CP_unit_foot" text="ft"/>
     <text name="CP_copy" text="Skopiuj kurs: "/>
-    <text name="CP_infoText" text="Courseplay(%s): Aby uzyskać pomoc, zgłosić błąd lub przeczytać informacje o aktualizacji, odwiedź: https://github.com/Courseplay/Courseplay_FS22."/>
+    <text name="CP_infoText" text="Courseplay(%s): Aby uzyskać pomoc, zgłosić błąd lub przeczytać informacje o aktualizacji, odwiedź: https://github.com/Courseplay/Courseplay_FS25."/>
     <text name="CP_error_no_course" text="Wygeneruj kurs przed rozpoczęciem pracy."/>
     <text name="CP_error_could_not_generate_course" text="Nie udało się wygenerować kursu. Więcej informacji w pliku LOG."/>
+    <text name="CP_error_field_detection_still_running" text="Wykrywanie pola w toku."/>
+    <text name="CP_error_field_detection_failed" text="Wykrywanie pola nieudane."/>
     <text name="CP_error_not_on_field" text="Cel nie jest na polu."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Pomocnik SI rozładowujący za daleko pola."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Pozycja startowa zbyt daleko pola."/>
     <text name="CP_error_giants_unloader_not_available" text="Pomocnik SI Giantsa rozładowujący niedostępny."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Pozycja rozładunku na polu jest zbyt daleko pola."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Pojazd jest zbyt daleko pola, aby ruszyć."/>
     <text name="CP_error_no_bunkerSilo_found" text="Nie znaleziono silosu."/>
     <text name="CP_error_no_heap_found" text="Nie znaleziono pryzmy."/>
     <text name="CP_error_no_unload_trigger_found" text="Nie znaleziono punktu rozładunku."/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="Pomocnik SI %s niespodziewanie przerwał pracę - podczepienie hederu niemożliwe!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="Pomocnik SI %s niespodziewanie przerwał pracę - automatyczne podczepienie hederu wyłączone!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="Pomocnik SI %s niespodziewanie przerwał pracę - wybrano zły typ ładunku!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Pojazd jest zbyt daleko pola."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -156,6 +158,7 @@
     <!--Vehicle settings-->
     <!---->
     <text name="CP_vehicle_setting_title" text="Ustawienia pojazdu dla (%s)"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Ustawienia pojazdu"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="Ustawienia podstawowe"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="Ustawienia narzędzi"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Ustawienia kombajnu"/>
@@ -271,6 +274,8 @@
     <!---->
     <text name="CP_vehicle_courseGeneratorSetting_title" text="Ustawienia generatora kursu dla (%s)"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_basic" text="Podstawowe"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Ustawienia winorośli"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Ustawienia prac polowych"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_headland" text="Uwrocia"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_center" text="Środek"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="Ustawienia przeszkód"/>
@@ -408,7 +413,7 @@
     <text name="CP_global_setting_subTitle_pathfinder" text="Ustawienia szukania ścieżki"/>
     <text name="CP_global_setting_maxDeltaAngleAtGoalDeg_title" text="Różnica kątów na bramce"/>
     <text name="CP_global_setting_maxDeltaAngleAtGoalDeg_tooltip" text="Maksymalna dopuszczalna różnica kątów na bramce, większe wartości są szybsze, ale mniej dokładne."/>
-    <text name="CP_global_setting_deltaAngleRelaxFactorDeg_title" text="Współczynnik relaksu kątu delta"/>
+    <text name="CP_global_setting_deltaAngleRelaxFactorDeg_title" text="Współczynnik relaksu kąta delta"/>
     <text name="CP_global_setting_deltaAngleRelaxFactorDeg_tooltip" text="Współczynnik zmniejszający dokładność wyznaczania ścieżki przy nieudanych iteracjach, większe wartości są szybsze"/>
     <!---->
     <!--Course manager-->
@@ -446,13 +451,15 @@ Kurs jest automatycznie zapisywany po zamknięciu edytora i nadpisuje wybrany ku
     <!--Course editor-->
     <!---->
     <text name="CP_editor_course_title" text="Edytor kursu"/>
+    <text name="CP_editor_custom_field_title" text="Edytor nowego pola: %s"/>
     <text name="CP_editor_change_lane_offset" text="Zmień przes. wybranego pasa(%s)"/>
-    <text name="CP_editor_delete_title" text="Usuń punkt trasy"/>
-    <text name="CP_editor_delete_primary_text" text="główny"/>
-    <text name="CP_editor_delete_secondary_text" text="dodatkowy"/>
-    <text name="CP_editor_delete_tertiary_text" text="Usuwa wszystkie punkty trasy aż do ostatniego."/>
-    <text name="CP_editor_delete_yesNo_deleteToLastWp_title" text="Czy jesteś pewien, że wszystkie punkty trasy, aż do ostatniego, powinny zostać usunięte?"/>
-    <text name="CP_editor_delete_err" text="Pozostało za mało punktów trasy."/>
+    <text name="CP_editor_save_changes" text="Czy zmiany w %s powinny zostać zapisane"/>
+    <text name="CP_editor_course_basic_delete_title" text="Usuń punkt trasy"/>
+    <text name="CP_editor_course_basic_delete_primary_text" text="główny"/>
+    <text name="CP_editor_course_basic_delete_secondary_text" text="dodatkowy"/>
+    <text name="CP_editor_course_basic_delete_tertiary_text" text="Usuwa wszystkie punkty trasy aż do ostatniego."/>
+    <text name="CP_editor_course_basic_delete_yesNo_deleteToLastWp_title" text="Czy jesteś pewien, że wszystkie punkty trasy, aż do ostatniego, powinny zostać usunięte?"/>
+    <text name="CP_editor_course_basic_delete_err" text="Pozostało za mało punktów trasy."/>
     <text name="CP_editor_course_basic_title" text="Podstawowy"/>
     <text name="CP_editor_course_basic_move_title" text="Przemieść punkt trasy"/>
     <text name="CP_editor_course_basic_move_primary_text" text="główny"/>
@@ -484,6 +491,7 @@ Kurs jest automatycznie zapisywany po zamknięciu edytora i nadpisuje wybrany ku
     <text name="CP_infoTexts_workFinished" text="Zakończył pracę"/>
     <text name="CP_infoTexts_drivingToCombine" text="Przejazd do kombajnu"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Przejazd do przyczepy"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Wykrywanie pola"/>
     <text name="CP_infoTexts_outOfMoney" text="Brak pieniędzy"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Oczekuje na koniec opadów"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Oczekiwanie na stopnienie śniegu"/>
@@ -498,9 +506,11 @@ Kurs jest automatycznie zapisywany po zamknięciu edytora i nadpisuje wybrany ku
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Zły rodzaj uprawy dla tej pracy"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Skrzyniopalety są pełne"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Brak skrzyniopalet"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Pojazd jest zbyt daleko pola."/>
     <!---->
     <!--Custom field manager-->
     <!---->
+    <text name="CP_customFieldManager_hotspotName" text="Nowe pole"/>
     <text name="CP_customFieldManager_confirm_save" text="Czy chcesz zapisać nagrany kurs jako nowe pole %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Czy chcesz usunąć nowe pole %s?"/>
     <text name="CP_customFieldManager_delete" text="Usuń nowe pole"/>
@@ -516,10 +526,14 @@ Kurs jest automatycznie zapisywany po zamknięciu edytora i nadpisuje wybrany ku
     <text name="CP_controllerGui_pauseRecording" text="Wstrzymaj nagrywanie nowego pola."/>
     <text name="CP_controllerGui_unpauseRecording" text="Wznów nagrywanie nowego pola."/>
     <!---->
+    <!--CP ingame menu-->
+    <!---->
+    <text name="CP_ingameMenu_map_title" text="Mapa"/>
+    <!---->
     <!--Help menu-->
     <!---->
     <text name="CP_help_title" text="Courseplay"/>
-    <text name="CP_help_subTitle" text="Modyfikacja do Farming Simulator 22 "/>
+    <text name="CP_help_subTitle" text="Modyfikacja do Farming Simulator 25"/>
     <text name="CP_help_page_blank" text=""/>
     <text name="CP_help_page_General_title" text="Informacje ogólne"/>
     <text name="CP_help_page_GeneralBase_text" text="
@@ -532,7 +546,7 @@ Możliwe jest również automatyczne rozładowanie kombajnu na przyczepę stoją
 Niestandardowe granice pól mogą być przypisane do wykorzystania podczas np. prac na łąkach, które nie są rozpoznawana jako normalne pole.
 Wreszcie CP posiada interfejs do Autodrive, który pozwala na uzupełnianie siewnika w pobliskim silosie lub rozładować przyczepę samozbierającą itd.
 
-Aby uzyskać więcej informacji, odwiedź nasz GitHub: https://github.com/Courseplay/Courseplay_FS22
+Aby uzyskać więcej informacji, odwiedź nasz GitHub: https://github.com/Courseplay/Courseplay_FS25
 Tam możesz uzyskać pomoc lub zgłosić napotkany problem.
 Na koniec dziękujemy każdemu tłumaczowi i naszej społeczności za zgłaszanie błędów, przekazywanie opinii dotyczących użytkowania i nowych pomysłów.
 
@@ -661,7 +675,7 @@ WAŻNA UWAGA: Jeśli wygenerowany kurs nie będzie idealny lub nawet zły przez 
 Jest to bardzo ważne, gdy chcesz, aby wielu pomocników jeździło tym samym kursem dla konwoju (wiele maszyn).
 Ta funkcja umożliwia również zbieranie pokosu pozostawionego przez kombajn lub zgrabiarkę z przyczepą samozbierającą lub prasą.
 "/>
-    <text name="CP_help_page_courseManagerBaseFunctions_text" text="Lokalizacja zapisu plików kursu to: Dokumenty\My Games\FarmingSimulator2022\modSettings\FS22_Courseplay\Courses\Nazwa_mapy.SampleModMap (lub w przypadku map z gry, np. MapUS).
+    <text name="CP_help_page_courseManagerBaseFunctions_text" text="Lokalizacja zapisu plików kursu to: Dokumenty\My Games\FarmingSimulator2025\modSettings\FS25_Courseplay\Courses\Nazwa_mapy.SampleModMap (lub w przypadku map z gry, np. MapUS).
 Menedżer kursu działa inaczej niż ten, do którego przywykłeś w FS19.
 Kursy zapisywane są w folderach, które wyświetlą się po lewej stronie. Oznacza to, że aby rozpocząć zapisywanie kursów, potrzebujesz co najmniej jednego folderu.
 Foldery można po prostu utworzyć, naciskając przycisk u dołu ekranu i wprowadzając nazwę.
@@ -983,6 +997,10 @@ Twój wybór powinien wyglądać podobnie do tego zdjęcia.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Menu kanałów debugowania"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Otwórz mini GUI"/>
     <text name="input_CP_START_STOP" text="CP: Uruchom/Zatrzymaj kierowcę"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Uruchom/Zatrzymaj kierowcę (początkowy pkt. trasy)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Uruchom/Zatrzymaj kierowcę (najbliższy pkt. trasy)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Uruchom/Zatrzymaj kierowcę (poprzedni pkt. trasy)"/>
+    <text name="input_CP_GENERATE_COURSE" text="CP: Generuj kurs"/>
     <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Zmień obecnie wybraną pracę"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Zmień punkt startowy"/>
     <text name="input_CP_CLEAR_COURSE" text="CP: Wyczyść aktualnie załadowany kurs"/>
@@ -993,5 +1011,6 @@ Twój wybór powinien wyglądać podobnie do tego zdjęcia.
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Otwórz globalne ustawienia"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Otwórz menu generacji kursu/pracy"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Otwórz menadżer kursu"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Otwórz menu"/>
   </texts>
 </l10n>

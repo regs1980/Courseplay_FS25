@@ -290,12 +290,12 @@ function CpBunkerSilo:initialize()
 	local x, z = self.sx + self.dirXWidth * self.width/2 + self.dirXLength * 2, self.sz + self.dirZWidth * self.width/2 + self.dirZLength * 2
 	local y = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, x, 0, z) + 2 
 
-	raycastAll(x, y, z, self.dirXLength, 0, self.dirZLength, 'rayCastCallbackOneSidedSilo', self.length + 2, self)
+	raycastAll(x, y, z, self.dirXLength, 0, self.dirZLength, self.length + 2, 'rayCastCallbackOneSidedSilo', self)
 
 	local x, z = self.hx + self.dirXWidth * self.width/2 - self.dirXLength * 2, self.hz + self.dirZWidth * self.width/2 - self.dirZLength * 2
 	local y = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, x, 0, z) + 2 
 
-	raycastAll(x, y, z, -self.dirXLength, 0, -self.dirZLength, 'rayCastCallbackOneSidedSiloInverted', self.length + 2, self)
+	raycastAll(x, y, z, -self.dirXLength, 0, -self.dirZLength,  self.length + 2, 'rayCastCallbackOneSidedSiloInverted', self)
 
 
 	self.plot:setAreas(self:getPlotAreas())
@@ -614,8 +614,15 @@ function CpBunkerSilo:isValidUnloader(vehicle)
 	return false
 end
 
-function CpBunkerSilo:hasNearbyUnloader()
-	return self.numNearbyUnloaders > 0
+--- Checks for any unloaders currently in the range of the silo.
+---@param vehicleToIgnore table
+---@return boolean
+function CpBunkerSilo:hasNearbyUnloader(vehicleToIgnore)
+	local num = self.numNearbyUnloaders
+	if vehicleToIgnore and self.nearbyUnloaders[vehicleToIgnore.rootNode] then 
+		num = num - 1
+	end
+	return num > 0
 end
 
 function CpBunkerSilo:shouldUnloadersWaitForSiloWorker()
@@ -649,7 +656,7 @@ end
 function CpBunkerSilo:updateUnloaders(dt)
 	--- Searches for new unloaders in the unloader area and remove unloaders, that left.
 	if self.numControllers > 0 and g_updateLoopIndex % 7 == 0 then 
-		for _, vehicle in pairs(g_currentMission.vehicles) do 
+		for _, vehicle in pairs(g_currentMission.vehicleSystem.vehicles) do
 			local isValid = false
 			if self:isValidUnloader(vehicle) then 
 				for _, v in pairs(vehicle:getChildVehicles()) do 

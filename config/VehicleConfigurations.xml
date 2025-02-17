@@ -106,7 +106,7 @@ You can define the following custom settings:
 	
 - modName: Name of the .zip file (without '.zip')
     In case a Mod has the same .xml filename for the vehicle/implement, as a default giants vehicle/implement,
-    add the name of the .zip file to prevent conflicts. For example: "FS22_exampleMod".
+    add the name of the .zip file to prevent conflicts. For example: "FS25_exampleMod".
     Note: Only 2 of the same .xml files can be added.
 
 - ignoreBaleCollisionForward: boolean
@@ -154,6 +154,11 @@ You can define the following custom settings:
     This is useful for combines with a pipe that folds up from below, making sure by the time the harvester
     reaches the trailer, the pipe is already open.
 
+- closePipeAfterUnload: boolean
+    This will close the pipe of a harvester after unloading into a trailer.
+    Should be set for harvesters which can't work with the pipe/bunker open, so they close the pipe and move
+    away from the trailer after unloading.
+
 - tipSideIndex: int
     Forced tip side index for unloading. For now only for an auger wagon.
     As an example the Hawe SUW 5000 has two tipside, but only the one with the pipe is needed. 
@@ -188,6 +193,7 @@ You can define the following custom settings:
 		<Configuration type="FLOAT">unloadOffsetX</Configuration>
         <Configuration type="FLOAT">tightTurnOffsetDistanceInTurns</Configuration>
         <Configuration type="BOOL">openPipeEarly</Configuration>
+        <Configuration type="BOOL">closePipeAfterUnload</Configuration>
         <Configuration type="INT">tipSideIndex</Configuration>
 	</Configurations>
     <!--[GIANTS]-->
@@ -212,6 +218,18 @@ You can define the following custom settings:
 
     <Vehicle name="evo290.xml"
              toolOffsetX = "-2.1"
+             closePipeAfterUnload = "true"
+    />
+    
+    <!--\vehicles\oxbo-->
+    <Vehicle name="mkb4TR.xml"
+             closePipeAfterUnload = "true"
+    />
+    <Vehicle name="bp2140e.xml"
+             closePipeAfterUnload = "true"
+    />
+    <Vehicle name="epd540E.xml"
+             closePipeAfterUnload = "true"
     />
 
     <!-- Implements -->
@@ -246,6 +264,10 @@ You can define the following custom settings:
              raiseLate = "true"
              lowerEarly = "true"
     />
+    <Vehicle name="grizzlyX4.xml"
+             turnRadius = "8"
+    />
+
     <!--\vehicles\andersonGroup-->
     <Vehicle name="rbm2000.xml"
              toolOffsetX = "-2.7"
@@ -270,10 +292,15 @@ You can define the following custom settings:
              toolOffsetX = "-1.8"
              noReverse = "true"
     />
+    <Vehicle name="prios440.xml"
+             implementWheelAlwaysOnGround = "true"
+    />
     <!--\vehicles\ropa-->
     <Vehicle name="keiler2.xml"
              toolOffsetX = "-2.0"
+             closePipeAfterUnload = "true"
     />
+
 	<!--\vehicles\ropa-->
     <Vehicle name="nawaRoMaus.xml"
              armMovingToolIx = "2"
@@ -285,7 +312,6 @@ You can define the following custom settings:
              movingToolIx = "1"
              workingWidth ="10.2"
     />
-
     <!--\vehicles\kuhn-->
     <Vehicle name="sw4014.xml"
              toolOffsetX = "-2.5"
@@ -301,6 +327,12 @@ You can define the following custom settings:
 	<Vehicle name="poettingerNovaCatX8.xml"
 			workingWidth = "8.4"
 	/>
+    <Vehicle name="servoT6000Plus.xml"
+			implementWheelAlwaysOnGround = "true"
+            raiseLate = "true"
+            lowerEarly = "true"
+	/>
+
     <!--\vehicles\hardi-->
     <Vehicle name="navigator6000.xml"
              ignoreCollisionBoxesWhenFolded = "true"
@@ -370,7 +402,10 @@ You can define the following custom settings:
              turnRadius = "5"
              useVehicleSizeForMarkers = "true"
     />
-
+    <!--\vehicles\goeweil-->
+    <Vehicle name="g5020.xml"
+             baleCollectorOffset = "1.8"
+    />
     <!--\vehicles\samsonAgro-->
     <Vehicle name="us235.xml"
              workingWidth = "24"
@@ -478,9 +513,13 @@ You can define the following custom settings:
         turnRadius = "10"
 	/>
     <Vehicle name="lm845.xml"
-    turnRadius = "10"
-    fixWheelLoaderDirectionNodeByMovingToolIx = "1"
-    articulatedAxisReverseNodeInverted = "true"
+        articulatedAxisReverseNodeInverted = "true"
+        turnRadius = "10"
+        fixWheelLoaderDirectionNodeByMovingToolIx = "1"
+    />
+    <Vehicle name="wheelLoader435S.xml"
+        fixWheelLoaderDirectionNodeByMovingToolIx = "1"
+        turnRadius = "10"
     />
 
     <!--Vermeer-->
@@ -502,11 +541,9 @@ You can define the following custom settings:
              baleCollectorOffset = "1.6"
     />
     <Vehicle name="pw10012.xml"
-             noReverse = "true"
              implementWheelAlwaysOnGround = "true"
              tightTurnOffsetDistanceInTurns = "1"
-             workingWidth = "5.8"
-             turnRadius = "7.8"
+             turnRadius = "9"
              raiseLate = "true"
              lowerEarly = "true"
     />

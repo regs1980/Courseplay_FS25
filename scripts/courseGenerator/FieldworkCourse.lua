@@ -10,7 +10,7 @@ local FieldworkCourse = CpObject()
 
 ---@param context CourseGenerator.FieldworkContext
 function FieldworkCourse:init(context)
-    self.logger = Logger('FieldworkCourse')
+    self.logger = Logger('FieldworkCourse', nil, CpDebug.DBG_COURSES)
     self:_setContext(context)
     self.headlandPath = Polyline()
     self.circledIslands = {}
@@ -202,7 +202,7 @@ function FieldworkCourse:generateHeadlandsFromInside()
     end
     for i = self.nHeadlandsWithRoundCorners - 1, 1, -1 do
         self.headlands[i] = CourseGenerator.Headland(self.headlands[i + 1]:getPolygon(), self.context.headlandClockwise, i,
-                self:_getHeadlandWorkingWidth(i), true, self.boundary)
+                self:_getHeadlandWorkingWidth(i + 1), true, self.boundary)
         self.headlands[i]:roundCorners(self.context.turningRadius)
     end
 end
@@ -368,7 +368,7 @@ function FieldworkCourse:findPathToNextRow(boundaryId, rowEnd, rowStart, minDist
     local headlands = self:_getCachedHeadlands(boundaryId)
     local headlandWidth = #headlands * self:_getHeadlandWorkingWidth()
     local usableHeadlandWidth = headlandWidth - (minDistanceFromRowEnd or 0)
-    local headlandPassNumber = CourseGenerator.clamp(math.floor(usableHeadlandWidth / self:_getHeadlandWorkingWidth()), 1, #headlands)
+    local headlandPassNumber = CpMathUtil.clamp(math.floor(usableHeadlandWidth / self:_getHeadlandWorkingWidth()), 1, #headlands)
     local headland = headlands[headlandPassNumber]
     if headland == nil then
         return Polyline()
@@ -387,7 +387,7 @@ function FieldworkCourse:_setContext(context)
     self.context = context
     self.context:log()
     self.nHeadlands = self.context.nHeadlands
-    self.nHeadlandsWithRoundCorners = self.context.nHeadlandsWithRoundCorners
+    self.nHeadlandsWithRoundCorners = math.min(self.context.nHeadlands, self.context.nHeadlandsWithRoundCorners)
     ---@type Polygon
     self.boundary = CourseGenerator.FieldworkCourseHelper.createUsableBoundary(context.field:getBoundary(), self.context.headlandClockwise)
     if self.context.fieldMargin ~= 0 then
@@ -455,8 +455,7 @@ function FieldworkCourse:_getHeadlandOffset(n)
         return self:_getHeadlandWorkingWidth(1) / 2
     else
         -- for n > 1, the headland width is with the overlap
-        print(n)
-        return self:_getHeadlandWorkingWidth(1) + (n - 1 - 0.5) * self:_getHeadlandWorkingWidth(n)
+        return self:_getHeadlandWorkingWidth(1) / 2 + (n - 1) * self:_getHeadlandWorkingWidth(n)
     end
 end
 

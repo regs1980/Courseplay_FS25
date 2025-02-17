@@ -32,6 +32,8 @@ function CustomFieldManager:init(fileSystem)
     self.fileSystem = fileSystem
     self.currentView = fileSystem.currentDirectoryView
     self.rootDir = fileSystem.rootDirectory
+    MessageType.CP_CUSTOM_FIELD_CHANGED = nextMessageTypeId()
+
     self:load()
 end
 
@@ -40,34 +42,37 @@ function CustomFieldManager:load()
     self.fileSystem:refresh()
     local entries = self.rootDir:getEntries(false, true)
     for i, entry in pairs(entries) do
-        table.insert(self.fields, CustomField.createFromXmlFile(entry))
+        local field = CustomField.createFromXmlFile(entry)
+        if field == nil then 
+            CpUtil.info("Failed to load custom field: %s", tostring(entry))
+        else 
+            table.insert(self.fields, CustomField.createFromXmlFile(entry))
+        end
     end
     --- Adds reference to the custom fields, for extern mod support.
 	g_fieldManager.cpCustomFields = self.fields
 end
 
 --- New fields are created with a prefix and the next available number.
+---@return number
 function CustomFieldManager:getNewFieldNumber()
     local numbers = {}
     for i, entry in pairs(self.fields) do 
         local name = entry:getName()
         if name:startsWith("CP-") then 
             local n = entry:getFieldNumber()
-            if n then 
-                table.insert(numbers, entry)
-            end
+            numbers[n] = true
         end
     end
-    table.sort(numbers, function (a, b) return a:getFieldNumber() < b:getFieldNumber() end)
-    for i, entry in pairs(numbers) do
-        if i ~= entry:getFieldNumber() then
-            -- the i. entry is not i, so we can use i as a new number (entries is sorted)
-            return i
-        end
+    local ix = 1
+    while self.currentView:hasEntryWithName(self.namePrefix..tostring(ix)) or numbers[ix] do 
+        ix = ix + 1
     end
-    return #numbers + 1
+    return ix
 end
 
+--- Creates a new custom field from a given vertices table.
+---@param waypoints table
 function CustomFieldManager:addField(waypoints)
     if #waypoints < 10 then
         CpUtil.info('Recorded course has less than 10 waypoints, ignoring.')
@@ -76,38 +81,34 @@ function CustomFieldManager:addField(waypoints)
     ---@type CustomField
     local newField = CustomField()
     newField:setup(self.namePrefix..self:getNewFieldNumber(), waypoints)
-    g_gui:showYesNoDialog({
-        text = string.format(g_i18n:getText("CP_customFieldManager_confirm_save"), newField:getName()),
-        callback = CustomFieldManager.onClickSaveDialog,
-        target = self,
-        args = newField
-    })
+    YesNoDialog.show(
+        CustomFieldManager.onClickSaveDialog, self,
+        string.format(g_i18n:getText("CP_customFieldManager_confirm_save"), newField:getName()),
+        nil, nil, nil, nil, nil, nil, newField)
 end
 
-
+--- Tries to delete a given custom field.
+---@param fieldToDelete CustomField
 function CustomFieldManager:deleteField(fieldToDelete)
-    g_gui:showYesNoDialog({
-        text = string.format(g_i18n:getText("CP_customFieldManager_confirm_delete"), fieldToDelete:getName()),
-        callback = CustomFieldManager.onClickDeleteDialog,
-        target = self,
-        args = fieldToDelete
-    })
+    YesNoDialog.show(
+        CustomFieldManager.onClickDeleteDialog, self,
+        string.format(g_i18n:getText("CP_customFieldManager_confirm_delete"), fieldToDelete:getName()),
+        nil, nil, nil, nil, nil, nil, fieldToDelete)
 end
 
-function CustomFieldManager:renameField(field, hotspot)
-    g_gui:showTextInputDialog({
-		disableFilter = true,
-		callback = CustomFieldManager.onClickRenameDialog,
-		target = self,
-		defaultText = field:getName() or "",
-		dialogPrompt = g_i18n:getText("CP_customFieldManager_rename"),
-		maxCharacters = 30,
-		confirmText = g_i18n:getText("button_ok"),
-		args = field
-	})
+--- Tries renames a given custom field 
+---@param field CustomField
+function CustomFieldManager:renameField(field)
+    TextInputDialog.show(
+		CustomFieldManager.onClickRenameDialog, self,
+		field:getName() or "",
+		g_i18n:getText("CP_customFieldManager_rename"),
+        nil, 30, g_i18n:getText("button_ok"), field)
 end
 
-function CustomFieldManager:editField(fieldToEdit, hotspot)
+--- Tries to edit a given custom field, with the course editor.
+---@param fieldToEdit CustomField
+function CustomFieldManager:editField(fieldToEdit)
     for i, field in pairs(self.fields) do
         if field == fieldToEdit then
             local file = self.currentView:getEntryByName(fieldToEdit:getName())
@@ -118,13 +119,17 @@ function CustomFieldManager:editField(fieldToEdit, hotspot)
     end
 end
 
+--- Saves the given custom field
+---@param file File
+---@param field CustomField
+---@param forceReload boolean|nil
 function CustomFieldManager:saveField(file, field, forceReload)
     file:save(CustomField.rootXmlKey, 
-    CustomField.xmlSchema,
-    CustomField.rootXmlKey, 
-    CustomField.saveToXml, 
-    field,
-    field:getName())
+        CustomField.xmlSchema,
+        CustomField.rootXmlKey, 
+        CustomField.saveToXml, 
+        field,
+        field:getName())
     if forceReload then
         self:delete()
         self:load()
@@ -142,6 +147,8 @@ function CustomFieldManager:onClickSaveDialog(clickOk, field)
             fieldValid = true
             table.insert(self.fields, field)
             self.fileSystem:refresh()
+        else 
+            CpUtil.info("Failed to create custom Field: %s", field:getName())
         end
     end
     if not fieldValid then 
@@ -160,6 +167,7 @@ function CustomFieldManager:onClickDeleteDialog(clickOk, fieldToDelete)
                     field:delete()
                     table.remove(self.fields, i)
                     self.fileSystem:refresh()
+                    g_messageCenter:publish(MessageType.CP_CUSTOM_FIELD_CHANGED)
                 else 
                     CpUtil.debugFormat(CpDebug.DBG_COURSES, 'Custom field %s was found, but the file not.', fieldToDelete:getName())
                 end
@@ -182,12 +190,11 @@ function CustomFieldManager:onClickRenameDialog(newName, clickOk, fieldToRename)
                         CpUtil.debugFormat(CpDebug.DBG_COURSES, 'Renamed custom field from %s to %s.', fieldToRename:getName(), newName)
                         fieldToRename:setName(newName)
                         self.fileSystem:refresh()
+                        g_messageCenter:publish(MessageType.CP_CUSTOM_FIELD_CHANGED)
                     else 
                         CpUtil.debugFormat(CpDebug.DBG_COURSES, 'Could not rename custom field from %s to %s.', fieldToRename:getName(), newName)
                         --- New field name already in use.
-                        g_gui:showInfoDialog({
-                            text = string.format(g_i18n:getText("CP_customFieldManager_rename_error"), newName)
-                        })
+                        InfoDialog.show(string.format(g_i18n:getText("CP_customFieldManager_rename_error"), newName))
                     end
                     return
                 end
@@ -196,6 +203,7 @@ function CustomFieldManager:onClickRenameDialog(newName, clickOk, fieldToRename)
     end
 end
 
+---@return CustomField|nil first custom field found at the given x and z coordinates.
 function CustomFieldManager:getCustomField(x, z)
     for _, field in pairs(self.fields) do
         if field:isPointOnField(x, z) then

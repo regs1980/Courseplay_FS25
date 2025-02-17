@@ -91,10 +91,17 @@ function CpAISiloLoaderWorker:onUpdate(dt)
 end
 
 function CpAISiloLoaderWorker:getCanStartCpSiloLoaderWorker()
-	return not self:getCanStartCpFieldWork() 
-        and not self:getCanStartCpBaleFinder() 
-        and not self:getCanStartCpCombineUnloader() 
-        and AIUtil.hasChildVehicleWithSpecialization(self, Shovel) 
+    if self:getCanStartCpFieldWork() or 
+        self:getCanStartCpBaleFinder() or 
+        self:getCanStartCpCombineUnloader() then 
+        
+        return false
+    end
+    local implements, found = AIUtil.getAllChildVehiclesWithSpecialization(self, Shovel)
+    if not found then 
+        return false
+    end
+    return ImplementUtil.getShovelNode(implements[1])
 end
 
 function CpAISiloLoaderWorker:getCanStartCp(superFunc)
@@ -131,7 +138,7 @@ function CpAISiloLoaderWorker:startCpAtFirstWp(superFunc, ...)
     if not superFunc(self, ...) then 
         if self:getCanStartCpSiloLoaderWorker() then 
             local spec = self.spec_cpAISiloLoaderWorker
-            spec.cpJob:applyCurrentState(self, g_currentMission, g_currentMission.player.farmId, true)
+            spec.cpJob:applyCurrentState(self, g_currentMission, g_currentMission.playerSystem:getLocalPlayer().farmId, true)
             spec.cpJob:setValues()
             local success = spec.cpJob:validate(false)
             if success then
@@ -149,7 +156,7 @@ function CpAISiloLoaderWorker:startCpAtLastWp(superFunc, ...)
     if not superFunc(self, ...) then 
         if self:getCanStartCpSiloLoaderWorker() then 
             local spec = self.spec_cpAISiloLoaderWorker
-            spec.cpJob:applyCurrentState(self, g_currentMission, g_currentMission.player.farmId, true)
+            spec.cpJob:applyCurrentState(self, g_currentMission, g_currentMission.playerSystem:getLocalPlayer().farmId, true)
             spec.cpJob:setValues()
             local success = spec.cpJob:validate(false)
             if success then

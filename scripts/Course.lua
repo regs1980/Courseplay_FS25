@@ -1,5 +1,5 @@
 --[[
-This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS22)
+This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS25)
 Copyright (C) 2018-2022 Peter Va9ko
 
 This program is free software: you can redistribute it and/or modify
@@ -74,22 +74,6 @@ end
 
 function Course:getVehicle()
     return self.vehicle
-end
-
-function Course:setFieldPolygon(polygon)
-    self.fieldPolygon = polygon
-end
-
--- The field polygon used to generate the course
-function Course:getFieldPolygon()
-    local i = 1
-    while self.fieldPolygon == nil and i < self:getNumberOfWaypoints() do
-        CpUtil.debugVehicle(CpDebug.DBG_COURSES, self.vehicle, 'Field polygon not found, regenerating it (%d).', i)
-        local px, _, pz = self:getWaypointPosition(i)
-        self.fieldPolygon = CpFieldUtil.getFieldPolygonAtWorldPosition(px, pz)
-        i = i + 1
-    end
-    return self.fieldPolygon
 end
 
 function Course:getName()
@@ -210,9 +194,8 @@ function Course:enrichWaypointData(startIx)
         self.waypoints[i].turnsToHere = self.totalTurns
         -- TODO: looks like we may end up with the first two waypoint of a course being the same. This takes care
         -- of setting dx/dz to 0 (instead of NaN) but should investigate as it does not make sense
-        local dx, dz = MathUtil.vector2Normalize(nx - cx, nz - cz)
-        -- check for NaN
-        if dx == dx and dz == dz and not (dx == 0 and dz == 0)then
+        if MathUtil.vector2Length(nx - cx, nz - cz) > 0 then
+            local dx, dz = MathUtil.vector2Normalize(nx - cx, nz - cz)
             self.waypoints[i].dx, self.waypoints[i].dz = dx, dz
             self.waypoints[i].yRot = MathUtil.getYRotationFromDirection(dx, dz)
         else
@@ -270,13 +253,16 @@ function Course:enrichWaypointData(startIx)
             directionChangeFound = true
         end
     end
-    CpUtil.debugVehicle(CpDebug.DBG_COURSES, self.vehicle or g_currentMission.controlledVehicle,
+    CpUtil.debugVehicle(CpDebug.DBG_COURSES, self.vehicle or CpUtil.getCurrentVehicle(),
             'Course with %d waypoints created/updated, %.1f meters, %d turns', #self.waypoints, self.length, self.totalTurns)
 end
 
+function Course:getDeltaAngle(ix)
+    return CpMathUtil.getDeltaAngle(self.waypoints[ix].yRot, self.waypoints[ix - 1].yRot)
+end
+
 function Course:calculateSignedRadius(ix)
-    local deltaAngle = CpMathUtil.getDeltaAngle(self.waypoints[ix].yRot, self.waypoints[ix - 1].yRot)
-    return self:getDistanceToNextWaypoint(ix) / (2 * math.sin(deltaAngle / 2))
+    return CpMathUtil.divide(self:getDistanceToNextWaypoint(ix), (2 * math.sin(self:getDeltaAngle(ix) / 2)))
 end
 
 function Course:calculateRadius(ix)
@@ -350,11 +336,12 @@ function Course:isTurnStartAtIx(ix)
     -- Don't start turns at the last waypoint
     -- TODO: do a row finish maneuver instead
     return ix < #self.waypoints and
-            -- if there is a turn start just before a connecting path
+            -- don't start any turns just before a connecting path as there the pathfinder should take over
             (self.waypoints[ix]:isRowEnd() and
                     not self:isOnConnectingPath(ix + 1) and
                     not self:shouldUsePathfinderToNextWaypoint(ix)) or
-            (self.waypoints[ix + 1] and self.waypoints[ix + 1]:isHeadlandTurn())
+            (self.waypoints[ix + 1] and self.waypoints[ix + 1]:isHeadlandTurn() and
+                    self.waypoints[ix + 2] and not self:isOnConnectingPath(ix + 2))
 end
 
 function Course:isHeadlandTurnAtIx(ix)
@@ -494,8 +481,12 @@ function Course:getTurnControls(ix)
     return self.waypoints[ix].turnControls
 end
 
-function Course:useTightTurnOffset(ix)
-    return self.waypoints[ix].useTightTurnOffset
+function Course:setUseTightTurnOffset(ix)
+    return self.waypoints[ix]:setUseTightTurnOffset()
+end
+
+function Course:getUseTightTurnOffset(ix)
+    return self.waypoints[ix]:getUseTightTurnOffset()
 end
 
 --- Returns the position of the waypoint at ix with the current offset applied.
@@ -560,18 +551,6 @@ function Course:getYRotationCorrectedForDirectionChanges(ix)
     end
 end
 
--- This is the radius from the course generator. For now ony island bypass waypoints nodes have a
--- radius.
-function Course:getRadiusAtIx(ix)
-    local r = self.waypoints[ix].radius
-    if r ~= r then
-        -- radius can be nan
-        return nil
-    else
-        return r
-    end
-end
-
 -- This is the radius calculated when the course is created.
 function Course:getCalculatedRadiusAtIx(ix)
     local r = self.waypoints[ix].calculatedRadius
@@ -615,9 +594,8 @@ function Course:getWaypointYRotation(ix)
     end
     local cx, _, cz = self:getWaypointPosition(i)
     local nx, _, nz = self:getWaypointPosition(i + 1)
-    local dx, dz = MathUtil.vector2Normalize(nx - cx, nz - cz)
-    -- check for NaN, or if current and next are at the same position
-    if dx ~= dx or dz ~= dz or (dx == 0 and dz == 0) then
+    -- if current and next are at the same position, to avoid division by zero
+    if MathUtil.vector2Length(nx - cx, nz - cz) < 0.00001 then
         -- use the direction of the previous waypoint if exists, otherwise the next. This is to make sure that
         -- the WaypointNode used by the PPC has a valid direction
         if i > 1 then
@@ -627,6 +605,7 @@ function Course:getWaypointYRotation(ix)
         end
         return 0
     end
+    local dx, dz = MathUtil.vector2Normalize(nx - cx, nz - cz)
     return MathUtil.getYRotationFromDirection(dx, dz)
 end
 
@@ -971,7 +950,8 @@ end
 ---@param reverse boolean is this a reverse course?
 function Course.createFromNode(vehicle, referenceNode, xOffset, from, to, step, reverse)
     local waypoints = {}
-    local distance = math.abs(from - to)
+    -- never go under 0.5 m length, also protect from division by zero when from == to
+    local distance = math.max(math.abs(from - to), 0.5)
     -- if the distance < step, reduce step to the distance, so we have at least two waypoints.
     local nPoints = math.floor(distance / math.min(distance, math.abs(step))) + 1
     local dBetweenPoints = (to - from) / (nPoints - 1)
@@ -1243,7 +1223,9 @@ function Course:draw()
         Utils.renderTextAtWorldPosition(x, y + 3.2, z, tostring(i), getCorrectTextSize(0.012), 0, color)
         if i < self:getNumberOfWaypoints() then
             local nx, ny, nz = self:getWaypointPosition(i + 1)
-            DebugUtil.drawDebugLine(x, y + 3, z, nx, ny + 3, nz, 0, 0, 100)
+            -- cyan, darker blue with tight turn offset
+            color = self:getUseTightTurnOffset(i) and {0, 0, 0.5} or {0, 0.5, 0.5}
+            DebugUtil.drawDebugLine(x, y + 3, z, nx, ny + 3, nz, table.unpack(color))
         end
     end
 end
@@ -1288,7 +1270,7 @@ end
 
 function Course:setUseTightTurnOffsetForLastWaypoints(d)
     self:executeFunctionForLastWaypoints(d, function(wp)
-        wp.useTightTurnOffset = true
+        wp:setUseTightTurnOffset()
     end)
 end
 
@@ -1469,6 +1451,10 @@ end
 local function calculateYRot(waypoints, i)
     local x1, z1 = waypoints[i].x, waypoints[i].z
     local x2, z2 = waypoints[i + 1].x, waypoints[i + 1].z
+    if (x1 - x2) == 0 and (z1 - z2) == 0 then 
+        -- Divide by zero fix ..
+        return 0
+    end
     local nx, nz = MathUtil.vector2Normalize(x2 - x1, z2 - z1)
     -- check for NaN
     if nx == nx and nz == nz then
@@ -1598,29 +1584,18 @@ function Course.createFromXml(vehicle, courseXml, courseKey)
     course.islandHeadlandClockwise = courseXml:getValue(courseKey .. '#islandHeadlandClockwise')
     course.editedByCourseEditor = courseXml:getValue(courseKey .. '#compacted', false)
     course.compacted = courseXml:getValue(courseKey .. '#compacted', false)
-    if not course.nVehicles or course.nVehicles == 1 then
-        -- TODO: not nVehicles for backwards compatibility, remove later
+    if course.nVehicles == 1 then
         -- for multi-vehicle courses, we load the multi-vehicle data and restore the current course
         -- from there, so we don't need to write the same course twice in the savegame
         course.waypoints = createWaypointsFromXml(courseXml, courseKey)
-        if #course.waypoints == 0 then
-            CpUtil.debugVehicle(CpDebug.DBG_COURSES, vehicle, 'No waypoints loaded, trying old format')
-            courseXml:iterate(courseKey .. '.waypoints' .. Waypoint.xmlKey, function(ix, key)
-                local d
-                d = CpUtil.getXmlVectorValues(courseXml:getString(key))
-                table.insert(course.waypoints, Waypoint.initFromXmlFileLegacyFormat(d, ix))
-            end)
-        end
-    end
-    if course.nVehicles and course.nVehicles > 1 then
+    else
         course.multiVehicleData = Course.MultiVehicleData.createFromXmlFile(courseXml, courseKey)
         course:setPosition(course.multiVehicleData:getPosition())
         if vehicle then
             vehicle:getCpLaneOffsetSetting():setValue(course.multiVehicleData:getPosition())
         end
-    else
-        course:enrichWaypointData()
     end
+    course:enrichWaypointData()
     CpUtil.debugVehicle(CpDebug.DBG_COURSES, vehicle, 'Course with %d waypoints loaded.', #course.waypoints)
     return course
 end
@@ -1680,7 +1655,7 @@ end
 function Course.createFromGeneratedCourse(vehicle, generatedCourse, workWidth, numberOfHeadlands, nVehicles,
                                           headlandClockwise, islandHeadlandClockwise, straightRows)
     local waypoints = createWaypointsFromGeneratedPath(generatedCourse:getPath())
-    local course = Course(vehicle or g_currentMission.controlledVehicle, waypoints)
+    local course = Course(vehicle or CpUtil.getCurrentVehicle(), waypoints)
     course.workWidth = workWidth
     course.numberOfHeadlands = numberOfHeadlands
     course.nVehicles = nVehicles
@@ -1822,7 +1797,7 @@ function Course.MultiVehicleData.createFromStream(stream, nVehicles)
     for i = 1, nVehicles do
         local position = streamReadInt32(stream)
         local nWaypoints = streamReadInt32(stream)
-        mvd.waypoints[position] = {}
+        mvd.waypoints[position] = Course.initWaypoints()
         for ix = 1, nWaypoints do
             table.insert(mvd.waypoints[position], Waypoint.createFromStream(stream, ix))
         end

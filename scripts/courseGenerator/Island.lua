@@ -17,6 +17,17 @@ function Island:init(id, perimeterPoints)
     self:createFromPerimeterPoints(perimeterPoints)
 end
 
+---@param id number
+---@param boundary Polygon
+---@return CourseGenerator.Island
+function Island.createFromBoundary(id, boundary)
+    local island = CourseGenerator.Island(id, {})
+    island.boundary = boundary
+    -- Giants polygons are usually just the corner vertices, our generator likes many vertices...
+    island.boundary:splitEdges(CourseGenerator.cMaxEdgeLength)
+    return island
+end
+
 function Island:getId()
     return self.id
 end
@@ -181,9 +192,10 @@ function Island.findIslands(field)
     Island.logger:debug('Generating grid for field with grid spacing %.1f', Island.gridSpacing)
     local context = CourseGenerator.FieldworkContext(field, Island.gridSpacing, 5, 0)
     context:setAutoRowAngle(false):setRowAngle(0):setRowWaypointDistance(Island.gridSpacing)
-    context:_setGenerateBlocksOnly()
+    context:_setGenerateBlocksOnly():setSharpenCorners(false)
     local boundary = CourseGenerator.FieldworkCourseHelper.createUsableBoundary(context.field:getBoundary(), context.headlandClockwise)
-    local center = CourseGenerator.Center(context, boundary, nil, context.startLocation, {})
+    local center = CourseGenerator.Center(context, boundary, nil, context.startLocation, {}, true)
+
     center:generate()
     local islandVertices = {}
     for _, b in ipairs(center:getBlocks()) do

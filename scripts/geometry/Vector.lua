@@ -130,7 +130,7 @@ end
 -- meta function to divide Vectors
 function Vector.__div(a,b)
     assert(a:is_a(Vector) and type(b) == "number", "div: wrong argument types (expected <Vector> and <number>)")
-    return Vector(a.x / b, a.y / b)
+    return Vector(CpMathUtil.divide(a.x, b), CpMathUtil.divide(a.y, b))
 end
 
 -- meta function to check if Vectors have the same values
@@ -160,12 +160,12 @@ end
 -- return the scalar projection of v on self
 ---@return number
 function Vector:scalarProjection(v)
-    return self:dot(v) / self:length()
+    return CpMathUtil.divide(self:dot(v), self:length())
 end
 
 ---@return Vector
 function Vector:projection(v)
-    return (v:dot(self) / self:dot(self)) * self
+    return CpMathUtil.divide(v:dot(self), self:dot(self)) * self
 end
 
 ---@return Vector

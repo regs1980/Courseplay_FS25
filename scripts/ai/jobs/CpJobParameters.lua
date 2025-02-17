@@ -38,9 +38,9 @@ function CpJobParameters.registerXmlSchema(schema, baseKey)
     CpSettingsUtil.registerXmlSchema(schema, baseKey .. CpJobParameters.xmlKey.."(?)")
 end
 
-function CpJobParameters:validateSettings()
+function CpJobParameters:validateSettings(includeDisabledValues)
     for i, setting in ipairs(self.settings) do 
-        setting:refresh()
+        setting:refresh(includeDisabledValues)
     end
 end
 
@@ -76,7 +76,7 @@ end
 function CpJobParameters:getAiTargetMapHotspotParameters()
     local parameters = {}
     for i, setting in ipairs(self.settings) do
-        if setting:is_a(CpAIParameterPosition) or setting:is_a(CpAIParameterUnloadingStation) then
+        if setting:is_a(CpAIParameterPosition) then
             table.insert(parameters, setting)
         end
     end
@@ -152,18 +152,46 @@ function CpFieldWorkJobParameters.getSettings(vehicle)
     return vehicle.spec_cpAIFieldWorker.cpJob:getCpJobParameters()
 end
 
+---@return number
+---@return Course.MultiVehicleData|nil
 function CpFieldWorkJobParameters:getMultiTools()
-    local vehicle = self.job:getVehicle()
+    local vehicle = self.job and self.job:getVehicle()
     if vehicle then 
         local course = vehicle:getFieldWorkCourse()
         if course then 
-            return course:getMultiTools() or 1
+            return course:getMultiTools(), course.multiVehicleData
         else 
             return 1
         end
     end
     --- This needs to be 5, as the server otherwise has problems.
     return 5
+end
+
+function CpFieldWorkJobParameters:generateMultiToolLaneOffset(setting, oldIx)
+    local ntools, toolData = self:getMultiTools()
+    local values, texts = {}, {}
+    if ntools > 3 then 
+        table.insert(values, -2)
+        table.insert(texts, setting:getSubText("left_2"))
+    end
+    if ntools > 1 then 
+        table.insert(values, -1)
+        table.insert(texts, setting:getSubText("left"))
+    end
+    if ntools % 2 > 0 then 
+        table.insert(values, 0)
+        table.insert(texts, setting:getSubText("center"))
+    end
+    if ntools > 1 then 
+        table.insert(values, 1)
+        table.insert(texts, setting:getSubText("right"))
+    end
+    if ntools > 3 then 
+        table.insert(values, 2)
+        table.insert(texts, setting:getSubText("right_2"))
+    end
+    return values, texts, toolData and toolData.position or oldIx
 end
 
 function CpFieldWorkJobParameters:noMultiToolsCourseSelected()
@@ -187,6 +215,15 @@ function CpFieldWorkJobParameters:onLaneOffsetChanged(setting)
             SpecializationUtil.raiseEvent(vehicle, "onCpCourseChange", vehicle:getFieldWorkCourse(), true)
         end
     end
+end
+
+function CpFieldWorkJobParameters:isLaneOffsetVisible()
+    return not self:noMultiToolsCourseSelected()
+end
+
+function CpFieldWorkJobParameters:isLaneOffsetDisabled()
+    local vehicle = self.job:getVehicle()
+    return self:noMultiToolsCourseSelected() or vehicle and vehicle:getIsCpActive()
 end
 
 --- Are the setting values roughly equal.

@@ -8,7 +8,6 @@ ForageWagonController.slowDownStartSpeed = 20
 function ForageWagonController:init(vehicle, forageWagon)
     ImplementController.init(self, vehicle, forageWagon)
     self.forageWagonSpec = forageWagon.spec_forageWagon
-    self.settings = vehicle:getCpSettings()
     local additives = self.forageWagonSpec.additives
     if additives.available then 
         self:addRefillImplementAndFillUnit(self.implement, additives.fillUnitIndex)

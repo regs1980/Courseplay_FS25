@@ -2,14 +2,12 @@ name: Bug report [EN]
 description: Reporting a bug.
 labels:
 - bug
-assignees:
-- Tensuko
 body:
 - type: markdown
   attributes:
     value: 'Thanks for taking the time to fill out this bug report!
 
-      Please make sure to read our [Wiki Page](https://github.com/Courseplay/Courseplay_FS22/wiki)
+      Please make sure to read our [Wiki Page](https://github.com/Courseplay/Courseplay_FS25/wiki)
       before creating a new issue!
 
       '
@@ -19,11 +17,21 @@ body:
     label: Version
     description: Which CoursePlay version are you using?
     options:
-    - 7.4.0.0
-    - 7.4.2.4
-    - 7.5.0.0
-    - 7.5.0.1
-    default: 3
+    - '0'
+    - 8.0.0.0
+    - 8.0.0.1
+    - 8.0.0.2
+    - 8.0.0.3
+    - 8.0.0.4
+    - 8.0.0.5
+    - 8.0.0.6
+    - 8.0.0.7
+    - 8.0.0.8
+    - 8.0.0.9
+    - 8.0.0.10
+    - 8.0.0.11
+    - 8.0.0.12
+    default: 13
   validations:
     required: true
 - type: dropdown
@@ -32,8 +40,10 @@ body:
     label: Game Version
     description: What version of the game are you playing?
     options:
-    - 1.14.0.0
-    default: 0
+    - 1.4.0.0
+    - 1.5.0.0
+    - 1.5.0.1
+    default: 2
   validations:
     required: true
 - type: dropdown
@@ -79,7 +89,7 @@ body:
     description: Use drag and drop into the textbox to upload the log.txt into the
       text field or use [Gist](https://gist.github.com/) or [Pastebin](http://pastebin.com/).
     placeholder: Please add your log.txt from file path ("C:\\Users\\<USER_NAME>\\Documents\\My
-      Games\\FarmingSimulator2022\\log.txt").
+      Games\\FarmingSimulator2025\\log.txt").
   validations:
     required: true
 - type: textarea

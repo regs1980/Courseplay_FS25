@@ -17,12 +17,13 @@
     <text name="CP_infoText" text="Courseplay(%s): Para ajuda, reportar bug ou notas de patch, favor visitar: https://github.com/Courseplay/Courseplay_FS22."/>
     <text name="CP_error_no_course" text="Criar rota primeiro."/>
     <text name="CP_error_could_not_generate_course" text="Não foi possível criar a rota. O arquivo log pode ter mais informações."/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
+    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
     <text name="CP_error_not_on_field" text="Destino não é um campo."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Descarregador longe do campo."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Posição inicial longe do campo."/>
     <text name="CP_error_giants_unloader_not_available" text="Giants descarregador indisponível."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="A posição para descarregar está muito longe do campo."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="O veículo está muito longe do campo para começar."/>
     <text name="CP_error_no_bunkerSilo_found" text="Nenhum silo foi encontrado."/>
     <text name="CP_error_no_heap_found" text="Nenhum silo encontrado."/>
     <text name="CP_error_no_unload_trigger_found" text="Nenhum ponto para descarregar foi encontrado."/>
@@ -119,6 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="O trabalhador AI %s parou inesperadamente - impossível conectar o equipamento!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="O trabalhador AI %s parou inesperadamente - conexão automática do cortador desativada!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI %s parou de trabalhar inesperadamente - tipo de preenchimento errado para a missão selecionada!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -156,6 +158,7 @@
     <!--Vehicle settings-->
     <!---->
     <text name="CP_vehicle_setting_title" text="Configuração do veículo para (%s)"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Vehicle settings"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="Configuração Básica"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="Configuração do Implemento"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Configuração da Colheitadeira"/>
@@ -212,10 +215,10 @@
     <text name="CP_vehicle_setting_convoyDistance_tooltip" text="Distância entre veículos. Valor: 40 - 400"/>
     <text name="CP_vehicle_setting_debugActive_title" text="Debug do veículo"/>
     <text name="CP_vehicle_setting_debugActive_tooltip" text="Ativar/desativar debug para este veículo."/>
-    <text name="CP_vehicle_setting_refillOnTheField_title" text="Refill tool"/>
-    <text name="CP_vehicle_setting_refillOnTheField_tooltip" text="Refill tool on the field"/>
-    <text name="CP_vehicle_setting_refillOnTheField_waiting" text="Waiting"/>
-    <text name="CP_vehicle_setting_refillOnTheField_active" text="Active"/>
+    <text name="CP_vehicle_setting_refillOnTheField_title" text="Reabastecer equipamento"/>
+    <text name="CP_vehicle_setting_refillOnTheField_tooltip" text="Reabastecer ferramenta no campo"/>
+    <text name="CP_vehicle_setting_refillOnTheField_waiting" text="Esperando"/>
+    <text name="CP_vehicle_setting_refillOnTheField_active" text="Ativado"/>
     <!---->
     <!--Vehicle bunker silo settings-->
     <!---->
@@ -223,7 +226,7 @@
     <text name="CP_vehicle_setting_bunkerSiloWorkWidth_title" text="Largura de trabalho"/>
     <text name="CP_vehicle_setting_bunkerSiloWorkWidth_tooltip" text="Largura de trabalho. Valor: 0 - 50"/>
     <text name="CP_vehicle_setting_levelerHeightOffset_title" text="Altura."/>
-    <text name="CP_vehicle_setting_levelerHeightOffset_tooltip" text="Altura do solo. Value: 0 - 1"/>
+    <text name="CP_vehicle_setting_levelerHeightOffset_tooltip" text="Altura do solo. Valor: 0 - 1"/>
     <text name="CP_vehicle_setting_loadingShovelHeightOffset_title" text="Distãncia da pá carregadeira. Valor: -1 - 1"/>
     <text name="CP_vehicle_setting_loadingShovelHeightOffset_tooltip" text="Distãncia da pá carregadeira. Valor: -1 - 1"/>
     <!---->
@@ -271,9 +274,11 @@
     <!---->
     <text name="CP_vehicle_courseGeneratorSetting_title" text="Configuração do gerador de rota de (%s)"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_basic" text="Configuração do gerador de rota de (%s)"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Configuração do campo de videiras"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Configurações de trabalho no campo"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_headland" text="cabeceira"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_center" text="centro"/>
-    <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="Settings island"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="Configurações de ilhas"/>
     <text name="CP_vehicle_courseGeneratorSetting_workWidth_title" text="Largura do implemento"/>
     <text name="CP_vehicle_courseGeneratorSetting_workWidth_tooltip" text="Largura do implemento"/>
     <text name="CP_vehicle_courseGeneratorSetting_numberOfHeadlands_title" text="Total de cabeceiras"/>
@@ -332,9 +337,9 @@
     <text name="CP_vehicle_courseGeneratorSetting_startOnHeadland_up_down_rows" text="Centro"/>
     <text name="CP_vehicle_courseGeneratorSetting_multiTools_title" text="Multiplos implementos"/>
     <text name="CP_vehicle_courseGeneratorSetting_multiTools_tooltip" text="Números dos veículos na mesma rota."/>
-    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_title" text="Switching lanes"/>
-    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_tooltip" text="Sets the lanes to always switch. This leads to similar turns. See help menu for more details."/>
-    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_title" text="Field edge for line form"/>
+    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_title" text="Troca de faixas"/>
+    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_tooltip" text="Define as faixas para sempre alternar. Isso leva a curvas semelhantes. Veja o menu de ajuda para mais detalhes."/>
+    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_title" text="Borda de campo para forma de linha"/>
     <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_tooltip" text="As faixas seguem a curvatura da borda do campo mais próxima do marcador de campo."/>
     <text name="CP_vehicle_courseGeneratorSetting_narrowField_title" text="Campo estreito"/>
     <text name="CP_vehicle_courseGeneratorSetting_narrowField_tooltip" text="Gera  cabeceira apenas nas bordas curtas do campo."/>
@@ -367,8 +372,8 @@
     <text name="CP_global_setting_autoRepair_always" text="Manter sempre reparado"/>
     <text name="CP_global_setting_fuelThreshold_title" text="Limite de combustível"/>
     <text name="CP_global_setting_fuelThreshold_tooltip" text="Motorista será liberado, se a porcentagem de combustível for menor."/>
-    <text name="CP_global_setting_waitForRefueling_title" text="Waits for refueling"/>
-    <text name="CP_global_setting_waitForRefueling_tooltip" text="Vehicle waits until it is refueled."/>
+    <text name="CP_global_setting_waitForRefueling_title" text="Aguarda reabastecimento"/>
+    <text name="CP_global_setting_waitForRefueling_tooltip" text="O veículo aguarda até ser reabastecido."/>
     <text name="CP_global_setting_brokenThreshold_title" text="Limite de danos"/>
     <text name="CP_global_setting_brokenThreshold_tooltip" text="Motorista será liberado, se o veículo ou implemento estiver 100% danificado."/>
     <text name="CP_global_setting_stopThreshingDuringRain_title" text="Parar a colheitadeira, enquanto estiver chovendo"/>
@@ -446,13 +451,15 @@ A rota é salva automaticamente ao fechar o editor e substituir a rota seleciona
     <!--Course editor-->
     <!---->
     <text name="CP_editor_course_title" text="Editor de rota"/>
+    <text name="CP_editor_custom_field_title" text="Custom field editor : %s"/>
     <text name="CP_editor_change_lane_offset" text="Mudar para distânciamento da faixa (%s)"/>
-    <text name="CP_editor_delete_title" text="Excluir waypoints"/>
-    <text name="CP_editor_delete_primary_text" text="primário"/>
-    <text name="CP_editor_delete_secondary_text" text="secundário"/>
-    <text name="CP_editor_delete_tertiary_text" text="Excluir todos os waypoints até o último waypoint."/>
-    <text name="CP_editor_delete_yesNo_deleteToLastWp_title" text="Tem certeza de que todos os waypoints até o último devem ser excluídos?"/>
-    <text name="CP_editor_delete_err" text="Para poucos waypoints restantes."/>
+    <text name="CP_editor_save_changes" text="Should the changes to %s be saved?"/>
+    <text name="CP_editor_course_basic_delete_title" text="Excluir waypoints"/>
+    <text name="CP_editor_course_basic_delete_primary_text" text="primário"/>
+    <text name="CP_editor_course_basic_delete_secondary_text" text="secundário"/>
+    <text name="CP_editor_course_basic_delete_tertiary_text" text="Excluir todos os waypoints até o último waypoint."/>
+    <text name="CP_editor_course_basic_delete_yesNo_deleteToLastWp_title" text="Tem certeza de que todos os waypoints até o último devem ser excluídos?"/>
+    <text name="CP_editor_course_basic_delete_err" text="Para poucos waypoints restantes."/>
     <text name="CP_editor_course_basic_title" text="Básico"/>
     <text name="CP_editor_course_basic_move_title" text="Mover um waypoint"/>
     <text name="CP_editor_course_basic_move_primary_text" text="primário"/>
@@ -484,6 +491,7 @@ A rota é salva automaticamente ao fechar o editor e substituir a rota seleciona
     <text name="CP_infoTexts_workFinished" text="Trabalho feito"/>
     <text name="CP_infoTexts_drivingToCombine" text="Dirigir para a colheitadeira"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Dirigir para a carreta"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="Sem dinheiro"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Esperando a chuva passar"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Espera a neve desaparecer"/>
@@ -498,9 +506,11 @@ A rota é salva automaticamente ao fechar o editor e substituir a rota seleciona
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Fruta errada para a missão selecionada"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Pallet cheio"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Nenhum pallet"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="O veículo está muito longe do campo."/>
     <!---->
     <!--Custom field manager-->
     <!---->
+    <text name="CP_customFieldManager_hotspotName" text="Campo customizado"/>
     <text name="CP_customFieldManager_confirm_save" text="Deseja salvar a rota gravado como campo customizado %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Deseja excluir o campo customizado %s?"/>
     <text name="CP_customFieldManager_delete" text="Excluir campo customizado"/>
@@ -515,6 +525,10 @@ A rota é salva automaticamente ao fechar o editor e substituir a rota seleciona
     <text name="CP_controllerGui_stopRecording" text="Parar gravação de campo customizado."/>
     <text name="CP_controllerGui_pauseRecording" text="Pausar gravação do campo customizado."/>
     <text name="CP_controllerGui_unpauseRecording" text="Continuar a gravação do campo customizado."/>
+    <!---->
+    <!--CP ingame menu-->
+    <!---->
+    <text name="CP_ingameMenu_map_title" text="Map"/>
     <!---->
     <!--Help menu-->
     <!---->
@@ -531,8 +545,9 @@ Os rotas de campo podem ser configurados no modo multi implementos, o que permit
 Também é possível que a colheitadeira seja descarregada em um trailer perto do campo automaticamente..
 As bordas de campo customizado podem ser atribuídas para uso de rotas, por exemplo: no caso de uma área, que não é reconhecida como um campo normal..
 Por fim, o CP possui uma interface para o Autodrive, que permite o reabastecimento de uma semeadora em um silo próximo ou descarregar uma carreta e assim por diante.
-Com a versão 7.2.1.0 ou superior também é possível a colheitadeira para criar uma pilha próxima ao campo.
-
+Os descarregadores de colheitadeiras conseguem criar uma pilha perto do campo com as frutas carregadas.
+No Farming Simulator 25, o Courseplay tem seu próprio menu, que você pode acessar por meio de diferentes botões no HUD.
+      
 Para mais informações, visite nosso github: https://github.com/Courseplay/Courseplay_FS22.
 Lá você pode obter ajuda ou relatar qualquer problema que tenha enfrentado.
 Por fim, agradecemos a todos os tradutores e nossa comunidade por relatar bugs, fornecer feedback de uso e novas ideias.
@@ -544,10 +559,12 @@ Dessa forma, tentamos ajudar os usuários a entrar mais facilmente no Courseplay
 "/>
     <text name="CP_help_page_extendedJobMenu_title" text="Estender menu AI"/>
     <text name="CP_help_page_startJobMenuBase_text" text="
-Primeiro você precisa selecionar um veículo no menu AI para criar uma rota de trabalho no campo ou obter acesso às configurações do veículo e ao gerenciador de rotas.
-A rota carregada atualmente será exibido no mapa.
-As configurações globais estão sempre visíveis.
-Para criar uma rota e iniciar os trabalhos do courseplay, você precisará criar o trabalho CP: Trabalho no campo ou CP: fardos coletar/embalar, similar ao Giants ajuda.
+As configurações do Helper agora estão em nosso próprio novo menu &quot;Helper settings&quot;.
+Funciona muito como o antigo AI Menu.
+Selecione um veículo no menu AI para criar um trabalho, com base nas ferramentas anexadas ou no veículo selecionado.
+Ao lado do mapa e das configurações do trabalho, você encontrará as configurações para o gerador de curso e o gerador de curso vine na parte superior. Elas só são acessíveis com uma ferramenta válida quando você está criando um trabalho.
+Para gerar um curso e iniciar os trabalhos do Courseplay, você precisará criar o trabalho CP: Fieldwork com uma ferramenta ou veículo válido.
+Dica: para obter acesso mais rápido, você pode clicar em &quot;no course&quot; no HUD. Isso o levará ao menu com um trabalho já criado para o veículo. ajuda.
 "/>
     <text name="CP_help_page_startJobMenuFunctions_text" text="
 Para começar com seu primeiro trabalho de CP, você terá que selecionar um veículo e um possível implemento válido que seja suportado para o trabalho.
@@ -570,25 +587,22 @@ Alternativamente, você também pode iniciar o motorista a partir do HUD se esti
 "/>
     <text name="CP_help_page_courseGeneratorBasic_title" text="Gerador de rotas basico"/>
     <text name="CP_help_page_courseGeneratorBase_text" text="
-Cada rota de trabalho de campo é criado pelo gerador de rotas. Esta é uma ferramenta poderosa, que permite personalizar a rota criada de acordo com suas necessidades.
-Se você é novo nisso, provavelmente deve começar alterando apenas a configuração da quantidade de cabeceira.
-Depois disso, você sempre pode alterar os outros valores e clicar em gerar rotas e dar uma olhada, que impacto certos valores têm na rota.
-Experimentar e verificar o impacto que as diferentes configurações em diferentes campos têm é a melhor maneira de se acostumar com isso.
+O gerador de rotas do Courseplay é uma ferramenta sofisticada que pode gerar rotas de trabalho de campo personalizados para cada trabalho possível.
+Ele tem muitas configurações e pode levar algum tempo para se familiarizar com ele. Se você é novo no Courseplay, você deve
+provavelmente começar a brincar com o número de cabeceiras primeiro e depois se aventurar nas configurações mais avançadas.
+Depois de alterar um parâmetro, clique em Gerar para ver qual impacto a configuração tem. A melhor maneira de explorar todas as possibilidades
+que o gerador oferece é experimentá-lo.
 "/>
     <text name="CP_help_page_courseGeneratorBaseFunctions_text" text="
-Fundamentos:
+Noções básicas:
 Os primeiros valores que você vê aqui são coisas realmente básicas.
-- Largura de trabalho: a maioria das ferramentas detecta a largura de trabalho exata e você não precisa se preocupar com essa configuração. Ajustá-lo terá um impacto em seu curso geral.
-- Multi implementos: Esta configuração é usada quando você deseja que mais de um veículo funcione na sua rota. Como isso fica um pouco mais complicado, há um tópico de ajuda separado para isso.
-- Número de cabeceiras: A melhor maneira de manter seus veículos no campo enquanto vira no final de cada fileira é adicionar cabeceiras.
-O número de cabeceiras multiplicado pela largura de trabalho deve ser pelo menos o comprimento total do seu veículo mais o implemento anexada.
-Opções do centro:
-- Centro de campo: Existem diferentes modos de como seu padrão de centro de campo deve se parecer. O clássico e mais usado é o cima/baixo.
-Espiral, Pista e Terrenos têm suas próprias vantagens específicas sobre os outros. Os terrenos, por exemplo, terão o tubo da colheitadeira apontando para fora da fruta na maioria das vezes para descarregá-los mais facilmente.
-- Direção da fileira para cima/para baixo: o automático geralmente encontra a melhor direção, mas às vezes a borda mais longa se encaixa melhor. Se você não estiver satisfeito com nenhum deles, escolha manual e defina a direção manualmente.
-- Fileiras para pular: Esta é uma opção muito útil para acelerar seu trabalho, pois as ferramentas não terão que fazer backup para passar para a próxima fileira.
-- Fileiras por Terreno: Isso só tem impacto quando o centro do campo está definido para terrenos e informará ao gerador quantas fileiras cada terreno deve ter. Quanto mais fileiras, menos terrenos serão gerados.
-- Ângulo da fileira para cima/para baixo: Quando a direção da fileira para cima/para baixo é definida como manual, esta configuração informará a direção da geração.
+- Largura de trabalho: O Courseplay detecta automaticamente a largura de trabalho para a maioria das ferramentas, então você não precisa se preocupar com isso,
+mas se a detecção automática falhar, você pode defini-la manualmente. Esta configuração tem um impacto no curso geral.
+- Número de cabeceiras: A melhor maneira de manter seus veículos no campo ao virar no final de cada linha é adicionar cabeceiras.
+O número de cabeceiras multiplicado pela largura de trabalho deve ser pelo menos o comprimento total do seu veículo mais a ferramenta acoplada.
+- Comece o trabalho em: Conforme mencionado no menu estendido de IA, a posição do campo é usada para definir a posição inicial ou final para
+o curso de trabalho de campo. Você quer começar a trabalhar na cabeceira ao colher e trabalhar em direção ao meio do campo.
+Arar, semear e cultivar deve começar no centro do campo e trabalhar em direção à cabeceira.
 "/>
     <text name="CP_help_page_courseGeneratorHeadland_text" text="
 As configurações de cabeceira só serão exibidas quando você definir pelo menos 1 em Número de cabeceiras.
@@ -596,19 +610,25 @@ Você ganha opções de por onde começar, configurações de canto, direção e
 As cabeceiras são altamente recomendadas para evitar que os implementos saiam do campo ao virar.
 "/>
     <text name="CP_help_page_courseGeneratorHeadlandFunctions_text" text="
-- Iniciar trabalho em: Conforme mencionado no menu AI estendido, a posição de campo é usada para definir a posição inicial ou final para a rota de trabalho de campo.
-Quando definido para iniciar na cabeceira, informa onde deve ser a largada. Quando alterado para iniciar em fileiras, ele informará onde terminar o trabalho.
-- Cantos de cabeceira: Liso terá uma suavização simples sobre os cantos, isso funciona para todas as ferramentas, mas levará a pequenas manchas não trabalhadas nos cantos.
-Eles podem ser reduzidos com sobreposição, mas nunca desaparecem. Sharp gerará uma curva com base no ângulo da borda do campo.
-Round levará em consideração o raio de giro dos veículos selecionados atualmente para ter o melhor canto arredondado para esse implemento.
-- Direção da cabeceira: no sentido horário ou anti-horário. Isso pode ser importante para colheitadeiras e colheitadeiras, dependendo de qual lado está o tubo ou a correia transportadora.
-- Sobreposição de cabeceira: Qual a % de sobreposição que todas as cabeceiras devem ter. O primeiro não terá sobreposição com a borda do campo, mas os internos se sobreporão ao vizinho.
+- Afiar cantos de cabeceiras: Afie os cantos das cabeceiras que não são arredondados. Forçará o veículo a fazer uma
+curva de cabeceira sempre que a curvatura da cabeceira for menor que o raio de giro do veículo.
+- Número de cantos arredondados: Número de cabeceiras, contando a partir da mais externa, que terão cantos arredondados.
+Cantos arredondados são baseados no raio de giro do veículo, então para essas cabeceiras, o veículo não executará uma manobra de giro nos cantos.
+- Raio do canto: Define o raio para os cantos arredondados. Se você sabe que uma ferramenta de trabalho a seguir tem um raio mínimo de 10, você pode definir esse valor como 10 para o curso.
+- Direção da cabeceira: sentido horário ou anti-horário. Isso pode ser importante para colheitadeiras e colheitadeiras, dependendo de
+qual lado o tubo ou correia transportadora está.
+- Sobreposição de cabeceiras: O quanto uma cabeceira se sobrepõe à próxima. Isso é para evitar perder frutas em alguns casos.
+- Margem de campo: valores positivos reduzem o tamanho do campo para adicionar um buffer ao redor da área trabalhada caso haja obstáculos perto da borda do campo.
+Valores negativos aumentam a área trabalhada além do limite do campo para cobrir bordas de campo que não são perfeitamente detectadas.
 "/>
     <text name="CP_help_page_courseGeneratorCenter_text" text="
-Para o centro do campo, diferentes estratégias estão disponíveis para fazer o trabalho. Geralmente, a ferramenta selecionada é um motivo para escolher uma estratégia específica em vez da outra. As estratégias disponíveis foram criadas com base no feedback e nas informações da nossa comunidade.
-A estratégia simples de cima para baixo funciona quase sempre para qualquer ferramenta. Mas pode ser melhor escolher outra, por exemplo, ao colher com uma colheitadeira, as terras são uma maneira melhor de manter o tubo fora da fruta para um descarregamento mais eficiente.
-Para cortar, a pista de corrida pode ser uma solução melhor para curvas menos estreitas para facilitar o trabalho do descarregador.
-A espiral é uma solução melhor para colheitadeiras rebocadas com um deslocamento, para manter a ferramenta no campo e o trator do lado de fora.
+O gerador fornece vários padrões diferentes para gerar o curso para o centro do campo. O melhor padrão é
+geralmente determinado pelo trabalho e pelos implementos selecionados. Os padrões foram criados com base no feedback e informações de
+nossa comunidade.
+O padrão simples de cima para baixo funciona quase sempre para qualquer ferramenta. Outros padrões podem melhorar a eficiência, como usar o
+padrão Lands ao colher com uma colheitadeira manterá o tubo fora da fruta para um descarregamento mais rápido.
+Para picadores, a pista de corrida pode ser uma escolha melhor para curvas mais amplas para facilitar o trabalho do descarregador.
+A espiral é a melhor para colheitadeiras rebocadas com um deslocamento para manter a ferramenta na fruta e o trator do lado de fora.
 "/>
     <text name="CP_help_page_courseGeneratorCenterFunctions_text" text="
 - Centro do campo: Existem diferentes modos de como o padrão do centro do seu campo deve ficar. O clássico e mais usado é para cima/baixo.
@@ -617,9 +637,7 @@ Espiral, Pista de corrida e Terras têm suas próprias vantagens específicas so
 - Largura uniforme da faixa: Se o centro de um campo tiver uma largura total que não possa ser dividida uniformemente sobre a largura de trabalho da ferramenta, a 1ª ou a última faixa terá um trabalho de descanso estreito. Para evitar isso, a largura de cada faixa é reduzida para ter uma divisão uniforme sobre todas as faixas.
 - Direção da linha: automático geralmente encontra a melhor direção, mas às vezes a borda mais longa se encaixa melhor. Se você não estiver satisfeito com nenhuma delas, escolha manual e defina a direção manualmente.
 - Ângulo da faixa: Quando a direção da faixa é definida como manual, esta configuração aparece e informará ao gerador a direção das faixas.
-
-
-660 / 5.000
+      
 Essas configurações aparecem apenas para configurações específicas que você fez antes:
 - Pular faixas: aparece quando o centro do campo está definido como &quot;up/down&quot;. Esta é uma opção muito útil para acelerar seu trabalho, pois as ferramentas não terão que voltar para virar na próxima faixa.
 - faixas por terreno: aparece quando o centro do campo está definido como &quot;lands&quot;. Isso só tem impacto quando o centro do campo está definido como terrenos e dirá ao gerador quantas faixas cada terreno deve ter. Quanto mais faixas, menos terrenos serão gerados.
@@ -654,12 +672,13 @@ Algumas configurações só são visíveis se você definir o modo especialista 
 Antes de brincar com essas configurações, você deve ter certeza de que sabe o que as configurações básicas fazem.
 Algumas configurações de especialista só funcionam corretamente sob algumas condições.
 
-- Ferramentas múltiplas: esta configuração é usada quando você quer mais de um veículo para trabalhar em sua rota. Como isso fica um pouco mais complicado, há um tópico de ajuda separado para isso.
-- Campo estreito: cria a cabeceira apenas em duas bordas curtas do campo. Nesse caso, não é possível manter seu veículo no campo nas bordas mais longas da cabeceira.
-- Sobreposição da cabeceira: há um valor padrão que sempre será usado. Este valor pode ser alterado com esta configuração. A sobreposição estará dentro do campo e não se sobreporá à borda do campo.
+- - Ferramentas múltiplas: esta configuração é usada quando você quer que mais de um veículo trabalhe em seu percurso. Como isso fica um pouco mais complicado, há um tópico de ajuda separado para isso.
+- Troca de faixas: com esta opção ativa, os veículos trocam de faixa a cada curva, então a curva de cada veículo tem a mesma largura. Veja o menu de ajuda extra &quot;Troca de faixas&quot; para mais detalhes.
+- Campo estreito: cria o promontório somente em duas bordas curtas do campo. Nesse caso, não é possível manter seu veículo no campo nas bordas mais longas do promontório.
+- Sobreposição de promontório: por padrão, as passagens do promontório se sobrepõem (mas nunca à borda do campo) em alguns por cento para evitar perder frutas em alguns casos extremos. Você pode alterar essa sobreposição aqui.
 - Margem do campo: esta configuração permite que você mova a borda do campo para dentro ou para fora da borda original.
-- Usar borda da faixa de base: um recurso completamente novo, que só funciona em campos específicos. Se você tiver um campo com uma borda radial longa e colocar o marcador de campo próximo a ele, a faixa central seguirá essa borda.
-NOTA IMPORTANTE: se a rota geradaa não for perfeito ou mesmo ruim, a borda selecionada ou o campo não funcionarão com este recurso. Também não haverá uma atualização para isso!
+- Usar borda da linha de base: com esta configuração, você pode gerar linhas curvas para cima/baixo, correndo paralelas à borda do campo perto do marcador de campo. Isso faz sentido quando a borda do campo não é reta, as linhas para cima/baixo seguirão a curva da borda.
+NOTA IMPORTANTE: Esta é uma configuração experimental que pode não funcionar para todos os formatos de campo. Se não funcionar, tente outra configuração.
 "/>
     <text name="CP_help_page_courseGeneratorHeadland_title" text="Gerador de rotas na cabeceira"/>
     <text name="CP_help_page_courseGeneratorCenter_title" text="Gerador de rotas centro"/>
@@ -1037,6 +1056,10 @@ Agora sua seleção deve ser semelhante à imagem.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Mostrar canal de debug sim/não."/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Abrir mini GUI"/>
     <text name="input_CP_START_STOP" text="CP: Dirigir/stop motorista"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Iniciar/parar motorista (no primeiro waypoint)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Iniciar/parar motorista (no próximo waypoint)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Iniciar/parar motorista (no último waypoint)"/>
+    <text name="input_CP_GENERATE_COURSE" text="CP: Alterar trabalho selecionado atual"/>
     <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Alterar trabalho selecionado atual"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Mudar ponto inicial"/>
     <text name="input_CP_CLEAR_COURSE" text="CP: Limpa a rota atual"/>
@@ -1047,5 +1070,6 @@ Agora sua seleção deve ser semelhante à imagem.
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Abrir configurações globais"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Abrir gerenciador de rotas/menu de trabalho"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Abrir gerenciador de rotas"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Abrir menuu"/>
   </texts>
 </l10n>

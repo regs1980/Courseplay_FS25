@@ -17,15 +17,16 @@
     <text name="CP_infoText" text="Courseplay(%s): Få hjælp, ved fejl eller spørgsmål om patch noter, besøg da: https://github.com/Courseplay/Courseplay_FS22."/>
     <text name="CP_error_no_course" text="Opret først en rute inden start."/>
     <text name="CP_error_could_not_generate_course" text="Kunne ikke oprette en rute. Logfilen kan indeholde yderligere informationer."/>
+    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
+    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
     <text name="CP_error_not_on_field" text="Målet er ikke på en mark."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Aflæsser for langt væk fra marken."/>
-    <text name="CP_error_start_position_to_far_away_from_field" text="startpunkt for langt væk fra marken."/>
-    <text name="CP_error_giants_unloader_not_available" text="Giants aflæsser er ikke tilgæængelig."/>
-    <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Field unload position is too far away from the field."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="Vehicle is too far away from the field to start."/>
+    <text name="CP_error_start_position_to_far_away_from_field" text="Startpunkt for langt væk fra marken."/>
+    <text name="CP_error_giants_unloader_not_available" text="Giants aflæsser er ikke tilgængelig."/>
+    <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="Aflæsningspunket er for langt væk fra marken."/>
     <text name="CP_error_no_bunkerSilo_found" text="Ingen silo fundet."/>
-    <text name="CP_error_no_heap_found" text="No silo found."/>
-    <text name="CP_error_no_unload_trigger_found" text="No unloading point found."/>
+    <text name="CP_error_no_heap_found" text="Ingen silo fundet."/>
+    <text name="CP_error_no_unload_trigger_found" text="Intet aflæsningspunkt fundet."/>
     <text name="CP_error_unload_target_to_far_away_from_silo" text="Chosen unloading point is to far away from the silo."/>
     <!---->
     <!--AI job parameters-->
@@ -47,7 +48,7 @@
     <text name="CP_fieldWorkJobParameters_subTitle_laneOffset" text="Bane offset:"/>
     <text name="CP_fieldWorkJobParameters_laneOffset_title" text="Bane offset ved konvoj:"/>
     <text name="CP_fieldWorkJobParameters_laneOffset_tooltip" text="Rutevalg, når et konvojforløb blev oprettet."/>
-    <text name="CP_fieldWorkJobParameters_laneOffset_center" text="Mitte"/>
+    <text name="CP_fieldWorkJobParameters_laneOffset_center" text="Midt"/>
     <text name="CP_fieldWorkJobParameters_laneOffset_left" text="Venstre(1)"/>
     <text name="CP_fieldWorkJobParameters_laneOffset_right" text="Højre(1)"/>
     <text name="CP_fieldWorkJobParameters_laneOffset_left_2" text="Venstre(2)"/>
@@ -60,7 +61,7 @@
     <text name="CP_baleFinderJobParameters_baleWrapType_all_bales" text="Alle baller"/>
     <text name="CP_baleFinderJobParameters_baleWrapType_only_wrapped_bales" text="Kun wrappede"/>
     <text name="CP_baleFinderJobParameters_baleWrapType_only_not_wrapped_bales" text="Kun ikke wrappede"/>
-    <text name="CP_baleFinder_balesLeftover" text="Bales left:"/>
+    <text name="CP_baleFinder_balesLeftover" text="Bales tilbage:"/>
     <!---->
     <!--AI combine unloader job parameters-->
     <!---->
@@ -72,8 +73,8 @@
     <text name="CP_combineUnloaderJobParameters_useGiantsUnload_title" text="Brug giants aflæsser:"/>
     <text name="CP_combineUnloaderJobParameters_unloadingStation_title" text="Aflæsningsstation:"/>
     <text name="CP_combineUnloaderJobParameters_subTitle_fieldUnload" text="Giants unloader:"/>
-    <text name="CP_combineUnloaderJobParameters_useFieldUnload_title" text="Use unload on field:"/>
-    <text name="CP_combineUnloaderJobParameters_fieldUnloadPosition_title" text="Field unloading position:"/>
+    <text name="CP_combineUnloaderJobParameters_useFieldUnload_title" text="Brug aflæsning på mark:"/>
+    <text name="CP_combineUnloaderJobParameters_fieldUnloadPosition_title" text="Mark aflæsnings position:"/>
     <text name="CP_combineUnloaderJobParameters_unloadingTipSide_title" text="Trailer tip side:"/>
     <!---->
     <!--AI bunker silo worker job parameters-->
@@ -86,9 +87,9 @@
     <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_title" text="Venter på aflæsser:"/>
     <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_silo" text="I silo"/>
     <text name="CP_bunkerSiloJobParameters_waitAtParkPosition_parkPosition" text="Parkerings position"/>
-    <text name="CP_bunkerSiloJobParameters_stopWithCompactedSilo_title" text="Stop at 99% compaction"/>
-    <text name="CP_bunkerSiloJobParameters_subTitle_stopWithCompactedSilo" text="Stop at 99% compaction"/>
-    <text name="CP_bunkerSilo_compactionPercentage" text="Silo compaction:"/>
+    <text name="CP_bunkerSiloJobParameters_stopWithCompactedSilo_title" text="Stop ved 99% komprimering"/>
+    <text name="CP_bunkerSiloJobParameters_subTitle_stopWithCompactedSilo" text="Stop ved 99% komprimering"/>
+    <text name="CP_bunkerSilo_compactionPercentage" text="Silo komprimering:"/>
     <!---->
     <!--AI silo lader worker job parameters-->
     <!---->
@@ -104,21 +105,22 @@
     <text name="CP_job_fieldWork" text="CP: Markarbejde"/>
     <text name="CP_job_baleCollect" text="CP: Indsamle/wrappe baller"/>
     <text name="CP_job_combineUnload" text="CP: aflæs mejetærsker"/>
-    <text name="CP_job_bunkerSilo" text="CP: Silo work"/>
+    <text name="CP_job_bunkerSilo" text="CP: Silo arbejde"/>
     <text name="CP_job_siloLoader" text="CP: Silo loading"/>
     <text name="CP_ai_page_generate_course" text="CP: Genere markrute."/>
     <text name="CP_ai_page_open_course_generator" text="CP: Åbne/Lukke rutegenerator."/>
     <!---->
     <!--AI error messages-->
     <!---->
-    <text name="CP_ai_messageErrorIsFull" text="Hjælper (%s) har stoppet arbejdet - Enheden er fyldt!"/>
+    <text name="CP_ai_messageErrorIsFull" text="AI-medarbejder %s har stoppet arbejdet - Enheden er fyldt!"/>
     <text name="CP_ai_messageError" text="AI-medarbejder %s har stoppet arbejdet uventet - forlod bane!"/>
-    <text name="CP_ai_messageErrorWrongBaleWrapType" text="AI-arbejder %s har stoppet arbejdet uventet - ingen baller af valgt type fundet!"/>
-    <text name="CP_ai_messageErrorNoPathFound" text="AI hjælper %s har stoppet arbejdet uventet - ingen sti fundet!"/>
-    <text name="CP_ai_messageErrorGroundUnloadNotSupported" text="AI worker %s has stopped work unexpectedly - unloading on the field not possible!"/>
-    <text name="CP_ai_messageErrorCutterNotSupported" text="AI worker %s has stopped work unexpectedly - attaching of the header is impossible!"/>
-    <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI worker %s has stopped work unexpectedly - automatic cutter attach disabled!"/>
-    <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI worker %s has stopped work unexpectedly - wrong fill type for mission selected!"/>
+    <text name="CP_ai_messageErrorWrongBaleWrapType" text="AI-medarbejder %s har stoppet arbejdet uventet - ingen baller af valgt type fundet!"/>
+    <text name="CP_ai_messageErrorNoPathFound" text="AI-medarbejder %s har stoppet arbejdet uventet - ingen sti fundet!"/>
+    <text name="CP_ai_messageErrorGroundUnloadNotSupported" text="AI-medarbejder %s har stoppet arbejdet uventet - Aflæsning på marken ikke mulig!"/>
+    <text name="CP_ai_messageErrorCutterNotSupported" text="AI-medarbejder %s har stoppet arbejdet uventet - attaching of the header is impossible!"/>
+    <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI-medarbejder %s har stoppet arbejdet uventet - automatic cutter attach disabled!"/>
+    <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI-medarbejder %s har stoppet arbejdet uventet - wrong fill type for mission selected!"/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -126,13 +128,13 @@
     <!---->
     <!--AI bale finder task descriptions-->
     <!---->
-    <text name="CP_ai_taskDescriptionCollectsBales" text="Collects bales on the field"/>
-    <text name="CP_ai_taskDescriptionWrapsBales" text="Wraps bales on the field"/>
+    <text name="CP_ai_taskDescriptionCollectsBales" text="Indsaml baller på marken"/>
+    <text name="CP_ai_taskDescriptionWrapsBales" text="Wrapper baller på marken"/>
     <!---->
     <!--AI combine unloader task descriptions-->
     <!---->
-    <text name="CP_ai_taskDescriptionUnloadCombine" text="Unloads combine"/>
-    <text name="CP_ai_taskDescriptionWaitsForTargetCombine" text="Waits for combine"/>
+    <text name="CP_ai_taskDescriptionUnloadCombine" text="Tøm mejetærsker"/>
+    <text name="CP_ai_taskDescriptionWaitsForTargetCombine" text="Venter på mejetærsker"/>
     <text name="CP_ai_taskDescriptionUnloadSiloLoader" text="Unloads loader"/>
     <text name="CP_ai_taskDescriptionWaitsForTargetSiloLoader" text="Waits for loader"/>
     <text name="CP_ai_taskDescriptionUnloadingToHeap" text="Unloads to a heap"/>
@@ -156,6 +158,7 @@
     <!--Vehicle settings-->
     <!---->
     <text name="CP_vehicle_setting_title" text="Køretøjsinstillinger (%s)"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Køretøjsinstillinger"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="Grundinstillinger"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="Redskabsinstillinger"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Instillinger til mejetærsker"/>
@@ -180,8 +183,8 @@
     <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Aktiver Pathfinder for vendemanøvre, f.eks. for at undvige objekter eller afgrøde."/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="Sammenklap redskab"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="Sammenklap redskab ved afslutning ja/nej."/>
-    <text name="CP_vehicle_setting_returnToStart_title" text="Return to starting point"/>
-    <text name="CP_vehicle_setting_returnToStart_tooltip" text="Return to starting point after finished fieldwork."/>
+    <text name="CP_vehicle_setting_returnToStart_title" text="Tilbage til start punket"/>
+    <text name="CP_vehicle_setting_returnToStart_tooltip" text="Tilbage til start punket efter endt markarbejde."/>
     <text name="CP_vehicle_setting_raiseImplementLate_title" text="Hæv redskab"/>
     <text name="CP_vehicle_setting_raiseImplementLate_tooltip" text="Hæv redskab tidligt eller sent."/>
     <text name="CP_vehicle_setting_raiseImplementLate_early" text="Tidligt"/>
@@ -196,9 +199,9 @@
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="Forsøger så vidt muligt at køre udenom afgrøder."/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="Redskab forskudt vandret"/>
     <text name="CP_vehicle_setting_toolOffsetX_tooltip" text="Redskab forskudt vandret"/>
-    <text name="CP_vehicle_setting_baleCollectorOffset_title" text="Bale pickup offset"/>
-    <text name="CP_vehicle_setting_baleCollectorOffset_tooltip" text="Offset for the bale collector"/>
-    <text name="CP_vehicle_setting_combineOffsetX_title" text="Offset forwards/backwards"/>
+    <text name="CP_vehicle_setting_baleCollectorOffset_title" text="Balle opsamling forskydning"/>
+    <text name="CP_vehicle_setting_baleCollectorOffset_tooltip" text="Forskydning til balle opsamling"/>
+    <text name="CP_vehicle_setting_combineOffsetX_title" text="Mejetærsker forskydning frem/tilbage"/>
     <text name="CP_vehicle_setting_combineOffsetX_tooltip" text="Offset for harvester pipe with forwards(+) and backwards(-)"/>
     <text name="CP_vehicle_setting_combineOffsetZ_title" text="Offset forwards/backwards"/>
     <text name="CP_vehicle_setting_combineOffsetZ_tooltip" text="Offset for harvester pipe with forwards(+) and backwards(-)"/>
@@ -271,6 +274,8 @@
     <!---->
     <text name="CP_vehicle_courseGeneratorSetting_title" text="Rutegenerator indstilling for (%s)"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_basic" text="Rutegenerator indstilling for (%s)"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Vine field settings"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Fieldwork settings"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_headland" text="Forager"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_center" text="Mitte"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="Settings island"/>
@@ -446,13 +451,15 @@ Ruten gemmes automatisk ved lukning af editoren og tilsidesætter den valgte rut
     <!--Course editor-->
     <!---->
     <text name="CP_editor_course_title" text="Rute editor"/>
+    <text name="CP_editor_custom_field_title" text="Custom field editor : %s"/>
     <text name="CP_editor_change_lane_offset" text="Change selected lane offset(%s)"/>
-    <text name="CP_editor_delete_title" text="Slet vejpunkter"/>
-    <text name="CP_editor_delete_primary_text" text="primær"/>
-    <text name="CP_editor_delete_secondary_text" text="sekundær"/>
-    <text name="CP_editor_delete_tertiary_text" text="Sletter alle waypoints indtil det sidste waypoint."/>
-    <text name="CP_editor_delete_yesNo_deleteToLastWp_title" text="Er du sikker på, at alle waypoint indtil det sidste skal slettes?"/>
-    <text name="CP_editor_delete_err" text="For få vejpunkter tilbage."/>
+    <text name="CP_editor_save_changes" text="Should the changes to %s be saved?"/>
+    <text name="CP_editor_course_basic_delete_title" text="Slet vejpunkter"/>
+    <text name="CP_editor_course_basic_delete_primary_text" text="primær"/>
+    <text name="CP_editor_course_basic_delete_secondary_text" text="sekundær"/>
+    <text name="CP_editor_course_basic_delete_tertiary_text" text="Sletter alle waypoints indtil det sidste waypoint."/>
+    <text name="CP_editor_course_basic_delete_yesNo_deleteToLastWp_title" text="Er du sikker på, at alle waypoint indtil det sidste skal slettes?"/>
+    <text name="CP_editor_course_basic_delete_err" text="For få vejpunkter tilbage."/>
     <text name="CP_editor_course_basic_title" text="grundlæggende"/>
     <text name="CP_editor_course_basic_move_title" text="Flyt et vejpunkt"/>
     <text name="CP_editor_course_basic_move_primary_text" text="primær"/>
@@ -484,6 +491,7 @@ Ruten gemmes automatisk ved lukning af editoren og tilsidesætter den valgte rut
     <text name="CP_infoTexts_workFinished" text="Arbejdet er udført"/>
     <text name="CP_infoTexts_drivingToCombine" text="køre til mejetærsker"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="køre til anhænger"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
     <text name="CP_infoTexts_outOfMoney" text="Ikke nok penge"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Venter på at regnen stopper"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Waits for snow to disappear"/>
@@ -498,9 +506,11 @@ Ruten gemmes automatisk ved lukning af editoren og tilsidesætter den valgte rut
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Wrong fruit for mission selected"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Pallets are full"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="No pallets"/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
     <!---->
     <!--Custom field manager-->
     <!---->
+    <text name="CP_customFieldManager_hotspotName" text="Custom field"/>
     <text name="CP_customFieldManager_confirm_save" text="Ønsker du at gemme den optegnede rute som en brugerdefineret mark %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Ønsker du at slette den brugerdefinerede mark %s?"/>
     <text name="CP_customFieldManager_delete" text="Slet brugerdefineret mark"/>
@@ -515,6 +525,10 @@ Ruten gemmes automatisk ved lukning af editoren og tilsidesætter den valgte rut
     <text name="CP_controllerGui_stopRecording" text="Stop brugerdefineret markoptegnelse."/>
     <text name="CP_controllerGui_pauseRecording" text="Pause custom field recording."/>
     <text name="CP_controllerGui_unpauseRecording" text="Unpause custom field recording."/>
+    <!---->
+    <!--CP ingame menu-->
+    <!---->
+    <text name="CP_ingameMenu_map_title" text="Map"/>
     <!---->
     <!--Help menu-->
     <!---->
@@ -1017,6 +1031,10 @@ Now your selection should look similar to the image.
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Vis debug channels menu ja/nej."/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Åbne mini GUI"/>
     <text name="input_CP_START_STOP" text="CP: Start/stop CP hjælper"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Start/stop driver (at first waypoint)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Start/stop driver (at nearest waypoint)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Start/stop driver (at last waypoint)"/>
+    <text name="input_CP_GENERATE_COURSE" text="CP: Change current selected job"/>
     <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Change current selected job"/>
     <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Skift start punkt"/>
     <text name="input_CP_CLEAR_COURSE" text="CP: Fjern nuværende aktive rute"/>
@@ -1027,5 +1045,6 @@ Now your selection should look similar to the image.
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Åbner globale indstillinger"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Åbner rutegenerator/job menu"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Åbner rute manager"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Open menu"/>
   </texts>
 </l10n>

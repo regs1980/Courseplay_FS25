@@ -1,5 +1,5 @@
 --[[
-This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS22)
+This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS25)
 Copyright (C) 2024 Courseplay Dev Team
 
 This program is free software: you can redistribute it and/or modify
@@ -175,7 +175,7 @@ end
 --- Is the land at this position owned by me?
 function PathfinderUtil.isWorldPositionOwned(posX, posZ)
     local farmland = g_farmlandManager:getFarmlandAtWorldPosition(posX, posZ)
-    local missionAllowed = g_missionManager:getIsMissionWorkAllowed(g_currentMission.player.farmId, posX, posZ, nil)
+    local missionAllowed = g_missionManager:getIsMissionWorkAllowed(g_currentMission.playerSystem:getLocalPlayer().farmId, posX, posZ, nil)
     return (farmland and farmland.isOwned) or missionAllowed
 end
 
@@ -245,9 +245,10 @@ PathfinderUtil.CollisionDetector = CpObject()
 --- Nodes of a trigger for example, that will be ignored as collision.
 PathfinderUtil.CollisionDetector.NODES_TO_IGNORE = {}
 
-function PathfinderUtil.CollisionDetector:init()
+function PathfinderUtil.CollisionDetector:init(collisionMask)
     self.vehiclesToIgnore = {}
     self.collidingShapes = 0
+    self.collisionMask = collisionMask or CpUtil.getDefaultCollisionFlags()
 end
 
 --- Adds a node which collision will be ignored global for every pathfinder.
@@ -263,7 +264,7 @@ function PathfinderUtil.CollisionDetector.removeNodeToIgnore(node)
 end
 
 function PathfinderUtil.CollisionDetector:overlapBoxCallback(transformId)
-    if PathfinderUtil.CollisionDetector.NODES_TO_IGNORE[transformId] then 
+    if PathfinderUtil.CollisionDetector.NODES_TO_IGNORE[transformId] then
         --- Global node, that needs to be ignored
         return
     end
@@ -273,8 +274,8 @@ function PathfinderUtil.CollisionDetector:overlapBoxCallback(transformId)
         -- an object we want to ignore
         return
     end
+    local rootVehicle
     if collidingObject then
-        local rootVehicle
         if collidingObject.getRootVehicle then
             rootVehicle = collidingObject:getRootVehicle()
         elseif collidingObject:isa(Bale) and collidingObject.mountObject then
@@ -288,7 +289,7 @@ function PathfinderUtil.CollisionDetector:overlapBoxCallback(transformId)
         if collidingObject:isa(Bale) then
             self:debug('collision with bale %d', collidingObject.id)
         else
-            self:debug('collision: %s', collidingObject:getName())
+            self:debug('collision: %s', collidingObject.getName and collidingObject:getName() or 'unknown')
         end
     end
     if getHasClassId(transformId, ClassIds.TERRAIN_TRANSFORM_GROUP) then
@@ -318,7 +319,8 @@ function PathfinderUtil.CollisionDetector:overlapBoxCallback(transformId)
     self.collidingShapes = self.collidingShapes + 1
 end
 
-function PathfinderUtil.CollisionDetector:findCollidingShapes(node, vehicleData, vehiclesToIgnore, objectsToIgnore, ignoreFruitHeaps)
+function PathfinderUtil.CollisionDetector:findCollidingShapes(node, vehicleData, vehiclesToIgnore, objectsToIgnore,
+                                                              ignoreFruitHeaps, collisionMask)
     self.vehiclesToIgnore = vehiclesToIgnore or {}
     self.objectsToIgnore = objectsToIgnore or {}
     self.vehicleData = vehicleData
@@ -343,9 +345,8 @@ function PathfinderUtil.CollisionDetector:findCollidingShapes(node, vehicleData,
     self.collidingShapes = 0
     self.collidingShapesText = 'unknown'
 
-    local collisionMask = CollisionFlag.STATIC_WORLD + CollisionFlag.TREE + CollisionFlag.DYNAMIC_OBJECT + CollisionFlag.VEHICLE + CollisionFlag.TERRAIN_DELTA
-
-    overlapBox(x, y + 0.2, z, xRot, yRot, zRot, width, 1, length, 'overlapBoxCallback', self, collisionMask, true, true, true)
+    overlapBox(x, y + 0.2, z, xRot, yRot, zRot, width, 1, length, 'overlapBoxCallback', self, collisionMask,
+            true, true, true, true)
 
     if true and self.collidingShapes > 0 then
         table.insert(PathfinderUtil.overlapBoxes,
@@ -533,7 +534,7 @@ end
 ---@param maxIterations number maximum number of iterations
 function PathfinderUtil.startPathfinding(vehicle, start, goal, constraints, allowReverse, mustBeAccurate, maxIterations)
     PathfinderUtil.overlapBoxes = {}
-    local pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, constraints.turnRadius * 4, 100, maxIterations, mustBeAccurate)
+    local pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, 100, maxIterations, mustBeAccurate)
     return pathfinder, pathfinder:start(start, goal, constraints.turnRadius, allowReverse,
             constraints, constraints.trailerHitchLength)
 end
@@ -582,15 +583,13 @@ function PathfinderUtil.findPathForTurn(vehicle, startOffset, goalReferenceNode,
             local _, y, _ = getWorldTranslation(vehicle:getAIDirectionNode())
             local dx, _, dz = worldToLocal(vehicle:getAIDirectionNode(), headlandPath[1].x, y, -headlandPath[1].y)
             local dirDeg = math.deg(math.abs(math.atan2(dx, dz)))
-            if dirDeg > 45 or true then
-                PathfinderUtil.logger:debug('First headland waypoint isn\'t in front of us (%.1f), remove first few waypoints to avoid making a circle %.1f %.1f', dirDeg, dx, dz)
-            end
-            pathfinder = HybridAStarWithPathInTheMiddle(vehicle, turnRadius * 3, 200, headlandPath, true, analyticSolver)
+            PathfinderUtil.logger:debug('First headland waypoint isn\'t in front of us (%.1f), remove first few waypoints to avoid making a circle %.1f %.1f', dirDeg, dx, dz)
+            pathfinder = HybridAStarWithPathInTheMiddle(vehicle, 200, headlandPath, true, analyticSolver)
         end
     end
     if pathfinder == nil then
         PathfinderUtil.logger:debug('No headland, or there is a headland but wasn\'t able to get the shortest path on the headland to the next row, falling back to hybrid A*')
-        pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, turnRadius * 6, 200, 10000, true, analyticSolver)
+        pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, 200, 10000, true, analyticSolver)
     end
 
     local context = PathfinderContext(vehicle):useFieldNum(CpFieldUtil.getFieldNumUnderVehicle(vehicle))
@@ -604,7 +603,9 @@ end
 ------------------------------------------------------------------------------------------------------------------------
 ---@param solver AnalyticSolver for instance PathfinderUtil.dubinsSolver or PathfinderUtil.reedsSheppSolver
 ---@param vehicleDirectionNode number Giants node
----@param startOffset number offset in meters relative to the vehicle position (forward positive, backward negative) where
+---@param startXOffset number offset in meters relative to the vehicle position (left positive, right negative) where
+--- we want the turn to start
+---@param startZOffset number offset in meters relative to the vehicle position (forward positive, backward negative) where
 --- we want the turn to start
 ---@param goalReferenceNode table node used to determine the goal
 ---@param xOffset number offset in meters relative to the goal node (left positive, right negative)
@@ -613,9 +614,9 @@ end
 ---@param turnRadius number vehicle turning radius
 ---@return table|nil path
 ---@return number length
-function PathfinderUtil.findAnalyticPath(solver, vehicleDirectionNode, startOffset, goalReferenceNode,
+function PathfinderUtil.findAnalyticPath(solver, vehicleDirectionNode, startXOffset, startZOffset, goalReferenceNode,
                                          xOffset, zOffset, turnRadius)
-    local x, z, yRot = PathfinderUtil.getNodePositionAndDirection(vehicleDirectionNode, 0, startOffset or 0)
+    local x, z, yRot = PathfinderUtil.getNodePositionAndDirection(vehicleDirectionNode, startXOffset, startZOffset or 0)
     local start = State3D(x, -z, CpMathUtil.angleFromGame(yRot))
     x, z, yRot = PathfinderUtil.getNodePositionAndDirection(goalReferenceNode, xOffset or 0, zOffset or 0)
     local goal = State3D(x, -z, CpMathUtil.angleFromGame(yRot))
@@ -661,7 +662,7 @@ end
 function PathfinderUtil.getWaypointAsState3D(waypoint, xOffset, zOffset)
     local result = State3D(waypoint.x, -waypoint.z, CpMathUtil.angleFromGameDeg(waypoint.angle))
     if waypoint:getIsReverse() then
-        --- If it's a reverse driven waypoint, then the target heading needs to be inverted. 
+        --- If it's a reverse driven waypoint, then the target heading needs to be inverted.
         result:reverseHeading()
     end
     local offset = Vector(zOffset, -xOffset)

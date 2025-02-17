@@ -102,8 +102,12 @@ end
 
 --- Resets the tool offset to a saved value after all implements are loaded and attached.
 function CpVehicleSettings:onUpdate()
+    if self.propertyState == VehiclePropertyState.SHOP_CONFIG then 
+        return
+    end
     local spec = self.spec_cpVehicleSettings
     if not spec.finishedFirstUpdate then
+        CpVehicleSettings.validateSettings(self)
         --- TODO: Maybe consider a more generic approach in the future.
         spec.toolOffsetX:resetToLoadedValue()
         spec.bunkerSiloWorkWidth:resetToLoadedValue()
@@ -112,6 +116,8 @@ function CpVehicleSettings:onUpdate()
         spec.lowerImplementEarly:resetToLoadedValue()
         spec.bunkerSiloWorkWidth:resetToLoadedValue()
         spec.loadingShovelHeightOffset:resetToLoadedValue()
+        -- for vehicles with a non-attached pipe
+        CpVehicleSettings.setPipeOffset(self)
     end
     spec.finishedFirstUpdate = true
     if spec.needsRefresh then 
@@ -124,9 +130,9 @@ end
 --- For example Lime and Fertilizer might have a different work width.
 function CpVehicleSettings:onStateChange(state, data)
     local spec = self.spec_cpVehicleSettings
-    if state == Vehicle.STATE_CHANGE_FILLTYPE_CHANGE and self:getIsSynchronized() then
+    if state == VehicleStateChange.FILLTYPE_CHANGE and self:getIsSynchronized() then
         local _, hasSprayer = AIUtil.getAllChildVehiclesWithSpecialization(self, Sprayer, nil)
-        if hasSprayer then 
+        if self.isServer and hasSprayer then 
             local width, offset = WorkWidthUtil.getAutomaticWorkWidthAndOffset(self, nil, nil)
             local oldWidth = self:getCourseGeneratorSettings().workWidth:getValue()
             if not MathUtil.equalEpsilon(width, oldWidth, 1)  then 
@@ -134,7 +140,7 @@ function CpVehicleSettings:onStateChange(state, data)
                 self:getCourseGeneratorSettings().workWidth:setFloatValue(width)
             end
         end
-    elseif state == Vehicle.STATE_CHANGE_ATTACH then 
+    elseif state == VehicleStateChange.ATTACH then
         CpVehicleSettings.setAutomaticWorkWidthAndOffset(self)
         CpVehicleSettings.setAutomaticBunkerSiloWorkWidth(self)
         CpVehicleSettings.setAutomaticBaleCollectorOffset(self)
@@ -146,8 +152,9 @@ function CpVehicleSettings:onStateChange(state, data)
             spec.bunkerSiloWorkWidth, 'workingWidth')
         CpVehicleSettings.setFromVehicleConfiguration(self, data.attachedVehicle, 
             spec.loadingShovelHeightOffset, 'loadingShovelOffset')
+        CpVehicleSettings.setPipeOffset(self)
         spec.needsRefresh = true
-    elseif state == Vehicle.STATE_CHANGE_DETACH then
+    elseif state == VehicleStateChange.DETACH then
         CpVehicleSettings.setAutomaticWorkWidthAndOffset(self, data.attachedVehicle)
         CpVehicleSettings.setAutomaticBunkerSiloWorkWidth(self, data.attachedVehicle)
         
@@ -163,8 +170,8 @@ function CpVehicleSettings:setAutomaticWorkWidthAndOffset(ignoreObject)
     local spec = self.spec_cpVehicleSettings
     local width, offset = WorkWidthUtil.getAutomaticWorkWidthAndOffset(self, nil, ignoreObject)
     self:getCourseGeneratorSettings().workWidth:refresh()
-    self:getCourseGeneratorSettings().workWidth:setFloatValue(width)
-    spec.toolOffsetX:setFloatValue(offset)
+    self:getCourseGeneratorSettings().workWidth:setFloatValue(width, nil, true)
+    spec.toolOffsetX:setFloatValue(offset, nil, true)
 end
 
 function CpVehicleSettings:onReadStream(streamId, connection)
@@ -286,7 +293,7 @@ end
 ---@param vehicleConfigurationName string name of the setting in the vehicle configuration XML
 function CpVehicleSettings:setFromVehicleConfiguration(object, setting, vehicleConfigurationName)
     local value = g_vehicleConfigurations:get(object, vehicleConfigurationName)
-    if value then
+    if self.isServer and value then
         CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, self, '%s: setting configured %s to %s',
                 CpUtil.getName(object), vehicleConfigurationName, tostring(value))
         if type(value) == 'number' then
@@ -305,7 +312,7 @@ end
 ---@param defaultValue any default value to reset the setting to
 function CpVehicleSettings:resetToDefault(object, setting, vehicleConfigurationName, defaultValue)
     local value = g_vehicleConfigurations:get(object, vehicleConfigurationName)
-    if value then
+    if self.isServer and value then
         CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, self, '%s: resetting to default %s to %s',
                 CpUtil.getName(object), vehicleConfigurationName, tostring(defaultValue))
         if type(defaultValue) == 'number' then
@@ -404,7 +411,7 @@ end
 function CpVehicleSettings:setAutomaticBunkerSiloWorkWidth(ignoreObject)
     local spec = self.spec_cpVehicleSettings
     local width = WorkWidthUtil.getAutomaticWorkWidthAndOffset(self, nil, ignoreObject)
-    spec.bunkerSiloWorkWidth:setFloatValue(width)
+    spec.bunkerSiloWorkWidth:setFloatValue(width, nil, true)
 end
 
 function CpVehicleSettings:isBaleCollectorOffsetVisible()
@@ -412,11 +419,33 @@ function CpVehicleSettings:isBaleCollectorOffsetVisible()
 end
 
 function CpVehicleSettings:setAutomaticBaleCollectorOffset()
-    local spec = self.spec_cpVehicleSettings
-    local halfVehicleWidth = AIUtil.getWidth(self) / 2
-    local configValue = g_vehicleConfigurations:getRecursively(self, "baleCollectorOffset")
-    local offset = configValue ~= nil and configValue or halfVehicleWidth + 0.2
-    spec.baleCollectorOffset:setFloatValue(offset)
+    if self.isServer then
+        local spec = self.spec_cpVehicleSettings
+        local halfVehicleWidth = AIUtil.getWidth(self) / 2
+        local configValue = g_vehicleConfigurations:getRecursively(self, "baleCollectorOffset")
+        local offset = configValue ~= nil and configValue or halfVehicleWidth + 0.2
+        spec.baleCollectorOffset:setFloatValue(offset)
+    end
+end
+
+--- If the vehicle has a pipe, instantiate a pipe controller to measure the pipe offsets. This is better
+--- done here and not when the vehicle starts as measuring is a hack and may mess up the vehicle states.
+function CpVehicleSettings:setPipeOffset()
+    local pipeObject = AIUtil.getImplementOrVehicleWithSpecialization(self, Pipe)
+    if self.isServer and pipeObject then
+        local spec = self.spec_cpVehicleSettings
+        -- ask the pipe controller to get the offsets
+        local pipeController = PipeController(self, pipeObject, true)
+        spec.pipeOffsetX:setFloatValue(pipeController:getPipeOffsetX())
+        spec.pipeOffsetZ:setFloatValue(pipeController:getPipeOffsetZ())
+        CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, self, 'Pipe offsetX: %.1f, offsetZ: %.1f',
+                pipeController:getPipeOffsetX(), pipeController:getPipeOffsetZ())
+    end
+end
+
+--- For now, we don't want these to show up on the settings page.
+function CpVehicleSettings:isPipeOffsetSettingsVisible()
+    return false
 end
 
 function CpVehicleSettings:isLoadingShovelOffsetSettingVisible()
@@ -457,13 +486,14 @@ end
 ---@return table texts
 ---@return any correct current value after max speed adjustment
 function CpVehicleSettings:generateSpeedSettingValuesAndTexts(setting, lastValue)
-    local maxSpeed = self.getCruiseControlMaxSpeed and self:getCruiseControlMaxSpeed() or setting.data.max
+    local maxSpeed = self.getCruiseControlMaxSpeed and self:getCruiseControlMaxSpeed()
+    maxSpeed = maxSpeed or setting.data.max
     local values, texts = {}, {}
     for i = setting.data.min, maxSpeed, setting.data.incremental or 1 do 
         table.insert(values, i)
         table.insert(texts, i)
     end
-    return values, texts, math.min(lastValue, maxSpeed)
+    return values, texts, math.min(lastValue or setting.data.max, maxSpeed)
 end
 
 function CpVehicleSettings:isRefillOnTheFieldSettingVisible()
@@ -478,7 +508,7 @@ end
 ---------------------------------------------
 
 function CpVehicleSettings.registerConsoleCommands()
-    g_devHelper.consoleCommands:registerConsoleCommand("cpSettingsPrintVehicle", 
+    g_consoleCommands:registerConsoleCommand("cpSettingsPrintVehicle",
         "Prints the vehicle settings or a given setting", 
         "consoleCommandPrintSetting", CpVehicleSettings)
 end
@@ -486,7 +516,7 @@ end
 --- Either prints all settings or a desired setting by the name or index in the setting table.
 ---@param name any
 function CpVehicleSettings:consoleCommandPrintSetting(name)
-    local vehicle = g_currentMission.controlledVehicle
+    local vehicle = CpUtil.getCurrentVehicle()
     if not vehicle then 
         CpUtil.info("Not entered a valid vehicle!")
         return

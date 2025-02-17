@@ -1,20 +1,82 @@
 --- This is the interface provided to Courseplay
 -- Wraps the CourseGenerator which does not depend on the CP or Giants code.
 -- all course generator related code dependent on CP/Giants functions go here
-CourseGeneratorInterface = {}
-CourseGeneratorInterface.logger = Logger('CourseGeneratorInterface')
+---@class CourseGeneratorInterface
+CourseGeneratorInterface = CpObject()
 
--- Generate into this global variable to be able to access the generated course for debug purposes
-CourseGeneratorInterface.generatedCourse = nil
+function CourseGeneratorInterface:init()
+    self.logger = Logger('CourseGeneratorInterface', Logger.level.debug, CpDebug.DBG_COURSES)
+    self.generatedCourse = nil
+end
+
+--- Start generating a normal (non-vine) fieldwork course, with field boundary and island detection
+---@param startPosition table {x, z}
+---@param vehicle table
+---@param settings CpCourseGeneratorSettings
+---@param object table|nil optional object with callback
+---@param onFinishedFunc function callback function to call when finished: onFinishedFunc([object,] course) where
+--- course may be nil on failure
+function CourseGeneratorInterface:startGenerationWithDetection(startPosition, vehicle, settings, object, onFinishedFunc)
+    self.startPosition = startPosition
+    self.vehicle = vehicle
+    self.settings = settings
+    self.object = object
+    self.onFinishedFunc = onFinishedFunc
+    vehicle:cpDetectFieldBoundary(startPosition.x, startPosition.z, self, self.onFieldDetectionFinished)
+end
+
+--- Start generating a normal (non-vine) fieldwork course, with field boundary and islands already detected
+---@param startPosition table {x, z}
+---@param vehicle table
+---@param settings CpCourseGeneratorSettings
+---@param object table|nil optional object with callback
+---@param onFinishedFunc function callback function to call when finished: onFinishedFunc([object,] course) where
+--- course may be nil on failure
+---@param fieldPolygon table [{x, z}] field boundary polygon
+---@param islandPolygons table [[{x, z}]] island polygons
+function CourseGeneratorInterface:startGeneration(startPosition, vehicle, settings, object, onFinishedFunc,
+                                                  fieldPolygon, islandPolygons)
+    self.vehicle = vehicle
+    self.object = object
+    self.onFinishedFunc = onFinishedFunc
+    local ok, course = self:generate(fieldPolygon, startPosition, vehicle, settings, islandPolygons)
+    if ok then
+        self:triggerCallback(course)
+    else
+        self:triggerCallback(nil)
+    end
+end
+
+function CourseGeneratorInterface:onFieldDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+    if fieldPolygon == nil then
+        self.logger:error(vehicle, "Field detection at x = %.1f, z = %.1f failed, can't generate",
+                self.startPosition.x, self.startPosition.z)
+        self:triggerCallback(nil)
+        return
+    end
+    self.logger:info(vehicle, "Field detection finished, now start generating course")
+    self:startGeneration(self.startPosition, vehicle, self.settings, self.object, self.onFinishedFunc,
+            fieldPolygon, islandPolygons)
+end
+
+function CourseGeneratorInterface:triggerCallback(...)
+    if self.object and self.onFinishedFunc then
+        self.onFinishedFunc(self.object, ...)
+    elseif self.onFinishedFunc then
+        self.onFinishedFunc(...)
+    end
+end
 
 ---@param fieldPolygon table [{x, z}]
 ---@param startPosition table {x, z}
 ---@param vehicle table
 ---@param settings CpCourseGeneratorSettings
-function CourseGeneratorInterface.generate(fieldPolygon,
+---@param islandPolygons|nil table [[{x, z}]] island polygons
+function CourseGeneratorInterface:generate(fieldPolygon,
                                            startPosition,
                                            vehicle,
-                                           settings
+                                           settings,
+                                           islandPolygons
 )
     CourseGenerator.clearDebugObjects()
     local field = CourseGenerator.Field('', 0, CpMathUtil.pointsFromGame(fieldPolygon))
@@ -54,29 +116,23 @@ function CourseGeneratorInterface.generate(fieldPolygon,
     context:setIslandHeadlands(settings.nIslandHeadlands:getValue())
     context:setIslandHeadlandClockwise(settings.islandHeadlandClockwise:getValue())
     if settings.bypassIslands:getValue() then
-        context.field:findIslands()
-        context.field:setupIslands()
+        if islandPolygons then
+            -- islands were detected already, create them from the polygons and add to the field
+            for i, islandPolygon in ipairs(islandPolygons) do
+                context.field:addIsland(CourseGenerator.Island.createFromBoundary(i,
+                        Polygon(CpMathUtil.pointsFromGame(islandPolygon))))
+            end
+        end
     end
 
     local status
-    if settings.narrowField:getValue() then
-        -- two sided must start on headland
-        context:setHeadlandFirst(true)
-        status, CourseGeneratorInterface.generatedCourse = xpcall(
-                function()
-                    return CourseGenerator.FieldworkCourseTwoSided(context)
-                end,
-                function(err)
-                    printCallstack();
-                    return err
-                end
-        )
-    elseif settings.multiTools:getValue() > 1 then
+    if settings.multiTools:getValue() > 1 then
+        settings.narrowField:setValue(false)
         context:setNumberOfVehicles(settings.multiTools:getValue())
         context:setHeadlands(settings.multiTools:getValue() * settings.numberOfHeadlands:getValue())
         context:setIslandHeadlands(settings.multiTools:getValue() * settings.nIslandHeadlands:getValue())
         context:setUseSameTurnWidth(settings.useSameTurnWidth:getValue())
-        status, CourseGeneratorInterface.generatedCourse = xpcall(
+        status, self.generatedCourse = xpcall(
                 function()
                     return CourseGenerator.FieldworkCourseMultiVehicle(context)
                 end,
@@ -85,8 +141,22 @@ function CourseGeneratorInterface.generate(fieldPolygon,
                     return err
                 end
         )
+    elseif settings.narrowField:getValue() then
+        -- two sided must start on headland
+        context:setHeadlandFirst(true)
+        -- and must not have multiple vehicles
+        settings.multiTools:setValue(1)
+        status, self.generatedCourse = xpcall(
+                function()
+                    return CourseGenerator.FieldworkCourseTwoSided(context)
+                end,
+                function(err)
+                    printCallstack();
+                    return err
+                end
+        )
     else
-        status, CourseGeneratorInterface.generatedCourse = xpcall(
+        status, self.generatedCourse = xpcall(
                 function()
                     return CourseGenerator.FieldworkCourse(context)
                 end,
@@ -98,32 +168,35 @@ function CourseGeneratorInterface.generate(fieldPolygon,
     end
 
     -- return on exception or if the result is not usable
-    if not status or CourseGeneratorInterface.generatedCourse == nil then
+    if not status or self.generatedCourse == nil then
         return false
     end
 
     -- the actual number of headlands generated may be less than the requested
-    local numberOfHeadlands = CourseGeneratorInterface.generatedCourse:getNumberOfHeadlands()
+    local numberOfHeadlands = self.generatedCourse:getNumberOfHeadlands()
 
-    CourseGeneratorInterface.logger:debug('Generated course: %s', CourseGeneratorInterface.generatedCourse)
+    self.logger:debug(vehicle, 'Generated course: %s', self.generatedCourse)
 
-    local course = Course.createFromGeneratedCourse(vehicle, CourseGeneratorInterface.generatedCourse,
+    local course = Course.createFromGeneratedCourse(vehicle, self.generatedCourse,
             settings.workWidth:getValue(), numberOfHeadlands, settings.multiTools:getValue(),
             settings.headlandClockwise:getValue(), settings.islandHeadlandClockwise:getValue(), not settings.useBaseLineEdge:getValue())
-    course:setFieldPolygon(fieldPolygon)
+    self:setCourse(vehicle, course)
     return true, course
 end
 
 --- Generates a vine course, where the fieldPolygon are the start/end of the vine node.
 ---@param fieldPolygon table
+---@param startPosition table {x, z}
+---@param vehicle table
 ---@param workWidth number
 ---@param turningRadius number
 ---@param manualRowAngleDeg number
 ---@param rowsToSkip number
 ---@param multiTools number
-function CourseGeneratorInterface.generateVineCourse(
+function CourseGeneratorInterface:generateVineCourse(
         fieldPolygon,
         startPosition,
+        vehicle,
         workWidth,
         turningRadius,
         manualRowAngleDeg,
@@ -148,7 +221,7 @@ function CourseGeneratorInterface.generateVineCourse(
     context:setRowAngle(CpMathUtil.angleFromGame(manualRowAngleDeg))
     context:setBypassIslands(false)
     local status
-    status, CourseGeneratorInterface.generatedCourse = xpcall(
+    status, self.generatedCourse = xpcall(
             function()
                 return CourseGenerator.FieldworkCourseVine(context,
                         CourseGenerator.FieldworkCourseVine.generateRows(workWidth, lines, offset ~= 0))
@@ -159,15 +232,33 @@ function CourseGeneratorInterface.generateVineCourse(
             end
     )
     -- return on exception or if the result is not usable
-    if not status or CourseGeneratorInterface.generatedCourse == nil then
+    if not status or self.generatedCourse == nil then
         return false
     end
 
-    CourseGeneratorInterface.logger:debug('Generated vine course: %d center waypoints',
-            #CourseGeneratorInterface.generatedCourse:getCenterPath())
+    self.logger:debug('Generated vine course: %d center waypoints',
+            #self.generatedCourse:getCenterPath())
 
-    local course = Course.createFromGeneratedCourse(nil, CourseGeneratorInterface.generatedCourse,
+    local course = Course.createFromGeneratedCourse(vehicle, self.generatedCourse,
             workWidth, 0, multiTools, true, true, true)
-    course:setFieldPolygon(fieldPolygon)
+    self:setCourse(vehicle, course)
     return true, course
+end
+
+--- Load the course into the vehicle
+function CourseGeneratorInterface:setCourse(vehicle, course)
+    if course and course:getMultiTools() > 1 then
+        course:setPosition(vehicle:getCpLaneOffsetSetting():getValue())
+    end
+    vehicle:setFieldWorkCourse(course)
+end
+
+--- Generate a course for the vehicle, with start position at the vehicle's position
+function CourseGeneratorInterface:generateDefaultCourse(vehicle)
+    local settings = vehicle:getCourseGeneratorSettings()
+    local x, _, z = getWorldTranslation(vehicle.rootNode)
+    self.logger:info(vehicle, 'Generating course at x = %.1f, z = %.1f', x, z)
+    self:startGenerationWithDetection({x = x, z = z}, vehicle, settings, nil, function()
+        self.logger:info(vehicle, 'Course generation finished')
+    end)
 end

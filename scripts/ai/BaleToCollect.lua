@@ -39,12 +39,14 @@ end
 ---@param baleWrapper table bale wrapper, if exists
 ---@param baleLoader table bale loader, if exists
 ---@param baleWrapType number bale wrap type for the bale loader
+---@return boolean, boolean isValid,
 function BaleToCollect.isValidBale(object, baleWrapper, baleLoader, baleWrapType)
 	-- nodeId is sometimes 0, causing issues for the BaleToCollect constructor
 	if object.isa and object:isa(Bale) and object.nodeId and entityExists(object.nodeId) then
 		if baleWrapper then
 			-- if there is a bale wrapper, the bale must be wrappable
-			return baleWrapper:getIsBaleWrappable(object)
+			local wrappable, sizeMatch = baleWrapper:getIsBaleWrappable(object)
+			return wrappable
 		elseif baleLoader and baleLoader.getBaleTypeByBale then
 			local baleType = baleLoader:getBaleTypeByBale(object)
 			local spec = baleLoader.spec_baleLoader

@@ -92,7 +92,7 @@ function CpCourseGeneratorSettings:onLoad(savegame)
 	--- Register the spec: spec_cpCourseGeneratorSettings
     self.spec_cpCourseGeneratorSettings = self["spec_" .. CpCourseGeneratorSettings.SPEC_NAME]
     local spec = self.spec_cpCourseGeneratorSettings
-    spec.gui = g_currentMission.inGameMenu.pageAI
+
     --- Clones the generic settings to create different settings containers for each vehicle. 
     CpSettingsUtil.cloneSettingsTable(spec,CpCourseGeneratorSettings.settings,self,CpCourseGeneratorSettings)
 
@@ -111,6 +111,9 @@ end
 
 --- Resets the work width to a saved value after all implements are loaded and attached.
 function CpCourseGeneratorSettings:onUpdate(savegame)
+    if self.propertyState == VehiclePropertyState.SHOP_CONFIG then 
+        return
+    end
     local spec = self.spec_cpCourseGeneratorSettings
     if not spec.finishedFirstUpdate then
         spec.workWidth:resetToLoadedValue()
@@ -175,13 +178,13 @@ function CpCourseGeneratorSettings:setAutomaticWorkWidthAndOffset()
     local spec = self.spec_cpCourseGeneratorSettings
     local width, offset, _, _ = WorkWidthUtil.getAutomaticWorkWidthAndOffset(self)
     spec.workWidth:refresh()
-    spec.workWidth:setFloatValue(width)
-    self:getCpSettings().toolOffsetX:setFloatValue(offset)
+    spec.workWidth:setFloatValue(width, nil, true)
+    self:getCpSettings().toolOffsetX:setFloatValue(offset, nil, true)
 end
 
 function CpCourseGeneratorSettings:setDefaultTurningRadius()
     local spec = self.spec_cpCourseGeneratorSettings
-    spec.turningRadius:setFloatValue(AIUtil.getTurningRadius(self))
+    spec.turningRadius:setFloatValue(AIUtil.getTurningRadius(self), nil, true)
 end
 
 --- Loads the generic settings setup from an xmlFile.
@@ -193,18 +196,14 @@ function CpCourseGeneratorSettings.loadSettingsSetup()
     CpSettingsUtil.loadSettingsFromSetup(CpCourseGeneratorSettings.vineSettings,filePath)
 end
 
-function CpCourseGeneratorSettings.getSettingSetup(vehicle)
-    local title = g_i18n:getText(CpCourseGeneratorSettings.pageTitle)
+function CpCourseGeneratorSettings.getSettingSetup()
     return CpCourseGeneratorSettings.settingsBySubTitle, 
-            vehicle and string.format(title, vehicle:getName()) 
-            or title
+        CpCourseGeneratorSettings.pageTitle
 end
 
 function CpCourseGeneratorSettings.getVineSettingSetup(vehicle)
-    local title = g_i18n:getText(CpCourseGeneratorSettings.vineSettings.pageTitle)
-    return CpCourseGeneratorSettings.vineSettings.settingsBySubTitle, 
-            vehicle and string.format(title, vehicle:getName()) 
-            or title
+    return CpCourseGeneratorSettings.vineSettings.settingsBySubTitle,
+        CpCourseGeneratorSettings.vineSettings.pageTitle
 end
 
 function CpCourseGeneratorSettings:loadSettings(savegame)
@@ -286,6 +285,12 @@ function CpCourseGeneratorSettings:hasHeadlandsSelected()
     return spec.numberOfHeadlands:getValue() > 0
 end
 
+function CpCourseGeneratorSettings:isNarrowFieldEnabled()
+    -- FieldworkCourseTwoSided does not work with multitools.
+    return CpCourseGeneratorSettings.hasHeadlandsSelected(self) and
+            not CpCourseGeneratorSettings.hasMoreThenOneVehicle(self)
+end
+
 function CpCourseGeneratorSettings:canStartOnRows()
     local spec = self.spec_cpCourseGeneratorSettings
     -- start on rows does not work for narrow field patterns
@@ -315,7 +320,7 @@ end
 ---------------------------------------------
 
 function CpCourseGeneratorSettings.registerConsoleCommands()
-    g_devHelper.consoleCommands:registerConsoleCommand("cpSettingsPrintGenerator", 
+    g_consoleCommands:registerConsoleCommand("cpSettingsPrintGenerator",
         "Prints the course generator settings or a given setting", 
         "consoleCommandPrintSetting", CpCourseGeneratorSettings)
 end
@@ -323,7 +328,7 @@ end
 --- Either prints all settings or a desired setting by the name or index in the setting table.
 ---@param name any
 function CpCourseGeneratorSettings:consoleCommandPrintSetting(name)
-    local vehicle = g_currentMission.controlledVehicle
+    local vehicle = CpUtil.getCurrentVehicle()
     if not vehicle then 
         CpUtil.info("Not entered a valid vehicle!")
         return

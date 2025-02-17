@@ -1,5 +1,5 @@
 --[[
-This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS22)
+This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS25)
 Copyright (C) 2023 Courseplay Dev Team
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -103,7 +103,9 @@ PathfinderContext.attributesToDefaultValue = {
     ["ignoreTrailerAtStartRange"] = 0,
     -- Maximum number of iterations before the hybrid A* pathfinding gives up. The default works well
     -- for normal sized fields, on bigger maps with huge fields you may want to double or triple this
-    ["maxIterations"] = HybridAStar.defaultMaxIterations
+    ["maxIterations"] = HybridAStar.defaultMaxIterations,
+    -- Collision mask to use, to disable collisions completely, set to 0objectsToIgnore
+    ["collisionMask"] = CpUtil.getDefaultCollisionFlags() + CollisionFlag.TERRAIN_DELTA
 }
 
 function PathfinderContext:init(vehicle)

@@ -1,5 +1,5 @@
 --[[
-This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS22)
+This file is part of Courseplay (https://github.com/Courseplay/Courseplay_FS25)
 Copyright (C) 2022 Peter Vaiko
 
 This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ SelfUnloadHelper.maxDistanceFromField = 20
 function SelfUnloadHelper:findBestTrailer(fieldPolygon, myVehicle, implementWithPipe, pipeOffsetX)
     local bestTrailer, bestFillUnitIndex, bestFillType
     local minDistance = math.huge
-    for _, otherVehicle in pairs(g_currentMission.vehicles) do
+    for _, otherVehicle in pairs(g_currentMission.vehicleSystem.vehicles) do
         if SpecializationUtil.hasSpecialization(Trailer, otherVehicle.specializations) then
             local rootVehicle = otherVehicle:getRootVehicle()
             local attacherVehicle
@@ -45,9 +45,8 @@ function SelfUnloadHelper:findBestTrailer(fieldPolygon, myVehicle, implementWith
                 attacherVehicle = otherVehicle.spec_attachable:getAttacherVehicle()
             end
             local x, _, z = getWorldTranslation(otherVehicle.rootNode)
-            local closestDistance = CpMathUtil.getClosestDistanceToPolygonEdge(fieldPolygon, x, z)
             -- if the trailer is within 20 m of the field perimeter, we are good
-            local isOnField = closestDistance <= SelfUnloadHelper.maxDistanceFromField
+            local isOnField, closestDistance = CpMathUtil.isWithinDistanceToPolygon(fieldPolygon, x, z, SelfUnloadHelper.maxDistanceFromField)
             if not isOnField then
                 -- not within 20 m, but could still be on the field
                 isOnField = CpMathUtil.isPointInPolygon(fieldPolygon, x, z)
@@ -144,10 +143,11 @@ function SelfUnloadHelper:getTargetParameters(fieldPolygon, myVehicle, implement
 
     local _, _, dZ = localToLocal(trailerRootNode, targetNode, 0, 0, 0)
 
-    -- this should put the pipe's end 1.1 m from the trailer's edge towards the middle. We are not aiming for
+    -- this should put the pipe's end 1.6 m from the trailer's edge towards the middle (but not more than half the width
+    -- of the trailer, so the pipe always stays on the side closer to the harvester. We are not aiming for
     -- the centerline of the trailer to avoid bumping into very wide trailers, we don't want to get closer
     -- than what is absolutely necessary.
-    local offsetX = math.max(3.8, math.abs(objectWithPipeAttributes.pipeOffsetX)) + trailerWidth / 2 - 1.6
+    local offsetX = math.max(3.8, math.abs(objectWithPipeAttributes.pipeOffsetX)) + trailerWidth / 2 - math.min(1.6, trailerWidth / 2)
     offsetX = objectWithPipeAttributes.pipeOnLeftSide and -offsetX or offsetX
     -- arrive near the trailer alignLength meters behind the target, from there, continue straight a bit
     local _, steeringLength = AIUtil.getSteeringParameters(myVehicle)

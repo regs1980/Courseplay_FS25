@@ -61,14 +61,22 @@ end
 
 --- Makes sure the cp fieldworker gets started.
 function CpAITaskFieldWork:start()
+	self:debug("Field work task started.")
+	local spec = self.vehicle.spec_aiFieldWorker
+	spec.isActive = true
+	self.vehicle:raiseAIEvent("onAIFieldWorkerStart", "onAIImplementStart")
 	if self.isServer then
-		self:debug("Field work task started.")
-		self.vehicle:startFieldWorker()
-		local spec = self.vehicle.spec_aiFieldWorker
+		self.vehicle:updateAIFieldWorkerImplementData()
+		if self.vehicle:getAINeedsTrafficCollisionBox() and (AIFieldWorker.TRAFFIC_COLLISION ~= nil and 
+			(AIFieldWorker.TRAFFIC_COLLISION ~= 0 and spec.aiTrafficCollision == nil)) then
+
+			spec.aiTrafficCollision = clone(AIFieldWorker.TRAFFIC_COLLISION, true, false, true)
+		end
 		local cpSpec = self.vehicle.spec_cpAIFieldWorker
 		--- Remembers the last lane offset setting value that was used.
         cpSpec.cpJobStartAtLastWp:getCpJobParameters().laneOffset:setValue(self.job:getCpJobParameters().laneOffset:getValue())
 		if spec.driveStrategies ~= nil then
+			-- This deletion code could be removed, but just to be sure we let it stay here for now.
 			for i = #spec.driveStrategies, 1, -1 do
 				spec.driveStrategies[i]:delete()
 				table.remove(spec.driveStrategies, i)
@@ -97,7 +105,6 @@ function CpAITaskFieldWork:start()
 				cpDriveStrategy = AIDriveStrategyFieldWorkCourse(self, self.job)
 			end
 		end
-		cpDriveStrategy:setFieldPolygon(self.job:getFieldPolygon())
 		cpDriveStrategy:setAIVehicle(self.vehicle, self.job:getCpJobParameters())
 		cpSpec.driveStrategy = cpDriveStrategy
 		--- Only the last driving strategy can stop the helper, while it is running.
