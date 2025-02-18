@@ -1,7 +1,9 @@
-
+--- Handle all implements at the end of the row (or wherever the vehicle must stop working and raise implements)
 ---@class WorkEndHandler
 WorkEndHandler = CpObject()
 
+---@param vehicle table
+---@param driveStrategy AIDriveStrategyFieldWorkCourse
 function WorkEndHandler:init(vehicle, driveStrategy)
     self.logger = Logger('WorkEndHandler', CpDebug.DBG_TURN)
     self.vehicle = vehicle
@@ -17,18 +19,24 @@ function WorkEndHandler:init(vehicle, driveStrategy)
     end
 end
 
+---@return boolean true if all implements are being raised (they not necessarily have been completely raised yet)
 function WorkEndHandler:allRaised()
     return #self.objectsAlreadyRaised == self.nObjectsToRaise
 end
 
+---@return boolean true if at least one implement has been raised
 function WorkEndHandler:oneRaised()
     return #self.objectsAlreadyRaised > 0
 end
 
-function WorkEndHandler:raiseImplementsAsNeeded(turnStartNode)
+--- Call this in update loop while the vehicle is approaching the end of the row. This will raise the implements
+--- individually as they reach the work end node. Call until WorkEndHandler:allRaised() returns true.
+---@param workEndNode number same as turn start node as in TurnContext, a node pointing into same direction as the row just ended
+--- positioned where the worked area ends.
+function WorkEndHandler:raiseImplementsAsNeeded(workEndNode)
     -- and then check all implements
     for object in pairs(self.objectsNotYetRaised) do
-        local shouldRaiseThis = self:shouldRaiseThisImplement(object, turnStartNode)
+        local shouldRaiseThis = self:shouldRaiseThisImplement(object, workEndNode)
         -- only when _all_ implements can be raised will we raise them all, hence the 'and'
         if shouldRaiseThis and self.objectsNotYetRaised[object] then
             self.logger:debug('Raising implement %s', CpUtil.getName(object))

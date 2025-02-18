@@ -1,7 +1,9 @@
-
+--- Handle all implements at the start of the row (or wherever the vehicle must start working and lower implements)
 ---@class WorkStartHandler
 WorkStartHandler = CpObject()
 
+---@param vehicle table
+---@param driveStrategy AIDriveStrategyFieldWorkCourse
 function WorkStartHandler:init(vehicle, driveStrategy)
     self.logger = Logger('WorkStartHandler', CpDebug.DBG_TURN)
     self.vehicle = vehicle
@@ -18,15 +20,22 @@ function WorkStartHandler:init(vehicle, driveStrategy)
     end
 end
 
+---@return boolean true if all implements are being lowered (they not necessarily have been completely lowered yet)
 function WorkStartHandler:allLowered()
     return #self.objectsAlreadyLowered == self.nObjectsToLower
 end
 
+---@return boolean true if at least one implement has been lowered
 function WorkStartHandler:oneLowered()
     return #self.objectsAlreadyLowered > 0
 end
 
-function WorkStartHandler:lowerImplementsAsNeeded(turnEndNode, reversing)
+--- Call this in update loop while the vehicle is approaching the start of the row. This will lower the implements
+--- individually as they reach the work start node. Call until WorkStartHandler:allLowered() returns true.
+---@param workStartNode number same as turn end node as in TurnContext, a node pointing into same direction as the row being started
+---@param reversing boolean are we reversing? When reversing towards the work start, we'll have to lower all implements at the
+--- same time, once all of them are beyond the work start node.
+function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing)
     local function lowerThis(object)
         self.logger:debug('Lowering implement %s', CpUtil.getName(object))
         object:aiImplementStartLine()
@@ -36,7 +45,7 @@ function WorkStartHandler:lowerImplementsAsNeeded(turnEndNode, reversing)
 
     local allShouldBeLowered, dz = true
     for object in pairs(self.objectsNotYetLowered) do
-        local shouldLowerThis, thisDz = self:shouldLowerThisImplement(object, turnEndNode, reversing)
+        local shouldLowerThis, thisDz = self:shouldLowerThisImplement(object, workStartNode, reversing)
         dz = dz and math.max(dz, thisDz) or thisDz
         if reversing then
             allShouldBeLowered = allShouldBeLowered and shouldLowerThis
