@@ -46,7 +46,7 @@ function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing)
     local allShouldBeLowered, dz = true
     for object in pairs(self.objectsNotYetLowered) do
         local shouldLowerThis, thisDz = self:shouldLowerThisImplement(object, workStartNode, reversing)
-        dz = dz and math.max(dz, thisDz) or thisDz
+        dz = thisDz and (dz and math.max(dz, thisDz) or thisDz)
         if reversing then
             allShouldBeLowered = allShouldBeLowered and shouldLowerThis
         elseif shouldLowerThis and self.objectsNotYetLowered[object] then
