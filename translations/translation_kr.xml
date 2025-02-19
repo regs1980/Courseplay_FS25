@@ -103,12 +103,12 @@
     <!---->
     <!--AI jobs-->
     <!---->
-    <text name="CP_job_fieldWork" text="CP: 밭 작업"/>
+    <text name="CP_job_fieldWork" text="CP: 필드 작업"/>
     <text name="CP_job_baleCollect" text="CP: 베일 수집/포장"/>
     <text name="CP_job_combineUnload" text="CP: 콤바인 하역"/>
     <text name="CP_job_bunkerSilo" text="CP: 벙커 사일로 작업"/>
     <text name="CP_job_siloLoader" text="CP: 사일로 적재"/>
-    <text name="CP_ai_page_generate_course" text="CP: 밭 작업 경로 생성."/>
+    <text name="CP_ai_page_generate_course" text="CP: 필드 작업 경로 생성."/>
     <text name="CP_ai_page_open_course_generator" text="CP: 경로 생성기 열기/닫기."/>
     <!---->
     <!--AI error messages-->
@@ -164,7 +164,7 @@
     <text name="CP_vehicle_setting_subTitle_implement" text="장비 설정"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="콤바인 설정"/>
     <text name="CP_vehicle_setting_subTitle_seeder" text="파종기 설정"/>
-    <text name="CP_vehicle_setting_subTitle_multitool" text="다중 장비 설정"/>
+    <text name="CP_vehicle_setting_subTitle_multitool" text="다중 작업 설정"/>
     <text name="CP_vehicle_setting_subTitle_speed" text="속도 설정"/>
     <text name="CP_vehicle_setting_subTitle_debug" text="디버그 설정"/>
     <text name="CP_vehicle_setting_showCourse_title" text="경로 표시"/>
@@ -185,7 +185,7 @@
     <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="작업 종료 시 장비 접기"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="업 종료 시 장비를 자동으로 접거나 펴도록 설정합니다."/>
     <text name="CP_vehicle_setting_returnToStart_title" text="시작 지점으로 돌아가기"/>
-    <text name="CP_vehicle_setting_returnToStart_tooltip" text="밭 작업이 끝난 후 시작 지점으로 돌아갑니다."/>
+    <text name="CP_vehicle_setting_returnToStart_tooltip" text="필드 작업이 끝난 후 시작 지점으로 돌아갑니다."/>
     <text name="CP_vehicle_setting_raiseImplementLate_title" text="장비 올리기"/>
     <text name="CP_vehicle_setting_raiseImplementLate_tooltip" text="곡선주행 시작 시 장비를 일찍 또는 늦게 올립니다."/>
     <text name="CP_vehicle_setting_raiseImplementLate_early" text="일찍"/>
@@ -198,14 +198,14 @@
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="필드 내에서만 곡선주행을 수행합니다. 모든 장비에서 가능하지는 않습니다."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="작물 피해 방지"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="AI가 작물을 밟지 않도록 주행합니다."/>
-    <text name="CP_vehicle_setting_toolOffsetX_title" text="장비 수평 오프셋"/>
-    <text name="CP_vehicle_setting_toolOffsetX_tooltip" text="도구의 수평 오프셋 설정"/>
-    <text name="CP_vehicle_setting_baleCollectorOffset_title" text="베일 수집기 오프셋"/>
-    <text name="CP_vehicle_setting_baleCollectorOffset_tooltip" text="베일 수집기의 오프셋 설정"/>
-    <text name="CP_vehicle_setting_combineOffsetX_title" text="콤바인 전방/후방 오프셋(수평)"/>
-    <text name="CP_vehicle_setting_combineOffsetX_tooltip" text="수확 파이프의 오프셋 설정 (좌/우)"/>
-    <text name="CP_vehicle_setting_combineOffsetZ_title" text="콤바인 전방/후방 오프셋(수직)"/>
-    <text name="CP_vehicle_setting_combineOffsetZ_tooltip" text="수확 파이프의 수직 오프셋 설정 (전방+ 및 후방-)"/>
+    <text name="CP_vehicle_setting_toolOffsetX_title" text="장비 수평 간격 설정"/>
+    <text name="CP_vehicle_setting_toolOffsetX_tooltip" text="도구의 수평 간격 설정"/>
+    <text name="CP_vehicle_setting_baleCollectorOffset_title" text="베일 수집기 간격"/>
+    <text name="CP_vehicle_setting_baleCollectorOffset_tooltip" text="베일 수집기의 간격 설정"/>
+    <text name="CP_vehicle_setting_combineOffsetX_title" text="콤바인 전방/후방 간격(수평)"/>
+    <text name="CP_vehicle_setting_combineOffsetX_tooltip" text="수확 파이프의 간격 설정 (좌/우)"/>
+    <text name="CP_vehicle_setting_combineOffsetZ_title" text="콤바인 전방/후방 간격(수직)"/>
+    <text name="CP_vehicle_setting_combineOffsetZ_tooltip" text="수확 파이프의 수직 간격 설정 (전방+ 및 후방-)"/>
     <text name="CP_vehicle_setting_fullThreshold_title" text="하역 임계값:"/>
     <text name="CP_vehicle_setting_fullThreshold_tooltip" text="트레일러가 설정된 비율 이상 채워졌을 때 비우러 갑니다."/>
     <text name="CP_vehicle_setting_useAdditiveFillUnit_title" text="사일리지 첨가제 확인"/>
@@ -226,9 +226,9 @@
     <text name="CP_vehicle_setting_subTitle_bunkerSilo" text="벙커사일로 설정"/>
     <text name="CP_vehicle_setting_bunkerSiloWorkWidth_title" text="작업 폭"/>
     <text name="CP_vehicle_setting_bunkerSiloWorkWidth_tooltip" text="작업 폭을 설정합니다. 값: 0 - 50"/>
-    <text name="CP_vehicle_setting_levelerHeightOffset_title" text="수평조절기 높이 오프셋"/>
+    <text name="CP_vehicle_setting_levelerHeightOffset_title" text="수평조절기 높이 간격"/>
     <text name="CP_vehicle_setting_levelerHeightOffset_tooltip" text="수평조절기를 지면과의 높이로 조정합니다. 값: 0 - 1"/>
-    <text name="CP_vehicle_setting_loadingShovelHeightOffset_title" text="로더 삽 적재 높이 오프셋"/>
+    <text name="CP_vehicle_setting_loadingShovelHeightOffset_title" text="로더 삽 적재 높이 간격"/>
     <text name="CP_vehicle_setting_loadingShovelHeightOffset_tooltip" text="로더 삽 적재 높이를 조정합니다. 값: -1 - 1"/>
     <!---->
     <!--Vehicle settings speed-->
@@ -316,12 +316,12 @@
     <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_tooltip" text="나선형 작업을 내부에서 시작합니다."/>
     <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_title" text="작업 폭 균등화"/>
     <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_tooltip" text="작업 폭을 줄여 모든 작업 경로의 폭을 균등하게 설정합니다."/>
-    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_title" text="헤드랜드 모서리 정리"/>
-    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_tooltip" text="라운드 처리되지 않은 헤드랜드의 모서리를 정리합니다."/>
-    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_title" text="라운드 코너 수"/>
-    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_tooltip" text="첫 번째 헤드랜드부터 시작하여 라운드 코너의 수를 설정합니다."/>
-    <text name="CP_vehicle_courseGeneratorSetting_turningRadius_title" text="코너 반지름"/>
-    <text name="CP_vehicle_courseGeneratorSetting_turningRadius_tooltip" text="차량 회전 반지름을 기반으로 코너의 반지름을 설정합니다. 값: 5 - 15"/>
+    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_title" text="헤드랜드 모서리 직선 정리 "/>
+    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_tooltip" text="곡선처리되지 않은 헤드랜드의 모서리를 직각으로 처리합니다."/>
+    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_title" text="곡선처리 할 헤드랜드 바퀴 수 설정"/>
+    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_tooltip" text="바깥쪽 헤드랜드부터 시작하여 곡선처리할 모서리의 수를 설정합니다."/>
+    <text name="CP_vehicle_courseGeneratorSetting_turningRadius_title" text="곡선처리한 모서리 반지름"/>
+    <text name="CP_vehicle_courseGeneratorSetting_turningRadius_tooltip" text="차량 회전 반지름을 기반으로 모서리의 반지름을 설정합니다. 값: 5 - 15"/>
     <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_title" text="열 작업 방향"/>
     <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_tooltip" text="필드 중앙의 열의 방향을 설정합니다"/>
     <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_automatic" text="자동"/>
@@ -421,7 +421,7 @@
     <!---->
     <text name="CP_courseManager_title" text="경로 관리자 (%s) %s"/>
     <text name="CP_courseManager_no_current_course" text="현재 경로 없음"/>
-    <text name="CP_courseManager_temporary_course" text="임시 경로"/>
+    <text name="CP_courseManager_temporary_course" text="주행 거리"/>
     <text name="CP_courseManager_change_mode" text="모드 변경"/>
     <text name="CP_courseManager_load_courses" text="경로 불러오기"/>
     <text name="CP_courseManager_save_courses" text="경로 저장하기"/>
@@ -591,7 +591,7 @@ Courseplay 작업이 선택되면, 필드 위치를 지정하여 경로를 생�
 기본 사항:
 여기에서 보이는 첫 번째 값들은 가장 기본적인 설정입니다.
 - 작업 폭(Work width): 대부분의 도구는 자동으로 작업 폭을 감지하므로, 이 설정을 신경 쓰지 않아도 됩니다. 그러나 조정하면 전체 경로에 영향을 미칠 수 있습니다.
-- 다중 도구(Multiple Tools): 하나 이상의 차량이 동일한 경로에서 작업하도록 설정할 때 사용하는 옵션입니다. 이 기능은 다소 복잡할 수 있어 별도의 도움말 항목이 마련되어 있습니다.
+- 다중 작업(Multiple Tools): 하나 이상의 차량이 동일한 경로에서 작업하도록 설정할 때 사용하는 옵션입니다. 이 기능은 다소 복잡할 수 있어 별도의 도움말 항목이 마련되어 있습니다.
 - 헤드랜드 개수(Number of Headlands): 차량이 각 행 끝에서 회전할 때 필드를 벗어나지 않도록 하려면 헤드랜드를 추가하는 것이 가장 좋은 방법입니다.
   헤드랜드 개수 × 작업 폭의 값이 차량과 부착된 도구의 전체 길이보다 커야 합니다.
 
@@ -628,7 +628,7 @@ Courseplay 작업이 선택되면, 필드 위치를 지정하여 경로를 생�
 하지만 상황에 따라 다른 방식이 더 적합할 수 있습니다. 
 예를 들어 콤바인으로 수확할 때 '구획(Lands)' 방식을 사용하면 파이프가 작물 밖을 향하도록 유지할 수 있어 하역이 더 효율적입니다.
 사료를 수확하는 경우, '레이스트랙(Racetrack)' 방식이 더 적합하며, 좁은 회전 반경을 줄여 언로더의 작업이 쉬워집니다.
-'나선형(Spiral)' 방식은 오프셋이 있는 견인형(Towed) 수확기에 적합하며, 도구는 작물 내에서 작업하고 트랙터는 외부에서 주행할 수 있도록 합니다.
+'나선형(Spiral)' 방식은 간격이 있는 견인형(Towed) 수확기에 적합하며, 도구는 작물 내에서 작업하고 트랙터는 외부에서 주행할 수 있도록 합니다.
 "/>
     <text name="CP_help_page_courseGeneratorCenterFunctions_text" text="
 - 필드 중앙(Field center): 필드 중앙 패턴을 설정하는 여러 가지 모드가 있습니다. 
@@ -680,7 +680,7 @@ Courseplay 작업이 선택되면, 필드 위치를 지정하여 경로를 생�
 이 설정을 변경하기 전에, 먼저 기본 설정이 어떻게 작동하는지 충분히 숙지하는 것이 좋습니다.
 또한 일부 전문가 모드 설정은 특정 조건에서만 정상적으로 작동합니다.
 
-- 다중 도구(Multiple Tools): 동일한 경로에서 둘 이상의 차량이 작업하도록 설정하는 옵션입니다. 다소 복잡한 설정이므로 별도의 도움말 항목이 제공됩니다.
+- 다중 작업(Multiple Tools): 동일한 경로에서 둘 이상의 차량이 작업하도록 설정하는 옵션입니다. 다소 복잡한 설정이므로 별도의 도움말 항목이 제공됩니다.
 - 좁은 필드(Narrow field): 헤드랜드를 필드의 짧은 두 가장자리에만 생성합니다. 이 경우, 헤드랜드에서 차량이 필드 안에서만 이동하는 것이 불가능할 수 있습니다.
 - 헤드랜드 중첩(Headland overlap): 기본값이 항상 사용되며, 이 값을 변경할 수 있습니다. 
   헤드랜드 중첩은 필드 내부에서만 이루어지며, 필드 경계를 벗어나지 않습니다.
@@ -747,327 +747,397 @@ E: 이 목표 아이콘은 선택한 모드에 따라 다르게 작동하며, AI
 F: 텍스트를 클릭하면 현재 도구에 사용 가능한 모드를 전환할 수 있습니다.  
 G: 이 선 아래에 표시되는 설정은 현재 작업에 따라 달라집니다. 다음 그림에서 자세히 설명됩니다.  
 "/>
-    <text name="CP_help_page_minihud_fieldwork_title" text="Fieldwork"/>
+    <text name="CP_help_page_minihud_fieldwork_title" text="필드 작업"/>
     <text name="CP_help_page_minihud_fieldwork_text" text="
-A: Click to select where to the start the work. If a multitool course is loaded, on the right side you can select the lane.
-B: Displays the name of the loaded course. If you just generated a course, it shows 'temporary course'. On the right side you'll see the current/total waypoints once the job is started.
-C: Clicking on the text will recalculate the working width, or you can set it manually on the right by clicking +/-, or with the mouse wheel over the number.
-D: Some tools need an offset to the side. Courseplay will calculate it automatically when clicking on the text, or you can change it manually just like the working width.
-E: Use the symbol on the right side to copy the current course to the clipboard. The name of the copied course is then shown on the left. You can load the copied course into another vehicle which has no course yet. To remove the course from the clipboard, click on the remove symbol.
+A: 작업을 시작할 위치를 선택하려면 클릭하세요.  
+   다중 작업(multi-tool) 경로가 로드된 경우, 오른쪽에서 차선을 선택할 수 있습니다.  
+B: 불러온 경로의 이름이 표시됩니다. 새로 생성된 경로의 경우 '현재 주행 거리'가 표시됩니다.  
+   작업이 시작되면, 오른쪽에 현재/전체 웨이포인트 수가 표시됩니다.  
+C: 텍스트를 클릭하면 작업 폭이 다시 계산됩니다.  
+   오른쪽에서 + 또는 - 버튼을 클릭하여 수동으로 설정할 수도 있으며, 숫자 위에서 마우스 휠을 사용하여 조정할 수도 있습니다.  
+D: 일부 도구는 측면 간격이 필요합니다.  
+   Courseplay는 텍스트를 클릭하면 이를 자동으로 계산하지만, 작업 폭과 동일한 방식으로 수동 조정도 가능합니다.  
+E: 오른쪽 아이콘을 클릭하면 현재 경로를 클립보드에 복사할 수 있습니다.  
+   복사된 경로의 이름은 왼쪽에 표시됩니다.  
+   아직 경로가 없는 다른 차량에서 복사한 경로를 불러올 수 있습니다.  
+   클립보드에서 경로를 제거하려면 '삭제' 아이콘을 클릭하세요.  
 "/>
-    <text name="CP_help_page_minihud_combineunload_title" text="Combine unloader"/>
+    <text name="CP_help_page_minihud_combineunload_title" text="콤바인 하역"/>
     <text name="CP_help_page_minihud_combineunload_text" text="
-A: Select what type of vehicle should the worker unload. This is useful if you have different types, like a combine and a loader such as the ROPA Maus working on the same field.
-B: Set the fill level (40% - 100%) the worker should drive to the unload site. Click the +/- or use the scroll wheel over the number to change.
-C: Sometimes the position of the unloader under the pipe is less than perfect. This may be due to the trailer or the pipe of the harvester, sometimes caused by the slope of the field. You can manually correct the distance to the harvester here.
-D: Same as above, but here you can adjust the position of the unloader relative to the pipe to the front or to the rear.
-E: Similar to copying a course, here you can copy the marker positions to another vehicle.
+A: 작업자가 어떤 유형의 차량에 하역할지 선택합니다.  
+   이는 동일한 필드에서 콤바인과 ROPA Maus 같은 로더가 함께 작업할 경우 유용합니다.  
+B: 작업자가 하역 지점으로 이동할 필터 기준(40% - 100%)을 설정합니다.  
+   + / - 버튼을 클릭하거나 숫자 위에서 마우스 휠을 사용하여 조정할 수 있습니다.  
+C: 때때로 하역 차량이 콤바인의 파이프 아래에서 정확한 위치를 잡지 못할 수 있습니다.  
+   이는 트레일러나 수확기의 파이프 위치, 혹은 필드의 경사도에 의해 발생할 수 있습니다.  
+   여기에서 콤바인과의 거리를 수동으로 조정할 수 있습니다.  
+D: 위 설정과 유사하지만, 여기에서는 하역 차량이 파이프에 대해 전방 또는 후방으로 얼마나 위치할지 조정할 수 있습니다.  
+E: 경로 복사와 유사하게, 여기에서 마커 위치를 다른 차량으로 복사할 수 있습니다.  
 "/>
-    <text name="CP_help_page_minihud_balecollect_title" text="Bale collect/wrap"/>
+    <text name="CP_help_page_minihud_balecollect_title" text="베일 수거/포장"/>
     <text name="CP_help_page_minihud_balecollect_text" text="
-A: Remaining bales on the field.
-B: Type of the bales to collect/wrap.
-C: Offset between the tractor's centerline and the loader arm's centerline. You may need to adjust this for bigger tractors (e.g. with wider tires).
+A: 필드에 남아 있는 베일 수량.  
+B: 수거 또는 포장할 베일 유형.  
+C: 트랙터 중앙선과 로더에서 수거하는 부분의 중앙선 사이의 간격.  
+   더 큰 트랙터(예: 넓은 타이어 장착)에서는 이 값을 조정해야 할 수도 있습니다.  
 "/>
-    <text name="CP_help_page_minihud_siloloader_title" text="Silo loader"/>
+    <text name="CP_help_page_minihud_siloloader_title" text="사일로 로더"/>
     <text name="CP_help_page_minihud_siloloader_text" text="
-A: Remaining size of the heap in liters.
-B: Working width, same as with fieldwork job.
-C: Courseplay needs the exact height of the bucket above ground set correctly. Since this height can be different for each tool, you can check and adjust it with this setting.
-D: Just like with the unloader, you can copy the marker positions to another vehicle.
+A: 남은 더미 크기(리터 단위).  
+B: 작업 폭, 필드 작업과 동일한 방식으로 설정됩니다.  
+C: Courseplay는 버킷이 지면 위에서 정확한 높이에 있어야 정상적으로 작동합니다.  
+   각 도구마다 적절한 높이가 다를 수 있으므로, 이 설정을 사용하여 확인 및 조정할 수 있습니다.  
+D: 하역 차량과 마찬가지로, 여기에서도 마커 위치를 다른 차량으로 복사할 수 있습니다.  
 "/>
-    <text name="CP_help_page_minihud_siloworker_title" text="Silo worker"/>
+    <text name="CP_help_page_minihud_siloworker_title" text="사일로 작업자"/>
     <text name="CP_help_page_minihud_siloworker_text" text="
-A: Similar to the silo loader, the height of the leveler is critical. You can adjust it here.
-B: Shows the progress of the compacting. Clicking on it, toggles the option to stop the driver when reached full compacting.
-C: You can change the working width when needed here.
-D: This setting tells the worker to wait in the silo or at a selected parking position when an unloader approaches the silo.
+A: 사일로 로더와 마찬가지로, 레벨러의 높이가 중요합니다.  
+   여기에서 높이를 조정할 수 있습니다.  
+B: 압축 진행률을 표시합니다.  
+   클릭하면 압축이 완료되었을 때 작업자가 멈추도록 설정할 수 있습니다.  
+C: 필요에 따라 작업 폭을 조정할 수 있습니다.  
+D: 하역 차량이 사일로에 접근할 때, 작업자가 사일로 내부에서 대기할지  
+   또는 선택한 주차 위치에서 대기할지를 설정합니다.  
 "/>
-    <text name="CP_help_page_customField_title" text="Custom Fields"/>
+    <text name="CP_help_page_customField_title" text="사용자 지정 필드"/>
     <text name="CP_help_page_customFieldRecord_text" text="
-There are two ways to create custom fields.
-The first one is to use the record function of the HUD.
-First press the course record button and then drive the field border that you want to record.
-Once your finished, simply press the button again and you will be asked if you want to save it.
+사용자 지정 필드를 생성하는 방법은 두 가지가 있습니다.  
+첫 번째 방법은 HUD의 녹화 기능을 사용하는 것입니다.  
+먼저 '경로 녹화' 버튼을 누른 후, 기록하려는 필드 경계를 따라 운전하세요.  
+작업이 완료되면 다시 버튼을 눌러 녹화를 종료하면, 저장 여부를 묻는 창이 나타납니다.  
 "/>
     <text name="CP_help_page_customFieldDone_text" text="
-The custom field borders will be displayed in the AI menu.
-By clicking on the name you will get the option to either delete or rename it.
+사용자 지정 필드 경계는 AI 메뉴에서 표시됩니다.  
+이름을 클릭하면 해당 필드를 삭제하거나 이름을 변경할 수 있는 옵션이 나타납니다.  
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="
-The second option is to draw the custom field on the map of the AI menu.
-If no hotspot is selected, you can press the draw custom field button below.
-After that a text appears on the top of your screen.
-Start by clicking the right mouse button for setting the start position.
-The next clicks will create lines to the previous click.
-Click the save button at the bottom to finish drawing the field.
+두 번째 방법은 AI 메뉴의 지도에서 사용자 지정 필드를 직접 그리는 것입니다.  
+핫스팟이 선택되지 않은 경우, 아래에 있는 '사용자 지정 필드 그리기' 버튼을 누르세요.  
+그러면 화면 상단에 안내 문구가 나타납니다.  
+
+먼저 마우스 오른쪽 버튼을 클릭하여 시작 위치를 설정합니다.  
+이후 클릭할 때마다 이전 클릭한 위치와 선이 연결됩니다.  
+필드 그리기를 완료하려면 화면 하단의 '저장' 버튼을 클릭하세요.  
 "/>
-    <text name="CP_help_page_multiConvoy_title" text="Multitool and Convoy"/>
+    <text name="CP_help_page_multiConvoy_title" text="다중 작업 및 대열 주행"/>
     <text name="CP_help_page_multitoolBasic_text" text="
-It is possible to have up to 5 vehicles working together on the same field in a convoy (also called multi tools course).
+최대 5대의 차량이 동일한 필드에서 대열을 이루며 함께 작업할 수 있습니다.  
+(이를 다중 작업 경로라고도 합니다.)
 "/>
     <text name="CP_help_page_multitoolFunction_text" text="
-Once a multi tool course is loaded you will need to select the lane for the driver.
-Those lanes are always named the same:
-left(2), left(1), center, right(1), right(2).
-2 vehicles will have left(1) and right(1), 4 will have left(2) and right(2).
-With 3 or 5 vehicles you will also gain the center option.
+다중 작업 경로가 로드되면, 운전자를 위한 차선을 선택해야 합니다.  
+차선 이름은 항상 동일하게 설정됩니다:  
+왼쪽(2), 왼쪽(1), 가운데, 오른쪽(1), 오른쪽(2).  
+
+- 2대의 차량이 작업할 경우, 왼쪽(1)과 오른쪽(1)이 할당됩니다.  
+- 4대의 차량이 작업할 경우, 왼쪽(2)와 오른쪽(2)도 추가로 할당됩니다.  
+- 3대 또는 5대의 차량이 작업할 경우, 가운데(center) 차선 옵션이 추가로 제공됩니다.  
 "/>
     <text name="CP_help_page_convoyBasic_text" text="
-The convoy only works if the vehicles have the same multi tool course with the same name loaded.
-They will automatically keep a small distance towards the vehicle in front of.
-Additionally the convoy feature also gets applied when for example a baler is driving behind a combine on the same course.
+대열 주행은 모든 차량이 동일한 이름의 다중 작업 경로를 불러온 경우에만 작동합니다.  
+차량들은 자동으로 앞 차량과 일정 거리를 유지합니다.  
+
+또한, 이 기능은 콤바인의 뒤를 따라가는 베일러와 같이  
+동일한 경로에서 작업하는 차량에도 적용됩니다.  
 "/>
     <text name="CP_help_page_convoyFunction_text" text="
-The convoy distance vehicle setting changes the distance between the vehicles.
-The distance of all vehicles with the same course name will be automatically set to the highest value of all vehicles in the convoy.
+대열 주행 거리 설정을 변경하면 차량 간 거리가 조정됩니다.  
+동일한 다중 작업 경로를 로드한 모든 차량의 거리는  
+대열 내에서 가장 높은 거리 값으로 자동 설정됩니다.  
 "/>
-    <text name="CP_help_page_wrapCollect_title" text="Bale wrapping and collecting"/>
+    <text name="CP_help_page_wrapCollect_title" text="베일 포장 및 수거"/>
     <text name="CP_help_page_wrapCollectBasic_text" text="
-Wrapping and collecting bales can be done in two different ways.
-The first one is to load the same course you used for your baler and let the wrapper or collector run that course.
-However this can be tricky, as some bales love to roll or fly off the path.
-At this point, our wrap and collect job type can help as it doesn't need a course.
-Stay on the field and just start the driver from the HUD with wrap/collect bales or use the AI Map to send him to a field to start the job.
+베일 포장 및 수거 작업은 두 가지 방법으로 수행할 수 있습니다.  
+
+첫 번째 방법은 베일러에서 사용한 것과 동일한 다중 작업 경로를 로드한 후,  
+포장기 또는 수거 차량이 해당 경로를 따라 작업하도록 하는 것입니다.  
+하지만 일부 베일은 굴러가거나 경로에서 벗어나기 쉬우므로 주의가 필요합니다.  
+
+이럴 때, '포장 및 수거' 작업 유형을 사용하면 별도의 경로 없이 작업할 수 있습니다.  
+필드에 머무른 상태에서 HUD에서 '베일 포장/수거' 작업을 시작하거나,  
+AI 지도에서 작업자를 필드로 보내 작업을 시작할 수 있습니다.
 "/>
     <text name="CP_help_page_wrapBasic_text" text="
-Wrapping bales is very simple. Load a course of your baler and start like any other Fieldwork Job, or without a course,
-start it with bale wrapping/collecting from the HUD or the AI Menu.
+베일 포장은 매우 간단합니다.  
+베일러에서 사용한 경로를 로드한 후, 일반 필드 작업과 동일한 방식으로 시작할 수 있습니다.  
+또는 별도의 경로 없이, HUD나 AI 메뉴에서 '베일 포장/수거' 작업을 시작할 수도 있습니다.
 "/>
     <text name="CP_help_page_wrapFunction_text" text="
-When using a course, the helper drives with a preset offset so the wrappers pickup is in the middle of the course.
-Without a course, the Courseplay scans the field for unwrapped bales and uses the pathfinder to find a way to
-the best closest bale to wrap.
-Automatic backing up if a bale is in front of the vehicle or if we are too close to the field border should prevent accidents.
+경로를 사용할 경우, 작업자는 미리 설정된 간격을 유지하여  
+포장기의 픽업부가 경로의 중앙에 위치하도록 주행합니다.  
+
+경로 없이 작업할 경우, Courseplay는 필드에서 포장되지 않은 베일을 스캔한 후  
+경로 탐색기를 사용하여 가장 가까운 베일로 이동해 포장을 수행합니다.  
+
+자동 후진 기능이 있어, 차량 앞에 베일이 있거나 필드 경계에 너무 가까운 경우  
+충돌을 방지할 수 있습니다.
 "/>
     <text name="CP_help_page_collectBasic_text" text="
-Collecting bales works kinda the same, with or without a course.
-When the collector is full, it will stop the work and tells the user it needs to be unloaded. If you have AutoDrive
-installed you can use it to run an unload the bale collector automatically.
+베일 수거 작업은 경로를 사용하든 사용하지 않든 동일한 방식으로 진행됩니다.  
+
+수거 차량이 가득 차면 작업을 멈추고, 하역이 필요함을 사용자에게 알립니다.  
+AutoDrive가 설치되어 있다면, 이를 이용해 베일 수거 차량을 자동으로 하역할 수도 있습니다.
 "/>
-    <text name="CP_help_page_symetricLaneChange_title" text="Symetric lange change"/>
+    <text name="CP_help_page_symetricLaneChange_title" text="대칭 차선 변경"/>
     <text name="CP_help_page_symetricLaneChangeBasic_text" text="
-Symmetric lane change is used in multitool courses and tells the driver in which lane he has to drive after the turn.
-This is a bit hard to understand so let's have a look at two examples.
+대칭 차선 변경은 다중 작업 경로에서 사용되며,  
+작업자가 회전 후 어느 차선으로 이동할지를 결정합니다.  
+이 개념을 이해하기 어렵기 때문에, 두 가지 예시를 통해 살펴보겠습니다.
 "/>
     <text name="CP_help_page_symetricLaneChangeExampleOff_text" text="
-When the symmetric lane change is turned off, the vehicle stays on it's offset lane.
-That means he always drives left or right from the course.
-This ensures, that the helpers are not driving alongside each other.
-There won't be a risk of on conflict with another driver.
+대칭 차선 변경이 비활성화된 경우, 차량은 기존의 간격 유지 차선에서 이동합니다.  
+즉, 차량은 항상 경로의 왼쪽 또는 오른쪽에서 주행하게 됩니다.  
+
+이 설정을 사용하면 작업자들이 서로 나란히 주행하지 않도록 조정할 수 있습니다.  
+따라서 다른 작업자와의 경로 충돌 위험이 없습니다.
 "/>
     <text name="CP_help_page_symetricLaneChangeExampleOn_text" text="
-If symmetric lane change is turned on, left and right will be exchanged (but not shown in the HUD).
-Vehicles can conflict with each other, when they drive towards each other.
-What is the advantage of symmetric lange change then ?
-If you have a look at the order of the lanes, from left to right, it will be clear:
-Without symetric change: left, right, left, right - it is almost like skipping a lane.
-With symetric change: left, right, right, left - from left to right, one lane after the other.
-In the example with the Combine it means, no Combine will have fruit left and right of its lane.
+대칭 차선 변경이 활성화되면, 좌측과 우측이 서로 바뀌지만  
+(HUD에서는 그대로 표시됨) 차량들이 서로 마주 보고 주행할 경우 충돌할 수 있습니다.  
+
+그렇다면 대칭 차선 변경의 장점은 무엇일까요?  
+차선을 왼쪽에서 오른쪽 순서로 정렬해서 보면 더 명확해집니다.  
+
+- 대칭 변경 **비활성화**: 왼쪽, 오른쪽, 왼쪽, 오른쪽 - 차선을 건너뛰는 것처럼 보입니다.  
+- 대칭 변경 **활성화**: 왼쪽, 오른쪽, 오른쪽, 왼쪽 - 차선이 순차적으로 정렬됩니다.  
+
+예를 들어 콤바인의 경우, 대칭 차선 변경이 활성화되면  
+어느 콤바인도 차선의 좌우에 미수확 작물을 남기지 않게 됩니다.
 "/>
-    <text name="CP_help_page_infoPanel_title" text="Info panel"/>
+    <text name="CP_help_page_infoPanel_title" text="정보 패널"/>
     <text name="CP_help_page_infoPanelBasic_text" text="
-This is our Info Panel, it can be moved arround with the mouse courser, just like our Mini HUD.
-Beside the name and the version of our Mod, it also shows status inforamtions about the cp drivers.
-While hovering the status message, the name of the vehicle will be displayed.
-By clicking on it, you can jump directly into the vehicle.
+이것이 Courseplay의 정보 패널입니다.  
+마우스 커서를 이용해 Mini HUD처럼 자유롭게 이동할 수 있습니다.  
+
+이 패널에는 Courseplay의 이름과 버전뿐만 아니라  
+작업 중인 CP 운전자들의 상태 정보도 표시됩니다.  
+
+상태 메시지 위에 마우스를 올리면 차량의 이름이 표시되며,  
+이를 클릭하면 해당 차량으로 바로 이동할 수 있습니다.
 "/>
     <text name="CP_help_page_infoPanelMsg_text" text="
-The Informations are the following:
-- Helper is stuck
-- Blocked by an object
-- Should be refueled
-- Needs to be refueled
-- Needs to be repaired
-- Needs to be refilled
-- Needs to be unloaded
-- Finished work
-- Ouf of money
-- Waiting for rain to finish
+상태 메시지는 다음과 같습니다:
+- 작업자가 멈췄습니다.
+- 객체에 의해 막혔습니다.
+- 연료를 보충해야 합니다.
+- 연료 보급이 필요합니다.
+- 수리가 필요합니다.
+- 보충이 필요합니다.
+- 하역이 필요합니다.
+- 작업이 완료되었습니다.
+- 자금이 부족합니다.
+- 비가 멈출 때까지 대기 중입니다.
 "/>
-    <text name="CP_help_page_vineWork_title" text="Vine work"/>
+    <text name="CP_help_page_vineWork_title" text="포도밭 작업"/>
     <text name="CP_help_page_vineWorkConditions_text" text="
-Working on vines is a bit more complex then working on a normal field.
-To have the best result, the vines should all be next to each other within the default grid.
-The end and start of each vine, should also be approximately the same length.
-If the vines are on an existing field, you can open the generator the direct way like normal.
-If they are not on a field, you have to go over the AI Menu and place the field marker on the vines.
+포도밭 작업은 일반 필드 작업보다 더 복잡합니다.  
+최상의 작업 결과를 얻으려면 포도나무가 기본 그리드 내에서 나란히 배치되어 있어야 합니다.  
+또한 각 포도나무의 시작과 끝 지점의 길이가 대략적으로 동일해야 합니다.  
+
+포도밭이 기존 필드에 있는 경우, 일반 필드 작업처럼 생성기를 바로 열 수 있습니다.  
+하지만 필드에 속하지 않은 경우, AI 메뉴를 통해 필드 마커를 포도나무 위에 배치해야 합니다.
 "/>
     <text name="CP_help_page_vineWorkGenerator_text" text="
-The generator for vines has less options.
-Depending on the tool, you have to choose to work on the vines or beside the vines.
-E.g. the default harvester needs to drive and work on the vine.
-     The pre-pruner needs to drive left from the vines but works on the vine, so you have to choose to work on the vine, but drive with an offset.
-     Sprayers need to drive next to the vines and need to skip one row, since it sprays to the left and the right.
+포도밭 작업을 위한 생성기는 옵션이 더 적습니다.  
+사용하는 도구에 따라 포도나무 위에서 작업할지, 옆에서 작업할지를 선택해야 합니다.  
+
+예시:
+- 기본 수확기는 포도나무 위에서 주행하며 작업해야 합니다.  
+- 프리프루너(가지치기 기계)는 포도나무 왼쪽에서 주행하지만 작업은 포도나무에서 이루어지므로,  
+  '포도나무에서 작업'을 선택한 후, 간격을 두고 주행해야 합니다.  
+- 살포기는 포도나무 옆에서 주행하며, 왼쪽과 오른쪽 모두 살포하므로 한 줄을 건너뛰어야 합니다.
 "/>
     <text name="CP_help_page_vineWorkHarvester_text" text="
-A vine course should be generated on the vines, as it got to drive and work on the vines.
-"/>
-    <text name="CP_help_page_vineWorkPruner_text" text="
-The pre-pruner works on the vines, so the course have to be generated on the vines.
-The Tools comes with an offset for the tractor, so the tractor drives between the vines.
+포도 수확 작업은 반드시 포도나무 위에서 경로를 생성해야 합니다.  
+이는 차량이 포도나무 위에서 주행하며 작업해야 하기 때문입니다.
 "/>
     <text name="CP_help_page_vineWorkSprayer_text" text="
-The sprayer works next to the vines so it has to drive either left or right from the vines.
-Since the sprayer can work on the left and right vines at the same time, we can skip a row.
+살포기는 포도나무 옆에서 주행하며 작업을 수행합니다.  
+따라서 포도나무의 왼쪽 또는 오른쪽에서 주행해야 합니다.  
+살포기는 좌우 양쪽 포도나무를 동시에 작업할 수 있으므로 한 줄을 건너뛸 수 있습니다.
 "/>
-    <text name="CP_help_page_editor_title" text="Course editor"/>
+    <text name="CP_help_page_editor_title" text="경로 편집기"/>
     <text name="CP_help_page_editorGeneral_text" text="
-The course editor can be used to edit courses and custom fields.
-The loaded courses will be saved/overritten automatically, when the editor is closed.
+경로 편집기는 경로 및 사용자 지정 필드를 편집하는 데 사용할 수 있습니다.  
+불러온 경로는 편집기를 닫을 때 자동으로 저장/덮어쓰기됩니다.  
 
-1) Editing a custom field can be done with a selected field on the ai menu page.
-2) Editing a course can be done in the course manager. 
-   There you can edit a saved course, but be sure you cleared the currently loaded course from the vehicle.
+1) 사용자 지정 필드를 편집하려면 AI 메뉴에서 필드를 선택해야 합니다.  
+2) 경로를 편집하려면 경로 관리자에서 진행할 수 있습니다.  
+   저장된 경로를 편집할 수 있지만, 차량에서 현재 불러온 경로를 먼저 제거해야 합니다.  
 
-Editing of course should only be done, when the course generator can't produce a good enough course.
-Incorrect editing might couse problems for the cp driver, as the waypoints have hidden attributes.
+경로 편집은 생성기가 적절한 경로를 만들지 못할 경우에만 수행해야 합니다.  
+잘못된 편집은 CP 작업자에게 문제를 일으킬 수 있으며, 웨이포인트에는 숨겨진 속성이 포함될 수 있습니다.
 "/>
     <text name="CP_help_page_editorBasic_text" text="
-Under the basic category are:
-1) The move brush moves a hovered waypoint to the brush position.
-2) The insert brush can insert waypoints ahead or behind of a selected waypoint.
+기본 편집 도구에는 다음과 같은 기능이 포함됩니다:  
 
-Deleting of waypoints can be done with the red delete button.
+1) 이동 브러시(Move Brush): 마우스를 올린 웨이포인트를 브러시 위치로 이동합니다.  
+2) 삽입 브러시(Insert Brush): 선택한 웨이포인트 앞 또는 뒤에 새로운 웨이포인트를 삽입할 수 있습니다.  
+
+웨이포인트 삭제는 빨간색 '삭제' 버튼을 사용하여 수행할 수 있습니다.
 "/>
     <text name="CP_help_page_editorAdvanced_text" text="
-Under the advanced category are:
-1) A brush to move multiple waypoints in between to selected waypoints.
-2) A brush to insert a curve of waypoints between to selected waypoints.
-3) A brush to set the turn attribute of a waypoint(only with a course and not a custom field).
+고급 편집 도구에는 다음과 같은 기능이 포함됩니다:  
+
+1) 선택한 두 웨이포인트 사이의 여러 웨이포인트를 이동할 수 있는 브러시.  
+2) 선택한 두 웨이포인트 사이에 곡선 형태의 웨이포인트를 삽입하는 브러시.  
+3) 웨이포인트에 회전 속성을 설정하는 브러시(다중 작업 경로에서만 사용 가능, 사용자 지정 필드에는 적용되지 않음).  
 "/>
-    <text name="CP_help_page_unloader_title" text="Harvester unloader"/>
+    <text name="CP_help_page_unloader_title" text="수확기 하역"/>
     <text name="CP_help_page_unloaderGeneral_text" text="
-The unloader mode of Courseplay works with combines, harvesters and towed harvesters driven by Courseplay.
-It does not work with choppers.
-You can either use a regular trailer or an auger wagon to unload a combine.
-To empty trailers, you can use the Giants Helper or AutoDrive.
-Starting the unloader requires a few things:
-- You need to have a single trailer or auger wagon attached. Multiple trailers are not supported.
-- Use the Target Icon on the HUD to select the field being harvested. The unloader will unload all Courseplay driven harvesters working on that field.
-- You must be on the field or within 20 meters of the field to start the unloader.
+Courseplay의 하역 모드는 콤바인, 수확기, 견인식(towed/포도용) 수확기에서 작동합니다.  
+하지만 초퍼(Chopper)와는 호환되지 않습니다.  
 
-Unloaders have only a few settings you can tweak:
-- You can set the fill level at which the unloader will consider itself full. This
-is to avoid waiting for a combine to call with a trailer almost full.
-- You can use the offsets in the HUD to adjust the position of the unloader under the harvester's pipe.
+콤바인의 하역에는 일반 트레일러 또는 오거 왜건을 사용할 수 있습니다.  
+트레일러를 비우려면 Giants 작업자 또는 AutoDrive를 사용할 수 있습니다.  
 
+하역을 시작하기 위해서는 몇 가지 조건이 필요합니다:  
+- 단일 트레일러 또는 오거 왜건이 부착되어 있어야 합니다. 다중 트레일러는 지원되지 않습니다.  
+- HUD의 '목표 아이콘'을 사용하여 수확 중인 필드를 선택해야 합니다.  
+  그러면 해당 필드에서 Courseplay를 사용하는 모든 수확기의 하역을 담당합니다.  
+- 하역 차량은 필드 안에 있거나 필드에서 20m 이내에 위치해야 합니다.  
+
+하역 차량에서 조정할 수 있는 설정은 몇 가지뿐입니다:  
+- 하역 차량이 가득 찼다고 판단하는 충전 기준치를 설정할 수 있습니다.  
+  이를 통해, 트레일러가 거의 가득 찬 상태에서 콤바인의 호출을 기다리는 시간을 줄일 수 있습니다.  
+- HUD에서 간격 설정을 사용하여 하역 차량이 수확기의 파이프 아래에서 정렬되는 위치를 조정할 수 있습니다.  
 "/>
-    <text name="CP_help_page_unloaderTrailer_title" text="Using trailers"/>
+    <text name="CP_help_page_unloaderTrailer_title" text="트레일러 사용"/>
     <text name="CP_help_page_unloaderTrailer_text" text="
-If you use a trailer to unload, there are two ways to transport your harvest to a silo or to a selling point: the Giants helper
-or AutoDrive.
-You can either use the AI Menu and create a Job, then by activating the Giants helper function and unload target at the
-bottom of the list, or by activation of the wheel icon on the HUD.
-In the latter case, you have to choose the unload station after the wheel icon turns blue.
+트레일러를 사용하여 하역할 경우, 수확물을 사일로 또는 판매 지점으로 운반하는 방법은 두 가지가 있습니다:  
+Giants 작업자를 사용하거나 AutoDrive를 활용하는 것입니다.  
 
-Emptying a trailer with AutoDrive works the same as using a loading wagon, check out the AutoDrive Tutorials on the Internet.
+AI 메뉴에서 작업을 생성한 후, Giants 작업자 기능을 활성화하고  
+목록 하단에서 하역 대상 지점을 설정할 수 있습니다.  
+또는 HUD에서 '톱니바퀴 아이콘'을 활성화하여 설정할 수도 있습니다.  
+이 경우, 톱니바퀴 아이콘이 파란색으로 바뀐 후 하역 장소를 선택해야 합니다.  
+
+AutoDrive를 사용하여 트레일러를 비우는 방식은 적재 왜건을 사용하는 것과 동일합니다.  
+자세한 내용은 인터넷에서 AutoDrive 튜토리얼을 참고하세요.
 "/>
-    <text name="CP_help_page_unloaderAuger_title" text="Using auger wagons"/>
+    <text name="CP_help_page_unloaderAuger_title" text="오거 왜건 사용"/>
     <text name="CP_help_page_unloaderAuger_text" text="
-Auger wagons are very simple to use.
-Just like with trailers, you use the target icon to choose the field where you want to unload a combine or harvester.
-To start the unloader, place it again on the field or within 20 meters of the field.
-If the auger wagon is full, it automatically looks for a trailer on or near the field to overload into it.
-In case the trailer is full and the auger wagon still not empty, it will look for another trailer to unload to.
-Is no trailer available, it will continue to unload the combine.
+오거 왜건은 사용하기 매우 간단합니다.  
+트레일러와 마찬가지로 '목표 아이콘'을 사용하여 하역할 필드를 선택합니다.  
+하역을 시작하려면 차량이 필드 내에 있거나 필드에서 20m 이내에 있어야 합니다.  
+
+오거 왜건이 가득 차면, 자동으로 필드 위나 근처에 있는 트레일러를 찾아 하역합니다.  
+트레일러가 가득 차고도 오거 왜건에 남은 곡물이 있다면,  
+다른 트레일러를 찾아 하역을 시도합니다.  
+만약 하역할 트레일러가 없을 경우, 계속해서 콤바인에서 하역을 진행합니다.
 "/>
-    <text name="CP_help_page_unloaderFieldUnload_title" text="Unload on the field"/>
+    <text name="CP_help_page_unloaderFieldUnload_title" text="필드에서 하역"/>
     <text name="CP_help_page_unloaderFieldUnload_text" text="
-The unloading position can be selected with the unload marker.
-The position needs to be on the same field or near the field edge.
-If the marker points to an already existing heap, 
-then this heap is used to unload to.
-The direction of the marker is used for the unload direction.
-Additionally for trailers a tipside needs to be selected.
+하역 위치는 '하역 마커'를 사용하여 선택할 수 있습니다.  
+이 위치는 동일한 필드 위이거나 필드 가장자리 근처여야 합니다.  
+
+만약 마커가 기존에 쌓인 더미를 가리키고 있다면,  
+해당 더미에 추가로 하역이 이루어집니다.  
+또한 마커의 방향이 하역 방향을 결정합니다.  
+
+트레일러를 사용할 경우, 하역 방향을 선택해야 합니다.
 "/>
-    <text name="CP_help_page_bunker_title" text="Bunker silo worker"/>
+    <text name="CP_help_page_bunker_title" text="벙커 사일로 작업자"/>
     <text name="CP_help_page_bunkerGeneral_text" text="
-Courseplay is able to compact or distribute chaff in a bunker silo or push chaff in a wedge silo.
-Compacting is possible without any special tool, with a roller, weight or just the vehicle.
-For distribution, there are special tools. (e.g. der Fliegel DUO).
-For wedge silos, a shield is used to push the chaff to the back of the silo.
+Courseplay을 사용하면 벙커 사일로에서 초목(chaff)을 압축하거나 분배할 수 있으며,  
+쐐기형 사일로에서 초목을 뒤쪽으로 밀어넣을 수도 있습니다.  
+
+압축 작업은 특별한 도구 없이도 가능하며, 롤러, 중량 또는 차량 자체를 이용할 수 있습니다.  
+분배 작업을 위해서는 전용 도구(Fliegel DUO 같은)가 필요합니다.  
+쐐기형 사일로에서는 방패(Shield)를 사용하여 초목을 뒤쪽으로 밀어넣습니다.
 "/>
     <text name="CP_help_page_bunkerBasic_text" text="
-If the vehicle has a distributor or shield attached, the Silo mode is preselected. With only a weight or a roller attached
-you toggle through the starting point until the mode appears.
-Beside the working width, you can also select the direction the driver should drive into the silo. With a shield attached,
-the direction is selected automatically.
-Use the target icon on the HUD to select the silo on the AI Map. If will be shown with blue lines and lights up white if it is selected.
-The parking position is set with the marker &quot;parking position&quot; wich can also be used to drive there with the Giants helper
-before starting the actual work.
+차량에 분배기 또는 방패가 부착되어 있으면 자동으로 '사일로 모드'가 선택됩니다.  
+중량이나 롤러만 부착된 경우, 시작 지점을 변경하면서 모드를 선택해야 합니다.  
+
+작업 폭을 설정하는 것 외에도, 작업자가 사일로 내부로 진입할 방향을 설정할 수 있습니다.  
+방패가 부착된 경우, 방향이 자동으로 설정됩니다.  
+
+HUD에서 '목표 아이콘'을 사용하여 AI 지도에서 사일로를 선택할 수 있습니다.  
+선택된 사일로는 파란색 선으로 표시되며, 선택되면 흰색으로 강조됩니다.  
+
+'주차 위치' 마커를 사용하여 차량의 대기 위치를 설정할 수 있습니다.  
+또한, 이 위치로 이동한 후 Giants 작업자를 이용하여 실제 작업을 시작할 수도 있습니다.
 "/>
-    <text name="CP_help_page_siloLoader_title" text="Silo loading"/>
+    <text name="CP_help_page_siloLoader_title" text="사일로 적재"/>
     <text name="CP_help_page_siloLoaderGeneral_text" text="
-With this job it's possible to load from heaps on or near the field.
-Additionally it's possible to load from a bunker silo.
-The loader can be unloaded with an Courseplay unloader.
+이 작업을 통해 필드 위나 근처에 있는 더미에서 적재하는 것이 가능합니다.  
+또한, 벙커 사일로에서도 적재할 수 있습니다.  
+적재된 자재는 Courseplay 하역 차량을 통해 하역할 수 있습니다.
 "/>
     <text name="CP_help_page_siloLoaderBasic_text" text="
-To start the loading-marker on the AI menu needs to be set.
-The marker detects heaps or silos and highlights them on the map.
-Now it's possible to start the helper.
+적재를 시작하려면 AI 메뉴에서 '적재 마커'를 설정해야 합니다.  
+마커는 더미 또는 사일로를 감지하고 지도에서 이를 강조 표시합니다.  
+이제 작업자를 시작할 수 있습니다.
 "/>
-    <text name="CP_help_page_shovelLoader_title" text="Wheelloader Driver"/>
+    <text name="CP_help_page_shovelLoader_title" text="휠로더 작업"/>
     <text name="CP_help_page_shovelLoaderGeneral_text" text="
-This mode enables wheel loader and tractors with a front loader. 
-With a shovel attached a heap can be picked up from the ground or loading from a bunker silo can be accomplished.
-The picked up fill level can be unloaded automatically into a nearby trailer or a selected unloading station like a BGA.
-The shovel will automatically be moved to the correct positions for loading, unloading and so on.
-In case the mode is not directly visable on the hud, you can toggle the &quot;start position&quot; until the shovel mode appears.
+이 모드는 휠로더 및 프론트 로더가 장착된 트랙터에서 사용할 수 있습니다.  
+삽(Shovel)이 장착된 경우, 지면에서 더미를 퍼올리거나 벙커 사일로에서 적재 작업을 수행할 수 있습니다.  
+적재된 자재는 근처 트레일러나 BGA와 같은 선택한 하역 지점에 자동으로 하역됩니다.  
 
-The target icon on the hud can be used to open the AI map to select the loading and the unloading targets.
-The hud also shows the leftover fill level of the heap or silo, while the helper is working.
-If the loading target is a bunker silo, then the work width might need to be adjusted to avoid hitting the side walls of the silo.
+삽은 자동으로 로딩, 언로딩 등 올바른 위치로 이동합니다.  
+HUD에서 해당 모드가 바로 표시되지 않는 경우, '시작 위치' 옵션을 변경하면 삽 모드가 나타납니다.  
 
-The hight offset setting is used to adjust the hight above the ground, as not all shovel can calculated correctly. 
-This should be checked, if the shovel is to low for loading and the driver can't turn anymore or the shovel is to high and fill level is missed to the ground.
-If the value gets changed, the shovel will automatically move to the loading position to show the impact of the offset.
-To reset the offset you need to click on the settings text in the hud. The value can be adjusted from +1 to -1 in 0.1 setps.
+HUD의 '목표 아이콘'을 사용하여 AI 지도에서 적재 및 하역 위치를 선택할 수 있습니다.  
+또한 작업 중일 때, HUD에는 더미 또는 사일로의 남은 적재량이 표시됩니다.  
 
-Shovels with a silage grab will open and close automatically for loading and unloading.
-The shovel to shred sugar beets is completly functional as well.
+하역 지점이 벙커 사일로인 경우, 사일로 벽과 충돌하지 않도록 작업 폭을 조정해야 할 수도 있습니다.  
+
+**높이 간격 설정**은 삽이 지면에서 얼마나 떨어져 있어야 하는지를 조정하는 기능입니다.  
+모든 삽이 정확한 높이로 계산되지 않을 수 있으므로, 로딩이 제대로 되지 않거나  
+작업자가 운전할 수 없는 경우 높이를 조정해야 합니다.  
+
+설정을 변경하면 삽이 자동으로 적재 위치로 이동하여 간격 조정이 미치는 영향을 보여줍니다.  
+기본값으로 재설정하려면 HUD에서 설정 텍스트를 클릭해야 합니다.  
+값은 **+1에서 -1까지 0.1 단위로 조정**할 수 있습니다.  
+
+사일리지 집게가 장착된 삽은 적재 및 하역 시 자동으로 열리고 닫힙니다.  
+사탕무 절단기도 완전히 정상적으로 작동합니다.
 "/>
     <text name="CP_help_page_shovelLoaderBasic_text" text="
-To start a wheel loader helper, you need to set the load and unload positions by clicking the target icon on the hud.
-The loading position works the same like the one from the loader mode. A blue square will be created arround the heap.
+휠로더 작업자를 시작하려면 HUD에서 '목표 아이콘'을 클릭하여 적재 및 하역 위치를 설정해야 합니다.  
+적재 위치는 로더 모드에서와 동일하게 작동하며, 더미 주위에 파란색 사각형이 생성됩니다.  
 
-The unloading position depends if you want to unload into a trailer or into an unloading station.
-If unloading into the trailer is selected, then the area where the trailer will be parked needs to be selected on the AI Menu.
-The helper will drive to any parked trailer in the area. The direction of the marker has no real meaning.
-If you want to unload into an unloading station, you need to switch the target and then mark the trigger with the unloading position.
+하역 위치는 트레일러 또는 하역 지점 중 어디로 하역할지에 따라 달라집니다.  
+- 트레일러로 하역하는 경우, AI 메뉴에서 트레일러가 주차될 위치를 선택해야 합니다.  
+  작업자는 해당 영역 내에 있는 트레일러로 이동하여 하역을 진행합니다.  
+  이때 마커의 방향은 의미가 없습니다.  
+- 하역 지점으로 하역하려면, 목표를 변경한 후 하역 위치를 트리거에 맞춰 설정해야 합니다.
 "/>
     <text name="CP_help_page_shovelLoaderTrigger_text" text="
-Selecting a trigger does look a bit complicated at first, but in reality it is really easy.
-Every building can have more then one trigger so you have to choose the one you want to unload to.
-All available triggers will be shown with an orange cross on the AI Map.
-To select one place the middle of the round marker on the middle of the cross.
-The driection of the arrow tells the helper from which direction he will approach the trigger for unloading.
-Now your selection should look similar to the image.
+트리거 선택은 처음에는 다소 복잡해 보일 수 있지만, 실제로는 매우 간단합니다.  
+건물마다 여러 개의 트리거가 있을 수 있으므로, 원하는 하역 지점을 직접 선택해야 합니다.  
+
+사용 가능한 모든 트리거는 AI 지도에서 주황색 십자(+)로 표시됩니다.  
+트리거를 선택하려면 원형 마커의 중앙을 주황색 십자의 중심에 맞추세요.  
+
+화살표 방향은 작업자가 어느 방향에서 트리거로 접근하여 하역할지를 나타냅니다.  
+이제 선택한 트리거가 이미지와 유사하게 표시될 것입니다.
 "/>
     <!---->
     <!--Input bindings-->
     <!---->
-    <text name="input_CP_DBG_CHANNEL_SELECT_PREVIOUS" text="CP: Select next debug channel."/>
-    <text name="input_CP_DBG_CHANNEL_SELECT_NEXT" text="CP: Select previous debug channel."/>
-    <text name="input_CP_DBG_CHANNEL_TOGGLE_CURRENT" text="CP: Change current debug channel."/>
-    <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Shows debug channel menu yes/no."/>
-    <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Open mini GUI"/>
-    <text name="input_CP_START_STOP" text="CP: Start/stop driver"/>
-    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Start/stop driver (at first waypoint)"/>
-    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Start/stop driver (at nearest waypoint)"/>
-    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Start/stop driver (at last waypoint)"/>
-    <text name="input_CP_GENERATE_COURSE" text="CP: Change current selected job"/>
-    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: Change current selected job"/>
-    <text name="input_CP_CHANGE_STARTING_POINT" text="CP: Changes starting point"/>
-    <text name="input_CP_CLEAR_COURSE" text="CP: Clears currently loaded course"/>
-    <text name="input_CP_CHANGE_COURSE_VISIBILITY" text="Show the current course of the vehicle"/>
-    <text name="input_CP_TOGGLE_MOUSE" text="CP: Mouse cursor on/off"/>
-    <text name="input_CP_OPEN_CLOSE_HUD" text="CP: Open/close hud"/>
-    <text name="input_CP_OPEN_VEHICLE_SETTINGS" text="CP: Opens vehicle settings"/>
-    <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Opens global settings"/>
-    <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Open course generator/job menu"/>
-    <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Opens course manager"/>
-    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Open menu"/>
+    <text name="input_CP_DBG_CHANNEL_SELECT_PREVIOUS" text="CP: 이전 디버그 채널 선택"/>
+    <text name="input_CP_DBG_CHANNEL_SELECT_NEXT" text="CP: 다음 디버그 채널 선택"/>
+    <text name="input_CP_DBG_CHANNEL_TOGGLE_CURRENT" text="CP: 현재 디버그 채널 변경"/>
+    <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: 디버그 채널 메뉴 표시 여부"/>
+    <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: 미니 GUI 열기"/>
+    <text name="input_CP_START_STOP" text="CP: 작업자 시작/정지"/>
+    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: 작업자 시작/정지 (첫 번째 웨이포인트에서)"/>
+    <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: 작업자 시작/정지 (가장 가까운 웨이포인트에서)"/>
+    <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: 작업자 시작/정지 (마지막 웨이포인트에서)"/>
+    <text name="input_CP_GENERATE_COURSE" text="CP: 현재 선택한 작업 변경"/>
+    <text name="input_CP_CHANGE_SELECTED_JOB" text="CP: 현재 선택한 작업 변경"/>
+    <text name="input_CP_CHANGE_STARTING_POINT" text="CP: 시작 지점 변경"/>
+    <text name="input_CP_CLEAR_COURSE" text="CP: 현재 불러온 경로 삭제"/>
+    <text name="input_CP_CHANGE_COURSE_VISIBILITY" text="차량의 현재 경로 표시"/>
+    <text name="input_CP_TOGGLE_MOUSE" text="CP: 마우스 커서 켜기/끄기"/>
+    <text name="input_CP_OPEN_CLOSE_HUD" text="CP: HUD 열기/닫기"/>
+    <text name="input_CP_OPEN_VEHICLE_SETTINGS" text="CP: 차량 설정 열기"/>
+    <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: 전역 설정 열기"/>
+    <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: 경로 생성기/작업 메뉴 열기"/>
+    <text name="input_CP_OPEN_COURSEMANAGER" text="CP: 경로 관리자 열기"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: 메뉴 열기"/>
   </texts>
 </l10n>
