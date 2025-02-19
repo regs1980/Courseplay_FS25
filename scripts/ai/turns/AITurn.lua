@@ -1008,6 +1008,7 @@ function StartRowOnly:init(vehicle, driveStrategy, ppc, turnContext, startRowCou
     self:addState('IMPLEMENTS_LOWERING')
     self.vehicle = vehicle
     self.settings = vehicle:getCpSettings()
+    self.workStartHandler = WorkStartHandler(vehicle, driveStrategy)
     self.turningRadius = AIUtil.getTurningRadius(self.vehicle)
     ---@type AIDriveStrategyFieldWorkCourse
     self.driveStrategy = driveStrategy
