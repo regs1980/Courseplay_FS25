@@ -96,7 +96,7 @@
     <!---->
     <text name="CP_siloLoaderJobParameters_subTitle_loadPosition" text="적재 위치"/>
     <text name="CP_siloLoaderJobParameters_loadPosition_title" text="적재 위치"/>
-    <text name="CP_siloLoader_fillLevelProgress" text="진행 상태: "/>
+    <text name="CP_siloLoader_fillLevelProgress" text="진행 상태:"/>
     <text name="CP_siloLoaderJobParameters_subTitle_unloading" text="하역 위치:"/>
     <text name="CP_siloLoaderJobParameters_unloadAt_trailer" text="트레일러"/>
     <text name="CP_siloLoaderJobParameters_unloadAt_unloadTrigger" text="하역 위치"/>
