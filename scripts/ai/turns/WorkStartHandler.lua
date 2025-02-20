@@ -10,13 +10,17 @@ function WorkStartHandler:init(vehicle, driveStrategy)
     self.driveStrategy = driveStrategy
     self.settings = vehicle:getCpSettings()
     self.objectsAlreadyLowered = {}
-    self.objectsNotYetLowered = {}
-    -- the vehicle itself may have AI markers -> has work areas (built-in implements like a mower or cotton harvester)
-    self.objectsNotYetLowered[vehicle] = true
+    self.objectsToLower = {}
     self.nObjectsToLower = 1
-    for _, implement in pairs(AIUtil.getAllAIImplements(self.vehicle)) do
-        self.objectsNotYetLowered[implement.object] = true
-        self.nObjectsToLower = self.nObjectsToLower + 1
+    for _, object in pairs(vehicle:getChildVehicles()) do
+        local aiLeftMarker, aiRightMarker, aiBackMarker = WorkWidthUtil.getAIMarkers(object, true)
+        if aiLeftMarker then
+            self.objectsToLower[object] = true
+            self.nObjectsToLower = self.nObjectsToLower + 1
+            self.logger:debug('%s has AI markers, will lower it', CpUtil.getName(object))
+        else
+            self.logger:debug('%s has no AI markers, no need to lower it', CpUtil.getName(object))
+        end
     end
 end
 
@@ -35,33 +39,37 @@ end
 ---@param workStartNode number same as turn end node as in TurnContext, a node pointing into same direction as the row being started
 ---@param reversing boolean are we reversing? When reversing towards the work start, we'll have to lower all implements at the
 --- same time, once all of them are beyond the work start node.
-function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing)
+---@return number distance between the work start and the implement furthest to the work start in meters,
+---<0 when driving forward, nil when driving backwards
+function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing, loweringCheckDistance)
     local function lowerThis(object)
         self.logger:debug('Lowering implement %s', CpUtil.getName(object))
         object:aiImplementStartLine()
-        self.objectsNotYetLowered[object] = nil
         table.insert(self.objectsAlreadyLowered, object)
     end
 
-    local allShouldBeLowered, dz = true
-    for object in pairs(self.objectsNotYetLowered) do
+    local allShouldBeLowered, dz = true, 0
+    for object in pairs(self.objectsToLower) do
         local shouldLowerThis, thisDz = self:shouldLowerThisImplement(object, workStartNode, reversing)
-        dz = thisDz and (dz and math.max(dz, thisDz) or thisDz)
         if reversing then
+            dz = math.max(dz, thisDz)
             allShouldBeLowered = allShouldBeLowered and shouldLowerThis
-        elseif shouldLowerThis and self.objectsNotYetLowered[object] then
-            lowerThis(object)
-            if self:oneLowered() then
-                self.driveStrategy:raiseControllerEvent(AIDriveStrategyCourse.onLoweringEvent)
-            end
-            if self:allLowered() then
-                self.vehicle:raiseStateChange(VehicleStateChange.AI_START_LINE)
+        else
+            dz = math.min(dz, thisDz)
+            if shouldLowerThis and not self.objectsAlreadyLowered[object] then
+                lowerThis(object)
+                if self:oneLowered() then
+                    self.driveStrategy:raiseControllerEvent(AIDriveStrategyCourse.onLoweringEvent)
+                end
+                if self:allLowered() then
+                    self.vehicle:raiseStateChange(VehicleStateChange.AI_START_LINE)
+                end
             end
         end
     end
     if reversing and allShouldBeLowered then
         self.logger:debug('Reversing and now all implements should be lowered')
-        for object in pairs(self.objectsNotYetLowered) do
+        for object in pairs(self.objectsToLower) do
             lowerThis(object)
         end
         self.driveStrategy:raiseControllerEvent(AIDriveStrategyCourse.onLoweringEvent)
@@ -75,13 +83,10 @@ end
 --- the implement should be in the working position after a turn
 ---@param reversing boolean are we reversing? When reversing towards the turn end point, we must lower the implements
 --- when we are _behind_ the turn end node (dz < 0), otherwise once we reach it (dz > 0)
----@return boolean, boolean, number the second one is true when the first is valid, and the distance to the work start
---- in meters (<0) when driving forward, nil when driving backwards.
+---@return boolean, number the second one is true when the first is valid, and the distance to the work start
+--- in meters ,< 0 when driving forward, 0 > when driving backwards.
 function WorkStartHandler:shouldLowerThisImplement(object, workStartNode, reversing)
     local aiLeftMarker, aiRightMarker, aiBackMarker = WorkWidthUtil.getAIMarkers(object, true)
-    if not aiLeftMarker then
-        return true, nil
-    end
     local dxLeft, _, dzLeft = localToLocal(aiLeftMarker, workStartNode, 0, 0, 0)
     local dxRight, _, dzRight = localToLocal(aiRightMarker, workStartNode, 0, 0, 0)
     local dxBack, _, dzBack = localToLocal(aiBackMarker, workStartNode, 0, 0, 0)
@@ -106,7 +111,7 @@ function WorkStartHandler:shouldLowerThisImplement(object, workStartNode, revers
             CpUtil.getName(object), dzLeft, dzRight, aligned, dzFront, dxFront, dzBack, loweringDistance, tostring(reversing))
     local dz = self.driveStrategy:getImplementLowerEarly() and dzFront or dzBack
     if reversing then
-        return dz < 0, nil
+        return dz < 0, dz
     else
         -- dz will be negative as we are behind the target node. Also, dx must be close enough, otherwise
         -- we'll lower them way too early if approaching the turn end from the side at about 90° (and we
