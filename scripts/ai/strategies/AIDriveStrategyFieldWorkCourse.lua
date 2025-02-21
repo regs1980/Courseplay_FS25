@@ -300,32 +300,6 @@ function AIDriveStrategyFieldWorkCourse:startWaitingForLower()
     end
 end
 
-
---- When finishing a turn, is it time to lower all implements here?
--- TODO: remove the reversing parameter and use ppc to find out once not called from turn.lua
-function AIDriveStrategyFieldWorkCourse:shouldLowerImplements(turnEndNode, reversing)
-    -- see if the vehicle has AI markers -> has work areas (built-in implements like a mower or cotton harvester)
-    local doLower, vehicleHasMarkers, dz = self:shouldLowerThisImplement(self.vehicle, turnEndNode, reversing)
-    if not vehicleHasMarkers and reversing then
-        -- making sure the 'and' below will work if reversing and the vehicle has no markers
-        doLower = true
-    end
-    -- and then check all implements
-    for _, implement in ipairs(AIUtil.getAllAIImplements(self.vehicle)) do
-        if reversing then
-            -- when driving backward, all implements must reach the turn end node before lowering, hence the 'and'
-            doLower = doLower and self:shouldLowerThisImplement(implement.object, turnEndNode, reversing)
-        else
-            -- when driving forward, if it is time to lower any implement, we'll lower all, hence the 'or'
-            local lowerThis, _, thisDz = self:shouldLowerThisImplement(implement.object, turnEndNode, reversing)
-            dz = dz and math.max(dz, thisDz) or thisDz
-            doLower = doLower or lowerThis
-        end
-    end
-    return doLower, dz
-end
-
-
 --- Are all implements now aligned with the node? Can be used to find out if we are for instance aligned with the
 --- turn end node direction in a question mark turn and can start reversing.
 function AIDriveStrategyFieldWorkCourse:areAllImplementsAligned(node)
