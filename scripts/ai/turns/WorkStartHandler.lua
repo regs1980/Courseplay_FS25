@@ -10,28 +10,29 @@ function WorkStartHandler:init(vehicle, driveStrategy)
     self.driveStrategy = driveStrategy
     self.settings = vehicle:getCpSettings()
     self.objectsAlreadyLowered = {}
+    self.nObjectsAlreadyLowered = 0
     self.objectsToLower = {}
-    self.nObjectsToLower = 1
+    self.nObjectsToLower = 0
     for _, object in pairs(vehicle:getChildVehicles()) do
         local aiLeftMarker, aiRightMarker, aiBackMarker = WorkWidthUtil.getAIMarkers(object, true)
         if aiLeftMarker then
             self.objectsToLower[object] = true
             self.nObjectsToLower = self.nObjectsToLower + 1
-            self.logger:debug('%s has AI markers, will lower it', CpUtil.getName(object))
+            self.logger:debug('%s has AI markers, will lower', CpUtil.getName(object))
         else
-            self.logger:debug('%s has no AI markers, no need to lower it', CpUtil.getName(object))
+            self.logger:debug('%s has no AI markers, no need to lower', CpUtil.getName(object))
         end
     end
 end
 
 ---@return boolean true if all implements are being lowered (they not necessarily have been completely lowered yet)
 function WorkStartHandler:allLowered()
-    return #self.objectsAlreadyLowered == self.nObjectsToLower
+    return self.nObjectsAlreadyLowered == self.nObjectsToLower
 end
 
 ---@return boolean true if at least one implement has been lowered
 function WorkStartHandler:oneLowered()
-    return #self.objectsAlreadyLowered > 0
+    return self.nObjectsAlreadyLowered > 0
 end
 
 --- Call this in update loop while the vehicle is approaching the start of the row. This will lower the implements
@@ -43,9 +44,11 @@ end
 ---<0 when driving forward, nil when driving backwards
 function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing, loweringCheckDistance)
     local function lowerThis(object)
-        self.logger:debug('Lowering implement %s', CpUtil.getName(object))
+        self.objectsAlreadyLowered[object] = true
+        self.nObjectsAlreadyLowered = self.nObjectsAlreadyLowered + 1
+        self.logger:debug('Lowering implement %s, %d left', CpUtil.getName(object),
+                self.nObjectsToLower - self.nObjectsAlreadyLowered)
         object:aiImplementStartLine()
-        table.insert(self.objectsAlreadyLowered, object)
     end
 
     local allShouldBeLowered, dz = true, 0

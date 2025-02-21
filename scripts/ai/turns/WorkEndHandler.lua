@@ -9,24 +9,29 @@ function WorkEndHandler:init(vehicle, driveStrategy)
     self.vehicle = vehicle
     self.driveStrategy = driveStrategy
     self.objectsAlreadyRaised = {}
-    self.objectsNotYetRaised = {}
-    -- the vehicle itself may have AI markers -> has work areas (built-in implements like a mower or cotton harvester)
-    self.objectsNotYetRaised[vehicle] = true
-    self.nObjectsToRaise = 1
-    for _, implement in pairs(AIUtil.getAllAIImplements(self.vehicle)) do
-        self.objectsNotYetRaised[implement.object] = true
-        self.nObjectsToRaise = self.nObjectsToRaise + 1
+    self.nObjectsAlreadyRaised = 0
+    self.objectsToRaise = {}
+    self.nObjectsToRaise = 0
+    for _, object in pairs(vehicle:getChildVehicles()) do
+        local aiLeftMarker, aiRightMarker, aiBackMarker = WorkWidthUtil.getAIMarkers(object, true)
+        if aiLeftMarker then
+            self.objectsToRaise[object] = true
+            self.nObjectsToRaise = self.nObjectsToRaise + 1
+            self.logger:debug('%s has AI markers, will raise', CpUtil.getName(object))
+        else
+            self.logger:debug('%s has no AI markers, no need to raise', CpUtil.getName(object))
+        end
     end
 end
 
 ---@return boolean true if all implements are being raised (they not necessarily have been completely raised yet)
 function WorkEndHandler:allRaised()
-    return #self.objectsAlreadyRaised == self.nObjectsToRaise
+    return self.nObjectsAlreadyRaised == self.nObjectsToRaise
 end
 
 ---@return boolean true if at least one implement has been raised
 function WorkEndHandler:oneRaised()
-    return #self.objectsAlreadyRaised > 0
+    return self.nObjectsAlreadyRaised > 0
 end
 
 --- Call this in update loop while the vehicle is approaching the end of the row. This will raise the implements
@@ -35,14 +40,15 @@ end
 --- positioned where the worked area ends.
 function WorkEndHandler:raiseImplementsAsNeeded(workEndNode)
     -- and then check all implements
-    for object in pairs(self.objectsNotYetRaised) do
+    for object in pairs(self.objectsToRaise) do
         local shouldRaiseThis = self:shouldRaiseThisImplement(object, workEndNode)
         -- only when _all_ implements can be raised will we raise them all, hence the 'and'
-        if shouldRaiseThis and self.objectsNotYetRaised[object] then
-            self.logger:debug('Raising implement %s', CpUtil.getName(object))
+        if shouldRaiseThis and not self.objectsAlreadyRaised[object] then
+            self.objectsAlreadyRaised[object] = true
+            self.nObjectsAlreadyRaised = self.nObjectsAlreadyRaised + 1
+            self.logger:debug('Raising implement %s, %d left', CpUtil.getName(object),
+                    self.nObjectsToRaise - self.nObjectsAlreadyRaised)
             object:aiImplementEndLine()
-            self.objectsNotYetRaised[object] = false
-            table.insert(self.objectsAlreadyRaised, object)
             if self:oneRaised() then
                 self.driveStrategy:raiseControllerEvent(AIDriveStrategyCourse.onRaisingEvent)
             end
