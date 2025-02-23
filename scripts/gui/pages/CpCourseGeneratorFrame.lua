@@ -89,8 +89,15 @@ function CpCourseGeneratorFrame.new(target, custom_mt)
 	self.isInputContextActive = false
 	self.driveToAiTargetMapHotspot = AITargetHotspot.new()
 	self.fieldSiloAiTargetMapHotspot = AITargetHotspot.new()
-	self.fieldSiloAiTargetMapHotspot.icon:setUVs(GuiUtils.getUVs({760, 0, 100, 100}, AIPlaceableMarkerHotspot.FILE_RESOLUTION))
+	self.fieldSiloAiTargetMapHotspot.icon:setUVs(
+		GuiUtils.getUVs({760, 0, 100, 100}, 
+		AIPlaceableMarkerHotspot.FILE_RESOLUTION))
 	self.unloadAiTargetMapHotspot = AITargetHotspot.new()
+	self.unloadAiTargetMapHotspot.icon:delete()
+	self.unloadAiTargetMapHotspot.icon = g_overlayManager:createOverlay(
+		"cpUi.unloadMarker", 0, 0, 
+		self.unloadAiTargetMapHotspot.width, 
+		self.unloadAiTargetMapHotspot.height)
 	self.loadAiTargetMapHotspot = AITargetHotspot.new()
 
 	self.aiTargetMapHotspot = self.driveToAiTargetMapHotspot
