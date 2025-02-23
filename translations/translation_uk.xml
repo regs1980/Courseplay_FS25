@@ -286,7 +286,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_title" text="Перекриття розворотних смуг"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_tooltip" text="Перекриття проходів розворотних смуг у відсотках від робочої ширини. Значення: 0 - 25."/>
     <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_title" text="Зсув меж поля"/>
-    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Додатні значення зменшують розмір поля, від'ємні - збільшують робочу область за межі поля. Значення: -2 - 5.8."/>
+    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Додатні значення зменшують розмір поля, від'ємні - збільшують робочу область за межі поля. Значення: -5 - 5.8."/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_title" text="Пропускати проходів"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_tooltip" text="Скільки пропускати проходів при переході до наступного проходу при реверсивному (човниковому) методі. Значення: 0 - 6."/>
     <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_title" text="Кількість кіл"/>

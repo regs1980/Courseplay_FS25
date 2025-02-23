@@ -286,7 +286,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_title" text="Manevra koridoru çakışması"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_tooltip" text="Manevra koridorlarını çalışma genişliğinin belirli yüzdesi kadar çakıştırır. Değer: 0 - 25"/>
     <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_title" text="Tarla payı"/>
-    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Pozitif değerler tarla boyutunu küçültür, negatif değerler tarla boyutunu artırır. Değer: -2 - +5.8"/>
+    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Pozitif değerler tarla boyutunu küçültür, negatif değerler tarla boyutunu artırır. Değer: -5 - +5.8"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_title" text="Atlanacak satırlar"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_tooltip" text="Merkez modu 'git/gel' olduğunda bir sonraki satıra dönüş yaparken atlanacak satır sayısı. Değer: 0 - 6"/>
     <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_title" text="Halka sayısı"/>

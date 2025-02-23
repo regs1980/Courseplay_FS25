@@ -2024,6 +2024,8 @@ the generator offers is to experiment with it.
 			<Text language="de"><![CDATA[
 Grundeinstellungen:
 - Arbeitsbreite: Die Arbeitsbreite der meisten Geräte wird exakt erkannt und es muss nichts weiter eingestellt werden. Wird der Wert angepasst, hat es Einfluss auf den gesamten Kurs.
+- Feldgrenze: Positive Werte reduzieren den Arbeitsbereich, um einen Puffer zum Feldrand zu generieren. Das ist nützlich, sollten sich einige Objekte zu dicht an der Feldkante befinden.
+Negative Werte vergrößern den Arbeitsbereich über das Feld hinaus, um eine größere Abdeckung zu bekommen, z.B. wenn der Feldrand nicht genau genug erkannt wurde.
 - Anzahl Vorgewende: Damit deine Fahrzeuge und Geräte beim Wenden auf dem Feld bleiben, solltest du am besten ein paar Vorgewende einstellen.
 Die Anzahl der Vorgewende, multipliziert mit der Arbeitsbreite sollte in etwa die Länge des Fahrzeugs plus das angehängte Arbeitsgerät sein.
 - Starten auf: Wie im erweiterten Helfermenü beschrieben, wird die Feldposition benutzt, um den Start- oder Endpunkt auf dem Feld zu bestimmen.
@@ -2034,6 +2036,8 @@ Basics:
 The first few values you see here are real basic stuff.
 - Work width: Courseplay automatically detects the working width for most tools, so you won't have to worry about this,
 but if automatic detection fails, you can set it manually. This setting has an impact on the overall course.
+- Field Margin: Positive values reduce field size to add a buffer around the worked area in case you have obstacles near the field border.
+Negative values enlarge worked area beyond the field boundary to cover up field borders that are not perfectly detected.
 - Number of headlands: The best way to keep your vehicles on the field while turning at the end of each row is to add headlands.
 The Number of the Headlands multiplied by the work width should be at least the total length of your vehicle plus the attached tool.
 - Start work on: As mentioned in the extended AI Menu, the field position is used to set the start or end position for
@@ -2060,8 +2064,6 @@ Headlands are highly recommended to prevent tools leaving the field when turning
 - Eckenradius: Bestimmt den Radius den runde Ecken haben sollen. Weiß man bereits, dass ein nachfolgender Arbeitsschritt mit einem Gerät bearbeitet wird, was einen minimalen Radius von 10 hat, kann man für den Kurs bereits diesen Radius einstellen.
 - Vorgewende-Richtung: Im Uhrzeigersinn oder gegen den Uhrzeigersinn. Das kann für Drescher oder Ernter entscheidend sein, abhängig davon auf welcher Seite sich das Abladerohr oder Förderband befindet.
 - Vorgewende-Überlappung: Wie viel % Überlappung die Vorgewende haben sollen. Die erste Vorgewendebahn hat keine Überlappung mit dem Feldrand, alle weiteren Bahnen überlappen mit der jeweils vorherigen Bahn.
-- Feldgrenze: Positive Werte reduzieren den Arbeitsbereich, um einen Puffer zum Feldrand zu generieren. Das ist nützlich, sollten sich einige Objekte zu dicht an der Feldkante befinden.
-Negative Werte vergrößern den Arbeitsbereich über das Feld hinaus, um eine größere Abdeckung zu bekommen, z.B. wenn der Feldrand nicht genau genug erkannt wurde.
 ]]></Text>
 			<Text language="en"><![CDATA[
 - Sharpen headland corners: Sharpen the corners of the headlands which are not rounded. Will force the vehicle to make a
@@ -2072,8 +2074,6 @@ corners are based on the vehicle's turning radius, so for these headlands, the v
 - Headland direction: clockwise or counter-clockwise. This can be important for combines and harvesters, depending on
 which side the pipe or conveyor belt is.
 - Headland overlap: How much one headland overlaps with the next. This is to avoid missing fruit in some cases.
-- Field Margin: Positive values reduce field size to add a buffer around the worked area in case you have obstacles near the field border.
-Negative values enlarge worked area beyond the field boundary to cover up field borders that are not perfectly detected.
 ]]></Text>
 		</Translation>
 		<Translation name="CP_help_page_courseGeneratorCenter_text">
@@ -2188,9 +2188,9 @@ Bevor ihr euch mit den Einstellmöglichkeiten beschäftigt, solltet ihr euch ers
 
 - Fahrzeuge auf dem Feld: Mit dieser Einstellung könnt ihr mehr als ein Fahrzeug das Feld abarbeiten lassen. Mehr Details dazu gibt es unter einem extra Punkt im Hilfemenü.
 - Bahnen tauschen: Ist diese Option aktiviert, wird die Seite des Fahrzeug "vertauscht", dafür sind die Wendemanöver für alle Bahnen gleich breit. Für mehr Details, schau dir dazu die Hilfeseite "Bahnen tauschen" an.
+- Feldgrenze: Mit dieser Einstellung lässt sich die Feldgrenze weiter nach innen oder außen verschieben und somit lässt sich der normale Feldrand verschieben.
 - Enges Feld: Erzeugt nur an den kürzesten Feldrandseiten ein Vorgewende. Es lässt sich aktuell nicht vermeiden, dass Fahrzeuge an den langen Seiten im Vorgewende das Feld verlassen.
 - Vorgewende-Überlappung: Es ist ein Standardwert eingestellt, der immer verwendet wird. Dieser kann aber mit dieser Einstellung angepasst werden. Die Überlappung findet innerhalb des Feldes statt und ragt nicht über den Feldrand hinaus.
-- Feldgrenze: Mit dieser Einstellung lässt sich die Feldgrenze weiter nach innen oder außen verschieben und somit lässt sich der normale Feldrand verschieben.
 - Bahnenform anhand der Feldkante: Ein ganz neues Feature, welches nur auf bestimmten Feldern funktioniert. Hat man ein Feld mit einem langen Bogen als Feldgrenze und setzt den Feldmarker in die Nähe dieses Feldrands, so werden die Bahnen in der Mitte den Verlauf des Feldrands annehmen.
 ANMERKUNG: Sollte ein Kurs nicht sauber generiert werden, funktioniert diese Funktion nicht auf dem Feld oder mit dem Feldrand. Es wird dafür auch kein Update geben!
 ]]></Text>
@@ -2201,9 +2201,9 @@ Some expert settings only work properly under some conditions.
 
 - Multiple tools: This setting is used when you want more than just one vehicle to work on your course. As this gets a bit more complicated, there is a separate help topic for it.
 - Switching lanes: With this option active, vehicles switch lanes at each turn, so every vehicle's turn is of the same width. See the extra help menu "Switching lanes" for more details.
+- Field margin: This setting lets you move the field border in- or outwards of the original border.
 - Narrow field: Creates the headland only at two short edges of the field. In that case, it is not possible to keep your vehicle on the field on the longest edges at the headland.
 - Headland overlap: By default, headland passes overlap each other (but never the field edge) by a few percent to avoid missing fruit in some edge cases. You can change that overlap here.
-- Field margin: This setting lets you move the field border in- or outwards of the original border.
 - Use base line edge: With this setting you can generate curved up/down rows, running parallel with the edge of the field near the field marker. This makes sense when the field edge is not straight, the up/down rows will follow the curve of the edge.
 IMPORTANT NOTE: This is an experimental setting which may not work for all field shapes. If it doesn't work, try another setting.
 ]]></Text>

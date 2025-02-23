@@ -286,7 +286,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_title" text="Souvraťový přesah"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_tooltip" text="Překrývání tras na souvrati jako procento pracovní šířky. Hodnota: 0 - 25"/>
     <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_title" text="Okraj pole"/>
-    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Kladné hodnoty zmenšují velikost pole. Záporné hodnoty zvětšují velikost pole. Hodnota: -2 - 5.8"/>
+    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Kladné hodnoty zmenšují velikost pole. Záporné hodnoty zvětšují velikost pole. Hodnota: -5 - 5.8"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_title" text="Řádky k přeskočení"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_tooltip" text="Řádky, které se mají přeskočit při přechodu na další řádek nahoru/dolů. Hodnota: 0 - 6"/>
     <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_title" text="Počet obkroužení"/>

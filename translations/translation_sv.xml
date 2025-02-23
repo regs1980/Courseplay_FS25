@@ -286,7 +286,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_title" text="Vändtegens överlapp"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_tooltip" text="Överlappa vändtegens spår med så många procent av arbetsbredden. Value: 0 - 25"/>
     <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_title" text="Fältmarginal"/>
-    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Positiva värden minskar fältstorleken för att lägga till en buffert runt det arbetade området, negativa förstora arbetats område bortom fältgränsen. Värde: -2 - 5.8"/>
+    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Positiva värden minskar fältstorleken för att lägga till en buffert runt det arbetade området, negativa förstora arbetats område bortom fältgränsen. Värde: -5 - 5.8"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_title" text="Rader att hoppa över"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_tooltip" text="Rader att hoppa över när du byter till nästa Upp/Ner rad. Value: 0 - 6"/>
     <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_title" text="Number of circles"/>
