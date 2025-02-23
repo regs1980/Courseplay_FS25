@@ -296,10 +296,10 @@ TypeManager.finalizeTypes = Utils.prependedFunction(TypeManager.finalizeTypes, C
 --- as the onLoad()/onUpdate() events might break the game ...
 function Courseplay.disableCpSpecsInShop(vehicle, vehicleData)
 	if vehicleData.propertyState == VehiclePropertyState.SHOP_CONFIG then	
-		CpUtil.debugVehicle(vehicle, CpDebug.DBG_HUD, "is displayed in shop config!")
+		CpUtil.debugVehicle(CpDebug.DBG_HUD, vehicle, "is displayed in shop config!")
 		for name, spec in pairs(vehicle.specializationsByName) do 
 			if string.startsWith(name, g_Courseplay.MOD_NAME) then 
-				CpUtil.debugVehicle(vehicle, CpDebug.DBG_HUD, 
+				CpUtil.debugVehicle(CpDebug.DBG_HUD, vehicle,
 					"found a cp spec to remove: %s, %s!", name, spec.className)
 				CpUtil.removeEventListenersBySpecialization(vehicle, 
 					CpUtil.getClassObject(spec.className))
