@@ -292,5 +292,23 @@ function Courseplay.register(typeManager)
 end
 TypeManager.finalizeTypes = Utils.prependedFunction(TypeManager.finalizeTypes, Courseplay.register)
 
+--- Removes all CP Specs in the shop config screen, 
+--- as the onLoad()/onUpdate() events might break the game ...
+function Courseplay.disableCpSpecsInShop(vehicle, vehicleData)
+	if vehicleData.propertyState == VehiclePropertyState.SHOP_CONFIG then	
+		CpUtil.debugVehicle(CpDebug.DBG_HUD, vehicle, "is displayed in shop config!")
+		for name, spec in pairs(vehicle.specializationsByName) do 
+			if string.startsWith(name, g_Courseplay.MOD_NAME) then 
+				CpUtil.debugVehicle(CpDebug.DBG_HUD, vehicle,
+					"found a cp spec to remove: %s, %s!", name, spec.className)
+				CpUtil.removeEventListenersBySpecialization(vehicle, 
+					CpUtil.getClassObject(spec.className))
+			end
+		end
+	end
+end
+Vehicle.load = Utils.prependedFunction(
+	Vehicle.load, Courseplay.disableCpSpecsInShop)
+
 g_Courseplay = Courseplay()
 addModEventListener(g_Courseplay)
