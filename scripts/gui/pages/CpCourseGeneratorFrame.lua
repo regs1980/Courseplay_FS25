@@ -99,6 +99,11 @@ function CpCourseGeneratorFrame.new(target, custom_mt)
 		self.unloadAiTargetMapHotspot.width, 
 		self.unloadAiTargetMapHotspot.height)
 	self.loadAiTargetMapHotspot = AITargetHotspot.new()
+	self.loadAiTargetMapHotspot.icon:delete()
+	self.loadAiTargetMapHotspot.icon = g_overlayManager:createOverlay(
+		"cpUi.loadMarker", 0, 0, 
+		self.loadAiTargetMapHotspot.width, 
+		self.loadAiTargetMapHotspot.height)
 
 	self.aiTargetMapHotspot = self.driveToAiTargetMapHotspot
 	self.updateTime = 0
