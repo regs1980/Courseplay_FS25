@@ -54,5 +54,7 @@
         <slice id="editorAdvancedInsert" uvs="896px 640px 128px 128px"/>
         <slice id="skip" uvs="0px 768px 128px 128px"/>
         <slice id="editor" uvs="128px 768px 128px 128px"/>
+        <slice id="unloadMarker" uvs="256px 768px 128px 128px"/>
+        <slice id="loadMarker" uvs="384px 768px 128px 128px"/>
     </slices>
 </texture>
