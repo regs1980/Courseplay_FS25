@@ -1494,7 +1494,7 @@ function CpCourseGeneratorFrame:setMapSelectionItem(hotspot)
 			end
 			if vehicle.getJob ~= nil then
 				local job = vehicle:getJob()					
-				if job ~= nil then
+				if job ~= nil and job.getCpJobParameters then
 					--- Shows the target marker of the current job on the map.
 					for _, parameter in pairs(job:getCpJobParameters():getAiTargetMapHotspotParameters()) do
 						if parameter:getPositionType() == CpAIParameterPositionAngle.POSITION_TYPES.DRIVE_TO then 
