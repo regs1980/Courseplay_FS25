@@ -24,7 +24,6 @@
     <text name="CP_error_start_position_to_far_away_from_field" text="작업 시작 위치가 필드에서 너무 멀리 떨어져 있습니다."/>
     <text name="CP_error_giants_unloader_not_available" text="최종 하역 지점을 사용할 수 없습니다."/>
     <text name="CP_error_fieldUnloadPosition_too_far_away_from_field" text="하역 지점이 필드에서 너무 멀리 떨어져 있습니다."/>
-    <text name="CP_error_vehicle_too_far_away_from_field" text="작업 차량이 필드와의 거리가 너무 멀어 작업을 시작할 수 없습니다."/>
     <text name="CP_error_no_bunkerSilo_found" text="벙커 사일로를 찾을 수 없습니다."/>
     <text name="CP_error_no_heap_found" text="사일로를 찾을 수 없습니다."/>
     <text name="CP_error_no_unload_trigger_found" text="하역 지점을 찾을 수 없습니다."/>
@@ -950,6 +949,10 @@ AutoDrive가 설치되어 있다면, 이를 이용해 베일 수거 차량을 �
     <text name="CP_help_page_vineWorkHarvester_text" text="
 포도 수확 작업은 반드시 포도나무 위에서 경로를 생성해야 합니다.  
 이는 차량이 포도나무 위에서 주행하며 작업해야 하기 때문입니다.
+"/>
+    <text name="CP_help_page_vineWorkPruner_text" text="
+The pre-pruner works on the vines, so the course has to be generated on the vines.
+The tool comes with an offset for the tractor, so the tractor drives between the vines.
 "/>
     <text name="CP_help_page_vineWorkSprayer_text" text="
 살포기는 포도나무 옆에서 주행하며 작업을 수행합니다.  
