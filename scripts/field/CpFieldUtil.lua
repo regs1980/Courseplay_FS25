@@ -77,33 +77,59 @@ function CpFieldUtil.getFieldIdAtWorldPosition(posX, posZ)
     return field and field:getId() or 0
 end
 
-function CpFieldUtil.saveAllFields()
-    local fileName = string.format('%s/cpFields.xml', g_Courseplay.debugPrintDir)
-    local xmlFile = createXMLFile("cpFields", fileName, "CPFields");
-    if xmlFile and xmlFile ~= 0 then
-        for _, field in pairs(g_fieldManager:getFields()) do
-            local points = CpFieldUtil.getFieldPolygon(field)
-            local key = ("CPFields.field(%s)"):format(field:getId());
-            setXMLInt(xmlFile, key .. '#fieldNum', field:getId());
-            setXMLInt(xmlFile, key .. '#numPoints', #points);
-            for i, point in ipairs(points) do
-                setXMLString(xmlFile, key .. (".point%d#pos"):format(i), ("%.2f %.2f %.2f"):format(point.x, point.y, point.z))
-            end
-            local islandNodes = CourseGenerator.Island.findIslands(
-                    CourseGenerator.Field(field:getId(), field:getId(), Polygon(CpMathUtil.pointsFromGameInPlace(points))))
-            CpMathUtil.pointsToGameInPlace(islandNodes)
-            for i, islandNode in ipairs(islandNodes) do
-                setXMLString(xmlFile, key .. (".islandNode%d#pos"):format(i), ("%.2f %2.f"):format(islandNode.x, islandNode.z))
-            end
-            CpUtil.info('Field %s saved', field:getId())
-        end
+local xmlFile, fileName, fields, currentField, currentFieldKey
+
+function CpFieldUtil.saveNextField()
+    currentFieldKey, currentField = next(fields, currentFieldKey)
+    local vehicle = CpUtil.getCurrentVehicle()
+    if not vehicle then
+        CpUtil.error('Must be in a vehicle to save fields')
         saveXMLFile(xmlFile);
         delete(xmlFile);
-
-        CpUtil.info('Saved all fields to %s', fileName)
+        return
+    end
+    if currentField then
+        vehicle:cpDetectFieldBoundary(currentField.posX, currentField.posZ, nil, CpFieldUtil.onFieldBoundaryDetectionFinished)
     else
-        CpUtil.info("Error: field could not be saved to ", g_Courseplay.debugPrintDir);
-    end ;
+        saveXMLFile(xmlFile);
+        delete(xmlFile);
+        CpUtil.info('Saved all fields to %s', fileName)
+    end
+end
+
+function CpFieldUtil.onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, islandPolygons)
+    if fieldPolygon then
+        local key = ('CPFields.field(%s)'):format(currentFieldKey - 1);
+        setXMLInt(xmlFile, key .. '#fieldNum', currentField:getId());
+        setXMLInt(xmlFile, key .. '#numPoints', #fieldPolygon);
+        for i, point in ipairs(fieldPolygon) do
+            setXMLString(xmlFile, key .. ('.point(%s)#pos'):format(i - 1), ('%.2f %.2f'):format(point.x, point.z))
+        end
+        CpUtil.info('Field %s saved', currentField:getId())
+        if islandPolygons then
+            for i, islandPolygon in ipairs(islandPolygons) do
+                local islandKey = key .. ('.island(%s)'):format(i - 1)
+                for j, islandPolygonVertex in ipairs(islandPolygon) do
+                    setXMLString(xmlFile, islandKey .. ('.vertex(%s)#pos'):format(j - 1),
+                            ('%.2f %2.f'):format(islandPolygonVertex.x, islandPolygonVertex.z))
+                end
+            end
+        end
+    else
+        CpUtil.error('Field %s: Could not detect field boundary, not saved', currentField:getId())
+    end
+    CpFieldUtil.saveNextField()
+end
+
+function CpFieldUtil.saveAllFields()
+    fileName = string.format('%s/%s.xml', g_Courseplay.debugPrintDir, g_currentMission.missionInfo.mapTitle)
+    xmlFile = createXMLFile('cpFields', fileName, 'CPFields');
+    setXMLString(xmlFile, 'CPFields#version', '2')
+    currentFieldKey = nil
+    fields = g_fieldManager:getFields()
+    if xmlFile and xmlFile ~= 0 then
+        CpFieldUtil.saveNextField()
+    end
 end
 
 function CpFieldUtil.initializeFieldMod()
@@ -122,8 +148,8 @@ function CpFieldUtil.isField(x, z, widthX, widthZ)
     local widthWorldX, widthWorldZ = x - widthX, z - widthZ
     local heightWorldX, heightWorldZ = x + widthX, z + widthZ
 
-    CpFieldUtil.fieldMod.modifier:setParallelogramWorldCoords(startWorldX, startWorldZ, widthWorldX, widthWorldZ, heightWorldX, heightWorldZ, "ppp")
-    CpFieldUtil.fieldMod.filter:setValueCompareParams("greater", 0)
+    CpFieldUtil.fieldMod.modifier:setParallelogramWorldCoords(startWorldX, startWorldZ, widthWorldX, widthWorldZ, heightWorldX, heightWorldZ, 'ppp')
+    CpFieldUtil.fieldMod.filter:setValueCompareParams('greater', 0)
 
     local _, area, totalArea = CpFieldUtil.fieldMod.modifier:executeGet(CpFieldUtil.fieldMod.filter)
     local isField = area > 0
