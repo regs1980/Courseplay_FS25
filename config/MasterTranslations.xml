@@ -934,8 +934,8 @@
 			<Text language="en"><![CDATA[Field margin]]></Text>
 		</Translation>
 		<Translation name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip">
-			<Text language="de"><![CDATA[Positive Werte reduzieren die Feldgröße, negative Werte vergrößern den Arbeitsbereich. Wert: -2 - 5.8]]></Text>
-			<Text language="en"><![CDATA[Positive values reduce field size, negative increase the field size. Value: -2 - 5.8]]></Text>
+			<Text language="de"><![CDATA[Positive Werte reduzieren die Feldgröße, negative Werte vergrößern den Arbeitsbereich. Wert: -5 - 5.8]]></Text>
+			<Text language="en"><![CDATA[Positive values reduce field size, negative increase the field size. Value: -5 - 5.8]]></Text>
 		</Translation>
 		<Translation name="CP_vehicle_courseGeneratorSetting_rowsToSkip_title">
 			<Text language="de"><![CDATA[Reihen überspringen]]></Text>
