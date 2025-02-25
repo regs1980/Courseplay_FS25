@@ -286,7 +286,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_title" text="Vorgewende-Überlappung"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_tooltip" text="Überlappung der Vorgewende in % der Arbeitsbreite. Wert: 0 - 25"/>
     <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_title" text="Feldgrenze"/>
-    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Positive Werte reduzieren die Feldgröße, negative Werte vergrößern den Arbeitsbereich. Wert: -5 - 5.8"/>
+    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Positive Werte reduzieren die Feldgröße, negative Werte vergrößern den Arbeitsbereich. Wert: -2 - 5.8"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_title" text="Reihen überspringen"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_tooltip" text="Zu überspringende Reihen, wenn auf nächste Reihe gewendet wird. Nur für hoch/runter. Wert: 0 - 6"/>
     <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_title" text="Anzahl Runden"/>
