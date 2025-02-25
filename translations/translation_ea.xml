@@ -596,6 +596,8 @@ Conceptos básicos:
 Los primeros valores que verá aquí son datos muy básicos.
 - Ancho de trabajo: Courseplay detecta automáticamente el ancho de trabajo para la mayoría de las herramientas, por lo que no tendrá que preocuparse por esto,
 pero si la detección automática falla, puede configurarlo manualmente. Esta configuración tiene un impacto en el curso general.
+- Margen del campo: los valores positivos reducen el tamaño del campo para agregar un margen alrededor del área trabajada en caso de que haya obstáculos cerca del borde del campo.
+Los valores negativos amplían el área trabajada más allá del límite del campo para cubrir los bordes del campo que no se detectan perfectamente.
 - Número de cabeceras: la mejor manera de mantener sus vehículos en el campo mientras gira al final de cada hilera es agregar cabeceras.
 El número de cabeceras multiplicado por el ancho de trabajo debe ser al menos la longitud total de su vehículo más la herramienta adjunta.
 - Comenzar a trabajar en: como se mencionó en el menú AI extendido, la posición del campo se usa para establecer la posición de inicio o finalización para
@@ -614,8 +616,6 @@ giro en la cabecera siempre que la curvatura de la cabecera sea menor que el rad
 - Radio de esquina: establece el radio para las esquinas redondeadas. Si sabe que una herramienta de trabajo siguiente tiene un radio mínimo de 10, puede establecer este valor en 10 para el curso.
 - Dirección de cabeceras: en el sentido de las agujas del reloj o en el sentido contrario a las agujas del reloj. Esto puede ser importante para las cosechadoras de granos y otros tipos de cosechadoras, según el lado en el que se encuentre la tubería o la cinta transportadora.
 - Superposición de cabeceras: cuánto se superpone un cabecera con el siguiente. Esto es para evitar perder fruta en algunos casos.
-- Margen del campo: los valores positivos reducen el tamaño del campo para agregar un margen alrededor del área trabajada en caso de que haya obstáculos cerca del borde del campo.
-Los valores negativos amplían el área trabajada más allá del límite del campo para cubrir los bordes del campo que no se detectan perfectamente.
 "/>
     <text name="CP_help_page_courseGeneratorCenter_text" text="
 El generador proporciona varios patrones diferentes para generar el recorrido del centro del campo. El mejor patrón
@@ -669,9 +669,9 @@ Antes de probar esas configuraciones, debes asegurarte de saber qué hacen las c
 Algunas configuraciones expertas solo funcionan correctamente en determinadas condiciones.
 
 - Herramientas múltiples: esta configuración se utiliza cuando quieres que más de un vehículo trabaje en tu campo. Como esto se vuelve un poco más complicado, hay un tema de ayuda independiente para ello.
+- Margen del campo: esta configuración te permite mover el borde del campo hacia adentro o hacia afuera del borde original.
 - Campo estrecho: crea la cabecera solo en dos bordes cortos del campo. En ese caso, no es posible mantener tu vehículo en el campo en los bordes más largos de la cabecera.
 - Superposición de cabecera: hay un valor predeterminado que siempre se usará. Este valor se puede cambiar con esta configuración. La superposición se realizará dentro del campo y no se superpondrá al borde del campo.
-- Margen del campo: esta configuración te permite mover el borde del campo hacia adentro o hacia afuera del borde original.
 - Usar borde de línea base: una característica completamente nueva, que solo funciona en campos específicos. Si tiene un campo con un borde radial largo y coloca el marcador de campo cerca de él, la línea central seguirá ese borde.
 NOTA IMPORTANTE: Si el campo generado no es perfecto o incluso es malo, el borde seleccionado o el campo no funcionarán con esta función. ¡Tampoco habrá una actualización para esto!
 "/>
