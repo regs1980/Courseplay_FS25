@@ -199,17 +199,23 @@ function CoursePlot:drawPoints(map, points, isHudMap)
 	if points and #points > 1 then
 		-- I know this is in helpers.lua already but that code has too many dependencies
 		-- on global variables and vehicle.cp.
-		local wp, np, startX, startY, endX, endY, dx, dz, dx2D, dy2D, width, rotation, r, g, b, sv, ev, _
+		local wp, np, r, g, b
 		-- render a line between subsequent waypoints
-		for i = 1, #points - 1 do
-			wp = points[ i ]
-			np = points[ i + 1 ]
-			
-			r, g, b = MathUtil.vector3ArrayLerp(self.lightColor, self.darkColor, wp.progress or 1)
-			self:drawLineBetween(map, wp.x, wp.z, np.x, np.z,
-				isHudMap, lineThickness, r, g, b, 0.8, 
-				wp.attributes and wp.attributes.rowStart, 
-				np.attributes and np.attributes.rowEnd)
+		for i = 1, #points do
+			wp = points[i]
+			-- if we are drawing a polygon, we need to draw a line between the last and the first point
+			if self.isPolygon and i == #points then
+				np = points[1]
+			else
+				np = points[i + 1]
+			end
+			if wp and np then
+				r, g, b = MathUtil.vector3ArrayLerp(self.lightColor, self.darkColor, wp.progress or 1)
+				self:drawLineBetween(map, wp.x, wp.z, np.x, np.z,
+						isHudMap, lineThickness, r, g, b, 0.8,
+						wp.attributes and wp.attributes.rowStart,
+						np.attributes and np.attributes.rowEnd)
+			end
 		end
 		setOverlayRotation( self.courseOverlayId, 0, 0, 0 ) -- reset overlay rotation
 		setOverlayRotation( self.arrowOverlayId, 0, 0, 0 ) -- reset overlay rotation
