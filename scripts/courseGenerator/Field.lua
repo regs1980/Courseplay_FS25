@@ -30,12 +30,16 @@ function Field:getNum()
     return self.num
 end
 
---- Read all fields saved in an XML file from the game console with the cpSaveAllFields command
+--- Read all fields saved in an XML file from the game console with the cpSaveAllFields command. No dependency to the
+--- any Giants functions.
 ---@return Field[] list of Fields in the file
 function Field.loadSavedFields(fileName)
     local fields = {}
     local ix = 0
+    local version = '1'
     for line in io.lines(fileName) do
+        local fileVersion = string.match(line, '<CPFields version="(%d+)"')
+        version = fileVersion and fileVersion or version
         local fieldNum = string.match(line, '<field fieldNum="(%d+)"')
         if not fieldNum then
             fieldNum = string.match(line, '<customField name="CP%-(%d+)"')
@@ -44,24 +48,32 @@ function Field.loadSavedFields(fileName)
             -- a new field started
             ix = tonumber(fieldNum)
             fields[ix] = Field(string.gsub(fileName, 'fields/', ''):gsub('fields\\', ''):gsub('.xml', '') .. '-' .. ix, ix)
-            Logger():debug('Loading field %s', ix)
+            Logger():debug('Loading field %s, version %s', ix, version)
         end
-        local num, x, z = string.match(line, '<point(%d+).+pos="([%d%.-]+) [%d%.-]+ ([%d%.-]+)"')
-        if num then
-            fields[ix].boundary:append(Vertex(tonumber(x), -tonumber(z)))
-        else
-            -- try the custom field format
-            x, z = string.match(line, '([%d%.-]+) [%d%.-]+ ([%d%.-]+)')
+        local num, x, z
+        if version == '2' then
+            x, z = string.match(line, '<point.+pos="([%d%.-]+) ([%d%.-]+)"')
             if x then
                 fields[ix].boundary:append(Vertex(tonumber(x), -tonumber(z)))
             end
-        end
-        num, x, z = string.match(line, '<islandNode(%d+).+pos="([%d%.-]+) +([%d%.-]+)"')
-        if num then
-            if not fields[ix].islandPoints then
-                fields[ix].islandPoints = {}
+        else
+            num, x, z = string.match(line, '<point(%d+).+pos="([%d%.-]+) [%d%.-]+ ([%d%.-]+)"')
+            if num then
+                fields[ix].boundary:append(Vertex(tonumber(x), -tonumber(z)))
+            else
+                -- try the custom field format
+                x, z = string.match(line, '([%d%.-]+) [%d%.-]+ ([%d%.-]+)')
+                if x then
+                    fields[ix].boundary:append(Vertex(tonumber(x), -tonumber(z)))
+                end
             end
-            table.insert(fields[ix].islandPoints, Vertex(tonumber(x), -tonumber(z)))
+            num, x, z = string.match(line, '<islandNode(%d+).+pos="([%d%.-]+) +([%d%.-]+)"')
+            if num then
+                if not fields[ix].islandPoints then
+                    fields[ix].islandPoints = {}
+                end
+                table.insert(fields[ix].islandPoints, Vertex(tonumber(x), -tonumber(z)))
+            end
         end
     end
     -- initialize all loaded fields
