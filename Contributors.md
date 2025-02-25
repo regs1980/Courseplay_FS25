@@ -20,7 +20,6 @@
 * Spanish: [KCHARRO](https://github.com/KCHARRO), [aorek](https://github.com/aorek)
 * Swedish: [piplarsson](https://github.com/piplarsson)
 * Turkish: [HakanGorkem](https://github.com/HakanGorkem)
-* Korean: [andr6124](https://github.com/andr6124)
 
 Logo Design by Finals Farming
 
