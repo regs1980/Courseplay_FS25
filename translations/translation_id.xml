@@ -286,7 +286,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_title" text="Headland overlap"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_tooltip" text="Overlap headland tracks as percent of working width. Value: 0 - 25"/>
     <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_title" text="Field margin"/>
-    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Positive values reduce field size, negative increase the field size. Value: -2 - 5.8"/>
+    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Positive values reduce field size, negative increase the field size. Value: -5 - 5.8"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_title" text="Rows to skip"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_tooltip" text="Rows to skip when changing to the next up/down row. Value: 0 - 6"/>
     <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_title" text="Number of circles"/>
@@ -598,6 +598,8 @@ Basics:
 The first few values you see here are real basic stuff.
 - Work width: Courseplay automatically detects the working width for most tools, so you won't have to worry about this,
 but if automatic detection fails, you can set it manually. This setting has an impact on the overall course.
+- Field Margin: Positive values reduce field size to add a buffer around the worked area in case you have obstacles near the field border.
+Negative values enlarge worked area beyond the field boundary to cover up field borders that are not perfectly detected.
 - Number of headlands: The best way to keep your vehicles on the field while turning at the end of each row is to add headlands.
 The Number of the Headlands multiplied by the work width should be at least the total length of your vehicle plus the attached tool.
 - Start work on: As mentioned in the extended AI Menu, the field position is used to set the start or end position for
@@ -618,8 +620,6 @@ corners are based on the vehicle's turning radius, so for these headlands, the v
 - Headland direction: clockwise or counter-clockwise. This can be important for combines and harvesters, depending on
 which side the pipe or conveyor belt is.
 - Headland overlap: How much one headland overlaps with the next. This is to avoid missing fruit in some cases.
-- Field Margin: Positive values reduce field size to add a buffer around the worked area in case you have obstacles near the field border.
-Negative values enlarge worked area beyond the field boundary to cover up field borders that are not perfectly detected.
 "/>
     <text name="CP_help_page_courseGeneratorCenter_text" text="
 The generator provides several different patterns to generate the course for the center of the field. The best pattern is
@@ -674,9 +674,9 @@ Some expert settings only work properly under some conditions.
 
 - Multiple tools: This setting is used when you want more than just one vehicle to work on your course. As this gets a bit more complicated, there is a separate help topic for it.
 - Switching lanes: With this option active, vehicles switch lanes at each turn, so every vehicle's turn is of the same width. See the extra help menu &quot;Switching lanes&quot; for more details.
+- Field margin: This setting lets you move the field border in- or outwards of the original border.
 - Narrow field: Creates the headland only at two short edges of the field. In that case, it is not possible to keep your vehicle on the field on the longest edges at the headland.
 - Headland overlap: By default, headland passes overlap each other (but never the field edge) by a few percent to avoid missing fruit in some edge cases. You can change that overlap here.
-- Field margin: This setting lets you move the field border in- or outwards of the original border.
 - Use base line edge: With this setting you can generate curved up/down rows, running parallel with the edge of the field near the field marker. This makes sense when the field edge is not straight, the up/down rows will follow the curve of the edge.
 IMPORTANT NOTE: This is an experimental setting which may not work for all field shapes. If it doesn't work, try another setting.
 "/>

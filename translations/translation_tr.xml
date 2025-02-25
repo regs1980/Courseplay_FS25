@@ -286,7 +286,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_title" text="Manevra koridoru çakışması"/>
     <text name="CP_vehicle_courseGeneratorSetting_headlandOverlapPercent_tooltip" text="Manevra koridorlarını çalışma genişliğinin belirli yüzdesi kadar çakıştırır. Değer: 0 - 25"/>
     <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_title" text="Tarla payı"/>
-    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Pozitif değerler tarla boyutunu küçültür, negatif değerler tarla boyutunu artırır. Değer: -2 - +5.8"/>
+    <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Pozitif değerler tarla boyutunu küçültür, negatif değerler tarla boyutunu artırır. Değer: -5 - +5.8"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_title" text="Atlanacak satırlar"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_tooltip" text="Merkez modu 'git/gel' olduğunda bir sonraki satıra dönüş yaparken atlanacak satır sayısı. Değer: 0 - 6"/>
     <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_title" text="Halka sayısı"/>
@@ -598,6 +598,8 @@ Temel bilgiler:
 Burada gördüğünüz ilk birkaç bilgi en temel bilgilerdir.
 - Çalışma Genişliği: Courseplay, çoğu ekipman için çalışma genişliğini otomatik olarak algılar, bu yüzden bu konuda endişelenmenize gerek yoktur. 
 Ancak otomatik algılama başarısız olursa, kendiniz manuel olarak ayarlayabilirsiniz. Bu ayar bütün rotayı etkiler.
+-Tarla Payı: Pozitif değerler, tarlanın etrafında engeller varsa bir tampon bölge oluşturup işlenecek alanı küçültür. Negatif değerler ise 
+tarla sınırlarını düzgün algılanamadığı bölgeleri kapatmak için işlenecek alanı tarlanın sınırları dışına genişletir.
 - Manevra Koridoru Sayısı: Araçlarınızı her satır sonunda tarlada tutmanın en iyi yolu, manevra koridoru eklemektir. 
 Manevra koridorlarının sayısı ile çalışma genişliği çarpıldığında, bu değer en azından aracınızın ve bağlı olan ekipmanın toplam uzunluğu kadar olmalıdır.
 - Başlama Noktası: Genişletilmiş YZ Menüsünde belirtildiği gibi, tarla konumu, tarla rotasının başlangıç veya bitiş konumunu belirlemek için kullanılır. 
@@ -618,8 +620,6 @@ Kavisli köşeler, aracın dönüş çapına dayalıdır, bu nedenle bu koridorl
 -Manevra Koridoru Yönü: Saat yönünde veya saat yönünün tersine. Bu ayar biçerdöverler ve hasat makineleri için boru veya konveyör bandının 
 hangi tarafta olduğuna bağlı olarak önem taşır.
 -Manevra Koridoru Örtüşmesi: Bir manevra koridorunun bir sonrakiyle ne kadar örtüştüğünü belirtir. Bazı durumlarda ekin tahribatını önlemek için kullanılır.
-Tarla Payı: Pozitif değerler, tarlanın etrafında engeller varsa bir tampon bölge oluşturup işlenecek alanı küçültür. Negatif değerler ise 
-tarla sınırlarını düzgün algılanamadığı bölgeleri kapatmak için işlenecek alanı tarlanın sınırları dışına genişletir.
 "/>
     <text name="CP_help_page_courseGeneratorCenter_text" text="
 Oluşturucu, tarlanın merkezi için rota oluşturmak üzere birkaç farklı model sunar. En uygun model genellikle seçilen iş ve ekipmanlara bağlı olarak belirlenir. 
@@ -674,9 +674,9 @@ Bazı uzman ayarları, yalnızca belirli koşullar altında düzgün çalışır
 
 - Çoklu Araç: Bu ayar rota üzerinde birden fazla aracın çalışmasını istediğinizde kullanılır. Biraz daha karmaşık bir ayar olduğu için ayrı bir yardım konusuna sahiptir.
 - Hat Değiştirme: Bu seçenek etkinleştirildiğinde, araçlar her dönüşte hat değiştirir, böylece her aracın dönüş genişliği aynı olur. Daha fazla bilgi için 'Hat Değiştirme' yardım menüsüne bakabilirsiniz.
+- Tarla Payı: Tarla sınırını orijinal sınırın içine veya dışına doğru hareket ettirmenize olanak tanır.
 - Dar Tarla: Yalnızca tarlanın iki kısa kenarında manevra koridoru oluşturur. Bu durumda, uzun kenarlarda araçları tarla sınırı içinde tutmak mümkün olmaz.
 - Manevra Koridoru Örtüşmesi: Varsayılan olarak, manevra koridorları birbirini belirli bir yüzde oranında örter(ancak hiçbir zaman tarla kenarını geçmez). Bu örtüşme miktarını buradan değiştirebilirsiniz.
-- Tarla Payı: Tarla sınırını orijinal sınırın içine veya dışına doğru hareket ettirmenize olanak tanır.
 - Kenar Çizgisini Temel Al: Bu ayar, tarla konum işaretinin yakınındaki tarla kenarına paralel şekilde kavisli git/gel satırları oluşturmanıza olanak tanır. Tarla kenarı düz olmadığında, git/gel satırlar kenarın eğrisini takip eder.
 ÖNEMLİ NOT: Bu deneysel bir ayardır ve tüm tarla şekillerinde çalışmayabilir. Çalışmazsa, başka bir ayarı deneyin.
 "/>
