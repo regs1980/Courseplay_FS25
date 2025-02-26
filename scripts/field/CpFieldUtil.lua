@@ -110,7 +110,7 @@ function CpFieldUtil.onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, isl
             for i, islandPolygon in ipairs(islandPolygons) do
                 local islandKey = key .. ('.island(%s)'):format(i - 1)
                 for j, islandPolygonVertex in ipairs(islandPolygon) do
-                    setXMLString(xmlFile, islandKey .. ('.vertex(%s)#pos'):format(j - 1),
+                    setXMLString(xmlFile, islandKey .. ('.point(%s)#pos'):format(j - 1),
                             ('%.2f %2.f'):format(islandPolygonVertex.x, islandPolygonVertex.z))
                 end
             end
