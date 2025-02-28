@@ -79,15 +79,8 @@ end
 
 local xmlFile, fileName, fields, currentField, currentFieldKey
 
-function CpFieldUtil.saveNextField()
+function CpFieldUtil.saveNextField(vehicle)
     currentFieldKey, currentField = next(fields, currentFieldKey)
-    local vehicle = CpUtil.getCurrentVehicle()
-    if not vehicle then
-        CpUtil.error('Must be in a vehicle to save fields')
-        saveXMLFile(xmlFile);
-        delete(xmlFile);
-        return
-    end
     if currentField then
         vehicle:cpDetectFieldBoundary(currentField.posX, currentField.posZ, nil, CpFieldUtil.onFieldBoundaryDetectionFinished)
     else
@@ -118,17 +111,22 @@ function CpFieldUtil.onFieldBoundaryDetectionFinished(vehicle, fieldPolygon, isl
     else
         CpUtil.error('Field %s: Could not detect field boundary, not saved', currentField:getId())
     end
-    CpFieldUtil.saveNextField()
+    CpFieldUtil.saveNextField(vehicle)
 end
 
 function CpFieldUtil.saveAllFields()
+    local vehicle = CpUtil.getCurrentVehicle()
+    if not vehicle then
+        CpUtil.error('Must be in a vehicle to save fields')
+        return
+    end
     fileName = string.format('%s/%s.xml', g_Courseplay.debugPrintDir, g_currentMission.missionInfo.mapTitle)
     xmlFile = createXMLFile('cpFields', fileName, 'CPFields');
     setXMLString(xmlFile, 'CPFields#version', '2')
     currentFieldKey = nil
     fields = g_fieldManager:getFields()
     if xmlFile and xmlFile ~= 0 then
-        CpFieldUtil.saveNextField()
+        CpFieldUtil.saveNextField(vehicle)
     end
 end
 
