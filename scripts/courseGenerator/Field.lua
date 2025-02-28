@@ -37,6 +37,8 @@ function Field.loadSavedFields(fileName)
     local fields = {}
     local ix = 0
     local version = '1'
+    local islandPerimeter
+    local inIsland = false
     for line in io.lines(fileName) do
         local fileVersion = string.match(line, '<CPFields version="(%d+)"')
         version = fileVersion and fileVersion or version
@@ -49,12 +51,30 @@ function Field.loadSavedFields(fileName)
             ix = tonumber(fieldNum)
             fields[ix] = Field(string.gsub(fileName, 'fields/', ''):gsub('fields\\', ''):gsub('.xml', '') .. '-' .. ix, ix)
             Logger():debug('Loading field %s, version %s', ix, version)
+            inIsland = false
         end
         local num, x, z
         if version == '2' then
             x, z = string.match(line, '<point.+pos="([%d%.-]+) ([%d%.-]+)"')
             if x then
-                fields[ix].boundary:append(Vertex(tonumber(x), -tonumber(z)))
+                if inIsland then
+                    islandPerimeter:append(Vertex(tonumber(x), -tonumber(z)))
+                else
+                    fields[ix].boundary:append(Vertex(tonumber(x), -tonumber(z)))
+                end
+            end
+            if string.find(line, '<island>') then
+                inIsland = true
+                islandPerimeter = Polygon()
+            end
+            if string.find(line, '</island>') then
+                inIsland = false
+                local nIslands = #fields[ix]:getIslands()
+                fields[ix]:addIsland(CourseGenerator.Island.createFromBoundary(nIslands +1, islandPerimeter))
+                Logger():debug('Loaded island %d', nIslands + 1)
+            end
+            if string.find(line, '</field>') then
+                fields[ix].boundary:splitEdges(CourseGenerator.cMaxEdgeLength)
             end
         else
             num, x, z = string.match(line, '<point(%d+).+pos="([%d%.-]+) [%d%.-]+ ([%d%.-]+)"')
