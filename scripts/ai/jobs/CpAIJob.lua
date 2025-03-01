@@ -358,11 +358,6 @@ function CpAIJob:writeStream(streamId, connection)
 	if self.cpJobParameters then
 		self.cpJobParameters:writeStream(streamId, connection)
 	end
-
-	local vehicle = self:getVehicle()
-	if vehicle then
-		CpCourseGenerator.onWriteStream(vehicle, streamId, connection)	
-	end
 end
 
 function CpAIJob:readStream(streamId, connection)
@@ -380,10 +375,6 @@ function CpAIJob:readStream(streamId, connection)
 	if self.cpJobParameters then
 		self.cpJobParameters:validateSettings(true)
 		self.cpJobParameters:readStream(streamId, connection)
-	end
-	local vehicle = self:getVehicle()
-	if vehicle then
-		CpCourseGenerator.onReadStream(vehicle, streamId, connection)	
 	end
 	if not self:getIsHudJob() then
 		self:setValues()

@@ -88,6 +88,7 @@ function CpCourseGenerator:onUpdate(dt)
             else
                 spec.logger:debug('Field boundary detection finished, but no callback given')
             end
+            FieldPolygonChangedEvent.sendEvent(self)
         end
     end
 end
@@ -142,12 +143,14 @@ function CpCourseGenerator:onWriteStream(streamId, connection)
     local spec = self.spec_cpCourseGenerator
     if spec.fieldPolygon then
         streamWriteInt32(streamId, #spec.fieldPolygon)
-        for _, point in pairs(spec.fieldPolygon) do
+        for _, point in ipairs(spec.fieldPolygon) do
             streamWriteFloat32(streamId, point.x)
             if point.y ~= nil then
                 streamWriteFloat32(streamId, point.y)
             else 
-                streamWriteFloat32(streamId, getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, point.x, 1, point.z))
+                streamWriteFloat32(streamId, 
+                    getTerrainHeightAtWorldPos(
+                        g_currentMission.terrainRootNode, point.x, 1, point.z))
             end
             streamWriteFloat32(streamId, point.z)
         end

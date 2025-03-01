@@ -319,6 +319,7 @@ Changelog 8.0.0.0:
 		<sourceFile filename="scripts/events/CpJobSyncOnLeaveEvent.lua"/>
 		<sourceFile filename="scripts/events/DriveNowRequestEvent.lua"/>
 		<sourceFile filename="scripts/events/PlowCenterTurnEvent.lua"/>
+		<sourceFile filename="scripts/events/FieldPolygonChangedEvent.lua"/>
 
 		<sourceFile filename="scripts/dev/DevHelper.lua"/>
 
