@@ -79,7 +79,9 @@ end
 ---@return table [{x, z}] array of vertices as the course generator needs it
 function FieldBoundaryDetector:_getAsVertices(boundaryLine)
     local vertices = {}
-    for _, point in ipairs(boundaryLine) do
+    -- Giants seem to have the first vertex of the polygon repeated as the last, so skip the last one.
+    for i = 1, #boundaryLine - 1 do
+        local point = boundaryLine[i]
         local x, z = point[1], point[2]
         table.insert(vertices, { x = x, y = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, x, 1, z), z = z })
     end

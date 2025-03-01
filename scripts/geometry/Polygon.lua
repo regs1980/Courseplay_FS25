@@ -317,6 +317,46 @@ function Polygon:getShortestPathBetween(fromIx, toIx)
     end
 end
 
+--- Fix polygons with edges that intersect each other. This can happen for instance when the Giants field boundary
+--- detector is used on an L shaped field, where some corners end up with a little loop like this:
+---
+---                          |
+---                          |
+---                 _________|___ B (next)
+---                        C | /
+---                          |/
+---                         A (current)
+---
+--- This function looks for such intersections and when found, removes the vertices A and B, and replaces them with C.
+--- For each edge, it checks if the edge after the next intersects it, this is not a generic solution to find intersections
+--- between any two edges.
+
+function Polygon:removeSelfIntersections()
+    local function removeNext()
+        for i, current, previous, next in self:vertices() do
+            -- check the edges before and after AB
+            if current and next then
+                local edgeBefore = current:getEntryEdge()
+                local edgeAfter = next:getExitEdge()
+                if edgeBefore and edgeAfter then
+                    local intersectionPoint = edgeBefore:intersects(edgeAfter)
+                    if intersectionPoint then
+                        self.logger:debug('Found self intersection at %s', intersectionPoint)
+                        -- remove the current and next vertex, replace them with the intersection point
+                        self:set(i, Vertex.fromVector(intersectionPoint, i))
+                        table.remove(self, i + 1)
+                        self:calculateProperties(i > 2 and i - 1)
+                        -- exit the loop here since we manipulated the array we are iterating over
+                        return true
+                    end
+                end
+            end
+        end
+    end
+    while removeNext() do
+    end
+end
+
 ------------------------------------------------------------------------------------------------------------------------
 --- Private functions
 ------------------------------------------------------------------------------------------------------------------------

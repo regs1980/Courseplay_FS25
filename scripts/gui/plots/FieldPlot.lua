@@ -29,6 +29,8 @@ function FieldPlot:init(drawLastWp)
 	self.lineThickness = 4 / g_screenHeight
 	self.drawLastWp = drawLastWp
 	self.nextTargetPoint = {}
+	-- field plots are closed polygons, meaning we have to connect the last point with the first one
+	self.isPolygon = true
 end
 
 function FieldPlot:setNormalColor()

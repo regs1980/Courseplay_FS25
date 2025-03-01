@@ -469,4 +469,29 @@ function testPathBetweenIntersections()
     o2[6]:assertAlmostEquals(pCw[1])
 end
 
+function testRemoveSelfIntersections()
+    local p = Polygon({
+        Vector(-810.75, 893.75),
+        Vector(-807.25, 889.75),
+        Vector(-723.75, 834.25),
+        Vector(-450.25, 1042.25),
+        Vector(-585.75, 1211.25), -- the edge defined by this vertex and the next...
+        Vector(-598.25, 1223.75), -- A
+        Vector(-596.75, 1223.75), -- B intersects the edge defined by this and the next, thus forming an eight shape,
+                                  -- where clockwise/counterclockwise does not make sense.
+        Vector(-649.75, 1191.25), -- C
+        Vector(-774.75, 1107.75),
+        Vector(-697.25, 1004.25),
+        Vector(-693.75, 997.25),
+    })
+    lu.assertIsNil(p:isClockwise())
+    lu.assertEquals(#p, 11)
+    p:removeSelfIntersections()
+    lu.assertIsFalse(p:isClockwise())
+    lu.assertEquals(#p, 10)
+    p[5]:assertAlmostEquals(Vector(-585.75, 1211.25))
+    p[6]:assertAlmostEquals(Vector(-597.68, 1223.18)) -- intersection, A and B removed
+    p[7]:assertAlmostEquals(Vector(-649.75, 1191.25))
+end
+
 os.exit(lu.LuaUnit.run())
