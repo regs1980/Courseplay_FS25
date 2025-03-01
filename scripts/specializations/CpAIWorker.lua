@@ -495,18 +495,16 @@ end
 --- TODO: Consider consolidation with AIUtil.getArticulatedAxisVehicleReverserNode
 function CpAIWorker:getAIReverserNode(superFunc)
     local spec = self.spec_cpAIWorker
-    if not self:getIsCpActive() then
-        return superFunc(self)
-    end
-    if self.spec_articulatedAxis and self.spec_articulatedAxis.aiRevereserNode then
-        if g_vehicleConfigurations:get(self, "articulatedAxisReverseNodeInverted") then
-            if not spec.articulatedAxisReverseNode then
-                spec.articulatedAxisReverseNode = CpUtil.createNode(
-                        "cpAiRevereserNode", 0, 0, 0,
-                        getParent(self.spec_articulatedAxis.aiRevereserNode))
-            end
-            return spec.articulatedAxisReverseNode
+    -- if not self:getIsCpActive() then
+    --     return superFunc(self)
+    -- end
+    if g_vehicleConfigurations:get(self, "articulatedAxisReverseNodeInverted") then
+        if not spec.articulatedAxisReverseNode then
+            spec.articulatedAxisReverseNode = CpUtil.createNode(
+                    "cpAiRevereserNode", 0, 0, 0,
+                    self.rootNode)
         end
+        return spec.articulatedAxisReverseNode
     end
     return superFunc(self)
 end
