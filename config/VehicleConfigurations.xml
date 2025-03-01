@@ -512,6 +512,11 @@ You can define the following custom settings:
 		articulatedAxisReverseNodeInverted = "true"
         turnRadius = "10"
 	/>
+    <Vehicle name="l120HElectric.xml"
+		fixWheelLoaderDirectionNodeByMovingToolIx = "1"
+		articulatedAxisReverseNodeInverted = "true"
+        turnRadius = "10"
+	/>
     <Vehicle name="lm845.xml"
         articulatedAxisReverseNodeInverted = "true"
         turnRadius = "10"
