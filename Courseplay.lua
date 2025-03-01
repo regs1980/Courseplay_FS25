@@ -146,13 +146,8 @@ function Courseplay:setupGui()
 	PlayerInputComponent.registerGlobalPlayerActionEvents = Utils.overwrittenFunction(
 		PlayerInputComponent.registerGlobalPlayerActionEvents, addPlayerActionEvents)
 	
-	-- TODO_25
-	-- g_currentMission.hud.ingameMap.drawFields = Utils.appendedFunction(g_currentMission.hud.ingameMap.drawFields, Courseplay.drawHudMap)
-
-	-- local page = g_gui.currentGui.target.pageSettings
-
-	-- local newPage = page.subCategoryPages[1].copy(page.subCategoryPages[1].parent)
-	-- self:fixGui()
+	g_currentMission.hud.ingameMap.drawFields = Utils.appendedFunction(	
+		g_currentMission.hud.ingameMap.drawFields, Courseplay.drawHudMap)
 end
 
 --- Enables drawing onto the hud map.
