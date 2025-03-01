@@ -339,8 +339,6 @@ function CpAIJobCombineUnloader:getStartTaskIndex()
 		return startTask
 	end
 	local vehicle = self:getVehicle()
-	local fieldPolygon = vehicle:cpGetFieldPolygon()
-	local x, _, z = getWorldTranslation(vehicle.rootNode)
 	local fillLevelPercentage = FillLevelUtil.getTotalTrailerFillLevelPercentage(vehicle)
 	local readyToDriveUnloading = vehicle:getCpSettings().fullThreshold:getValue() <= fillLevelPercentage
 	if readyToDriveUnloading then 
@@ -356,11 +354,6 @@ function CpAIJobCombineUnloader:getStartTaskIndex()
 			return startTask
 		end
 		return self.driveToUnloadingTask.taskIndex
-	end
-	if CpMathUtil.isPointInPolygon(fieldPolygon, x, z) or 
-		CpMathUtil.isWithinDistanceToPolygon(fieldPolygon, x, z, 2 * self.minStartDistanceToField) then
-		CpUtil.debugVehicle(CpDebug.DBG_FIELDWORK, vehicle, "Close to the field, start cp drive strategy.")
-		return startTask
 	end
 	return startTask
 end
