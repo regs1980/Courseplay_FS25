@@ -14,11 +14,11 @@
     <text name="CP_unit_meter" text="m"/>
     <text name="CP_unit_foot" text="láb"/>
     <text name="CP_copy" text="Útvonal másolása: "/>
-    <text name="CP_infoText" text="Courseplay(%s): Ha segítségre van szükséged, hibajelentéseket vagy javításokat szeretnél benyújtani, látogass el a következő oldalra: https://github.com/Courseplay/Courseplay_FS22."/>
+    <text name="CP_infoText" text="Courseplay(%s): Ha segítségre van szükséged, hibajelentéseket vagy javításokat szeretnél benyújtani, látogass el a következő oldalra: https://github.com/Courseplay/Courseplay_FS25."/>
     <text name="CP_error_no_course" text="Először hozz létre egy útvonalat"/>
     <text name="CP_error_could_not_generate_course" text="Hiba az útvonaltervezéskor"/>
-    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
-    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
+    <text name="CP_error_field_detection_still_running" text="Mező felferítés még fut."/>
+    <text name="CP_error_field_detection_failed" text="Mező felderítés meghiúsult."/>
     <text name="CP_error_not_on_field" text="Csak szántóföldön lehet munkát végezni"/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Az kirakodó jármű túl messze van a táblától."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="A kezdő pozíció túl messze van a táblától."/>
@@ -120,7 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="AI munkás %s váratlanul abbahagyta a munkát - vágóasztal felcsatolása nem lehetséges!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="AI munkás %s váratlanul abbahagyta a munkát - automatikus vágóasztal felcsatolás kikapcsolva!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="AI munkás %s váratlanul abbahagyta a munkát - Helytelen vetőmag ehhez a megbízáshoz!"/>
-    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="A jármű túl messze van a mezőtől."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -153,12 +153,12 @@
     <!---->
     <!--Hud settings-->
     <!---->
-    <text name="CP_hud_settings_selectedJob_title" text="TODO: Selected Job:"/>
+    <text name="CP_hud_settings_selectedJob_title" text="TODO: Kiválasztott munka:"/>
     <!---->
     <!--Vehicle settings-->
     <!---->
     <text name="CP_vehicle_setting_title" text="CoursePlay jármű beállítások"/>
-    <text name="CP_vehicle_setting_subTitle_vehicle" text="Vehicle settings"/>
+    <text name="CP_vehicle_setting_subTitle_vehicle" text="Jármű beállítások"/>
     <text name="CP_vehicle_setting_subTitle_basic" text="Alapbeállítások"/>
     <text name="CP_vehicle_setting_subTitle_implement" text="Eszközök beállításai"/>
     <text name="CP_vehicle_setting_subTitle_combine" text="Kombájn beállításai"/>
@@ -177,7 +177,7 @@
     <text name="CP_vehicle_setting_fuelSave_tooltip" text="Leállítja a motort amíg a jármű várakozik"/>
     <text name="CP_vehicle_setting_stopAtEnd_title" text="Álljon meg a végén"/>
     <text name="CP_vehicle_setting_stopAtEnd_tooltip" text="Álljon meg az útvonal végén"/>
-    <text name="CP_vehicle_setting_allowReversePathfinding_title" text="Útkeresés hátramenetbe"/>
+    <text name="CP_vehicle_setting_allowReversePathfinding_title" text="Útkeresés hátramenetben"/>
     <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="Adott esetben engedje meg az útkeresőnek, hogy hátrameneti szakaszokat generáljon"/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="Útkeresés fordulókban"/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Engedélyezi az útkereső használatát fordulókban, pl. akadályok ill. termény kikerüléséhez"/>
@@ -274,11 +274,11 @@
     <!---->
     <text name="CP_vehicle_courseGeneratorSetting_title" text="Az útvonaltervező beállításai (%s)"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_basic" text="Általános"/>
-    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Vine field settings"/>
-    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Fieldwork settings"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_vineField" text="Szőlő mező beállítások"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_fieldwork" text="Táblamunka beállítások"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_headland" text="Fordulósáv"/>
     <text name="CP_vehicle_courseGeneratorSetting_subTitle_center" text="Sorok"/>
-    <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="Settings island"/>
+    <text name="CP_vehicle_courseGeneratorSetting_subTitle_island" text="Sziget beállítások"/>
     <text name="CP_vehicle_courseGeneratorSetting_workWidth_title" text="Munkaszélesség"/>
     <text name="CP_vehicle_courseGeneratorSetting_workWidth_tooltip" text="Munkaszélesség. 0 - 50 m"/>
     <text name="CP_vehicle_courseGeneratorSetting_numberOfHeadlands_title" text="Fordulósávok száma"/>
@@ -289,48 +289,48 @@
     <text name="CP_vehicle_courseGeneratorSetting_fieldMargin_tooltip" text="Pozitív értékek beljebb húzzák a tábla határát (táblaméret csökken), negatív értékek kijebbtolják (táblaméret nő) -5 - 5.8 m"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_title" text="Kihagyandó sorok"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsToSkip_tooltip" text="A következő fel/le sorra váltáskor átugrandó sorok. 0 - 6"/>
-    <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_title" text="Number of circles"/>
-    <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_tooltip" text="Number of circles for racetrack. Value: 1 - 12"/>
+    <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_title" text="Körök száma"/>
+    <text name="CP_vehicle_courseGeneratorSetting_numberOfCircles_tooltip" text="Körök száma versenypálya módban. Érték: 1 - 12"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsPerLand_title" text="Sorok blokkonként"/>
     <text name="CP_vehicle_courseGeneratorSetting_rowsPerLand_tooltip" text="Amikor a középső mód a „blokk”, ennyi sor van minden blokkban. 0 - 24"/>
-    <text name="CP_vehicle_courseGeneratorSetting_headlandClockwise_title" text="Headland direction"/>
-    <text name="CP_vehicle_courseGeneratorSetting_headlandClockwise_tooltip" text="Should the vehicle drive clockwise or counterclockwise on the headland."/>
-    <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_title" text="Center direction"/>
-    <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_tooltip" text="Should the vehicle drive clockwise or counterclockwise on the headland."/>
-    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_title" text="Island Headland direction"/>
-    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_tooltip" text="Should the vehicle drive clockwise or counterclockwise on the headland."/>
-    <text name="CP_vehicle_courseGeneratorSetting_headlandClockwise_clockwise" text="clockwise"/>
-    <text name="CP_vehicle_courseGeneratorSetting_headlandClockwise_counterclockwise" text="counterclockwise"/>
-    <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_clockwise" text="clockwise"/>
-    <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_counterclockwise" text="counterclockwise"/>
-    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_clockwise" text="clockwise"/>
-    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_counterclockwise" text="counterclockwise"/>
+    <text name="CP_vehicle_courseGeneratorSetting_headlandClockwise_title" text="Fordulósáv iránya"/>
+    <text name="CP_vehicle_courseGeneratorSetting_headlandClockwise_tooltip" text="A jármű a fordulósávokon órairányba, vagy azzal ellentétesen haladhat."/>
+    <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_title" text="Belső rész iránya"/>
+    <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_tooltip" text="A jármű haladási iránya a mező belső részén."/>
+    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_title" text="Szigetkerülő sáv iránya"/>
+    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_tooltip" text="A jármű a szigetek körüli fordulósávokon órairányba, vagy azzal ellentétesen haladhat."/>
+    <text name="CP_vehicle_courseGeneratorSetting_headlandClockwise_clockwise" text="órairányba"/>
+    <text name="CP_vehicle_courseGeneratorSetting_headlandClockwise_counterclockwise" text="órával ellentétesen"/>
+    <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_clockwise" text="órairányba"/>
+    <text name="CP_vehicle_courseGeneratorSetting_centerClockwise_counterclockwise" text="órával ellentétesen"/>
+    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_clockwise" text="órairányba"/>
+    <text name="CP_vehicle_courseGeneratorSetting_islandHeadlandClockwise_counterclockwise" text="órával ellentétesen"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_title" text="Minta"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_tooltip" text="Milyen mintában művelje a tábla középső részét"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_up_down" text="fel/le"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_spiral" text="spirál"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_circular" text="versenypálya"/>
     <text name="CP_vehicle_courseGeneratorSetting_centerMode_lands" text="blokk"/>
-    <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_title" text="Spiral from inside"/>
-    <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_tooltip" text="Starts the spiral from inside."/>
-    <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_title" text="even row width"/>
-    <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_tooltip" text="Reduces the working width to achieve an even distribution across all lanes."/>
-    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_title" text="Sharpen headland corners"/>
-    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_tooltip" text="Sharpen corners of non-rounded headlands"/>
-    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_title" text="Number of round corners"/>
-    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_tooltip" text="Number of round corners, starting with the first headland."/>
-    <text name="CP_vehicle_courseGeneratorSetting_turningRadius_title" text="Corner radius"/>
-    <text name="CP_vehicle_courseGeneratorSetting_turningRadius_tooltip" text="Radius of round corners, based on the turning radius of the vehicle. Value: 5 - 15"/>
-    <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_title" text="Up/down row direction"/>
-    <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_tooltip" text="Direction of the rows in the center of the field."/>
-    <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_automatic" text="automatic"/>
-    <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_manual" text="manual"/>
+    <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_title" text="Spirál belülről indulva"/>
+    <text name="CP_vehicle_courseGeneratorSetting_spiralFromInside_tooltip" text="A segítő belülről kezdi el a spirált."/>
+    <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_title" text="Egyenlő sorszélesség"/>
+    <text name="CP_vehicle_courseGeneratorSetting_evenRowWidth_tooltip" text="Csökkenti a munkaszélességet, hogy a sorok szélessége egyenlő legyen."/>
+    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_title" text="Fordulósáv sarkok kerekítése"/>
+    <text name="CP_vehicle_courseGeneratorSetting_sharpenCorners_tooltip" text="Éles sarkokat generál a nem íves fordulósávokhoz."/>
+    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_title" text="Kerekített sarkok száma"/>
+    <text name="CP_vehicle_courseGeneratorSetting_headlandsWithRoundCorners_tooltip" text="Kerekített sarkok száma, kezdve az első fordulósávval."/>
+    <text name="CP_vehicle_courseGeneratorSetting_turningRadius_title" text="Sarkok sugara"/>
+    <text name="CP_vehicle_courseGeneratorSetting_turningRadius_tooltip" text="A kerekített sarkok sugara, figyelembe véve a jármű fordulási sugarát. Érték: 5 - 15"/>
+    <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_title" text="Fel/le haladási irány"/>
+    <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_tooltip" text="A sorok iránya a termőföld középső részén."/>
+    <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_automatic" text="automatikus"/>
+    <text name="CP_vehicle_courseGeneratorSetting_autoRowAngle_manual" text="manuális"/>
     <text name="CP_vehicle_courseGeneratorSetting_manualRowAngleDeg_title" text="Sorok iránya"/>
     <text name="CP_vehicle_courseGeneratorSetting_manualRowAngleDeg_tooltip" text="A sorok iránya (0° az észak), ha az irány kézi. 0° - 175°, 5°-os lépésekben"/>
-    <text name="CP_vehicle_courseGeneratorSetting_bypassIslands_title" text="Island bypass mode"/>
-    <text name="CP_vehicle_courseGeneratorSetting_bypassIslands_tooltip" text="How the course should bypass islands in the field."/>
-    <text name="CP_vehicle_courseGeneratorSetting_nIslandHeadlands_title" text="Island headlands"/>
-    <text name="CP_vehicle_courseGeneratorSetting_nIslandHeadlands_tooltip" text="Number of headlands around islands. Value: 1 - 10"/>
+    <text name="CP_vehicle_courseGeneratorSetting_bypassIslands_title" text="Sziget kikerülés módja"/>
+    <text name="CP_vehicle_courseGeneratorSetting_bypassIslands_tooltip" text="Meghatározza a termőföldi szegetek elkerülésének módját."/>
+    <text name="CP_vehicle_courseGeneratorSetting_nIslandHeadlands_title" text="Szigetkerülő sávok"/>
+    <text name="CP_vehicle_courseGeneratorSetting_nIslandHeadlands_tooltip" text="Fordulósávok száma szigetek körül. Érték: 1 - 10"/>
     <text name="CP_vehicle_courseGeneratorSetting_startOnHeadland_title" text="Hol kezdje a munkát"/>
     <text name="CP_vehicle_courseGeneratorSetting_startOnHeadland_tooltip" text="Betakarításnál kívül (a fordulósávon), egyébként középről"/>
     <text name="CP_vehicle_courseGeneratorSetting_startOnHeadland_on_headland" text="kívűl"/>
@@ -339,10 +339,10 @@
     <text name="CP_vehicle_courseGeneratorSetting_multiTools_tooltip" text="Hány munkagép dolgozik egyszerre ugyanazon a táblán. Részletek a súgóban."/>
     <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_title" text="Switching lanes"/>
     <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_tooltip" text="Sets the lanes to always switch. This leads to similar turns. See help menu for more details."/>
-    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_title" text="Field edge for line form"/>
-    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_tooltip" text="The rows follow the curvature of the field edge nearest to the field marker."/>
-    <text name="CP_vehicle_courseGeneratorSetting_narrowField_title" text="Narrow field"/>
-    <text name="CP_vehicle_courseGeneratorSetting_narrowField_tooltip" text="Generates the headland only at the short edges of the field."/>
+    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_title" text="Mező határát követő sávok"/>
+    <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_tooltip" text="A megmunkálási sávok követik a mezőjelölőhöz legközelebbi határvonal görbületét."/>
+    <text name="CP_vehicle_courseGeneratorSetting_narrowField_title" text="Keskeny mező"/>
+    <text name="CP_vehicle_courseGeneratorSetting_narrowField_tooltip" text="Csak a mező rövid oldalán generál fordulósávot."/>
     <!---->
     <!--Vine course generator settings-->
     <!---->
@@ -372,8 +372,8 @@
     <text name="CP_global_setting_autoRepair_always" text="Javítsa"/>
     <text name="CP_global_setting_fuelThreshold_title" text="Minimum üzemanagszint"/>
     <text name="CP_global_setting_fuelThreshold_tooltip" text="A segítő abbahagyja a munkát, ha az üzemanyagszint ez alá csökken."/>
-    <text name="CP_global_setting_waitForRefueling_title" text="Waits for refueling"/>
-    <text name="CP_global_setting_waitForRefueling_tooltip" text="Vehicle waits until it is refueled."/>
+    <text name="CP_global_setting_waitForRefueling_title" text="Újratankolásra vár"/>
+    <text name="CP_global_setting_waitForRefueling_tooltip" text="A jármű megvárja az újratankolást."/>
     <text name="CP_global_setting_brokenThreshold_title" text="Maximum meghibásodás"/>
     <text name="CP_global_setting_brokenThreshold_tooltip" text="A segítő abbahagyja a munkát, ha a jármű/szerszám ennél jobban meghibásodik. 100% soha nem hagyja abba."/>
     <text name="CP_global_setting_stopThreshingDuringRain_title" text="Kombájn megállítása esőben"/>
@@ -506,11 +506,11 @@ Az útvonal automatikusan mentésre kerül a szerkesztő bezárásakor és felü
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Helytelen vetőmag kiválasztva a megbízáshoz"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="A raklapok tele vannak"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Nincs raklap"/>
-    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="A jármű túl messze van a mezőtől."/>
     <!---->
     <!--Custom field manager-->
     <!---->
-    <text name="CP_customFieldManager_hotspotName" text="Custom field"/>
+    <text name="CP_customFieldManager_hotspotName" text="Egyedi mező"/>
     <text name="CP_customFieldManager_confirm_save" text="El akarod menteni az útvonalat szántóföldként %s néven?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Törlöd a %s szántóföldet?"/>
     <text name="CP_customFieldManager_delete" text="Szántóföld törlés"/>
@@ -519,7 +519,7 @@ Az útvonal automatikusan mentésre kerül a szerkesztő bezárásakor és felü
     <text name="CP_customFieldManager_edit" text="Egyedi szántóföld szerkesztése"/>
     <text name="CP_customFieldManager_draw" text="Szántóföld rajzolás"/>
     <text name="CP_customFieldManager_draw_header" text="Jobb klikkel tudod a szántóföld határait megrajzolni"/>
-    <text name="CP_customFieldManager_draw_sub_header" text="Hold the left shift key for a straight line."/>
+    <text name="CP_customFieldManager_draw_sub_header" text="Tartsd lenyomva a bal Shift gombot egyenes vonalhoz."/>
     <text name="CP_customFieldManager_save" text="Szántóföld mentés"/>
     <text name="CP_controllerGui_startRecording" text="Szántóföld-határ rögzítés indítása"/>
     <text name="CP_controllerGui_stopRecording" text="Szántóföld-határ rögzítés leállítása"/>
@@ -533,7 +533,7 @@ Az útvonal automatikusan mentésre kerül a szerkesztő bezárásakor és felü
     <!--Help menu-->
     <!---->
     <text name="CP_help_title" text="Courseplay"/>
-    <text name="CP_help_subTitle" text="Egy módosítás Farming Simulator 22 játékhoz"/>
+    <text name="CP_help_subTitle" text="Egy módosítás Farming Simulator 25 játékhoz"/>
     <text name="CP_help_page_blank" text=""/>
     <text name="CP_help_page_General_title" text="Általános információ"/>
     <text name="CP_help_page_GeneralBase_text" text="
