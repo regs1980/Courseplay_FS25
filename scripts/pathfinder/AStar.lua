@@ -58,6 +58,9 @@ function AStar:rollUpPath(node, goal, path)
             self.nodes.lowestCost, self.nodes.highestCost)
     table.insert(path, 1, currentNode)
     local nSkippedNodes = 0
+    self.nPenaltyCalls = 0
+    -- cache for penalties to make post smoothing faster, by calling getNodePenalty() only once per grid cell
+    self.penalties = HybridAStar.NodeList(self.deltaPos, 360)
     while currentNode.pred do
         -- smoothing the path
         if currentNode.pred.pred then
@@ -74,7 +77,8 @@ function AStar:rollUpPath(node, goal, path)
         end
         currentNode = currentNode.pred
     end
-    self:debug('Nodes %d (skipped %d for smoothing), iterations %d, yields %d', #path, nSkippedNodes, self.iterations, self.yields)
+    self:debug('Nodes %d (skipped %d for smoothing), iterations %d, yields %d, penalty calls %d',
+            #path, nSkippedNodes, self.iterations, self.yields, self.nPenaltyCalls)
     -- now that we straightened the path, we may end up with just 2 nodes, start and end, so let's add
     -- some in between
     return self:addIntermediatePoints(path)
@@ -104,7 +108,17 @@ end
 function AStar:isObstacleBetween(n1, n2)
     return self:runForImmediatePoints(n1, n2,
             function(x, y)
-                local penalty = self.constraints:getNodePenalty(State3D(x, y, 0))
+                local node = State3D(x, y, 0)
+                local penalty
+                local cachedPenalty = self.penalties:get(node)
+                if cachedPenalty then
+                    penalty = cachedPenalty.penalty
+                else
+                    self.nPenaltyCalls = self.nPenaltyCalls + 1
+                    penalty = self.constraints:getNodePenalty(node)
+                    node.penalty = penalty
+                    self.penalties:add(node)
+                end
                 if penalty > 0 then
                     return true
                 end
