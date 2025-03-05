@@ -341,10 +341,10 @@ function Polygon:removeSelfIntersections()
                 if edgeBefore and edgeAfter then
                     local intersectionPoint = edgeBefore:intersects(edgeAfter)
                     if intersectionPoint then
-                        self.logger:debug('Found self intersection at %s', intersectionPoint)
+                        self.logger:debug('Found self intersection at %s (%d)', intersectionPoint, i)
                         -- remove the current and next vertex, replace them with the intersection point
                         self:set(i, Vertex.fromVector(intersectionPoint, i))
-                        table.remove(self, i + 1)
+                        table.remove(self, self:getRawIndex(i + 1))
                         self:calculateProperties(i > 2 and i - 1)
                         -- exit the loop here since we manipulated the array we are iterating over
                         return true
