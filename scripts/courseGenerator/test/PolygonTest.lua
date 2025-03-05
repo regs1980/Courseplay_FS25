@@ -492,6 +492,33 @@ function testRemoveSelfIntersections()
     p[5]:assertAlmostEquals(Vector(-585.75, 1211.25))
     p[6]:assertAlmostEquals(Vector(-597.68, 1223.18)) -- intersection, A and B removed
     p[7]:assertAlmostEquals(Vector(-649.75, 1191.25))
+
+    -- first and last vertex is the same was causing a false positive and an endless loop as in #657
+    p = Polygon({
+        Vector(0, 0),
+        Vector(5, 0),
+        Vector(5, 5),
+        Vector(0, 5),
+        Vector(0, 0),
+    })
+    lu.assertEquals(#p, 5)
+    lu.assertIsFalse(p:isClockwise())
+    p:removeSelfIntersections()
+    lu.assertEquals(#p, 4)
+
+    -- self intersection at the first/last vertex
+    p = Polygon({
+        Vector(-1, 0),
+        Vector(5, 0),
+        Vector(5, 5),
+        Vector(0, 5),
+        Vector(0, -1),
+    })
+    lu.assertEquals(#p, 5)
+    lu.assertIsNil(p:isClockwise())
+    p:removeSelfIntersections()
+    lu.assertEquals(#p, 4)
+    lu.assertIsFalse(p:isClockwise())
 end
 
 os.exit(lu.LuaUnit.run())
