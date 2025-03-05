@@ -5,7 +5,7 @@ WorkEndHandler = CpObject()
 ---@param vehicle table
 ---@param driveStrategy AIDriveStrategyFieldWorkCourse
 function WorkEndHandler:init(vehicle, driveStrategy)
-    self.logger = Logger('WorkEndHandler', CpDebug.DBG_TURN)
+    self.logger = Logger('WorkEndHandler', Logger.level.debug, CpDebug.DBG_TURN)
     self.vehicle = vehicle
     self.driveStrategy = driveStrategy
     self.objectsAlreadyRaised = {}

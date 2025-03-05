@@ -5,7 +5,7 @@ WorkStartHandler = CpObject()
 ---@param vehicle table
 ---@param driveStrategy AIDriveStrategyFieldWorkCourse
 function WorkStartHandler:init(vehicle, driveStrategy)
-    self.logger = Logger('WorkStartHandler', CpDebug.DBG_TURN)
+    self.logger = Logger('WorkStartHandler', Logger.level.debug, CpDebug.DBG_TURN)
     self.vehicle = vehicle
     self.driveStrategy = driveStrategy
     self.settings = vehicle:getCpSettings()
