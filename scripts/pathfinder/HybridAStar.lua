@@ -84,8 +84,8 @@ end
 
 --- Resume the pathfinding
 ---@return boolean true if the pathfinding is done, false if it isn't ready. In this case you'll have to call resume() again
----@return Polyline path if the path found or nil if none found.
--- @return array of the points of the grid used for the pathfinding, for test purposes only
+---@return table|nil the path if found as array of State3D
+---@return boolean goal node invalid
 function PathfinderInterface:resume(...)
     local ok, done, path, goalNodeInvalid = coursePlayCoroutine.resume(self.coroutine, self, ...)
     if not ok or done then
@@ -111,6 +111,10 @@ function PathfinderInterface:debug(...)
     end
 end
 
+---@return number|nil the furthest the pathfinder got from the start
+function PathfinderInterface:getHighestDistance()
+    return self.nodes and self.nodes.highestDistance
+end
 --- The result of a pathfinder run
 --- Attributes are public, no getters.
 ---@class PathfinderResult
@@ -348,12 +352,6 @@ function HybridAStar.NodeList:getNodeIndexes(node)
     return x, y, t
 end
 
-function HybridAStar.NodeList:inSameCell(n1, n2)
-    local x1, y1, t1 = self:getNodeIndexes(n1)
-    local x2, y2, t2 = self:getNodeIndexes(n2)
-    return x1 == x2 and y1 == y2 and t1 == t2
-end
-
 ---@param node State3D
 function HybridAStar.NodeList:get(node)
     local x, y, t = self:getNodeIndexes(node)
@@ -362,9 +360,9 @@ function HybridAStar.NodeList:get(node)
     end
 end
 
---- Add a node to the configuration space
+--- Add a node to the configuration space (update or insert if does not yet exist)
 ---@param node State3D
-function HybridAStar.NodeList:add(node)
+function HybridAStar.NodeList:put(node)
     local x, y, t = self:getNodeIndexes(node)
     if not self.nodes[x] then
         self.nodes[x] = {}
@@ -381,19 +379,6 @@ function HybridAStar.NodeList:add(node)
     end
     if node.cost < self.lowestCost then
         self.lowestCost = node.cost
-    end
-end
-
-function HybridAStar.NodeList:getHeuristicValue(node, goal)
-    local heuristicNode = self:get(node)
-    if heuristicNode then
-        local diff = node:distance(goal) - heuristicNode.h
-        if math.abs(diff) > 1 then
-            print('diff', diff, node:distance(goal), heuristicNode.h)
-        end
-        return heuristicNode.h
-    else
-        return node:distance(goal)
     end
 end
 
@@ -504,7 +489,7 @@ end
 ---                              when we search for a valid analytic solution we use this instead of isValidNode()
 ---@param hitchLength number hitch length of a trailer (length between hitch on the towing vehicle and the
 --- rear axle of the trailer), can be nil
----@return boolean, {}|nil, boolean done, path, goal node invalid
+---@return boolean, [State3D]|nil, boolean done, path, goal node invalid
 function HybridAStar:initRun(start, goal, turnRadius, allowReverse, constraints, hitchLength)
     self:debug('Start pathfinding between %s and %s', tostring(start), tostring(goal))
     self:debug('  turnRadius = %.1f, allowReverse: %s', turnRadius, tostring(allowReverse))
@@ -573,6 +558,9 @@ function HybridAStar:finishRun(result, path)
 end
 
 --- Reentry-safe pathfinder runner
+---@return boolean true if the pathfinding is done, false if it isn't ready. In this case you'll have to call resume() again
+---@return table|nil the path if found as array of State3D
+---@return boolean goal node invalid
 function HybridAStar:run(start, goal, turnRadius, allowReverse, constraints, hitchLength)
     if not self.initialized then
         local done, path, goalNodeInvalid = self:initRun(start, goal, turnRadius, allowReverse, constraints, hitchLength)
@@ -634,11 +622,9 @@ function HybridAStar:run(start, goal, turnRadius, allowReverse, constraints, hit
                     -- an iteration or two to bring us out of that position
                     if (self.ignoreValidityAtStart and self.iterations < 3) or self.constraints:isValidNode(succ) then
                         succ:updateG(primitive, self.constraints:getNodePenalty(succ))
-                        local analyticSolutionCost = 0
                         if self.analyticSolverEnabled then
                             local analyticSolution = self.analyticSolver:solve(succ, self.goal, self.turnRadius)
-                            analyticSolutionCost = analyticSolution:getLength(self.turnRadius)
-                            succ:updateH(self.goal, analyticSolutionCost)
+                            succ:updateH(self.goal, analyticSolution:getLength(self.turnRadius))
                         else
                             succ:updateH(self.goal, 0, succ:distance(self.goal) * 1.5)
                         end
@@ -655,7 +641,7 @@ function HybridAStar:run(start, goal, turnRadius, allowReverse, constraints, hit
                                     existingSuccNode:remove(self.openList)
                                 end
                                 -- add (update) to the state space
-                                self.nodes:add(succ)
+                                self.nodes:put(succ)
                                 -- add to open list
                                 succ:insert(self.openList)
                             else
@@ -663,7 +649,7 @@ function HybridAStar:run(start, goal, turnRadius, allowReverse, constraints, hit
                             end
                         else
                             -- successor cell does not yet exist
-                            self.nodes:add(succ)
+                            self.nodes:put(succ)
                             -- put it on the open list as well
                             succ:insert(self.openList)
                         end
@@ -730,11 +716,6 @@ function HybridAStar:rollUpPath(node, goal, path)
     self:debug('Nodes %d, iterations %d, yields %d, deltaTheta %.1f', #path, self.iterations, self.yields,
             math.deg(self.deltaThetaGoal))
     return path
-end
-
----@return number|nil the furthest the pathfinder got from the start
-function HybridAStar:getHighestDistance()
-    return self.nodes and self.nodes.highestDistance
 end
 
 function HybridAStar:printOpenList(openList)

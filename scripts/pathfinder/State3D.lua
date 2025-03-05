@@ -140,10 +140,7 @@ function State3D:updateG(primitive, userPenalty)
         end
     end
     self.g = self.g + penalty * primitive.d + (userPenalty or 0)
-end
-
-function State3D:setNodePenalty(nodePenalty)
-    self.nodePenalty = nodePenalty
+    self.penalty = userPenalty or 0
 end
 
 function State3D:getTrailerHeading()
