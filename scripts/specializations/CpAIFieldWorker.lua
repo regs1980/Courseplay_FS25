@@ -9,6 +9,11 @@ CpAIFieldWorker.NAME = ".cpAIFieldWorker"
 CpAIFieldWorker.SPEC_NAME = CpAIFieldWorker.MOD_NAME .. CpAIFieldWorker.NAME
 CpAIFieldWorker.KEY = "."..CpAIFieldWorker.MOD_NAME..CpAIFieldWorker.NAME
 
+-- shortcut to access the spec
+function CpAIFieldWorker.getSpec(self)
+    return self["spec_" .. CpAIFieldWorker.SPEC_NAME]
+end
+
 function CpAIFieldWorker.initSpecialization()
     local schema = Vehicle.xmlSchemaSavegame
     local key = "vehicles.vehicle(?)" .. CpAIFieldWorker.KEY
@@ -76,8 +81,8 @@ end
 ---------------------------------------------------------------------------------------------------------------------------
 function CpAIFieldWorker:onLoad(savegame)
 	--- Register the spec: spec_cpAIFieldWorker
-    self.spec_cpAIFieldWorker = self["spec_" .. CpAIFieldWorker.SPEC_NAME]
-    local spec = self.spec_cpAIFieldWorker
+    self.spec_cpAIFieldWorker = CpAIFieldWorker.getSpec(self)
+    local spec = CpAIFieldWorker.getSpec(self)
     --- This job is for starting the driving with a key bind or the hud.
     spec.cpJob = g_currentMission.aiJobTypeManager:createJob(AIJobType.FIELDWORK_CP)
     spec.cpJob:getCpJobParameters().startAt:setValue(CpFieldWorkJobParameters.START_AT_NEAREST_POINT)
@@ -90,7 +95,7 @@ function CpAIFieldWorker:onLoad(savegame)
 end
 
 function CpAIFieldWorker:onLoadFinished(savegame)
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     if savegame ~= nil then 
         spec.cpJob:getCpJobParameters():loadFromXMLFile(savegame.xmlFile, savegame.key.. CpAIFieldWorker.KEY..".cpJob")
         spec.cpJobStartAtLastWp:getCpJobParameters():loadFromXMLFile(savegame.xmlFile, savegame.key.. CpAIFieldWorker.KEY..".cpJobStartAtLastWp")
@@ -98,13 +103,13 @@ function CpAIFieldWorker:onLoadFinished(savegame)
 end
 
 function CpAIFieldWorker:saveToXMLFile(xmlFile, baseKey, usedModNames)
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     spec.cpJob:getCpJobParameters():saveToXMLFile(xmlFile, baseKey.. ".cpJob")
     spec.cpJobStartAtLastWp:getCpJobParameters():saveToXMLFile(xmlFile, baseKey.. ".cpJobStartAtLastWp")
 end
 
 function CpAIFieldWorker:onStateChange(state, data)
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     if state == VehicleStateChange.ATTACH then
         spec.cpJob:getCpJobParameters():validateSettings()
     elseif state == VehicleStateChange.DETACH then
@@ -113,19 +118,19 @@ function CpAIFieldWorker:onStateChange(state, data)
 end
 
 function CpAIFieldWorker:onCpCourseChange()
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     if spec.cpJob then
         spec.cpJob:getCpJobParameters():validateSettings()
     end
 end
 
 function CpAIFieldWorker:getCpStartingPointSetting()
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     return spec.cpJob:getCpJobParameters().startAt
 end
 
 function CpAIFieldWorker:getCpLaneOffsetSetting()
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     return spec.cpJob:getCpJobParameters().laneOffset
 end
 
@@ -147,7 +152,7 @@ end
 
 --- Gets the current field work drive strategy.
 function CpAIFieldWorker:getCpDriveStrategy(superFunc)
-    return superFunc(self) or self.spec_cpAIFieldWorker.driveStrategy
+    return superFunc(self) or (self.spec_cpAIFieldWorker and self.spec_cpAIFieldWorker.driveStrategy)
 end
 
 --- To find out if a harvester is waiting to be unloaded, either because it is full or ended the fieldwork course
@@ -195,7 +200,7 @@ end
 
 --- Starts the cp driver at the first waypoint.
 function CpAIFieldWorker:startCpAtFirstWp()
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     self:updateAIFieldWorkerImplementData()
     if self:hasCpCourse() and self:getCanStartCpFieldWork() then
         spec.cpJobStartAtFirstWp:applyCurrentState(self, g_currentMission, g_currentMission.playerSystem:getLocalPlayer().farmId, true, false)
@@ -212,7 +217,7 @@ end
 
 --- Starts the cp driver at the last driven waypoint.
 function CpAIFieldWorker:startCpAtLastWp()
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     self:updateAIFieldWorkerImplementData()
     if self:hasCpCourse() and self:getCanStartCpFieldWork() then
         spec.cpJobStartAtLastWp:applyCurrentState(self, g_currentMission, g_currentMission.playerSystem:getLocalPlayer().farmId, true, false)
@@ -228,13 +233,13 @@ function CpAIFieldWorker:startCpAtLastWp()
 end
 
 function CpAIFieldWorker:onCpADStartedByPlayer()
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     --- Applies the lane offset set in the hud, so ad can start with the correct one.
     spec.cpJobStartAtLastWp:getCpJobParameters().laneOffset:setValue(self:getCpLaneOffsetSetting():getValue())
 end
 
 function CpAIFieldWorker:onCpADRestarted()
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
  
 end
 
@@ -296,7 +301,7 @@ end
 
 --- Gets the field work job for the hud or start action event.
 function CpAIFieldWorker:getCpStartableJob(superFunc, isStartedByHud)
-    local spec = self.spec_cpAIFieldWorker
+    local spec = CpAIFieldWorker.getSpec(self)
     if isStartedByHud and self:cpIsHudFieldWorkJobSelected() then 
         return self:getCanStartCpFieldWork() and self:hasCpCourse() and spec.cpJob
     end

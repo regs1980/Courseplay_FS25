@@ -18,6 +18,11 @@ CpCourseManager.i18n = {
 	["temporaryCourse"] = "CP_courseManager_temporary_course",
 }
 
+-- shortcut to access the spec
+function CpCourseManager.getSpec(self)
+    return self["spec_" .. CpCourseManager.SPEC_NAME]
+end
+
 --- generic xml course schema for saving/loading.
 function CpCourseManager.registerXmlSchemaValues(schema,baseKey)
 	baseKey = baseKey or ""
@@ -116,10 +121,6 @@ function CpCourseManager.registerFunctions(vehicleType)
     SpecializationUtil.registerFunction(vehicleType, 'setCpAssignedCoursesID', CpCourseManager.setCpAssignedCoursesID)
 
     SpecializationUtil.registerFunction(vehicleType, 'setCpCoursesFromNetworkEvent', CpCourseManager.setCoursesFromNetworkEvent)
-end
-
-function CpCourseManager.getSpec(self)
-    return self["spec_" .. CpCourseManager.SPEC_NAME]
 end
 
 function CpCourseManager:onLoad(savegame)
@@ -245,7 +246,7 @@ end
 function CpCourseManager:getFieldWorkCourse()
     local spec = CpCourseManager.getSpec(self)
     --- TODO: For now only returns the first course.
-    return spec.courses[1]
+    return spec.courses and spec.courses[1]
 end
 
 function CpCourseManager:getCourses()
