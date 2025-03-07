@@ -68,7 +68,7 @@ function AIParameterSettingList:init(data, vehicle, class)
 	self.guiElementId = data.uniqueID
 
 	self.guiElement = nil
-
+	self.isLoading = false
 	self.setupDone = true
 	self.isSynchronized = false
 
@@ -173,7 +173,7 @@ function AIParameterSettingList:checkAndSetValidValue(new)
 end
 
 function AIParameterSettingList:onChange()
-	if self.setupDone then
+	if self.setupDone and not self.isLoading then
 		self:raiseCallback(self.callbacks.onChangeCallbackStr)
 		--- The client user settings are automatically saved on change.
 		if g_server == nil and self:getIsUserSetting() and self.isSynchronized then 
@@ -268,6 +268,8 @@ function AIParameterSettingList:loadFromXMLFileLegacy(xmlFile, key)
 end
 
 function AIParameterSettingList:loadFromXMLFile(xmlFile, key)
+	--- We need this flag, so we now if a value change was during the loading.
+	self.isLoading = true
 	local rawValue = xmlFile:getString(key .. "#currentValue")
 	local value = rawValue and tonumber(rawValue) 
 	if value then 
@@ -278,6 +280,7 @@ function AIParameterSettingList:loadFromXMLFile(xmlFile, key)
 	else 
 		self:loadFromXMLFileLegacy(xmlFile, key)
 	end
+	self.isLoading = false
 end
 
 function AIParameterSettingList:readStreamInternal(streamId, connection)
