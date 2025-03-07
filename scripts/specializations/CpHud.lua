@@ -44,7 +44,7 @@ function CpHud.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onUpdate", CpHud)
     SpecializationUtil.registerEventListener(vehicleType, "onEnterVehicle", CpHud)
     SpecializationUtil.registerEventListener(vehicleType, "onLeaveVehicle", CpHud)
-    SpecializationUtil.registerEventListener(vehicleType, "onDraw", CpHud)
+    SpecializationUtil.registerEventListener(vehicleType, "onDrawUIInfo", CpHud)
 	SpecializationUtil.registerEventListener(vehicleType, "cpShowWorkWidth", CpHud)
     SpecializationUtil.registerEventListener(vehicleType, "cpShowBaleCollectorOffset", CpHud)
     SpecializationUtil.registerEventListener(vehicleType, "cpUpdateMouseAction", CpHud)
@@ -350,8 +350,8 @@ function CpHud:onUpdate(dt)
     end
 end
 
-function CpHud:onDraw()
-    if not self:getIsEntered() then 
+function CpHud:onDrawUIInfo()
+    if CpUtil.getCurrentVehicle() ~= self then 
         return
     end
     local spec = self.spec_cpHud
