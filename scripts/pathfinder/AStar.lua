@@ -91,12 +91,14 @@ function AStar:runForImmediatePoints(n1, n2, func, ...)
     local dx, dy = x2 - x1, y2 - y1
     local d = math.sqrt(dx * dx + dy * dy)
     local steps = math.floor(d / self.deltaPos)
-    local stepX, stepY = dx / steps, dy / steps
-    for i = 1, steps do
-        local x, y = x1 + i * stepX, y1 + i * stepY
-        local result = func(x, y, ...)
-        if result ~= nil then
-            return result
+    if steps >= 1 then
+        local stepX, stepY = dx / steps, dy / steps
+        for i = 1, steps do
+            local x, y = x1 + i * stepX, y1 + i * stepY
+            local result = func(x, y, ...)
+            if result ~= nil then
+                return result
+            end
         end
     end
 end
