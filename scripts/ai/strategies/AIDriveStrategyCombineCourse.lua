@@ -238,6 +238,7 @@ end
 
 function AIDriveStrategyCombineCourse:getDriveData(dt, vX, vY, vZ)
     self:handlePipe(dt)
+    Markers.refreshMarkerNodes(self.vehicle, self.measuredBackDistance)
     if self.temporaryHold:get() then
         self:setMaxSpeed(0)
     end

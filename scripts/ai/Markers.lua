@@ -81,7 +81,7 @@ local function setFrontMarkerNode(vehicle)
     createMarkerIfDoesNotExist(vehicle, 'frontMarkerNode',  AIUtil.getDirectionNode(vehicle))
     -- relink to current reference node (in case of implement change for example
     unlink(g_vehicleMarkers[vehicle].frontMarkerNode)
-    link( AIUtil.getDirectionNode(vehicle), g_vehicleMarkers[vehicle].frontMarkerNode)
+    link(AIUtil.getDirectionNode(vehicle), g_vehicleMarkers[vehicle].frontMarkerNode)
     setTranslation(g_vehicleMarkers[vehicle].frontMarkerNode, 0, 0, frontMarkerOffset)
     g_vehicleMarkers[vehicle].frontMarkerOffset = frontMarkerOffset
 end
@@ -94,6 +94,16 @@ end
 function Markers.setMarkerNodes(vehicle, measuredBackDistance)
     setBackMarkerNode(vehicle, measuredBackDistance)
     setFrontMarkerNode(vehicle)
+    -- remember the direction node we used when we set the markers so we can detect changes
+    g_vehicleMarkers[vehicle].aiDirectionNode = AIUtil.getDirectionNode(vehicle)
+end
+
+function Markers.refreshMarkerNodes(vehicle, measuredBackDistance)
+    if AIUtil.getDirectionNode(vehicle) ~= g_vehicleMarkers[vehicle].aiDirectionNode then
+        CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, vehicle, 'Direction node changed, refreshing markers')
+        -- direction node changed, so we need to re-link the markers
+        Markers.setMarkerNodes(vehicle, measuredBackDistance)
+    end
 end
 
 --- Get the front marker node and offset
