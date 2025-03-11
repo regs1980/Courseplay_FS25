@@ -757,7 +757,8 @@ function PipeController:printPipeDebug()
     self:debug("--Pipe Debug--")
     self:debug("Current pipe state: %s, Target pipe state: %s, numStates: %s", 
         tostring(self.pipeSpec.currentState), tostring(self.pipeSpec.targetState), tostring(self.pipeSpec.numStates))   
-    self:debug("Is pipe state change allowed: %s", self.implement:getIsPipeStateChangeAllowed())
+    self:debug("Is pipe state change allowed (open): %s", self.implement:getIsPipeStateChangeAllowed(PipeController.PIPE_STATE_OPEN))
+    self:debug("Is pipe state change allowed (closed): %s", self.implement:getIsPipeStateChangeAllowed(PipeController.PIPE_STATE_CLOSED))
     self:debug("Fold => minTime: %s, maxTime : %s, minState: %s, maxState: %s",
         tostring(self.pipeSpec.foldMinTime), tostring(self.pipeSpec.foldMaxTime), 
         tostring(self.pipeSpec.foldMinState), tostring(self.pipeSpec.foldMaxState))
