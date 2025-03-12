@@ -150,6 +150,7 @@ function AIDriveStrategyFieldWorkCourse:getDriveData(dt, vX, vY, vZ)
 
     self:updateFieldworkOffset(self.course)
     self:updateLowFrequencyImplementControllers()
+    Markers.refreshMarkerNodes(self.vehicle, self.measuredBackDistance)
 
     local moveForwards = not self.ppc:isReversing()
     local gx, gz
