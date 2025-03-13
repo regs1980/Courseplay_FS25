@@ -18,9 +18,9 @@ function WorkStartHandler:init(vehicle, driveStrategy)
         if aiLeftMarker then
             self.objectsToLower[object] = true
             self.nObjectsToLower = self.nObjectsToLower + 1
-            self.logger:debug('%s has AI markers, will lower', CpUtil.getName(object))
+            self.logger:debug(self.vehicle, '%s has AI markers, will lower', CpUtil.getName(object))
         else
-            self.logger:debug('%s has no AI markers, no need to lower', CpUtil.getName(object))
+            self.logger:debug(self.vehicle, '%s has no AI markers, no need to lower', CpUtil.getName(object))
         end
     end
 end
@@ -46,7 +46,7 @@ function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing, lowe
     local function lowerThis(object)
         self.objectsAlreadyLowered[object] = true
         self.nObjectsAlreadyLowered = self.nObjectsAlreadyLowered + 1
-        self.logger:debug('Lowering implement %s, %d left', CpUtil.getName(object),
+        self.logger:debug(self.vehicle, 'Lowering implement %s, %d left', CpUtil.getName(object),
                 self.nObjectsToLower - self.nObjectsAlreadyLowered)
         object:aiImplementStartLine()
     end
@@ -71,7 +71,7 @@ function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing, lowe
         end
     end
     if reversing and allShouldBeLowered then
-        self.logger:debug('Reversing and now all implements should be lowered')
+        self.logger:debug(self.vehicle, 'Reversing and now all implements should be lowered')
         for object in pairs(self.objectsToLower) do
             lowerThis(object)
         end
@@ -110,7 +110,7 @@ function WorkStartHandler:shouldLowerThisImplement(object, workStartNode, revers
     -- if not aligned, work with an average
     local dzFront = aligned and math.max(dzLeft, dzRight) or (dzLeft + dzRight) / 2
     local dxFront = (dxLeft + dxRight) / 2
-    self.logger:debug('%s: dzLeft = %.1f, dzRight = %.1f, aligned = %s, dzFront = %.1f, dxFront = %.1f, dzBack = %.1f, loweringDistance = %.1f, reversing %s',
+    self.logger:debugSparse(self.vehicle, '%s: dzLeft = %.1f, dzRight = %.1f, aligned = %s, dzFront = %.1f, dxFront = %.1f, dzBack = %.1f, loweringDistance = %.1f, reversing %s',
             CpUtil.getName(object), dzLeft, dzRight, aligned, dzFront, dxFront, dzBack, loweringDistance, tostring(reversing))
     local dz = self.driveStrategy:getImplementLowerEarly() and dzFront or dzBack
     if reversing then

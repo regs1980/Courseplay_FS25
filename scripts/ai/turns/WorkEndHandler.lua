@@ -17,9 +17,9 @@ function WorkEndHandler:init(vehicle, driveStrategy)
         if aiLeftMarker then
             self.objectsToRaise[object] = true
             self.nObjectsToRaise = self.nObjectsToRaise + 1
-            self.logger:debug('%s has AI markers, will raise', CpUtil.getName(object))
+            self.logger:debug(self.vehicle, '%s has AI markers, will raise', CpUtil.getName(object))
         else
-            self.logger:debug('%s has no AI markers, no need to raise', CpUtil.getName(object))
+            self.logger:debug(self.vehicle, '%s has no AI markers, no need to raise', CpUtil.getName(object))
         end
     end
 end
@@ -46,7 +46,7 @@ function WorkEndHandler:raiseImplementsAsNeeded(workEndNode)
         if shouldRaiseThis and not self.objectsAlreadyRaised[object] then
             self.objectsAlreadyRaised[object] = true
             self.nObjectsAlreadyRaised = self.nObjectsAlreadyRaised + 1
-            self.logger:debug('Raising implement %s, %d left', CpUtil.getName(object),
+            self.logger:debug(self.vehicle, 'Raising implement %s, %d left', CpUtil.getName(object),
                     self.nObjectsToRaise - self.nObjectsAlreadyRaised)
             object:aiImplementEndLine()
             if self:oneRaised() then
@@ -71,7 +71,7 @@ function WorkEndHandler:shouldRaiseThisImplement(object, turnStartNode)
     local marker = self.driveStrategy:getImplementRaiseLate() and aiBackMarker or aiFrontMarker
     -- turn start node in the back marker node's coordinate system
     local _, _, dz = localToLocal(marker, turnStartNode, 0, 0, 0)
-    self.logger:debugSparse('%s: shouldRaiseImplements: dz = %.1f', CpUtil.getName(object), dz)
+    self.logger:debugSparse(self.vehicle, '%s: shouldRaiseImplements: dz = %.1f', CpUtil.getName(object), dz)
     -- marker is just in front of the turn start node
     return dz > 0
 end
