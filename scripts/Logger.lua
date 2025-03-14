@@ -33,6 +33,8 @@ function Logger:init(debugPrefix, level, channel)
     self.debugPrefix = debugPrefix
     self.logLevel = level or Logger.level.debug
     self.channel = channel
+    -- last time debugSparse called
+    self.lastCallSec = getTimeSec and math.floor(getTimeSec()) or os.time()
 end
 
 ---@param level number one of Logger.levels
@@ -76,7 +78,7 @@ end
 --- Write a debug message in the log if the log level is > Logger.level.debug. Will only write once every second.
 ---@param [vehicle], ... string format and arguments
 function Logger:debugSparse(...)
-    local now = getTimeSec and getTimeSec() or os.time()
+    local now = getTimeSec and math.floor(getTimeSec()) or os.time()
     if self.lastCallSec and self.lastCallSec ~= now then
         if self.logLevel >= Logger.level.debug then
             self:log('DEBUG', ...)
