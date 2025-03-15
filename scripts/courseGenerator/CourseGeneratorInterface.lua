@@ -141,8 +141,8 @@ function CourseGeneratorInterface:generate(fieldPolygon,
                     return err
                 end
         )
-    elseif settings.narrowField:getValue() then
-        -- two sided must start on headland
+    elseif settings.narrowField:getValue() and settings.numberOfHeadlands:getValue() > 0 then
+        -- two sided must have headlands and must start on headland
         context:setHeadlandFirst(true)
         -- and must not have multiple vehicles
         settings.multiTools:setValue(1)
