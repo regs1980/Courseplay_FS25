@@ -1619,11 +1619,11 @@ end
 function AIDriveStrategyCombineCourse:isAutoDriveWaitingForPipe()
     if self.vehicle.spec_autodrive then
         -- AutoDrive mod active on harvester
-        if self:isWaitingForUnload() and self.vehicle.spec_autodrive.adHasHarvesterAvailableUnloader then
+        if self:isWaitingForUnload() and self.vehicle.adHasHarvesterAvailableUnloader then
             -- AutoDrive has an unloader available for this harvester, and we are waiting for unload stopped,
             -- so open the pipe to let AutoDrive know we are ready and that it can get the exact pipe position
             -- and other properties from the harvester
-            return self.vehicle.spec_autodrive:adHasHarvesterAvailableUnloader()
+            return self.vehicle:adHasHarvesterAvailableUnloader()
         elseif self.vehicle.spec_autodrive.combineIsCallingDriver then
             -- AutoDrive legacy interface for compatibility
             -- TODO: remove when most users have updated AutoDrive
