@@ -84,11 +84,11 @@ function FieldWorkerProximityController:updateTrail(maxLength)
         return
     end
 
-    local x, y, z = getWorldTranslation(self.vehicle.rootNode)
+    local x, y, z = getWorldTranslation(self.vehicle:getAIDirectionNode())
     local dTraveled = #self.trail > 0 and self.trail[#self.trail]:getDistanceFromPoint(x, z) or self.trailSpacing
     if dTraveled < self.trailSpacing then return end
     -- time to record a new point
-    local _, yRot, _ = getWorldRotation(self.vehicle.rootNode)
+    local _, yRot, _ = getWorldRotation(self.vehicle:getAIDirectionNode())
     table.insert(self.trail, Waypoint({x = x, y = y, z = z, yRot = yRot}))
     self:debug('Recorded new trail point (%d)', #self.trail)
     local numberOfPoints = math.floor(maxLength / self.trailSpacing)
@@ -143,7 +143,7 @@ function FieldWorkerProximityController:getMaxSpeed(distanceLimit, currentMaxSpe
             if otherStrategy and otherStrategy.getFieldWorkProximity and not otherIsDone then
                 local otherConvoyDistance = otherVehicle:getCpSettings().convoyDistance:getValue()
                 maxConvoyDistance = math.max(maxConvoyDistance, otherConvoyDistance)
-                local distanceFromOther = otherStrategy:getFieldWorkProximity(self.vehicle.rootNode)
+                local distanceFromOther = otherStrategy:getFieldWorkProximity(self.vehicle:getAIDirectionNode())
                 self:debugSparse('have same course as %s (done %s, convoy distance %.1f), distance %.1f',
                         CpUtil.getName(otherVehicle), otherIsDone, otherConvoyDistance, distanceFromOther)
                 if distanceFromOther > 0 and distanceFromOther < distanceLimit then
