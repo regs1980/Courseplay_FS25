@@ -9,7 +9,7 @@
 <Settings prefixText="CP_vehicle_courseGeneratorSetting_">
 	<!--Basic settings-->
 	<SettingSubTitle title="basic">
-		<Setting classType="AIParameterSettingList" name="workWidth" min="0.5" max="55" incremental="0.1" unit="2" setDefault="setAutomaticWorkWidthAndOffset" onChangeCallback="cpShowWorkWidth" isVisible="isWorkWidthSettingVisible"/>
+		<Setting classType="AIParameterSettingList" name="workWidth" min="0.5" max="57" incremental="0.1" unit="2" setDefault="setAutomaticWorkWidthAndOffset" onChangeCallback="cpShowWorkWidth" isVisible="isWorkWidthSettingVisible"/>
 		<Setting classType="AIParameterSettingList" name="multiTools" min="1" max="5" default="1" isExpertModeOnly="true"/>
 		<Setting classType="AIParameterBooleanSetting" name="useSameTurnWidth" isVisible="hasMoreThenOneVehicle" isExpertModeOnly="true"/>
 		<Setting classType="AIParameterSettingList" name="fieldMargin" min="-5" max="6" default="0" incremental="0.2" isExpertModeOnly="true"/>
