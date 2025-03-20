@@ -6,7 +6,7 @@ CpConsoleCommands.commands = {
 	{ 'cpAddMoney', 'adds money', 'addMoney' },
 	{ 'cpRestartSaveGame', 'Load and start a savegame', 'restartSaveGame' },
 	{ 'cpReturnToSaveGameSelect', 'Returns to the menu', 'returnToSaveGameSelect' },
-	{ 'print', 'Print a variable', 'printVariable' },
+	{ 'print', 'Print a variable ($vehicle is replaced with CpUtil.getCurrentVehicle())', 'printVariable' },
 	{ 'printGlobalCpVariable', 'Print a global cp variable', 'printGlobalCpVariable' },
 	{ 'printVehicleVariable', 'Print CpUtil.getCurrentVehicle().variable', 'printVehicleVariable' },
 	{ 'printImplementVariable', 'printImplementVariable <implement index> <variable>', 'printImplementVariable' },
@@ -97,6 +97,7 @@ end
 ---@param printToXML number should the variable be printed to an xml file ? (optional)
 ---@param printToSeparateXmlFiles number should the variable be printed to an xml file named after the variable ? (optional)
 function CpConsoleCommands:printVariable(variableName, maxDepth, printToXML, printToSeparateXmlFiles)
+	variableName = variableName:gsub('$vehicle', 'CpUtil.getCurrentVehicle()')
 	if printToXML and tonumber(printToXML) and tonumber(printToXML)>0 then
 		CpUtil.printVariableToXML(variableName, maxDepth, printToSeparateXmlFiles)
 		return
