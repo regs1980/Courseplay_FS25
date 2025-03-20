@@ -169,9 +169,9 @@ end
 -- remain in initializing mode if the waypoint is too far back from the controlled node, and just
 -- reverse forever
 function PurePursuitController:initializeForReversing(ix)
-    local reverserNode = self:getReverserNode()
+    local reverserNode, debugText = self:getReverserNode(false)
     if reverserNode then
-        self:debug('Reverser node found, initializing with it')
+        self:debug('Reverser node %s found, initializing with it', debugText)
         -- don't use ix as it is, instead, find the waypoint closest to the reverser node
         local dPrev, d = math.huge, self.course:getWaypoint(ix):getDistanceFromNode(reverserNode)
         while d < dPrev and self.course:isReverseAt(ix) and ix < self.course:getNumberOfWaypoints() do
@@ -253,11 +253,11 @@ function PurePursuitController:getLastPassedWaypointIx()
 end
 
 ---@return number, string node that would be used for reversing, debug text explaining what node it is
-function PurePursuitController:getReverserNode()
+function PurePursuitController:getReverserNode(suppressLog)
     if not self.reversingImplement then
-        self.reversingImplement = AIUtil.getFirstReversingImplementWithWheels(self.vehicle, true)
+        self.reversingImplement = AIUtil.getFirstReversingImplementWithWheels(self.vehicle,  suppressLog)
     end
-    return AIUtil.getReverserNode(self.vehicle, self.reversingImplement, true)
+    return AIUtil.getReverserNode(self.vehicle, self.reversingImplement, suppressLog)
 end
 
 --- When reversing, use the towed implement's node as a reference
@@ -266,7 +266,7 @@ function PurePursuitController:switchControlledNode()
     local debugText = 'AIDirectionNode'
     local reverserNode
     if self:isReversing() then
-        reverserNode, debugText = self:getReverserNode()
+        reverserNode, debugText = self:getReverserNode(true)
         if reverserNode then
             self:setControlledNode(reverserNode)
         else

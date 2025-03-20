@@ -313,16 +313,22 @@ function DevHelper:showAIMarkers()
     end
     local reverseNode = self.vehicle:getAIReverserNode()
     if reverseNode then
-        CpUtil.drawDebugNode(reverseNode, false , 4.5, "AiReverseNode")
+        CpUtil.drawDebugNode(reverseNode, false , 4.2, "AiReverseNode")
     end
     local steeringNode = self.vehicle:getAISteeringNode()
     if steeringNode then
-        CpUtil.drawDebugNode(steeringNode, false , 5, "AiSteeringNode")
+        CpUtil.drawDebugNode(steeringNode, false , 4.4, "AiSteeringNode")
     end
-    local articulatedAxisReverseNode = AIUtil.getArticulatedAxisVehicleReverserNode(self.vehicle)
-    if articulatedAxisReverseNode then
-        CpUtil.drawDebugNode(articulatedAxisReverseNode, false , 5.5, "AiArticulatedAxisReverseNode")
+
+    local reverserNode = AIVehicleUtil.getAIToolReverserDirectionNode(self.vehicle)
+    if reverserNode then
+        CpUtil.drawDebugNode(reverserNode, false , 4.8, "AIVehicleUtil.AIToolReverserDirectionNode()")
     end
+    reverserNode = self.vehicle:getAIToolReverserDirectionNode()
+    if reverserNode then
+        CpUtil.drawDebugNode(reverserNode, false , 5.0, 'vehicle:AIToolReverserDirectionNode()')
+    end
+
 end
 
 function DevHelper:togglePpcControlledNode()

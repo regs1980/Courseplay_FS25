@@ -202,25 +202,16 @@ function AIUtil.getTractorRadiusFromImplementRadius(r, towBarLength)
 	return rTractor
 end
 
-function AIUtil.getArticulatedAxisVehicleReverserNode(vehicle)
-	local reverserNode, debugText
-	-- articulated axis vehicles have a special reverser node
-	-- and yes, Giants has a typo in there...
-	if vehicle.spec_articulatedAxis.aiRevereserNode ~= nil then
-		reverserNode = vehicle.spec_articulatedAxis.aiRevereserNode
-		debugText = 'vehicle articulated axis reverese'
-	elseif vehicle.spec_articulatedAxis.aiReverserNode ~= nil then
-		reverserNode = vehicle.spec_articulatedAxis.aiReverserNode
-		debugText = 'vehicle articulated axis reverse'
-	end
-	return reverserNode, debugText
-end
-
 -- Find the node to use by the PPC when driving in reverse
 function AIUtil.getReverserNode(vehicle, reversingImplement, suppressLog)
 	local reverserNode, debugText
 	-- if there's a reverser node on the tool, use that
-	reverserNode, debugText = AIVehicleUtil.getAIToolReverserDirectionNode(vehicle), 'AIToolReverserDirectionNode'
+	reverserNode, debugText = AIVehicleUtil.getAIToolReverserDirectionNode(vehicle), 'AIVehicleUtil.AIToolReverserDirectionNode()'
+    if not reverserNode then
+		-- the vehicle may also have a tool reverser node, likely for the Nexat, this is the order Giants checks it
+		-- in their driver.
+        reverserNode, debugText = vehicle:getAIToolReverserDirectionNode(), 'vehicle:AIToolReverserDirectionNode()'
+    end
 	if not reverserNode then
 		reversingImplement = reversingImplement and reversingImplement or AIUtil.getFirstReversingImplementWithWheels(vehicle, suppressLog)
 		if reversingImplement and reversingImplement.steeringAxleNode then
@@ -229,9 +220,6 @@ function AIUtil.getReverserNode(vehicle, reversingImplement, suppressLog)
 	end
 	if not reverserNode and vehicle.getAIReverserNode then
 		reverserNode, debugText = vehicle:getAIReverserNode(), 'AIReverserNode'
-	end
-	if not reverserNode and vehicle.spec_articulatedAxis ~= nil then
-		reverserNode, debugText = AIUtil.getArticulatedAxisVehicleReverserNode(vehicle)
 	end
 	return reverserNode, debugText
 end
@@ -764,7 +752,7 @@ end
 --- FS22_UniversalAutoload from Loki79uk: https://github.com/loki79uk/FS22_UniversalAutoload
 function AIUtil.hasValidUniversalTrailerAttached(vehicle)
     local implements, found = AIUtil.getAllChildVehiclesWithSpecialization(vehicle, nil, "spec_universalAutoload")
-	if not found then 
+	if not found then
 		return false
 	end
 	local spec = implements[1].spec_universalAutoload
