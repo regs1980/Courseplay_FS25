@@ -49,11 +49,11 @@ function WorkEndHandler:raiseImplementsAsNeeded(workEndNode)
             self.logger:debug(self.vehicle, 'Raising implement %s, %d left', CpUtil.getName(object),
                     self.nObjectsToRaise - self.nObjectsAlreadyRaised)
             object:aiImplementEndLine()
+            object:getRootVehicle():raiseStateChange(VehicleStateChange.AI_END_LINE)
             if self:oneRaised() then
                 self.driveStrategy:raiseControllerEvent(AIDriveStrategyCourse.onRaisingEvent)
             end
             if self:allRaised() then
-                self.vehicle:raiseStateChange(VehicleStateChange.AI_END_LINE)
             end
         end
     end

@@ -61,11 +61,11 @@ function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing, lowe
             dz = math.min(dz, thisDz)
             if shouldLowerThis and not self.objectsAlreadyLowered[object] then
                 lowerThis(object)
+                self.vehicle:raiseStateChange(VehicleStateChange.AI_START_LINE)
                 if self:oneLowered() then
                     self.driveStrategy:raiseControllerEvent(AIDriveStrategyCourse.onLoweringEvent)
                 end
                 if self:allLowered() then
-                    self.vehicle:raiseStateChange(VehicleStateChange.AI_START_LINE)
                 end
             end
         end
@@ -74,9 +74,9 @@ function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing, lowe
         self.logger:debug(self.vehicle, 'Reversing and now all implements should be lowered')
         for object in pairs(self.objectsToLower) do
             lowerThis(object)
+            object:getRootVehicle():raiseStateChange(VehicleStateChange.AI_START_LINE)
         end
         self.driveStrategy:raiseControllerEvent(AIDriveStrategyCourse.onLoweringEvent)
-        self.vehicle:raiseStateChange(VehicleStateChange.AI_START_LINE)
     end
     return dz
 end

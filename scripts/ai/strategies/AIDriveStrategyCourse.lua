@@ -318,6 +318,7 @@ function AIDriveStrategyCourse:raiseImplements()
     --- Raises all implements, that are available for the giants field worker.
     for _, implement in pairs(self.vehicle:getAttachedAIImplements()) do
         implement.object:aiImplementEndLine()
+        implement.object:getRootVehicle():raiseStateChange(VehicleStateChange.AI_END_LINE)
     end
     self.vehicle:raiseStateChange(VehicleStateChange.AI_END_LINE)
     --- Raises implements, that are not covered by giants.
@@ -330,6 +331,7 @@ function AIDriveStrategyCourse:lowerImplements()
     for _, implement in pairs(self.vehicle:getAttachedAIImplements()) do
         CpUtil.debugImplement(CpDebug.DBG_IMPLEMENTS, implement.object,'Lowering implement')
         implement.object:aiImplementStartLine()
+        implement.object:getRootVehicle():raiseStateChange(VehicleStateChange.AI_START_LINE)
     end
     self.vehicle:raiseStateChange(VehicleStateChange.AI_START_LINE)
     --- Lowers implements, that are not covered by giants.
