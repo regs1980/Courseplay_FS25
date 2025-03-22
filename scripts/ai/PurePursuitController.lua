@@ -135,7 +135,7 @@ end
 --- longer distances between two waypoints, like an unloader following a chopper through a turn, where
 --- in some patterns the row end and the next row start are far apart.
 function PurePursuitController:disableStopWhenOffTrack(milliseconds)
-    self.stopWhenOffTrack:set(milliseconds)
+    self.stopWhenOffTrack:set(false, milliseconds)
 end
 
 --- Use a different node to track/control, for example the root node of a trailed implement
