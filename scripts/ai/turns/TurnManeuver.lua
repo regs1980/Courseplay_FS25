@@ -302,9 +302,15 @@ function TurnManeuver:adjustCourseToFitField(course, dBack, ixBeforeEndingTurnSe
         -- reversingOffset may be even behind the back marker, especially for vehicles which have a AIToolReverserDirectionNode
         -- which is then used as the PPC controlled node, and thus it must be far enough that we reach the lowering
         -- point before the controlled node reaches the end of the course
+        local from = dFromTurnEnd + self.steeringLength - 1
+        local to = math.min(dFromTurnEnd, self.turnContext.backMarkerDistance, -reversingOffset)
+        -- if the reverse section is shorter than 1 m (or, even negative, meaning to > from), make sure we still
+        -- have a short, 1 m reversing section.
+        if from - to < 1 then
+            to = from - 1
+        end
         local reverseAfterTurn = Course.createFromNode(self.vehicle, self.turnContext.vehicleAtTurnEndNode,
-                0, dFromTurnEnd + self.steeringLength - 1,
-                math.min(dFromTurnEnd, self.turnContext.backMarkerDistance, -reversingOffset), -0.8, true)
+                0, from, to, -0.8, true)
         courseWithReversing:append(reverseAfterTurn)
         endingTurnLength = reverseAfterTurn:getLength()
     elseif self.turnContext.turnEndForwardOffset <= 0 and dFromTurnEnd >= 0 then
