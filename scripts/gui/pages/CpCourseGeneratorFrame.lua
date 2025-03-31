@@ -1644,7 +1644,10 @@ function CpCourseGeneratorFrame:setActiveJobTypeSelection(jobTypeIndex)
 					element = self.createPositionTemplate:clone(self.jobMenuLayout)
 				elseif parameterType == AIParameterType.POSITION_ANGLE then
 					element = self.createPositionRotationTemplate:clone(self.jobMenuLayout)
-				elseif parameterType == AIParameterType.SELECTOR or parameterType == AIParameterType.UNLOADING_STATION or parameterType == AIParameterType.LOADING_STATION or parameterType == AIParameterType.FILLTYPE then
+				elseif parameterType == AIParameterType.SELECTOR or 
+					parameterType == AIParameterType.LOADING_STATION or 
+					parameterType == AIParameterType.FILLTYPE then
+					
 					element = self.createMultiOptionTemplate:clone(self.jobMenuLayout)
 
 					element:setDataSource(item)

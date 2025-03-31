@@ -1,13 +1,6 @@
 --- Parameter to selected an unloading station.
 ---@class CpAIParameterUnloadingStation : AIParameterSettingList
 CpAIParameterUnloadingStation = CpObject(AIParameterSettingList)
-
-function CpAIParameterUnloadingStation:init(data, vehicle, class)
-	AIParameterSettingList.init(self, data, vehicle, class)
-	self.guiParameterType = AIParameterType.UNLOADING_STATION
-	return self
-end
-
 function CpAIParameterUnloadingStation:clone(...)
 	return CpAIParameterUnloadingStation(self.data,...)
 end
