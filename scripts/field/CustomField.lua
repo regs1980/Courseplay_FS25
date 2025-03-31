@@ -66,6 +66,7 @@ function CustomField:addHotspot()
     self.fieldHotspot = CustomFieldHotspot.new()
     self.fieldHotspot:setField(self)
     self.fieldHotspot:setOwnerFarmId(g_currentMission.playerSystem:getLocalPlayer().farmId)
+    self.fieldHotspot.name = self:getName()
     g_currentMission:addMapHotspot(self.fieldHotspot)
 end
 
