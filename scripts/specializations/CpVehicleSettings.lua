@@ -440,6 +440,7 @@ function CpVehicleSettings:setPipeOffset()
         spec.pipeOffsetZ:setFloatValue(pipeController:getPipeOffsetZ())
         CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, self, 'Pipe offsetX: %.1f, offsetZ: %.1f',
                 pipeController:getPipeOffsetX(), pipeController:getPipeOffsetZ())
+        pipeController:delete()
     end
 end
 
