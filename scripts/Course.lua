@@ -960,9 +960,7 @@ function Course.createFromNode(vehicle, referenceNode, xOffset, from, to, step, 
         local x, _, z = localToWorld(referenceNode, xOffset, 0, dz + i * dBetweenPoints)
         table.insert(waypoints, { x = x, z = z, rev = reverse })
     end
-    local course = Course(vehicle, waypoints, true)
-    course:enrichWaypointData()
-    return course
+    return Course(vehicle, waypoints, true)
 end
 
 --- Create a straight, forward course for the vehicle.
