@@ -55,7 +55,7 @@ function AITurn:init(vehicle, driveStrategy, ppc, proximityController, turnConte
     self:addState('WAITING_FOR_PATHFINDER')
     self.vehicle = vehicle
     self.workEndHandler = WorkEndHandler(vehicle, driveStrategy)
-    self.workStartHandler = WorkStartHandler(vehicle, driveStrategy)
+    self.workStartHandler = WorkStartHandler(vehicle, driveStrategy, turnContext)
     self.settings = vehicle:getCpSettings()
     self.turningRadius = AIUtil.getTurningRadius(self.vehicle)
     ---@type PurePursuitController
@@ -643,8 +643,7 @@ end
 function CourseTurn:endTurn(dt)
     -- keep driving on the turn course until we need to lower our implements
     local dz = self.workStartHandler:lowerImplementsAsNeeded(self:getLowerImplementNode(), self.ppc:isReversing())
-    self.driveStrategy:raiseControllerEvent(AIDriveStrategyCourse.onTurnEndProgressEvent,
-            self:getLowerImplementNode(), self.ppc:isReversing(), self.workStartHandler:allLowered(), self.turnContext:isLeftTurn())
+
     if self.workStartHandler:allLowered() then
         if self.ppc:isReversing() then
             self:debug('Turn ending in reverse')
@@ -1008,7 +1007,7 @@ function StartRowOnly:init(vehicle, driveStrategy, ppc, turnContext, startRowCou
     self:addState('IMPLEMENTS_LOWERING')
     self.vehicle = vehicle
     self.settings = vehicle:getCpSettings()
-    self.workStartHandler = WorkStartHandler(vehicle, driveStrategy)
+    self.workStartHandler = WorkStartHandler(vehicle, driveStrategy, turnContext)
     self.turningRadius = AIUtil.getTurningRadius(self.vehicle)
     ---@type AIDriveStrategyFieldWorkCourse
     self.driveStrategy = driveStrategy

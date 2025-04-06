@@ -4,10 +4,11 @@ WorkStartHandler = CpObject()
 
 ---@param vehicle table
 ---@param driveStrategy AIDriveStrategyFieldWorkCourse
-function WorkStartHandler:init(vehicle, driveStrategy)
+function WorkStartHandler:init(vehicle, driveStrategy, turnContext)
     self.logger = Logger('WorkStartHandler', Logger.level.debug, CpDebug.DBG_TURN)
     self.vehicle = vehicle
     self.driveStrategy = driveStrategy
+    self.turnContext = turnContext
     self.settings = vehicle:getCpSettings()
     self.objectsAlreadyLowered = {}
     self.nObjectsAlreadyLowered = 0
@@ -42,7 +43,7 @@ end
 --- same time, once all of them are beyond the work start node.
 ---@return number distance between the work start and the implement furthest to the work start in meters,
 ---<0 when driving forward, nil when driving backwards
-function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing, loweringCheckDistance)
+function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing)
     local function lowerThis(object)
         self.objectsAlreadyLowered[object] = true
         self.nObjectsAlreadyLowered = self.nObjectsAlreadyLowered + 1
@@ -54,6 +55,10 @@ function WorkStartHandler:lowerImplementsAsNeeded(workStartNode, reversing, lowe
     local allShouldBeLowered, dz = true, 0
     for object in pairs(self.objectsToLower) do
         local shouldLowerThis, thisDz = self:shouldLowerThisImplement(object, workStartNode, reversing)
+        -- this must be called before the implement is lowered, for instance to rotate the plow before lowering it.
+        -- ideally, this should all be in the PlowController since it is internal to the plow.
+        self.driveStrategy:raiseControllerEvent(AIDriveStrategyCourse.onTurnEndProgressEvent,
+                workStartNode, reversing, shouldLowerThis, self.turnContext:isLeftTurn())
         if reversing then
             dz = math.max(dz, thisDz)
             allShouldBeLowered = allShouldBeLowered and shouldLowerThis
