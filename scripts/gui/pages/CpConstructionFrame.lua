@@ -242,8 +242,8 @@ end
 
 function CpConstructionFrame:update(dt)
 	CpConstructionFrame:superClass().update(self, dt)
-	g_currentMission.hud:updateBlinkingWarning(self)
-	g_currentMission.hud.sideNotifications:update(self)
+	g_currentMission.hud:updateBlinkingWarning(dt)
+	g_currentMission.hud.sideNotifications:update(dt)
 	self.camera:setCursorLocked(self.cursor.isCatchingCursor)
 	self.camera:update(dt)
 	if self.isMouseMode and self.isMouseInMenu then
