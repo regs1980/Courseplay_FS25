@@ -324,6 +324,11 @@ function WaypointNode:setToWaypoint(course, ix, suppressLog)
 	end
 	self.ix = newIx
 	local x, y, z = course:getWaypointPosition(self.ix)
+	if x ~= x then
+		CpUtil.infoVehicle(CpDebug.DBG_PPC, course.vehicle, 'PPC: %s waypoint %d position is NaN', getName(self.node), ix)
+		course:print()
+		return
+	end
 	setTranslation(self.node, x, y, z)
 	setRotation(self.node, 0, course:getWaypointYRotation(self.ix), 0)
 end
