@@ -459,6 +459,24 @@ function DubinsTurnManeuver:findAnalyticPath(startNode, startXOffset, startZOffs
     return Course.createFromAnalyticPath(self.vehicle, path, true)
 end
 
+---@class LoopTurnManeuver : TurnManeuver
+LoopTurnManeuver = CpObject(DubinsTurnManeuver)
+function LoopTurnManeuver:init(vehicle, turnContext, vehicleDirectionNode, turningRadius,
+                         workWidth, steeringLength)
+    self.debugPrefix = '(LoopTurn): '
+    TurnManeuver.init(self, vehicle, turnContext, vehicleDirectionNode, turningRadius,
+            workWidth, steeringLength)
+    self:debug('r=%.1f, w=%.1f, steeringLength=%.1f', turningRadius, workWidth, steeringLength)
+    local turnEndNode, endZOffset = self.turnContext:getTurnEndNodeAndOffsets(0)
+    local path = PathfinderUtil.findAnalyticPath(PathfinderUtil.dubinsSolver,
+            vehicleDirectionNode, 0, 0, turnEndNode, 0, endZOffset, 5)
+    self.course = Course.createFromNode(self.vehicle, self.vehicle:getAIDirectionNode(),
+            0, 0, workWidth / 2, 1, false)
+    self.course:append(Course.createFromAnalyticPath(self.vehicle, path, true))
+    local endingTurnLength = self.turnContext:appendEndingTurnCourse(self.course, steeringLength)
+    self:applyTightTurnOffset(endingTurnLength)
+end
+
 -- This is an experiment to create turns with towed implements that better align with the next row.
 -- Instead of relying on the dynamic tight turn offset, we offset the turn end already while generating the turn
 -- to get the implement closer to the next row.
