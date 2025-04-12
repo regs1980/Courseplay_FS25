@@ -209,6 +209,12 @@ You can define the following custom settings:
              turnRadius = "5"
              useVehicleSizeForMarkers = "true"
     />
+
+    <!--vehicles\gregoire-->
+    <Vehicle name="gl86.xml"
+             turnRadius = "5"
+             useVehicleSizeForMarkers = "true"
+    />
     
     <!--\vehicles\grimme-->
     <Vehicle name="ventor4150.xml"
