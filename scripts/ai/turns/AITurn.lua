@@ -74,6 +74,7 @@ function AITurn:init(vehicle, driveStrategy, ppc, proximityController, turnConte
     self.state = self.states.INITIALIZING
     self.name = name or 'AITurn'
     self.blocked = false
+    self.hasChainedAttachments = AIUtil.hasChainedAttachments(self.vehicle)
 end
 
 function AITurn:addState(state)
@@ -233,7 +234,7 @@ function AITurn:getDriveData(dt)
     local maxSpeed = self:getForwardSpeed()
     local gx, gz, moveForwards
     if self.state == self.states.INITIALIZING then
-        local rowFinishingCourse = self.turnContext:createFinishingRowCourse(self.vehicle)
+        local rowFinishingCourse = self.turnContext:createFinishingRowCourse(self.vehicle, self:getRaiseImplementNode())
         self.ppc:setCourse(rowFinishingCourse)
         self.ppc:initialize(1)
         self.state = self.states.FINISHING_ROW
@@ -276,10 +277,17 @@ function AITurn:setRaiseLowerNodes()
         -- in headland corners, we want to stay on the field as much as possible to avoid hitting obstacles around the field.
         local _, backMarkerDistance = self.driveStrategy:getFrontAndBackMarkers()
         if backMarkerDistance < 0 then
-            -- implement on the back of the vehicle, so before the corner, we don't work all the way to the field edge,
-            -- stop a work width before it, then make the turn, back up until the implement reaches the field edge,
-            -- lower, and continue on the new headland direction
-            return self.turnContext.workEndNode, self.turnContext.workStartNode
+            if self.hasChainedAttachments then
+                -- implements on the back of the vehicle, we'll make a loop turn forward only, so before the corner,
+                -- we work all the way to the headland pass edge and then make a 270 turn to continue after the corner.
+                return self.turnContext.workEndNode, self.turnContext.workStartNode
+
+            else
+                -- implement on the back of the vehicle, so before the corner, we don't work all the way to the field edge,
+                -- stop a work width before it, then make the turn, back up until the implement reaches the field edge,
+                -- lower, and continue on the new headland direction
+                return self.turnContext.workEndNode, self.turnContext.workStartNode
+            end
         else
             -- implement on the front of the vehicle, so we can work all the way to the field edge, then make the turn
             -- and back up only until the implement reaches the already worked part, work width from the field edge
@@ -734,12 +742,18 @@ end
 function CourseTurn:generateCalculatedTurn()
     local turnManeuver
     if self.turnContext:isHeadlandCorner() then
-        -- TODO_22
         self:debug('This is a headland turn')
-        turnManeuver = HeadlandCornerTurnManeuver(self.vehicle, self.turnContext, self.vehicle:getAIDirectionNode(),
+        if self.hasChainedAttachments then
+            -- do a 270° turn forward only
+            turnManeuver = LoopTurnManeuver(self.vehicle, self.turnContext, self.vehicle:getAIDirectionNode(),
+                    self.turningRadius, self.workWidth, self.steeringLength)
+            self.enableTightTurnOffset = true
+        else
+            turnManeuver = HeadlandCornerTurnManeuver(self.vehicle, self.turnContext, self.vehicle:getAIDirectionNode(),
                 self.turningRadius, self.workWidth, self.reversingImplement, self.steeringLength)
-        -- adjust turn course for tight turns only for headland corners by default
-        self.forceTightTurnOffset = self.steeringLength > 0
+            -- adjust turn course for tight turns only for headland corners by default
+            self.forceTightTurnOffset = self.steeringLength > 0
+        end
     else
         local distanceToFieldEdge = self.turnContext:getDistanceToFieldEdge(self.vehicle:getAIDirectionNode())
         local turnOnField = self.driveStrategy:isTurnOnFieldActive()
@@ -1006,13 +1020,13 @@ function StartRowOnly:init(vehicle, driveStrategy, ppc, turnContext, startRowCou
     -- implements are now lowering, maneuver ends when they are completely lowered
     self:addState('IMPLEMENTS_LOWERING')
     self.vehicle = vehicle
-    self.settings = vehicle:getCpSettings()
     self.workStartHandler = WorkStartHandler(vehicle, driveStrategy, turnContext)
+    self.settings = vehicle:getCpSettings()
     self.turningRadius = AIUtil.getTurningRadius(self.vehicle)
-    ---@type AIDriveStrategyFieldWorkCourse
-    self.driveStrategy = driveStrategy
     ---@type PurePursuitController
     self.ppc = ppc
+    ---@type AIDriveStrategyFieldWorkCourse
+    self.driveStrategy = driveStrategy
     ---@type TurnContext
     self.turnContext = turnContext
     self.name = 'StartRowOnly'

@@ -806,3 +806,18 @@ function AIUtil.isOtherVehicleAhead(vehicle, otherVehicle)
 	local _, _, dz = localToLocal(otherVehicle.rootNode, vehicle:getAIDirectionNode(), 0, 0, 0)
 	return dz > (frontMarkerOffset + backMarkerOffset) / 2
 end
+
+---@return boolean if the vehicle has multiple towed attachments connected to each other
+function AIUtil.hasChainedAttachments(vehicle)
+	if vehicle.updateAIAgentAttachments then
+		local valid = CpUtil.try(vehicle.updateAIAgentAttachments, vehicle)
+		if valid then
+			local attachmentChains = vehicle.spec_aiDrivable.attachmentChains
+			if attachmentChains and #attachmentChains > 0 and #attachmentChains[1] > 1 then
+				CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, vehicle, 'has %d chained attachments', #attachmentChains[1])
+				return true
+			end
+		end
+	end
+	return false
+end

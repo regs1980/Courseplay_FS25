@@ -459,6 +459,32 @@ function DubinsTurnManeuver:findAnalyticPath(startNode, startXOffset, startZOffs
     return Course.createFromAnalyticPath(self.vehicle, path, true)
 end
 
+--- Headland turn maneuver to make corners with a 270 turn. This is good for rigs that can't reverse but there is
+--- plenty of room on the field to make a 270 loop. Examples are seed drills with a seed cart. The first headland
+--- should be round, the second and the rest can have a corner and there, this 270 will be used.
+---@class LoopTurnManeuver : TurnManeuver
+LoopTurnManeuver = CpObject(DubinsTurnManeuver)
+function LoopTurnManeuver:init(vehicle, turnContext, vehicleDirectionNode, turningRadius,
+                         workWidth, steeringLength)
+    self.debugPrefix = '(LoopTurn): '
+    TurnManeuver.init(self, vehicle, turnContext, vehicleDirectionNode, turningRadius,
+            workWidth, steeringLength)
+    local turnEndNode, endZOffset = self.turnContext:getTurnEndNodeAndOffsets(steeringLength)
+    self:debug('r=%.1f, w=%.1f, steeringLength=%.1f, endZOffset=%.1f', turningRadius, workWidth, steeringLength, endZOffset)
+    -- pull forward a bit to have the implement reach at least the middle of the outgoing edge, so the 270 is
+    -- easier to turn into the target direction. May need to increase it depending on user feedback.
+    local pullForward = 0.5 * workWidth
+    self.course = Course.createFromNode(self.vehicle, vehicleDirectionNode,
+            0, 0, pullForward, 1, false)
+    local path = PathfinderUtil.findAnalyticPath(PathfinderUtil.dubinsSolver,
+            vehicleDirectionNode, 0, pullForward + 0.5, turnEndNode, 0, -steeringLength, turningRadius)
+    self.course:append(Course.createFromAnalyticPath(self.vehicle, path, true))
+    TurnManeuver.setLowerImplements(self.course, steeringLength, true)
+    self:applyTightTurnOffsetToAnalyticPath(self.course)
+    local endingTurnLength = self.turnContext:appendEndingTurnCourse(self.course, steeringLength)
+    TurnManeuver.setLowerImplements(self.course, endingTurnLength, true)
+end
+
 -- This is an experiment to create turns with towed implements that better align with the next row.
 -- Instead of relying on the dynamic tight turn offset, we offset the turn end already while generating the turn
 -- to get the implement closer to the next row.

@@ -208,6 +208,11 @@ function TurnContext:getLocalPositionFromTurnEnd(node)
     return localToLocal(node, self.vehicleAtTurnEndNode, 0, 0, 0)
 end
 
+---@return number node pointing outwards from the corner (in a headland turn), or into the row in a 180 turn
+function TurnContext:getCornerOutboundNode()
+    return self.turnEndWpNode.node
+end
+
 -- node's position in the turn start wp node's coordinate system
 function TurnContext:getLocalPositionFromTurnStart(node)
     return localToLocal(node, self.turnStartWpNode.node, 0, 0, 0)
@@ -408,7 +413,7 @@ end
 
 --- Course to finish a row before the turn, just straight ahead, ignoring the corner
 ---@return Course
-function TurnContext:createFinishingRowCourse(vehicle)
+function TurnContext:createFinishingRowCourse(vehicle, workEndNode)
     local waypoints = {}
     -- must be at least as long as the back marker distance so we are not reaching the end of the course before
     -- the implement reaches the field edge (a negative backMarkerDistance means the implement is behind the
@@ -419,7 +424,7 @@ function TurnContext:createFinishingRowCourse(vehicle)
     -- the front marker distance would be here relevant but this is only for creating the course, where the vehicle will
     -- stop finishing the row and start the turn depends only on the raise implement setting.
     for d = 0, math.max(self.workWidth * 1.5, -self.backMarkerDistance * 1.5), 1 do
-        local x, _, z = localToWorld(self.workEndNode, 0, 0, d)
+        local x, _, z = localToWorld(workEndNode or self.workEndNode, 0, 0, d)
         table.insert(waypoints, {x = x, z = z})
     end
     return Course(vehicle, waypoints, true)
