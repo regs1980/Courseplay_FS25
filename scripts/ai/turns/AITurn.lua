@@ -744,14 +744,16 @@ function CourseTurn:generateCalculatedTurn()
     if self.turnContext:isHeadlandCorner() then
         self:debug('This is a headland turn')
         if self.hasChainedAttachments then
+            -- do a 270° turn forward only
             turnManeuver = LoopTurnManeuver(self.vehicle, self.turnContext, self.vehicle:getAIDirectionNode(),
                     self.turningRadius, self.workWidth, self.steeringLength)
+            self.enableTightTurnOffset = true
         else
             turnManeuver = HeadlandCornerTurnManeuver(self.vehicle, self.turnContext, self.vehicle:getAIDirectionNode(),
                 self.turningRadius, self.workWidth, self.reversingImplement, self.steeringLength)
+            -- adjust turn course for tight turns only for headland corners by default
+            self.forceTightTurnOffset = self.steeringLength > 0
         end
-        -- adjust turn course for tight turns only for headland corners by default
-        self.forceTightTurnOffset = self.steeringLength > 0
     else
         local distanceToFieldEdge = self.turnContext:getDistanceToFieldEdge(self.vehicle:getAIDirectionNode())
         local turnOnField = self.driveStrategy:isTurnOnFieldActive()
