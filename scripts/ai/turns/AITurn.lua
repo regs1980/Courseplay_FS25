@@ -743,7 +743,7 @@ function CourseTurn:generateCalculatedTurn()
     local turnManeuver
     if self.turnContext:isHeadlandCorner() then
         self:debug('This is a headland turn')
-        if self.hasChainedAttachments then
+        if self.settings.loopTurnsOnHeadland:getValue() then
             -- do a 270° turn forward only
             turnManeuver = LoopTurnManeuver(self.vehicle, self.turnContext, self.vehicle:getAIDirectionNode(),
                     self.turningRadius, self.workWidth, self.steeringLength)
