@@ -181,6 +181,8 @@
     <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="Czy zezwolić w określonych przypadkach na generowanie kursów zawierających jazdę do tyłu w celu znalezienia ścieżki trasy."/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="Zezwól na zawracanie dla znalezienia ścieżki"/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Czy zezwolić na używanie znajdywania ścieżki przy zawracaniu, aby np. omijać przeszkody i rośliny."/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_title" text="Loop turn on headland"/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_tooltip" text="Instead of performing a normal turn on headland, the vehicle will drive a loop. The first headland should have round corners!"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="Złóż narzędzie po zakończeniu kursu"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="Ustala czy pomocnik ma złożyć narzędzie po zakończeniu kursu."/>
     <text name="CP_vehicle_setting_returnToStart_title" text="Powrót do punktu startu"/>
