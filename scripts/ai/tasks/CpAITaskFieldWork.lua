@@ -119,9 +119,9 @@ function CpAITaskFieldWork:stop(wasJobStopped)
 		cpSpec.driveStrategy:raiseControllerEvent(
 				AIDriveStrategyCourse.onStopRefillingEvent)
 	end
+	self.vehicle:stopFieldWorker()
 	if self.isServer then 
 		self:debug("Field work task stopped.")
-		self.vehicle:stopFieldWorker()
 		self.vehicle:cpBrakeToStop()
 	end
 	CpAITask.stop(self, wasJobStopped)
