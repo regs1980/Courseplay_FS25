@@ -71,7 +71,6 @@ function CpAITaskFieldWork:start()
 
 			spec.aiTrafficCollision = clone(AIFieldWorker.TRAFFIC_COLLISION, true, false, true)
 		end
-		self.vehicle:raiseAIEvent("onAIFieldWorkerStart", "onAIImplementStart")
 		local cpSpec = self.vehicle.spec_cpAIFieldWorker
 		--- Remembers the last lane offset setting value that was used.
         cpSpec.cpJobStartAtLastWp:getCpJobParameters().laneOffset:setValue(self.job:getCpJobParameters().laneOffset:getValue())
@@ -84,7 +83,7 @@ function CpAITaskFieldWork:start()
 			spec.driveStrategies = {}
 		end
 		local cpDriveStrategy
-		if self.startPosition and g_vineScanner:hasVineNodesCloseBy(self.startPosition.x, self.startPosition.z) then 
+		if self.startPosition and g_vineScanner:hasVineNodesCloseBy(self.startPosition.x, self.startPosition.z) then
 			--- Checks if there are any vine nodes close to the starting point.
 			self:debug('Found a vine course, install CP vine fieldwork drive strategy for it')
 			cpDriveStrategy = AIDriveStrategyVineFieldWorkCourse(self, self.job)
@@ -92,15 +91,15 @@ function CpAITaskFieldWork:start()
 			self:debug('Found a plow, install CP plow drive strategy for it')
 			cpDriveStrategy = AIDriveStrategyPlowCourse(self, self.job)
 		else
-			local combine = AIUtil.getImplementOrVehicleWithSpecialization(self.vehicle, Combine) 
+			local combine = AIUtil.getImplementOrVehicleWithSpecialization(self.vehicle, Combine)
 			local pipe = combine and SpecializationUtil.hasSpecialization(Pipe, combine.specializations)
-			if combine and pipe then 
+			if combine and pipe then
 				-- Default harvesters with a pipe.
 				self:debug('Found a combine with pipe, install CP combine drive strategy for it')
 				cpDriveStrategy = AIDriveStrategyCombineCourse(self, self.job)
 				cpSpec.combineDriveStrategy = cpDriveStrategy
 			end
-			if not cpDriveStrategy then 
+			if not cpDriveStrategy then
 				self:debug('Installing default CP fieldwork drive strategy')
 				cpDriveStrategy = AIDriveStrategyFieldWorkCourse(self, self.job)
 			end
@@ -110,16 +109,17 @@ function CpAITaskFieldWork:start()
 		--- Only the last driving strategy can stop the helper, while it is running.
 		table.insert(spec.driveStrategies, cpDriveStrategy)
 	end
+	self.vehicle:raiseAIEvent("onAIFieldWorkerStart", "onAIImplementStart")
 	CpAITask.start(self)
 end
 
 function CpAITaskFieldWork:stop(wasJobStopped)
-	if self.waitingForRefillingActive then 
+	if self.waitingForRefillingActive then
 		local cpSpec = self.vehicle.spec_cpAIFieldWorker
 		cpSpec.driveStrategy:raiseControllerEvent(
 				AIDriveStrategyCourse.onStopRefillingEvent)
 	end
-	if self.isServer then 
+	if self.isServer then
 		self:debug("Field work task stopped.")
 		self.vehicle:stopFieldWorker()
 		self.vehicle:cpBrakeToStop()
