@@ -487,8 +487,11 @@ end
 ---@return table texts
 ---@return any correct current value after max speed adjustment
 function CpVehicleSettings:generateSpeedSettingValuesAndTexts(setting, lastValue)
-    local maxSpeed = self.getCruiseControlMaxSpeed and self:getCruiseControlMaxSpeed()
-    maxSpeed = maxSpeed or setting.data.max
+    local maxSpeed = setting.data.max
+    local cruiseControl = self.spec_drivable and self.spec_drivable.cruiseControl
+    if cruiseControl then 
+        maxSpeed = math.max(cruiseControl.maxSpeed, cruiseControl.maxSpeedReverse)
+    end
     local values, texts = {}, {}
     for i = setting.data.min, maxSpeed, setting.data.incremental or 1 do 
         table.insert(values, i)
