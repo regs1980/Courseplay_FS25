@@ -11,7 +11,7 @@ function AStar:init(vehicle, yieldAfter, maxIterations)
     self.deltaPosGoal = self.deltaPos
     self.deltaThetaDeg = 181
     self.deltaThetaGoal = math.rad(self.deltaThetaDeg)
-    self.maxDeltaTheta = math.pi
+    self.maxDeltaTheta = self.deltaThetaGoal
     self.originalDeltaThetaGoal = self.deltaThetaGoal
     self.analyticSolverEnabled = false
     self.ignoreValidityAtStart = false

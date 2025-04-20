@@ -548,7 +548,7 @@ function HybridAStar:initRun(start, goal, turnRadius, allowReverse, constraints,
     self.hitchLength = hitchLength
     self.constraints = constraints
     -- a motion primitive is straight or a few degree turn to the right or left
-    self.hybridMotionPrimitives = self:getMotionPrimitives(turnRadius, allowReverse)
+    self.motionPrimitives = self:getMotionPrimitives(turnRadius, allowReverse)
     -- create the open list for the nodes as a binary heap where
     -- the node with the lowest total cost is at the top
     self.openList = BinaryHeap.minUnique(function(a, b)
@@ -628,10 +628,12 @@ function HybridAStar:run(start, goal, turnRadius, allowReverse, constraints, hit
             closeIntervalTimer(self.timer)
             -- if we had the coroutine package, we would coursePlayCoroutine.yield(false) here
             return PathfinderResult(false)
-        end        -- pop lowest cost node from queue
+        end
+        -- pop lowest cost node from queue
         ---@type State3D
         local pred = State3D.pop(self.openList)
         self.logger:trace('pop %s', tostring(pred))
+        self.logger:trace('dPos %.1f dTheta %.1f', self.deltaPosGoal, math.deg(self.deltaThetaGoal))
 
         if pred:equals(self.goal, self.deltaPosGoal, self.deltaThetaGoal) then
             -- done!
@@ -657,9 +659,9 @@ function HybridAStar:run(start, goal, turnRadius, allowReverse, constraints, hit
                 end
             end
             -- create the successor nodes
-            for _, primitive in ipairs(self.hybridMotionPrimitives:getPrimitives(pred)) do
+            for _, primitive in ipairs(self.motionPrimitives:getPrimitives(pred)) do
                 ---@type State3D
-                local succ = self.hybridMotionPrimitives:createSuccessor(pred, primitive, self.hitchLength)
+                local succ = self.motionPrimitives:createSuccessor(pred, primitive, self.hitchLength)
                 if succ:equals(self.goal, self.deltaPosGoal, self.deltaThetaGoal) then
                     succ.pred = succ.pred
                     self:debug('Successor at the goal (%d).', self.iterations)
