@@ -17,8 +17,8 @@
     <text name="CP_infoText" text="Courseplay(%s): Para obtener ayuda, informar de errores o notas de parches, visite: https://github.com/Courseplay/Courseplay_FS25"/>
     <text name="CP_error_no_course" text="Genera una ruta antes de comenzar el trabajo."/>
     <text name="CP_error_could_not_generate_course" text="No se pudo generar el curso. Pruebe con otras configuraciones."/>
-    <text name="CP_error_field_detection_still_running" text="Field detection still running."/>
-    <text name="CP_error_field_detection_failed" text="Field detection failed."/>
+    <text name="CP_error_field_detection_still_running" text="Detección de campo en progreso."/>
+    <text name="CP_error_field_detection_failed" text="Fallo en la detección del campo."/>
     <text name="CP_error_not_on_field" text="El objetivo no está en un campo."/>
     <text name="CP_error_unloader_to_far_away_from_field" text="Descargador muy lejos del campo."/>
     <text name="CP_error_start_position_to_far_away_from_field" text="Posición inicial muy lejos del campo."/>
@@ -120,7 +120,7 @@
     <text name="CP_ai_messageErrorCutterNotSupported" text="Trabajador CP %s ha dejado de trabajar inesperadamente: - ¡Acoplar el cabezal es imposible!"/>
     <text name="CP_ai_messageErrorAutomaticCutterAttachNotActive" text="Trabajador CP %s ha dejado de trabajar inesperadamente: - ¡Acoplamiento automático del cabezal desabilitado!"/>
     <text name="CP_ai_messageErrorWrongMissionFruitType" text="Trabajador CP %s ha dejado de trabajar inesperadamente - ¡Tipo de relleno incorrecto para la misión seleccionada!"/>
-    <text name="CP_ai_messageErrorTooFarFromField" text="Vehicle is too far away from the field."/>
+    <text name="CP_ai_messageErrorTooFarFromField" text="El vehículo está demasiado lejos del campo."/>
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
@@ -153,7 +153,7 @@
     <!---->
     <!--Hud settings-->
     <!---->
-    <text name="CP_hud_settings_selectedJob_title" text="TODO: Trabajo Seleccionado:"/>
+    <text name="CP_hud_settings_selectedJob_title" text="Trabajo Seleccionado:"/>
     <!---->
     <!--Vehicle settings-->
     <!---->
@@ -181,8 +181,8 @@
     <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="Permita que el buscador de rutas utilice conducción en marcha atrás"/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="Buscador de caminos en giros."/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Permite usar el buscador de caminos en giros, por ejemplo, para evitar obstáculos y frutas."/>
-    <text name="CP_vehicle_setting_loopTurnsOnHeadland_title" text="Loop turn on headland"/>
-    <text name="CP_vehicle_setting_loopTurnsOnHeadland_tooltip" text="Instead of performing a normal turn on headland, the vehicle will drive a loop. The first headland should have round corners!"/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_title" text="Giro en bucle en cabeceras"/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_tooltip" text="En lugar de realizar un giro normal en la cabecera, el vehículo conducirá en bucle. La primera cabecera debe tener esquinas redondeadas."/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="Plegar Herramientas al final de la ruta"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="Habilita/Deshabilita el plegado automático de herramientas al final de la ruta."/>
     <text name="CP_vehicle_setting_returnToStart_title" text="Regresar al Punto de Inicio."/>
@@ -208,7 +208,7 @@
     <text name="CP_vehicle_setting_combineOffsetZ_title" text="Desp. Adelante/Atrás"/>
     <text name="CP_vehicle_setting_combineOffsetZ_tooltip" text="Desplazamiento para tubería cosechadora con avance(+) y retroceso(-)"/>
     <text name="CP_vehicle_setting_fullThreshold_title" text="Vaciar al estar al:"/>
-    <text name="CP_vehicle_setting_fullThreshold_tooltip" text="TODO"/>
+    <text name="CP_vehicle_setting_fullThreshold_tooltip" text="Umbral de llenado para iniciar descarga"/>
     <text name="CP_vehicle_setting_useAdditiveFillUnit_title" text="Comprobar Aditivo de Ensilaje."/>
     <text name="CP_vehicle_setting_useAdditiveFillUnit_tooltip" text="Si está activo y el Aditivo de Ensilaje está vacío, el conductor se detendrá."/>
     <text name="CP_vehicle_setting_symmetricLaneChange_title" text="Cambio a carril simétrico"/>
@@ -340,7 +340,7 @@
     <text name="CP_vehicle_courseGeneratorSetting_multiTools_title" text="Multi-Herramientas"/>
     <text name="CP_vehicle_courseGeneratorSetting_multiTools_tooltip" text="Número de vehículos en la misma ruta."/>
     <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_title" text="Cambio de carriles"/>
-    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_tooltip" text="Establece los carriles para que siempre cambien. Esto conduce a giros similares. Consulte el menú de ayuda para más detalles.más detalles."/>
+    <text name="CP_vehicle_courseGeneratorSetting_useSameTurnWidth_tooltip" text="Establece los carriles para que siempre cambien. Esto conduce a giros similares. Consulte el menú de ayuda para más detalles."/>
     <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_title" text="Forma de línea para el borde de campo "/>
     <text name="CP_vehicle_courseGeneratorSetting_useBaseLineEdge_tooltip" text="Las filas siguen la curvatura del borde de campo más cercano al marcador de campo."/>
     <text name="CP_vehicle_courseGeneratorSetting_narrowField_title" text="Campo estrecho"/>
@@ -351,12 +351,12 @@
     <text name="CP_vehicle_vineCourseGeneratorSetting_title" text="Generador de Curso en Vides"/>
     <text name="CP_vehicle_vineCourseGeneratorSetting_subTitle_basic" text="Ajustes Básicos"/>
     <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_title" text="Posición del Curso"/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_tooltip" text="Si el Curso se conduce en o al lado. Esto depende de la herramienta. Más informción en el menú de ayuda."/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_tooltip" text="Si el Curso se conduce en o al lado. Esto depende de la herramienta. Más información en el menú de ayuda."/>
     <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_left" text="Lado izquierdo del vide"/>
     <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_center" text="En el vide"/>
     <text name="CP_vehicle_vineCourseGeneratorSetting_vineCenterOffset_right" text="Lado derecho del vide"/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineMultiTools_title" text="Herramientas por curo."/>
-    <text name="CP_vehicle_vineCourseGeneratorSetting_vineMultiTools_tooltip" text="Cuantas herramientas poçueden trabajar juntas. Más informción en el menú de ayuda."/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineMultiTools_title" text="Herramientas por curso."/>
+    <text name="CP_vehicle_vineCourseGeneratorSetting_vineMultiTools_tooltip" text="Cuantas herramientas pueden trabajar juntas. Más información en el menú de ayuda."/>
     <text name="CP_vehicle_vineCourseGeneratorSetting_vineRowsToSkip_title" text="Vides a saltar"/>
     <text name="CP_vehicle_vineCourseGeneratorSetting_vineRowsToSkip_tooltip" text="Saltar las vides sólo debe ser usado, cuando la herramienta trabaje en ambos lados (Izquierda y Derecha)."/>
     <!---->
@@ -493,7 +493,7 @@ El curso se guarda automáticamente al cerrar el editor y anula el curso selecci
     <text name="CP_infoTexts_workFinished" text="Trabajo finalizado"/>
     <text name="CP_infoTexts_drivingToCombine" text="Conduciendo a la Cosechadora"/>
     <text name="CP_infoTexts_drivingToSelfUnload" text="Conduciendo hacia el remolque"/>
-    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Field detection"/>
+    <text name="CP_infoTexts_waitingForFieldBoundaryDetection" text="Detección de campo en progreso"/>
     <text name="CP_infoTexts_outOfMoney" text="Sin dinero"/>
     <text name="CP_infoTexts_waitForRainToFinish" text="Esperando que termine la lluvia"/>
     <text name="CP_infoTexts_waitForSnowToClear" text="Esperando a que desaparezca la nieve"/>
@@ -508,7 +508,7 @@ El curso se guarda automáticamente al cerrar el editor y anula el curso selecci
     <text name="CP_infoTexts_errorWrongMissionFruitType" text="Tipo de relleno incorrecto para la misión seleccionada"/>
     <text name="CP_infoTexts_errorPalletsAreFull" text="Los palets están llenos"/>
     <text name="CP_infoTexts_errorPalletsAreEmpty" text="Sin palets"/>
-    <text name="CP_infoTexts_errorTooFarFromField" text="Vehicle is too far away from the field."/>
+    <text name="CP_infoTexts_errorTooFarFromField" text="El vehículo está demasiado lejos del campo."/>
     <!---->
     <!--Custom field manager-->
     <!---->
@@ -1078,6 +1078,6 @@ Ahora su selección debería verse similar a la imagen.
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Abre ajustes globales"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Abrir menú del Generador de Cursos/Trabajo"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Abre Administrador de Curso"/>
-    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Open menu"/>
+    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Abrir menú"/>
   </texts>
 </l10n>
