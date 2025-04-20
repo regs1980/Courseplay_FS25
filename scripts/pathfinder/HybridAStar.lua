@@ -249,8 +249,6 @@ end
 --- only dependent on the turn radius, and then use the precalculated values during the search.
 ---@class HybridAstar.MotionPrimitives
 HybridAStar.MotionPrimitives = CpObject()
--- forward straight/right/left
-HybridAStar.MotionPrimitiveTypes = { FS = 'FS', FR = 'FR', FL = 'FL', RS = 'RS', RR = 'RR', RL = 'RL', LL = 'LL', RR = 'RR', NA = 'NA' }
 
 ---@param r number turning radius
 ---@param expansionDegree number degrees of arc in one expansion step
@@ -267,34 +265,28 @@ function HybridAStar.MotionPrimitives:init(r, expansionDegree, allowReverse)
     -- forward straight
     table.insert(self.primitives, { dx = d, dy = 0, dt = 0, d = d,
                                     gear = Gear.Forward,
-                                    steer = Steer.Straight,
-                                    type = HybridAStar.MotionPrimitiveTypes.FS })
+                                    steer = Steer.Straight })
     -- forward right
     table.insert(self.primitives, { dx = dx, dy = -dy, dt = dt, d = d,
                                     gear = Gear.Forward,
-                                    steer = Steer.Right,
-                                    type = HybridAStar.MotionPrimitiveTypes.FR })
+                                    steer = Steer.Right })
     -- forward left
     table.insert(self.primitives, { dx = dx, dy = dy, dt = -dt, d = d,
                                     gear = Gear.Forward,
-                                    steer = Steer.Left,
-                                    type = HybridAStar.MotionPrimitiveTypes.FL })
+                                    steer = Steer.Left })
     if allowReverse then
         -- reverse straight
         table.insert(self.primitives, { dx = -d, dy = 0, dt = 0, d = d,
                                         gear = Gear.Backward,
-                                        steer = Steer.Straight,
-                                        type = HybridAStar.MotionPrimitiveTypes.RS })
+                                        steer = Steer.Straight })
         -- reverse right
         table.insert(self.primitives, { dx = -dx, dy = -dy, dt = dt, d = d,
                                         gear = Gear.Backward,
-                                        steer = Steer.Right,
-                                        type = HybridAStar.MotionPrimitiveTypes.RR })
+                                        steer = Steer.Right })
         -- reverse left
         table.insert(self.primitives, { dx = -dx, dy = dy, dt = -dt, d = d,
                                         gear = Gear.Backward,
-                                        steer = Steer.Left,
-                                        type = HybridAStar.MotionPrimitiveTypes.RL })
+                                        steer = Steer.Left })
     end
 end
 
