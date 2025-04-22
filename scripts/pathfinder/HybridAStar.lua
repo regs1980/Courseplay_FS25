@@ -467,9 +467,14 @@ function HybridAStar.PenaltyCache:inSameCell(n1, n2)
 end
 
 ---@param node State3D
-function HybridAStar.PenaltyCache:get(node)
+function HybridAStar.PenaltyCache:get(node, constraints)
     local x, y, t = self:getNodeIndexes(node)
-    return self.nodes[x] and self.nodes[x][y]
+    local cachedPenalty = self.nodes[x] and self.nodes[x][y]
+    if cachedPenalty == nil then
+        cachedPenalty = constraints:getNodePenalty(node)
+        self:add(node, cachedPenalty)
+    end
+    return cachedPenalty
 end
 
 ---@param node State3D
@@ -675,12 +680,7 @@ function HybridAStar:run(start, goal, turnRadius, allowReverse, constraints, hit
                     -- we end up being in overlap with another vehicle when we start the pathfinding and all we need is
                     -- an iteration or two to bring us out of that position
                     if (self.ignoreValidityAtStart and self.iterations < 3) or self.constraints:isValidNode(succ) then
-                        local penalty = self.penaltyCache:get(succ)
-                        if penalty == nil then
-                            penalty = self.constraints:getNodePenalty(succ)
-                            self.penaltyCache:add(succ, penalty)
-                        end
-                        succ:updateG(primitive, penalty)
+                        succ:updateG(primitive, self.penaltyCache:get(succ, self.constraints))
                         local analyticSolutionCost = 0
                         if self.analyticSolverEnabled then
                             local analyticSolution = self.analyticSolver:solve(succ, self.goal, self.turnRadius)

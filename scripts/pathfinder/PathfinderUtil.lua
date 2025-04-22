@@ -666,8 +666,8 @@ function PathfinderUtil.showNodes(pathfinder)
         if PathfinderUtil.visualDebugLevel > 1 and
                 pathfinder.hybridAStarPathfinder and pathfinder.hybridAStarPathfinder.nodes then
             nodes = pathfinder.hybridAStarPathfinder.nodes
-        elseif PathfinderUtil.visualDebugLevel > 0 and pathfinder.aStarPathfinder and pathfinder.aStarPathfinder.nodes then
-            nodes = pathfinder.aStarPathfinder.nodes
+        elseif PathfinderUtil.visualDebugLevel > 0 and pathfinder.middlePathfinder and pathfinder.middlePathfinder.nodes then
+            nodes = pathfinder.middlePathfinder.nodes
         elseif PathfinderUtil.visualDebugLevel > 0 and pathfinder.nodes then
             nodes = pathfinder.nodes
         end

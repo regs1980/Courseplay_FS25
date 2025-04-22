@@ -13,7 +13,7 @@ function HybridAStarWithAStarInTheMiddle:init(vehicle, yieldAfter, maxIterations
     -- path generation phases
     self.vehicle = vehicle
     self.START_TO_MIDDLE = 1
-    self.ASTAR = 2
+    self.FAST = 2
     self.MIDDLE_TO_END = 3
     self.ALL_HYBRID = 4 -- start and goal close enough, we only need a single phase with hybrid
     self.hybridRange = 20 -- default range around start/goal to use hybrid A *
@@ -22,12 +22,12 @@ function HybridAStarWithAStarInTheMiddle:init(vehicle, yieldAfter, maxIterations
     -- the only reason we have a separate instance for start and end is to be able to draw the nodes after
     -- the pathfinding is done for debug purposes
     self.startHybridAStarPathfinder = HybridAStar(vehicle, self.yieldAfter, maxIterations, mustBeAccurate)
-    self.aStarPathfinder = self:getAStar()
+    self.middlePathfinder = self:getFastPathfinder()
     self.endHybridAStarPathfinder = HybridAStar(vehicle, self.yieldAfter, maxIterations, mustBeAccurate)
     self.analyticSolver = analyticSolver
 end
 
-function HybridAStarWithAStarInTheMiddle:getAStar()
+function HybridAStarWithAStarInTheMiddle:getFastPathfinder()
     return AStar(self.vehicle, self.yieldAfter, self.maxIterations)
 end
 
@@ -53,10 +53,10 @@ function HybridAStarWithAStarInTheMiddle:start(start, goal, turnRadius, allowRev
     self.hybridRange = self.hybridRange and self.hybridRange or turnRadius * 3
     -- how far is start/goal apart?
     self.startNode:updateH(self.goalNode, turnRadius)
-    self.phase = self.ASTAR
-    self:debug('Finding fast A* path between start and goal...')
-    self.coroutine = coursePlayCoroutine.create(self.aStarPathfinder.run)
-    self.currentPathfinder = self.aStarPathfinder
+    self.phase = self.FAST
+    self:debug('Start first pass, fast pathfinding between start and goal...')
+    self.coroutine = coursePlayCoroutine.create(self.middlePathfinder.run)
+    self.currentPathfinder = self.middlePathfinder
     -- strict mode for the middle part, stay close to the field, for future improvements, disabled for now
     -- self.constraints:setStrictMode()
     return self:resume(self.startNode, self.goalNode, turnRadius, false, constraints, hitchLength)
@@ -118,10 +118,10 @@ function HybridAStarWithAStarInTheMiddle:resume(...)
                 return PathfinderResult(true, nil, result.goalNodeInvalid, self.currentPathfinder:getHighestDistance(),
                         self.constraints)
             end
-        elseif self.phase == self.ASTAR then
+        elseif self.phase == self.FAST then
             self.constraints:resetStrictMode()
             if not result.path then
-                self:debug('fast A*: no path found')
+                self:debug('First pass: no path found')
                 return PathfinderResult(true, nil, result.goalNodeInvalid, self.currentPathfinder:getHighestDistance(),
                         self.constraints)
             end
@@ -191,7 +191,7 @@ end
 
 function HybridAStarWithAStarInTheMiddle:nodeIterator()
     local startIt = self.startHybridAStarPathfinder:nodeIterator()
-    local middleIt = self.aStarPathfinder:nodeIterator()
+    local middleIt = self.middlePathfinder:nodeIterator()
     local endIt = self.endHybridAStarPathfinder:nodeIterator()
     return function()
         local node, lowestCost, highestCost = startIt()
@@ -211,7 +211,7 @@ function HybridAStarWithAStarInTheMiddle:nodeIteratorStart()
 end
 
 function HybridAStarWithAStarInTheMiddle:nodeIteratorMiddle()
-    return self.aStarPathfinder:nodeIterator()
+    return self.middlePathfinder:nodeIterator()
 end
 
 function HybridAStarWithAStarInTheMiddle:nodeIteratorEnd()
@@ -257,6 +257,6 @@ function HybridAStarWithPathInTheMiddle:start(...)
     return HybridAStarWithAStarInTheMiddle.start(self, ...)
 end
 
-function HybridAStarWithPathInTheMiddle:getAStar()
+function HybridAStarWithPathInTheMiddle:getFastPathfinder()
     return DummyAStar(self.vehicle, self.path)
 end
