@@ -6,6 +6,7 @@ AStar = CpObject(HybridAStar)
 
 function AStar:init(vehicle, yieldAfter, maxIterations)
     HybridAStar.init(self, vehicle, yieldAfter, maxIterations)
+    self.name = 'AStar'
     -- this needs to be small enough that no vehicle fit between the grid points (and remain undetected)
     self.deltaPos = 3
     self.deltaPosGoal = self.deltaPos

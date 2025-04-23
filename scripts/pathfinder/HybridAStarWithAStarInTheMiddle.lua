@@ -10,8 +10,9 @@ HybridAStarWithAStarInTheMiddle = CpObject(PathfinderInterface)
 ---@param mustBeAccurate boolean must be accurately find the goal position/angle (optional)
 ---@param analyticSolver AnalyticSolver the analytic solver the use (optional)
 function HybridAStarWithAStarInTheMiddle:init(vehicle, yieldAfter, maxIterations, mustBeAccurate, analyticSolver)
-    -- path generation phases
+    self.name = 'HybridAStarWithAStarInTheMiddle'
     self.vehicle = vehicle
+    -- path generation phases
     self.START_TO_MIDDLE = 1
     self.FAST = 2
     self.MIDDLE_TO_END = 3
@@ -250,6 +251,7 @@ function HybridAStarWithPathInTheMiddle:init(vehicle, yieldAfter, path, mustBeAc
     self.vehicle = vehicle
     self.path = path
     HybridAStarWithAStarInTheMiddle.init(self, vehicle, yieldAfter, 10000, mustBeAccurate, analyticSolver)
+    self.name = 'HybridAStarWithPathInTheMiddle'
 end
 
 function HybridAStarWithPathInTheMiddle:start(...)

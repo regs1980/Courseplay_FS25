@@ -494,7 +494,8 @@ HybridAStar.defaultMaxIterations = 40000
 ---@param maxIterations number
 ---@param mustBeAccurate boolean|nil
 function HybridAStar:init(vehicle, yieldAfter, maxIterations, mustBeAccurate)
-    self.logger = Logger('HybridAStar', Logger.level.error, CpDebug.DBG_PATHFINDER)
+    self.name = 'HybridAStar'
+    self.logger = Logger(self.name, Logger.level.error, CpDebug.DBG_PATHFINDER)
     self.vehicle = vehicle
     self.iterationsSinceYield = 0
     self.yields = 0
@@ -545,7 +546,7 @@ end
 --- rear axle of the trailer), can be nil
 ---@return PathfinderResult
 function HybridAStar:initRun(start, goal, turnRadius, allowReverse, constraints, hitchLength)
-    self:debug('Start pathfinding between %s and %s', tostring(start), tostring(goal))
+    self:debug('Start %s pathfinding between %s and %s', self.name, tostring(start), tostring(goal))
     self:debug('  turnRadius = %.1f, allowReverse: %s', turnRadius, tostring(allowReverse))
     self.goal = goal
     self.turnRadius = turnRadius

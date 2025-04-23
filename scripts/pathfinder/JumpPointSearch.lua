@@ -3,6 +3,11 @@
 JumpPointSearch = CpObject(AStar)
 JumpPointSearch.markers = {}
 
+function JumpPointSearch:init(vehicle, yieldAfter, maxIterations)
+    AStar.init(self, vehicle, yieldAfter, maxIterations)
+    self.name = "JumpPointSearch"
+end
+
 function JumpPointSearch:initRun(start, goal, turnRadius, allowReverse, constraints, hitchLength)
     self.logger:setLevel(Logger.level.debug)
     return AStar.initRun(self, start, goal, turnRadius, allowReverse, constraints, hitchLength)
