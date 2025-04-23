@@ -73,12 +73,13 @@ function PathfinderConstraints:init(context)
     self.initialMaxFruitPercent = self.maxFruitPercent
     self.initialOffFieldPenalty = self.offFieldPenalty
     self.strictMode = false
+    self.penaltyFactor = self.vehicle:getCpSettings().penaltyFactor:getValue()
     self:resetCounts()
     local areaToAvoidText = self.areaToAvoid and
             string.format('are to avoid %.1f x %.1f m', self.areaToAvoid.length, self.areaToAvoid.width) or 'none'
-    self.logger:debug(self.vehicle, 'off field penalty %.1f, max fruit percent: %.1f, field number %d, %s, ignore fruit %s, ignore off-field penalty %s',
+    self.logger:debug(self.vehicle, 'off field penalty %.1f, max fruit percent: %.1f, field number %d, %s, ignore fruit %s, ignore off-field penalty %s, penalty factor %.1f',
             self.offFieldPenalty, self.maxFruitPercent, self.fieldNum, areaToAvoidText,
-            self.areaToIgnoreFruit or 'none', self.areaToIgnoreOffFieldPenalty or 'none')
+            self.areaToIgnoreFruit or 'none', self.areaToIgnoreOffFieldPenalty or 'none', self.penaltyFactor)
 end
 
 function PathfinderConstraints:resetCounts()
@@ -131,7 +132,7 @@ function PathfinderConstraints:getNodePenalty(node)
     end
     penalty = penalty + self:calculatePreferredPathPenalty(node)
     self.totalNodeCount = self.totalNodeCount + 1
-    return penalty
+    return penalty * self.penaltyFactor
 end
 
 --- Calculate penalty for this node based on the preferred path. The penalty will be negative to

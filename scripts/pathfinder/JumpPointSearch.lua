@@ -135,7 +135,7 @@ function JumpPointSearch:getNextPrimitives(node, primitive)
     for _, n in ipairs(primitive.nextPrimitives) do
         if n.check then
             -- check if the neighbor is valid
-            local neighborToCheck = State3D(node.x, node.y, n.check:heading()) + n.check
+            local neighborToCheck = State3D(node.x + n.check.x, node.y + n.check.y, n.check:heading())
             if not self:isValidNode(neighborToCheck) or self:isPenaltyChanging(neighborToCheck, node) then
                 -- we have a forced neighbor
                 table.insert(nextPrimitives, n.nextPrimitive)

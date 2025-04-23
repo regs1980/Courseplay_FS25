@@ -428,7 +428,7 @@ end
 ---@param maxIterations number maximum number of iterations
 function PathfinderUtil.startPathfinding(vehicle, start, goal, constraints, allowReverse, mustBeAccurate, maxIterations)
     PathfinderUtil.overlapBoxes = {}
-    local pathfinder = HybridAStarWithAStarInTheMiddle(vehicle, 100, maxIterations, mustBeAccurate)
+    local pathfinder = HybridAStarWithJpsInTheMiddle(vehicle, 100, maxIterations, mustBeAccurate)
     return pathfinder, pathfinder:start(start, goal, constraints.turnRadius, allowReverse,
             constraints, constraints.trailerHitchLength)
 end
