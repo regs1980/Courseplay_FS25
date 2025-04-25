@@ -167,7 +167,6 @@ function CourseEditor:onClickLaneOffsetSetting(closure, ignoreDialog)
 				if item > 0 then
 					local value = allowedValues[item]
 					self.courseWrapper:getCourse():setPosition(value)
-					self.courseDisplay:setCourse(self.courseWrapper)
 					closure(texts[item])
 				end
 			end,
