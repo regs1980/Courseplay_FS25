@@ -1212,7 +1212,12 @@ end
 function AIDriveStrategyUnloadCombine:isLinedUpWithPipe(dx, dz, pipeOffset, debugEnabled)
     -- allow more offset when further away from the pipe, this is +- 50 cm at the pipe and grows
     -- 25 cm with every meter, which is about 30 degrees (15 left and 15 right)
-    local tolerance = 0.25 + 0.5 * math.abs(dz)
+    local tolerance = 0.55 + 0.5 * math.abs(dz)
+    local combineSpeed = self.combineToUnload.lastSpeedReal * 3600
+    if combineSpeed > 6 then
+        -- when the combine is moving, we can be more tolerant as we'll have a lot more space to align
+        tolerance = 2 * tolerance
+    end
     self:debugIf(debugEnabled, 'isLinedUpWithPipe: dx > pipe offset +- tolerance (%.1f > %.1f +- %.1f) at dz: %.1f',
             dx, pipeOffset, tolerance, dz)
     return dx > pipeOffset - tolerance and dx < pipeOffset + tolerance
