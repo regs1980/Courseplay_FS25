@@ -6,12 +6,13 @@ AStar = CpObject(HybridAStar)
 
 function AStar:init(vehicle, yieldAfter, maxIterations)
     HybridAStar.init(self, vehicle, yieldAfter, maxIterations)
+    self.name = 'AStar'
     -- this needs to be small enough that no vehicle fit between the grid points (and remain undetected)
     self.deltaPos = 3
     self.deltaPosGoal = self.deltaPos
     self.deltaThetaDeg = 181
     self.deltaThetaGoal = math.rad(self.deltaThetaDeg)
-    self.maxDeltaTheta = math.pi
+    self.maxDeltaTheta = self.deltaThetaGoal
     self.originalDeltaThetaGoal = self.deltaThetaGoal
     self.analyticSolverEnabled = false
     self.ignoreValidityAtStart = false
@@ -31,14 +32,14 @@ function AStar.SimpleMotionPrimitives:init(gridSize, allowReverse)
     self.gridSize = gridSize
     local d = gridSize
     local dSqrt2 = math.sqrt(2) * d
-    table.insert(self.primitives, { dx = d, dy = 0, dt = 0, d = d, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
-    table.insert(self.primitives, { dx = d, dy = d, dt = 1 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
-    table.insert(self.primitives, { dx = 0, dy = d, dt = 2 * math.pi / 4, d = d, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
-    table.insert(self.primitives, { dx = -d, dy = d, dt = 3 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
-    table.insert(self.primitives, { dx = -d, dy = 0, dt = 4 * math.pi / 4, d = d, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
-    table.insert(self.primitives, { dx = -d, dy = -d, dt = 5 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
-    table.insert(self.primitives, { dx = 0, dy = -d, dt = 6 * math.pi / 4, d = d, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
-    table.insert(self.primitives, { dx = d, dy = -d, dt = 7 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight, type = HybridAStar.MotionPrimitiveTypes.NA })
+    table.insert(self.primitives, { dx = d, dy = 0, dt = 0, d = d, gear = Gear.Forward, steer = Steer.Straight})
+    table.insert(self.primitives, { dx = d, dy = d, dt = 1 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight})
+    table.insert(self.primitives, { dx = 0, dy = d, dt = 2 * math.pi / 4, d = d, gear = Gear.Forward, steer = Steer.Straight})
+    table.insert(self.primitives, { dx = -d, dy = d, dt = 3 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight})
+    table.insert(self.primitives, { dx = -d, dy = 0, dt = 4 * math.pi / 4, d = d, gear = Gear.Forward, steer = Steer.Straight})
+    table.insert(self.primitives, { dx = -d, dy = -d, dt = 5 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight})
+    table.insert(self.primitives, { dx = 0, dy = -d, dt = 6 * math.pi / 4, d = d, gear = Gear.Forward, steer = Steer.Straight})
+    table.insert(self.primitives, { dx = d, dy = -d, dt = 7 * math.pi / 4, d = dSqrt2, gear = Gear.Forward, steer = Steer.Straight})
 end
 
 --- A* successors are simply the grid neighbors

@@ -29,13 +29,15 @@ State3D = CpObject(Vector)
 ---@param steer Steer forward/backward
 ---@param tTrailer number heading (theta) of the attached trailer in radians
 ---@param d number distance so far (g without the penalty)
-function State3D:init(x, y, t, g, pred, gear, steer, tTrailer, d)
+---@param primitive|nil the primitive that was used to create this node
+function State3D:init(x, y, t, g, pred, gear, steer, tTrailer, d, primitive)
     self.x = x
     self.y = y
     self.t = self:normalizeHeadingRad(t)
     self.pred = pred
     self.g = g or 0
     self.d = d or 0
+    self.primitive = primitive
     self.h = 0
     self.cost = 0
     self.goal = false
@@ -45,8 +47,6 @@ function State3D:init(x, y, t, g, pred, gear, steer, tTrailer, d)
     self.tTrailer = tTrailer and self:normalizeHeadingRad(tTrailer) or 0
     self.gear = gear or Gear.Forward
     self.steer = steer
-    -- penalty for using this node, to avoid obstacles, stay in an area, etc.
-    self.nodePenalty = 0
 end
 
 function State3D.copy(other)
@@ -140,10 +140,6 @@ function State3D:updateG(primitive, userPenalty)
         end
     end
     self.g = self.g + penalty * primitive.d + (userPenalty or 0)
-end
-
-function State3D:setNodePenalty(nodePenalty)
-    self.nodePenalty = nodePenalty
 end
 
 function State3D:getTrailerHeading()

@@ -547,6 +547,22 @@
 			<Text language="de"><![CDATA[Fahrzeug bleibt nach der Arbeit am Endpunkt stehen.]]></Text>
 			<Text language="en"><![CDATA[Vehicle stops at the end point after work.]]></Text>
 		</Translation>
+		<Translation name="CP_vehicle_setting_useJps_title">
+			<Text language="de"><![CDATA[Verwende JPS Pathfinder]]></Text>
+			<Text language="en"><![CDATA[Use JPS pathfinder]]></Text>
+		</Translation>
+		<Translation name="CP_vehicle_setting_useJps_tooltip">
+			<Text language="de"><![CDATA[Benutze für lange Strecken den Jump Point Search Pathfinder Algorithmus. Dieser läuft meistens schneller.]]></Text>
+			<Text language="en"><![CDATA[Use jump point search for longer distances, wich results in faster pathfinding.]]></Text>
+		</Translation>
+		<Translation name="CP_vehicle_setting_penaltyFactor_title">
+			<Text language="de"><![CDATA[Straffaktor für Pathfinder]]></Text>
+			<Text language="en"><![CDATA[Pathfinder penalty factor]]></Text>
+		</Translation>
+		<Translation name="CP_vehicle_setting_penaltyFactor_tooltip">
+			<Text language="de"><![CDATA[Ein höherer Wert dauert länger zu berechnen, bleibt dafür aber auch eher auf dem Feld und außerhalb der Frucht.]]></Text>
+			<Text language="en"><![CDATA[A higher value will take longer, but the path stays more on the field and outside the fruit.]]></Text>
+		</Translation>
 		<Translation name="CP_vehicle_setting_allowReversePathfinding_title">
 			<Text language="de"><![CDATA[Pathfinder darf rückwärtsfahren]]></Text>
 			<Text language="en"><![CDATA[Allow reverse for pathfinding]]></Text>
