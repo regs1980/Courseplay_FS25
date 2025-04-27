@@ -394,6 +394,14 @@ end
 function PurePursuitController:findRelevantSegment()
     -- vehicle position
     local vx, vy, vz = getWorldTranslation(self.controlledNode)
+    if MathUtil.isNan(vx) or MathUtil.isNan(vz) or MathUtil.isNan(vy) then
+        self:infoVehicle(self.vehicle, 'findRelevantSegment: vehicle position is NaN: (%s, %s, %s), controlled node %s',
+                tostring(vx), tostring(vy), tostring(vz), tostring(self.controlledNode))
+        self:infoVehicle(self.vehicle, self.controlledNode and getName(self.controlledNode) or 'controlled node lost')
+        self.course:print()
+        self:infoVehicle('findRelevantSegment: aiTrafficCollisionTranslation %s',
+                self.vehicle.spec_aiFieldWorker.aiTrafficCollisionTranslation and tostring(self.vehicle.spec_aiFieldWorker.aiTrafficCollisionTranslation[1]) or 'nil')
+    end
     -- update the position of the relevant node (in case the course offset changed)
     self.relevantWpNode:setToWaypoint(self.course, self.relevantWpNode.ix)
     local lx, _, dzFromRelevant = worldToLocal(self.relevantWpNode.node, vx, vy, vz);

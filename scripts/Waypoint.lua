@@ -324,8 +324,8 @@ function WaypointNode:setToWaypoint(course, ix, suppressLog)
 	end
 	self.ix = newIx
 	local x, y, z = course:getWaypointPosition(self.ix)
-	if x ~= x then
-		CpUtil.infoVehicle(CpDebug.DBG_PPC, course.vehicle, 'PPC: %s waypoint %d position is NaN', getName(self.node), ix)
+	if x ~= x or y ~= y or z ~= z then
+		CpUtil.infoVehicle(course.vehicle, 'PPC: %s waypoint %d position is NaN', getName(self.node), ix)
 		course:print()
 		return
 	end
