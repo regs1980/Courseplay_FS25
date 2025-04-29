@@ -66,6 +66,7 @@ function CpAITaskFieldWork:start()
 	spec.isActive = true
 	if self.isServer then
 		self.vehicle:updateAIFieldWorkerImplementData()
+		self.vehicle:raiseAIEvent("onAIFieldWorkerStart", "onAIImplementStart")
 		if self.vehicle:getAINeedsTrafficCollisionBox() and (AIFieldWorker.TRAFFIC_COLLISION ~= nil and
 			(AIFieldWorker.TRAFFIC_COLLISION ~= 0 and spec.aiTrafficCollision == nil)) then
 
@@ -108,8 +109,9 @@ function CpAITaskFieldWork:start()
 		cpSpec.driveStrategy = cpDriveStrategy
 		--- Only the last driving strategy can stop the helper, while it is running.
 		table.insert(spec.driveStrategies, cpDriveStrategy)
+	else
+		self.vehicle:raiseAIEvent("onAIFieldWorkerStart", "onAIImplementStart")
 	end
-	self.vehicle:raiseAIEvent("onAIFieldWorkerStart", "onAIImplementStart")
 	CpAITask.start(self)
 end
 
