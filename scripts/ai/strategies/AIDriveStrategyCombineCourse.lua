@@ -806,8 +806,8 @@ function AIDriveStrategyCombineCourse:estimateDistanceUntilFull(ix)
             self.litersPerMeter = 0
             self.litersPerSecond = 0
         end
-        self:debug('Fill rate is %.1f l/m, %.1f l/s (fill level %.1f, last %.1f, dToNext = %.1f)',
-                self.litersPerMeter, self.litersPerSecond, fillLevel, self.fillLevelAtLastWaypoint, dToNext)
+        self:debug('Fill rate is %.1f l/m, %.1f l/s (fill level %.1f of %.1f, last %.1f, dToNext = %.1f)',
+                self.litersPerMeter, self.litersPerSecond, fillLevel, capacity, self.fillLevelAtLastWaypoint, dToNext)
         self.fillLevelLastCheckedTime = g_currentMission.time
         self.fillLevelAtLastWaypoint = fillLevel
     end

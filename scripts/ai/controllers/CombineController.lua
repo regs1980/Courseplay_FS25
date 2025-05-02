@@ -27,12 +27,20 @@ function CombineController:getDriveData()
 end
 
 function CombineController:getFillLevel()
-    return self.implement:getFillUnitFillLevel(self.combineSpec.fillUnitIndex)
+    local fillLevel = self.implement:getFillUnitFillLevel(self.combineSpec.fillUnitIndex)
+    if self.combineSpec.loadingDelay > 0 then
+        for i=1, #self.combineSpec.loadingDelaySlots do
+            local slot = self.combineSpec.loadingDelaySlots[i]
+            if slot.valid then
+                fillLevel = fillLevel + slot.fillLevelDelta
+            end
+        end
+    end
+    return fillLevel
 end
 
 function CombineController:getFillLevelPercentage()
-    return 100 * self.implement:getFillUnitFillLevel(self.combineSpec.fillUnitIndex) /
-            self.implement:getFillUnitCapacity(self.combineSpec.fillUnitIndex)
+    return 100 * self:getFillLevel() / self:getCapacity()
 end
 
 function CombineController:getCapacity()
