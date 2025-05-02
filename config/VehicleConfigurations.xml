@@ -239,6 +239,11 @@ You can define the following custom settings:
     />
 
     <!-- Implements -->
+    
+    <!--\vehicles\annaburger-->
+    <vehicle name="hts22b79"
+    turnRadius = "12"
+    />
 
     <!--\vehicles\bednar-->
     <Vehicle name="terraland"
