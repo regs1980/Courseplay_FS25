@@ -297,7 +297,11 @@ function AIDriveStrategyShovelSiloLoader:getDriveData(dt, vX, vY, vZ)
             self.isStuckTimer:stop()
         end
         local _, _, closestObject = self.siloEndProximitySensor:getClosestObjectDistanceAndRootVehicle()
-        local isEndReached, maxSpeed = self.siloController:isEndReached(self.shovelController:getShovelNode(), 2)
+        local isEndReached, maxSpeed = false, math.huge
+        if self.siloController:isSameDirection(self.shovelController:getShovelNode()) then
+            --- Makes sure the silo end calculation is only used, if the driver is turned in that direction...
+            isEndReached, maxSpeed = self.siloController:isEndReached(self.shovelController:getShovelNode(), 2)
+        end
         self:setMaxSpeed(maxSpeed)
         if isEndReached then
             self:debug("End of the silo or heap was detected.")
@@ -643,22 +647,7 @@ function AIDriveStrategyShovelSiloLoader:startDrivingToSilo(target)
     local dx, dz = unpack(endPos)
     local siloCourse = Course.createFromTwoWorldPositions(self.vehicle, x, z, dx, dz,
             0, -5, 3, 3, false)
-    local vx, _, vz = getWorldTranslation(AIUtil.getDirectionNode(self.vehicle))
-    local dx, _, dz = siloCourse:worldToWaypointLocal(1, vx, 0, vz)
-    if dz < 0 and dz > -self.maxDistanceWithoutPathfinding and 
-        math.abs(dx) <= math.abs(dz) and 
-        math.abs(dx) < self.maxDistanceWithoutPathfinding * math.sqrt(2)/2 then 
-        --[[
-            |...|
-            |...|   <- Silo
-            -----
-              x     <- Target waypoint
-            ooooo
-           ooooooo  <- Circle, where the pathfinding is skipped.
-            ooooo
-              o
-        ]]--  
-        -- TODO: Beautify the math above :) 
+    if self.siloController:isSameDirection(AIUtil.getDirectionNode(self.vehicle)) then 
         self:debug("Start driving into the silo directly.")
         self:startCourse(siloCourse, 1)
         self:setNewState(self.states.DRIVING_INTO_SILO)
