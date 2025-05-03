@@ -780,7 +780,7 @@ Mit der rechten Maustaste kannst du jetzt den ersten Punkt setzen.
 Mit der shift-Taste lässt sich die Linie im 90° Winkel gehalten.
 Mit einem weiteren Rechtsklick wird eine Linie von deinem ersten zum zweiten Punkt gezogen, der zweite Punkt ist nun wieder der Startpunkt für die nächste Linie.
 Nach der zweiten Linie wird der Randkurs automatisch geschlossen. Du kannst trotzdem weitere Linien hinzufügen um das Feld genauer zu definieren.
-Es wird keine letzte Linie zum Startpunkt benötigt, da diese automatisch direkt zum start erzeugt wird. Test.
+Es wird keine letzte Linie zum Startpunkt benötigt, da diese automatisch direkt zum start erzeugt wird.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="Multitool und Fahrzeugverband"/>
     <text name="CP_help_page_multitoolBasic_text" text="
