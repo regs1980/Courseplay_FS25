@@ -2464,28 +2464,7 @@ The custom field borders will be displayed in the AI menu.
 By clicking on the name you will get the option to either delete, rename or edit it with the editor.
 ]]></Text>
 		</Translation>
-		<Translation name="CP_help_page_customFieldDraw_text">
-			<Text language="de"><![CDATA[
-Die zweite Option ist das Zeichnen im CP Helfermenü.
-Start der Aufzeichnung geht mit dem Button unten links oder der entsprechenden Taste.
-Wenn du das Zeichnen gestartet hast, wird der Text "Zeichne einen Randkurs" angezeigt.
-Mit der rechten Maustaste kannst du jetzt den ersten Punkt setzen.
-Mit der shift-Taste lässt sich die Linie im 90° Winkel gehalten.
-Mit einem weiteren Rechtsklick wird eine Linie von deinem ersten zum zweiten Punkt gezogen, der zweite Punkt ist nun wieder der Startpunkt für die nächste Linie.
-Nach der zweiten Linie wird der Randkurs automatisch geschlossen. Du kannst trotzdem weitere Linien hinzufügen um das Feld genauer zu definieren.
-Es wird keine letzte Linie zum Startpunkt benötigt, da diese automatisch direkt zum start erzeugt wird.
-]]></Text>
-			<Text language="en"><![CDATA[
-The second option is to draw the custom field on the map of the CP AI menu.
-To start the drawing, hit they button on the bottom left corner or hit corresponding key.
-After that a text appears on the top of your screen.
-Start by clicking the right mouse button for setting the start position.
-By holding the shift key, the line will be set straight in 90° angles.
-The next clicks will create lines to the previous click.
-Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
-You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
-]]></Text>
-		</Translation>
+
 		<Translation name="CP_help_page_multiConvoy_title">
 			<Text language="de"><![CDATA[Multitool und Fahrzeugverband]]></Text>
 			<Text language="en"><![CDATA[Multitool and Convoy]]></Text>
