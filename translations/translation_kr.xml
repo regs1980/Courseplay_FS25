@@ -516,6 +516,7 @@
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="사용자 지정 필드"/>
+    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
     <text name="CP_customFieldManager_confirm_save" text="기록된 경로를 사용자 지정 필드 %s로 저장하시겠습니까?"/>
     <text name="CP_customFieldManager_confirm_delete" text="사용자 지정 필드 %s를 삭제하시겠습니까?"/>
     <text name="CP_customFieldManager_delete" text="사용자 지정 필드 삭제"/>
@@ -816,13 +817,14 @@ D: 하역 차량이 사일로에 접근할 때, 작업자가 사일로 내부에
 이름을 클릭하면 해당 필드를 삭제하거나 이름을 변경할 수 있는 옵션이 나타납니다.  
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="
-두 번째 방법은 AI 메뉴의 지도에서 사용자 지정 필드를 직접 그리는 것입니다.  
-핫스팟이 선택되지 않은 경우, 아래에 있는 '사용자 지정 필드 그리기' 버튼을 누르세요.  
-그러면 화면 상단에 안내 문구가 나타납니다.  
-
-먼저 마우스 오른쪽 버튼을 클릭하여 시작 위치를 설정합니다.  
-이후 클릭할 때마다 이전 클릭한 위치와 선이 연결됩니다.  
-필드 그리기를 완료하려면 화면 하단의 '저장' 버튼을 클릭하세요.  
+The second option is to draw the custom field on the map of the CP AI menu.
+To start the drawing, hit they button on the bottom left corner or hit corresponding key.
+After that a text appears on the top of your screen.
+Start by clicking the right mouse button for setting the start position.
+By holding the shift key, the line will be set straight in 90° angles.
+The next clicks will create lines to the previous click.
+Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
+You don't need to draw the last line to the start, as it gets generated automatically straight to the start. 
 "/>
     <text name="CP_help_page_multiConvoy_title" text="다중 작업 및 대열 주행"/>
     <text name="CP_help_page_multitoolBasic_text" text="

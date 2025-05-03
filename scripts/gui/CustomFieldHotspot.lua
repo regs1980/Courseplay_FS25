@@ -1,4 +1,5 @@
 --- Custom field hotspot that can be clicked for deleting of the field course.
+---@class CustomFieldHotspot
 CustomFieldHotspot = {}
 CustomFieldHotspot.CATEGORY = 200
 CustomFieldHotspot.SLICE_ID = "gui.ingameMap_other"

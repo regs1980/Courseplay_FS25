@@ -191,11 +191,10 @@
 			</paragraph>
 			<paragraph>
 				<text text="$l10n_CP_help_page_customFieldDone_text"/>
-				<image filename="img/helpmenu/donecustomhelp.dds" size="1024 1024" uvs="0px 0px 765px 510px" aspectRatio="0.66"/>
 			</paragraph>	
 			<paragraph>	
 				<text text="$l10n_CP_help_page_customFieldDraw_text"/>
-				<image filename="img/helpmenu/drawcustomhelp.dds" size="1024 1024" uvs="0px 0px 765px 510px" aspectRatio="0.66"/>
+				<image filename="img/helpmenu/customfield.dds" size="1024 1024" uvs="0px 0px 765px 510px" aspectRatio="0.66"/>
             </paragraph>
 		</page>
 		<!--Courseplay Multitool and Convoy-->

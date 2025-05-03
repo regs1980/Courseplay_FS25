@@ -517,6 +517,7 @@ The course is saved automatically on closing of the editor and overrides the sel
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="Custom field"/>
+    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
     <text name="CP_customFieldManager_confirm_save" text="カスタムコース「%s」を保存しますか?"/>
     <text name="CP_customFieldManager_confirm_delete" text="カスタムフィールド「%s」を消去しますか?"/>
     <text name="CP_customFieldManager_delete" text="カスタムフィールドを消去する"/>
@@ -775,11 +776,14 @@ AIメニューを見ると、レコードしたフィールドの境界線が表
 名前をクリックすると、削除するか、名前を変更するかのオプションが表示されます。
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="
-2つ目の選択肢は、AIメニューマップに描くことです。
-トラクターや他の車両が選択されていない状態（マップ上のどこかを左クリック）で、カスタムフィールドを描くオプションが表示されます。
-起動すると、「右クリックでカスタムフィールドの線を描く」というテキストが表示されます。
-マウスの右ボタンを使って、開始したい位置をクリックします。
-次の右クリックで、開始点から2番目の位置まで線が引かれます。
+The second option is to draw the custom field on the map of the CP AI menu.
+To start the drawing, hit they button on the bottom left corner or hit corresponding key.
+After that a text appears on the top of your screen.
+Start by clicking the right mouse button for setting the start position.
+By holding the shift key, the line will be set straight in 90° angles.
+The next clicks will create lines to the previous click.
+Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
+You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="Multitool and Convoy"/>
     <text name="CP_help_page_multitoolBasic_text" text="

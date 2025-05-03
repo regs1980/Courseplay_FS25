@@ -37,6 +37,17 @@ function CustomFieldManager:init(fileSystem)
     self:load()
 end
 
+---@return number
+function CustomFieldManager:getNumFields()
+    return #self.fields
+end
+
+---@param index number
+---@return CustomField|nil
+function CustomFieldManager:getFieldByIndex(index)
+    return self.fields[index]
+end
+
 function CustomFieldManager:load()
     self.fields = {}
     self.fileSystem:refresh()
@@ -69,6 +80,17 @@ function CustomFieldManager:getNewFieldNumber()
         ix = ix + 1
     end
     return ix
+end
+
+---@param polygon Polygon
+function CustomFieldManager:addFieldFromPolygon(polygon)
+    local waypoints = {}
+    polygon:calculateProperties()
+    polygon:splitEdges(5)
+	for _, v in polygon:vertices() do
+		table.insert(waypoints, Waypoint.initFromGeneratedWp(v))
+	end
+    self:addField(waypoints)
 end
 
 --- Creates a new custom field from a given vertices table.
@@ -147,6 +169,7 @@ function CustomFieldManager:onClickSaveDialog(clickOk, field)
             fieldValid = true
             table.insert(self.fields, field)
             self.fileSystem:refresh()
+            g_messageCenter:publish(MessageType.CP_CUSTOM_FIELD_CHANGED)
         else 
             CpUtil.info("Failed to create custom Field: %s", field:getName())
         end
@@ -255,5 +278,6 @@ end
 
 -- for reload only:
 if g_customFieldManager then
+    ---@type CustomFieldManager
     g_customFieldManager = CustomFieldManager(FileSystem(g_Courseplay.customFieldDir, g_currentMission.missionInfo.mapId))
 end

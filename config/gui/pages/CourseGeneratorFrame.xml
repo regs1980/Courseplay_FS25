@@ -34,6 +34,7 @@
                         <RoundCorner profile="fs25_subCategorySelectorDot" />
                         <RoundCorner profile="fs25_subCategorySelectorDot" />
                         <RoundCorner profile="fs25_subCategorySelectorDot" />
+                        <RoundCorner profile="fs25_subCategorySelectorDot" />
                     </BoxLayout>
                     <GuiElement profile="fs25_subCategoryListContainer" id="filterListContainer">
                         <SmoothList profile="fs25_mapList" id="filterList" focusInit="onOpen"
@@ -138,6 +139,34 @@
                             <Slider profile="fs25_listSlider" dataElementId="activeWorkerList" />
                         </ThreePartBitmap>
                     </GuiElement>
+                    <GuiElement profile="fs25_subCategoryListContainer" id="customFieldListContainer">
+                        <SmoothList profile="fs25_mapList" id="customFieldList" focusInit="onOpen"
+                            listSectionHeader="section" startClipperElementName="startClipper"
+                            endClipperElementName="endClipper" onClick="onClickList">
+                            <ListItem profile="fs25_mapListItem">
+                                <Bitmap profile="fs25_mapListItemIconBg" name="iconBg" />
+                                <Bitmap profile="fs25_mapListColorTemplate" name="colorTemplate" />
+                                <Bitmap profile="fs25_mapListItemIcon" name="icon" />
+                                <Text profile="fs25_mapListItemName" name="name" />
+                            </ListItem>
+                            <ListItem profile="fs25_subCategoryListSectionHeader" name="section">
+                                <Text profile="fs25_subCategoryListSectionHeaderTitle" name="title" />
+                            </ListItem>
+                        </SmoothList>
+                        <Bitmap profile="fs25_subCategoryStartClipper" name="startClipper" />
+                        <Bitmap profile="fs25_subCategoryStopClipper" position="0px 60px" name="endClipper" />
+                        <ThreePartBitmap profile="fs25_subCategoryListSliderBox" absoluteSizeOffset="0px 60px">
+                            <Slider profile="fs25_listSlider" dataElementId="customFieldList" />
+                        </ThreePartBitmap>
+                        <GuiElement profile="fs25_mapButtonContainer" id="buttonDrawCustomField"
+                            width="340px" position="-10px 0px">
+                            <ThreePartBitmap profile="fs25_mapButtonBgLight" />
+                            <Text profile="fs25_mapButtonText" name="text"
+                                text="$l10n_CP_customFieldManager_draw" textOffset="15px 0px" />
+                            <Button profile="fs25_mapButtonAction1" name="button"
+                                onClick="onClickDrawCustomField" />
+                        </GuiElement>
+                    </GuiElement>
                 </Bitmap>
             </GuiElement>
             <GuiElement profile="cpMenuContainer">
@@ -159,6 +188,10 @@
                     <Text profile="fs25_shopBalance" text="$l10n_ui_balance:" />
                     <Text profile="fs25_shopMoney" id="currentBalanceText" />
                 </BoxLayout> -->
+                <GuiElement id="customFieldStatusMessage">
+                    <Text profile="cpAIStatusText" text="$l10n_CP_customFieldManager_draw_header"/>
+                    <Text profile="cpAIStatusText" text="$l10n_CP_customFieldManager_draw_sub_header" position="-300px -30px" />
+                </GuiElement>
                 <Text profile="cpAIStatusText" id="statusMessage" />
             </GuiElement>
             <GuiElement profile="fs25_mapContextBoxContainer" newLayer="true">

@@ -49,6 +49,10 @@ function FieldPlot:setNextTargetPoint(x, z)
 	self.nextTargetPoint = {x = x, z = z}
 end
 
+function FieldPlot:getNextTargetPoint()
+	return self.nextTargetPoint
+end
+
 --- Draws custom fields.
 ---@param map table
 function FieldPlot:draw(map)

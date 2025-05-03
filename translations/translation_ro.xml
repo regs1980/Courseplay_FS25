@@ -517,6 +517,7 @@ The course is saved automatically on closing of the editor and overrides the sel
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="Custom field"/>
+    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
     <text name="CP_customFieldManager_confirm_save" text="Do you want to save the recorded course as custom field %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Do you want to delete the custom field %s?"/>
     <text name="CP_customFieldManager_delete" text="Delete custom field"/>
@@ -775,12 +776,14 @@ The custom field borders will be displayed in the AI menu.
 By clicking on the name you will get the option to either delete or rename it.
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="
-The second option is to draw the custom field on the map of the AI menu.
-If no hotspot is selected, you can press the draw custom field button below.
+The second option is to draw the custom field on the map of the CP AI menu.
+To start the drawing, hit they button on the bottom left corner or hit corresponding key.
 After that a text appears on the top of your screen.
 Start by clicking the right mouse button for setting the start position.
+By holding the shift key, the line will be set straight in 90° angles.
 The next clicks will create lines to the previous click.
-Click the save button at the bottom to finish drawing the field.
+Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
+You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="Multitool and Convoy"/>
     <text name="CP_help_page_multitoolBasic_text" text="
