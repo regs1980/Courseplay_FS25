@@ -54,6 +54,11 @@ function CustomField:setVertices(vertices)
     self.vertices = vertices
 end
 
+---@return CustomFieldHotspot
+function CustomField:getHotspot()
+    return self.fieldHotspot
+end
+
 function CustomField:delete()
     if self.fieldHotspot then
         g_currentMission:removeMapHotspot(self.fieldHotspot)

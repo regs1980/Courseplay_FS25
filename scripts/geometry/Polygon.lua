@@ -59,9 +59,9 @@ end
 --- (  3, nil) -> 3, 4, 5, 1, 2
 --- (  3,   1) -> 3, 4, 5, 1
 --- (  1,   3) -> 1, 2, 3
----@param from number index of first vertex
----@param to number index of last vertex
----@param step number step (1 or -1 only), direction of iteration
+---@param from number|nil index of first vertex
+---@param to number|nil index of last vertex
+---@param step number|nil step (1 or -1 only), direction of iteration
 ---@return number, Vertex, Vertex, Vertex the index, the vertex at index, the previous, and the next vertex.
 --- previous and next may be nil
 function Polygon:vertices(from, to, step)

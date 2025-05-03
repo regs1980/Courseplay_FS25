@@ -2,7 +2,8 @@
 	This frame is a page for all global settings in the in game menu.
 	All the layout, gui elements are cloned from the general settings page of the in game menu.
 ]]--
-
+---@class CpCourseGeneratorFrame
+---@field drawFieldBorderPolygon Polygon
 CpCourseGeneratorFrame = {
 	CATEGRORIES = {
 		IN_GAME_MAP = 1,
@@ -39,17 +40,21 @@ CpCourseGeneratorFrame = {
 		GENERATE_COURSE = 5,
 		DELETE_CUSTOM_FIELD = 6,
 		RENAME_CUSTOM_FIELD = 7,
-		EDIT_CUSTOM_FIELD 	= 8
+		EDIT_CUSTOM_FIELD 	= 8,
+		DRAW_CUSTOM_FIELD 	= 9,
+		HOTSPOT_SELECT_ALL	= 10
 	},
 	AI_MODE_OVERVIEW = 1,
 	AI_MODE_CREATE = 2,
 	AI_MODE_WORKER_LIST = 3,
+	AI_MODE_DRAW_CUSTOM_FIELD = 4,
 	MAP_SELECTOR_HOTSPOT = 1,
 	MAP_SELECTOR_CREATE_JOB = 2,
 	MAP_SELECTOR_ACTIVE_JOBS = 3,
+	MAP_SELECTOR_CUSTOM_FIELDS = 4,
 	CP_MAP_HOTSPOT_OFFSET = 200,
-	BASE_XML_KEY = "CourseGenerator"
-
+	BASE_XML_KEY = "CourseGenerator",
+	DRAW_DELAY = 1
 	-- POSITION_UVS = GuiUtils.getUVs({
 	-- 	760,
 	-- 	4,
@@ -110,10 +115,15 @@ function CpCourseGeneratorFrame.new(target, custom_mt)
 	self.mapSelectorTexts = {
 		g_i18n:getText("ui_mapOverviewHotspots"),
 		g_i18n:getText("button_createJob"),
-		g_i18n:getText("ui_activeAIJobs")}
+		g_i18n:getText("ui_activeAIJobs"),
+		g_i18n:getText("CP_customFieldManager_fieldList")}
 
 	--- Bitmask for the visible cp hotspots.
 	self.cpHotspotSettingValue = 1
+	--- Draws the current progress, while creating a custom field.
+	self.customFieldPlot = FieldPlot(true)
+	self.drawFieldBorderPolygon = Polygon()
+	self.drawDelay = 0
 	return self
 end
 
@@ -161,16 +171,6 @@ function CpCourseGeneratorFrame:initialize(menu)
 	self.cpMenu = menu
 	self.onClickBackCallback = menu.clickBackCallback
 	self:initializeContextActions()
-
-	self.generateCourseMenuButton = {
-		["inputAction"] = InputAction.MENU_EXTRA_1,
-		["text"] = g_i18n:getText("button_blocklist"),
-		["callback"] = function()
-			-- upvalues: (copy) p_u_39
-			p_u_39:onButtonUnBan()
-		end
-	}
-
 
 	self.booleanPrefab:unlinkElement()
 	FocusManager:removeElement(self.booleanPrefab)
@@ -356,6 +356,7 @@ function CpCourseGeneratorFrame:onFrameOpen()
 		if self.currentHotspot and self.currentHotspot:isa(CustomFieldHotspot) then 
 			self:setMapSelectionItem(self.currentHotspot)
 		end
+		self.customFieldList:reloadData()
 		self.infoTextList:reloadData()
 	end, self)
 	-- g_messageCenter:subscribe(MessageType.AI_TASK_SKIPPED, self.onAITaskSkipped, self)
@@ -400,6 +401,7 @@ function CpCourseGeneratorFrame:onFrameOpen()
 	end
 	self.activeWorkerList:reloadData()
 	self.filterList:reloadData()
+	self.customFieldList:reloadData()
 	if g_Courseplay.globalSettings.infoTextHudActive:getValue() > 0 then 
 		self.infoTextList:reloadData()
 		self.infoTextHud:setVisible(true)
@@ -415,6 +417,8 @@ function CpCourseGeneratorFrame:onFrameOpen()
 	self:setJobMenuVisible(false)
 	self.startJobPending = false
 	self.ingameMap:onOpen()
+	self.customFieldStatusMessage:setVisible(false)
+	self.statusMessage:setVisible(true)
 
 	self:updateSubCategoryPages(self.CATEGRORIES.IN_GAME_MAP)
 
@@ -489,6 +493,11 @@ function CpCourseGeneratorFrame:onFrameClose()
 end
 
 function CpCourseGeneratorFrame:onClickBack(force)
+	if self.mode == self.AI_MODE_DRAW_CUSTOM_FIELD then 
+		self.drawFieldBorderPolygon:_reset()
+		self:onClickDrawCustomField()
+		return false
+	end	
 	if self.startJobPending and not force then
 		return false
 	end
@@ -663,35 +672,32 @@ function CpCourseGeneratorFrame:onDrawPostIngameMap(element, ingameMap)
 		self.currentJob:draw(ingameMap, self.mode == self.MODE_OVERVIEW)
 	end
 
-	--- Draws the current progress, while creating a custom field.
-	-- if pageAI.mode == CpInGameMenuAIFrameExtended.MODE_DRAW_FIELD_BORDER and next(CpInGameMenuAIFrameExtended.curDrawPositions) then
-	-- 	local localX, localY = pageAI.ingameMap:getLocalPosition(g_inputBinding.mousePosXLast, g_inputBinding.mousePosYLast)
-	-- 	local worldX, worldZ = pageAI.ingameMap:localToWorldPos(localX, localY)
-
-	-- 	if #CpInGameMenuAIFrameExtended.curDrawPositions > 0 then
-	-- 		local pos = CpInGameMenuAIFrameExtended.curDrawPositions[#CpInGameMenuAIFrameExtended.curDrawPositions]
-	-- 		local dx, dz, length = CpMathUtil.getPointDirection( pos, {x = worldX, z = worldZ})
-	-- 		if Input.isKeyPressed(Input.KEY_lshift) then
-	-- 			if math.abs(dx) > math.abs(dz) then 
-	-- 				dz = 0
-	-- 				dx = math.sign(dx)
-	-- 			else
-	-- 				dx = 0
-	-- 				dz = math.sign(dz)
-	-- 			end
-	-- 			worldX = pos.x + dx * length
-	-- 			worldZ = pos.z + dz * length
-	-- 		end
-	-- 		pageAI.customFieldPlot:setNextTargetPoint(worldX, worldZ)
-	-- 	else 
-	-- 		pageAI.customFieldPlot:setNextTargetPoint()
-	-- 	end
-
-
-	-- 	pageAI.customFieldPlot:setWaypoints(CpInGameMenuAIFrameExtended.curDrawPositions)
-	-- 	pageAI.customFieldPlot:draw(self,true)
-	-- 	pageAI.customFieldPlot:setVisible(true)
-	-- end
+	-- Draws the current progress, while creating a custom field.
+	if self.mode == self.AI_MODE_DRAW_CUSTOM_FIELD and #self.drawFieldBorderPolygon > 0 then
+		local localX, localY = self.ingameMap:getLocalPosition(g_inputBinding.mousePosXLast, g_inputBinding.mousePosYLast)
+		local worldX, worldZ = self.ingameMap:localToWorldPos(localX, localY)
+		if Input.isKeyPressed(Input.KEY_lshift) then
+			---@type Vector
+			local curVector = Vector(worldX, -worldZ)
+			---@type Vertex
+			local lastVertex = self.drawFieldBorderPolygon[#self.drawFieldBorderPolygon]
+			---@type Vector
+			local dirVec = (curVector - lastVertex)
+			local length = dirVec:length()
+			dirVec = dirVec:norm()
+			if math.abs(dirVec.x) > math.abs(dirVec.y) then
+				dirVec:set(math.sign(dirVec.x), 0) 
+			else
+				dirVec:set(0, math.sign(dirVec.y)) 
+			end
+			lastVertex = lastVertex + (dirVec * length)
+			worldX = lastVertex.x
+			worldZ = -lastVertex.y
+		end
+		self.customFieldPlot:setNextTargetPoint(worldX, worldZ)
+		self.customFieldPlot:draw(ingameMap, true)
+		self.customFieldPlot:setVisible(true)
+	end
 
 end
 
@@ -703,6 +709,9 @@ function CpCourseGeneratorFrame:onClickMap(element ,worldX, worldZ)
 	if self.isPickingRotation then 
 		local angle = math.atan2(worldX - self.pickingRotationOrigin[1], worldZ - self.pickingRotationOrigin[2])
 		self:executePickingCallback(true, angle)
+		return
+	end
+	if self.mode == self.AI_MODE_DRAW_CUSTOM_FIELD then 
 		return
 	end
 	self:setMapSelectionItem(nil)
@@ -718,16 +727,20 @@ function CpCourseGeneratorFrame:onClickHotspot(element, hotspot)
 		self:executePickingCallback(true, math.atan2(hotspot.worldX - self.pickingRotationOrigin[0], hotspot.worldZ - self.pickingRotationOrigin[1]))
 		return
 	end
+	if self.mode == self.AI_MODE_DRAW_CUSTOM_FIELD then 
+		return
+	end
 	self:setMapSelectionItem(hotspot)
 end
 
-function CpCourseGeneratorFrame:showMapHotspot(self, hotspot) 
+function CpCourseGeneratorFrame:showMapHotspot(hotspot) 
 	self:onClickHotspot(nil, hotspot)
 	self.ingameMap:panToHotspot(hotspot)
 end
 
 function CpCourseGeneratorFrame:onClickMapOverviewSelector(state)
 	self.filterListContainer:setVisible(false)
+	self.customFieldListContainer:setVisible(false)
 	self.createJobContainer:setVisible(false)
 	self.workerListContainer:setVisible(false)
 	for i = 1, #self.mapSelectorTexts do
@@ -738,10 +751,12 @@ function CpCourseGeneratorFrame:onClickMapOverviewSelector(state)
 		self.filterListContainer:setVisible(true)
 	elseif state == self.MAP_SELECTOR_CREATE_JOB then
 		self.createJobContainer:setVisible(true)
-		-- self.subCategoryDotBox:invalidateLayout()
 	elseif state == self.MAP_SELECTOR_ACTIVE_JOBS then
 		self.workerListContainer:setVisible(true)
+	elseif state == self.MAP_SELECTOR_CUSTOM_FIELDS then
+		self.customFieldListContainer:setVisible(true)
 	end
+	self:updateContextActions()
 end
 
 function CpCourseGeneratorFrame:onClickDeselectAll()
@@ -760,6 +775,22 @@ function CpCourseGeneratorFrame:onClickDeselectAll()
 	self.ingameMapBase:restoreDefaultFilter()
 	self:saveHotspotFilter()
 	self.filterList:reloadData()
+end
+
+function CpCourseGeneratorFrame:onClickDrawCustomField()
+	if self.mode == self.AI_MODE_DRAW_CUSTOM_FIELD then
+		g_customFieldManager:addFieldFromPolygon(self.drawFieldBorderPolygon)
+		self.mapOverviewSelector:setDisabled(false)
+		self.customFieldStatusMessage:setVisible(false)
+		self.statusMessage:setVisible(true)
+		self.mode = self.AI_MODE_OVERVIEW
+		return
+	end
+	self.drawFieldBorderPolygon:_reset()
+	self.mapOverviewSelector:setDisabled(true)
+	self.customFieldStatusMessage:setVisible(true)
+	self.statusMessage:setVisible(false)
+	self.mode = self.AI_MODE_DRAW_CUSTOM_FIELD
 end
 
 function CpCourseGeneratorFrame:onJobTypeChanged(index)
@@ -1088,10 +1119,13 @@ function CpCourseGeneratorFrame:getNumberOfItemsInSection(list, section)
 	if list == self.filterList then 
 		return #self.hotspotFilterCategories[section]
 	end
+	if list == self.customFieldList then 
+		return g_customFieldManager:getNumFields()
+	end
 	if list == self.contextButtonList then 
 		self.contextActionMapping = {}
 		for index, action in pairs(self.contextActions) do 
-			if action.isActive then 
+			if action.isActive and not action.actionOnly then 
 				table.insert(self.contextActionMapping, index)
 			end
 		end
@@ -1103,10 +1137,11 @@ function CpCourseGeneratorFrame:getNumberOfItemsInSection(list, section)
 	if list == self.contextButtonCustomFieldList then 
 		self.contextActionMapping = {}
 		for index, action in pairs(self.contextActions) do 
-			if action.isActive then 
+			if action.isActive and not action.actionOnly then 
 				table.insert(self.contextActionMapping, index)
 			end
 		end
+	
 		return #self.contextActionMapping
 	end
 	if list == self.activeWorkerList then 
@@ -1154,6 +1189,12 @@ function CpCourseGeneratorFrame:populateCellForItemInSection(list, section, inde
 		g_inGameMenu.pageMapOverview.assignItemColors(self, 
 			cell:getAttribute("iconBg"), status.color, 
 			cell:getAttribute("colorTemplate")) 
+	elseif list == self.customFieldList then 
+		cell:getAttribute("icon"):setVisible(false)
+		local field = g_customFieldManager:getFieldByIndex(index)
+		if field then
+			cell:getAttribute("name"):setText(field:getName())
+		end
 	elseif list == self.contextButtonList then 
 		local buttonInfo = self.contextActions[self.contextActionMapping[index]]
 		cell:getAttribute("text"):setText(buttonInfo.text)
@@ -1210,6 +1251,11 @@ function CpCourseGeneratorFrame:onClickList(list, section, index, listElement)
 		self.hotspotStateFilter[section][index] = not self.hotspotStateFilter[section][index]
 		self.ingameMapBase:restoreDefaultFilter()
 		self:saveHotspotFilter()
+	elseif list == self.customFieldList then 
+		local field = g_customFieldManager:getFieldByIndex(index)
+		if field then 
+			self:showMapHotspot(field:getHotspot())
+		end
 	elseif list == self.activeWorkerList then
 		local job = g_currentMission.aiSystem:getJobById(self.playerFarmActiveJobs[index])
 		if job ~= nil and not job.vehicleParameter then
@@ -1267,6 +1313,22 @@ function CpCourseGeneratorFrame:mouseEvent(posX, posY, isDown, isUp, button, eve
 		local localX, localY = self.ingameMap:getLocalPosition(self.lastMousePosX, self.lastMousePoxY)
 		local worldX, worldZ = self.ingameMap:localToWorldPos(localX, localY)
 		self.aiTargetMapHotspot:setWorldPosition(worldX, worldZ)
+	end
+	if self.mode == self.AI_MODE_DRAW_CUSTOM_FIELD then 
+		if button == Input.MOUSE_BUTTON_RIGHT then 
+			if isUp and g_updateLoopIndex > self.drawDelay then 
+				local localX, localY = self.ingameMap:getLocalPosition(posX, posY)
+				local worldX, worldZ = self.ingameMap:localToWorldPos(localX, localY)
+				if #self.drawFieldBorderPolygon > 0 then 
+					local point = self.customFieldPlot:getNextTargetPoint()
+					self.drawFieldBorderPolygon:append(Vertex(point.x, -point.z))
+				else 
+					self.drawFieldBorderPolygon:append(Vertex(worldX, -worldZ))
+				end
+				self.customFieldPlot:setWaypointsFromPolygon(self.drawFieldBorderPolygon)
+				self.drawDelay = g_updateLoopIndex + self.DRAW_DELAY
+			end
+		end
 	end
 	return CpCourseGeneratorFrame:superClass().mouseEvent(self, posX, posY, isDown, isUp, button, eventUsed)
 end
@@ -1414,6 +1476,22 @@ function CpCourseGeneratorFrame:initializeContextActions()
 				end
 			end,
 			isActive = false
+		},
+		[self.CONTEXT_ACTIONS.DRAW_CUSTOM_FIELD] = {
+			callback = function()
+				self:onClickDrawCustomField()
+			end,
+			action = InputAction.MENU_MAP_ACTION_1,
+			isActive = false,
+			actionOnly = true
+		},
+		[self.CONTEXT_ACTIONS.HOTSPOT_SELECT_ALL] = {
+			callback = function()
+				self:onClickDeselectAll()
+			end,
+			action = InputAction.MENU_MAP_ACTION_1,
+			isActive = false,
+			actionOnly = true
 		}
 	}
 end
@@ -1437,9 +1515,16 @@ function CpCourseGeneratorFrame:updateContextActions()
 	self.contextActions[self.CONTEXT_ACTIONS.DELETE_CUSTOM_FIELD].isActive = self.currentHotspot and self.currentHotspot:isa(CustomFieldHotspot)
 	self.contextActions[self.CONTEXT_ACTIONS.RENAME_CUSTOM_FIELD].isActive = self.currentHotspot and self.currentHotspot:isa(CustomFieldHotspot)
 	self.contextActions[self.CONTEXT_ACTIONS.EDIT_CUSTOM_FIELD].isActive = self.currentHotspot and self.currentHotspot:isa(CustomFieldHotspot)
+	self.contextActions[self.CONTEXT_ACTIONS.DRAW_CUSTOM_FIELD].isActive = self.mapOverviewSelector:getState() == self.MAP_SELECTOR_CUSTOM_FIELDS
+	self.contextActions[self.CONTEXT_ACTIONS.HOTSPOT_SELECT_ALL].isActive = self.mapOverviewSelector:getState() == self.MAP_SELECTOR_HOTSPOT
 	for _, action in ipairs(self.contextActions) do 
 		if action.action then 
 			g_inputBinding:removeActionEventsByActionName(action.action)
+		end
+	end
+	for _, action in ipairs(self.contextActions) do 
+		if action.action and action.isActive and action.actionOnly then 
+			g_inputBinding:registerActionEvent(action.action, self, action.callback, false, true, false, true)
 		end
 	end
 	self.contextButtonList:reloadData()	

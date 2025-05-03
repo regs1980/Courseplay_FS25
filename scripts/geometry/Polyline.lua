@@ -818,7 +818,7 @@ function Polyline:setAttribute(ix, setter, ...)
 end
 
 --- Remove all existing vertices
----@param ix number optional start index
+---@param ix number|nil optional start index
 function Polyline:_reset(ix)
     for i = ix or 1, #self do
         self[i] = nil

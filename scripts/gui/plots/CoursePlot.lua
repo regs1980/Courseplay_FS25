@@ -64,6 +64,14 @@ function CoursePlot:setDrawingArrows(draw)
 	self.drawArrows = draw
 end
 
+---@param polygon Polygon
+function CoursePlot:setWaypointsFromPolygon(polygon)
+	self.waypoints = {}
+	for _, v in polygon:vertices() do
+		table.insert(self.waypoints, Waypoint.initFromGeneratedWp(v))
+	end
+end
+
 function CoursePlot:setWaypoints( waypoints )
 	self.waypoints = {}
 	-- remove waypoints from long straight lines, the plot only needs start/end. Too many waypoints
