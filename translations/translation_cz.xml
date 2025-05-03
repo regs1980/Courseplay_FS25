@@ -14,7 +14,7 @@
     <text name="CP_unit_meter" text="m"/>
     <text name="CP_unit_foot" text="st"/>
     <text name="CP_copy" text="Kopírovat trasu: "/>
-    <text name="CP_infoText" text="Courseplay(%s): Pro pomoc, chyby nebo poznámky o opravách navštivte: https://github.com/Courseplay/Courseplay_FS25. Překlad: SniperKittenCZ"/>
+    <text name="CP_infoText" text="Courseplay(%s): Pro pomoc, chyby nebo poznámky o opravách navštivte: https://github.com/Courseplay/Courseplay_FS25. Překlad: SniperKittenCZ aktualizoval LadikSmyth"/>
     <text name="CP_error_no_course" text="Před zahájením práce vygenerujte trasu."/>
     <text name="CP_error_could_not_generate_course" text="Trasu se nepodařilo vygenerovat. Log může obsahovat více informací."/>
     <text name="CP_error_field_detection_still_running" text="Detekce pole stále běží."/>
@@ -177,16 +177,16 @@
     <text name="CP_vehicle_setting_fuelSave_tooltip" text="Během čekání vypne motor vozidla."/>
     <text name="CP_vehicle_setting_stopAtEnd_title" text="Zastavit na konci"/>
     <text name="CP_vehicle_setting_stopAtEnd_tooltip" text="Zastavit na konci trasy."/>
-    <text name="CP_vehicle_setting_useJps_title" text="Use JPS pathfinder"/>
-    <text name="CP_vehicle_setting_useJps_tooltip" text="Use jump point search for longer distances, wich results in faster pathfinding."/>
-    <text name="CP_vehicle_setting_penaltyFactor_title" text="Pathfinder penalty factor"/>
-    <text name="CP_vehicle_setting_penaltyFactor_tooltip" text="A higher value will take longer, but the path stays more on the field and outside the fruit."/>
+    <text name="CP_vehicle_setting_useJps_title" text="Použt JPS vyhledávač tras"/>
+    <text name="CP_vehicle_setting_useJps_tooltip" text="Pro delší vzdálenosti použijte vyhledávání bodů skoku, což vede k rychlejšímu nalezení cesty."/>
+    <text name="CP_vehicle_setting_penaltyFactor_title" text="Trestný faktor vyhledávače tras"/>
+    <text name="CP_vehicle_setting_penaltyFactor_tooltip" text="Vyšší hodnota bude trvat déle, ale trasa zůstane více na poli a mimo plodinu."/>
     <text name="CP_vehicle_setting_allowReversePathfinding_title" text="Povolit couvání pro hledání trasy"/>
     <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="Pokud je aktivní, použije se při generování trasy i couvání."/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="Umožnit používání generování trasy v zatáčkách"/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Umožňuje používat generování trasy v zatáčkách, například k vyhýbání se překážkám a plodinám."/>
-    <text name="CP_vehicle_setting_loopTurnsOnHeadland_title" text="Loop turn on headland"/>
-    <text name="CP_vehicle_setting_loopTurnsOnHeadland_tooltip" text="Instead of performing a normal turn on headland, the vehicle will drive a loop. The first headland should have round corners!"/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_title" text="Smyčka na souvrati"/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_tooltip" text="Místo provedení normálního otáčení na souvrati vozidlo projede smyčkou. První souvrat by měla mít zaoblené rohy!"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="Složit nářadí na konci trasy"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="Zapnout/vypnout složení nářadí do transportní pozice po ukončení práce."/>
     <text name="CP_vehicle_setting_returnToStart_title" text="Návrat na počáteční bod"/>
@@ -517,7 +517,7 @@ Trasa se automaticky uloží při zavření editoru a přepíše vybranou trasu.
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="Vlastní pole"/>
-    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
+    <text name="CP_customFieldManager_fieldList" text="Vlastní pole"/>
     <text name="CP_customFieldManager_confirm_save" text="Chcete uložit zaznamenanou trasu jako vlastní pole %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Chcete odstranit vlastní pole %s?"/>
     <text name="CP_customFieldManager_delete" text="Vymazat vlastní pole"/>
@@ -773,14 +773,14 @@ Když se podíváte na nabídku AI, uvidíte hranici zaznamenaného pole.
 Kliknutím na Název získáte možnost jej buď smazat, nebo přejmenovat.
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="
-The second option is to draw the custom field on the map of the CP AI menu.
-To start the drawing, hit they button on the bottom left corner or hit corresponding key.
-After that a text appears on the top of your screen.
-Start by clicking the right mouse button for setting the start position.
-By holding the shift key, the line will be set straight in 90° angles.
-The next clicks will create lines to the previous click.
-Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
-You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
+Druhou možností je nakreslit vlastní pole na mapu v nabídce CP AI.
+Chcete-li spustit kreslení, stiskněte tlačítko v levém dolním rohu nebo stiskněte odpovídající klávesu.
+Poté se v horní části obrazovky zobrazí text.
+Začněte kliknutím pravým tlačítkem myši pro nastavení počáteční pozice.
+Podržením klávesy Shift se čára narovná v úhlech 90°.
+Další kliknutí vytvoří čáry k předchozímu kliknutí.
+Jakmile nakreslíte druhou čáru, pole se automaticky uzavře. Stále můžete nakreslit další čáry, abyste pole ještě více vymezili.
+Poslední linii nemusíte kreslit až na začátek, protože se automaticky vygeneruje přímo na začátek.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="Více strojů a konvoj"/>
     <text name="CP_help_page_multitoolBasic_text" text="
