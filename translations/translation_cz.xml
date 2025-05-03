@@ -769,14 +769,14 @@ Když se podíváte na nabídku AI, uvidíte hranici zaznamenaného pole.
 Kliknutím na Název získáte možnost jej buď smazat, nebo přejmenovat.
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="
-    The second option is to draw the custom field on the map of the CP AI menu.
-    To start the drawing, hit they button on the bottom left corner or hit corresponding key.
-    After that a text appears on the top of your screen.
-    Start by clicking the right mouse button for setting the start position.
-    By holding the shift key, the line will be set straight in 90° angles.
-    The next clicks will create lines to the previous click.
-    Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
-    You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
+The second option is to draw the custom field on the map of the CP AI menu.
+To start the drawing, hit they button on the bottom left corner or hit corresponding key.
+After that a text appears on the top of your screen.
+Start by clicking the right mouse button for setting the start position.
+By holding the shift key, the line will be set straight in 90° angles.
+The next clicks will create lines to the previous click.
+Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
+You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="Více strojů a konvoj"/>
     <text name="CP_help_page_multitoolBasic_text" text="
