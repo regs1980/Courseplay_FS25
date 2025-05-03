@@ -513,6 +513,7 @@
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="Користувацьке поле"/>
+    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
     <text name="CP_customFieldManager_confirm_save" text="Бажаєте зберегти записаний маршрут як користувацьке поле %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Бажаєте видалити користувацьке поле %s?"/>
     <text name="CP_customFieldManager_delete" text="Видалити користувацьке поле"/>

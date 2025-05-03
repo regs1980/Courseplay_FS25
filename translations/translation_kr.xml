@@ -512,6 +512,7 @@
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="사용자 지정 필드"/>
+    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
     <text name="CP_customFieldManager_confirm_save" text="기록된 경로를 사용자 지정 필드 %s로 저장하시겠습니까?"/>
     <text name="CP_customFieldManager_confirm_delete" text="사용자 지정 필드 %s를 삭제하시겠습니까?"/>
     <text name="CP_customFieldManager_delete" text="사용자 지정 필드 삭제"/>

@@ -513,6 +513,7 @@ Düzenleyici kapatıldığında rota otomatik olarak kaydedilir ve önceki rotay
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="Özel çalışma alanı"/>
+    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
     <text name="CP_customFieldManager_confirm_save" text="Kaydı yapılan rotayı özel çalışma alanı %s olarak kaydetmek istiyor musunuz?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Özel çalışma alanı %s'i silmek istiyor musunuz?"/>
     <text name="CP_customFieldManager_delete" text="Özel çalışma alanını sil"/>

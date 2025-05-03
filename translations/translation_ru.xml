@@ -513,6 +513,7 @@
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="Пользовательское поле"/>
+    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
     <text name="CP_customFieldManager_confirm_save" text="Вы хотите сохранить записанный курс как пользовательское поле %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Вы хотите удалить пользовательское поле %s?"/>
     <text name="CP_customFieldManager_delete" text="Удалить пользовательское поле"/>
