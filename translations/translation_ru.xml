@@ -775,11 +775,14 @@ D: Эта настройка говорит работнику ждать в с�
 Нажав на имя, вы получите возможность либо удалить его или переименовать.
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="
-Второй вариант - нарисовать его на карте в меню ИИ.
-Не выделяя трактор или другую технику (левым щелчком где-то на карте) вы получаете возможность нарисовать пользовательское поле.
-После начала рисования будут отображаться линии пользовательских полевых нарисованных правой кнопкой мыши.
-Используйте правую кнопку мыши, чтобы нажать на место, где вы хотите начать.
-Следующий щелчок правой кнопкой мыши нарисует линию от старта ко второй точки, которая будет начальной точкой для следующей линии.
+    The second option is to draw the custom field on the map of the CP AI menu.
+    To start the drawing, hit they button on the bottom left corner or hit corresponding key.
+    After that a text appears on the top of your screen.
+    Start by clicking the right mouse button for setting the start position.
+    By holding the shift key, the line will be set straight in 90° angles.
+    The next clicks will create lines to the previous click.
+    Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
+    You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="Совместная работа и колонна"/>
     <text name="CP_help_page_multitoolBasic_text" text="

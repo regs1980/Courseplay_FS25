@@ -776,11 +776,14 @@ D： 此设置告诉当卸载机接近筒仓时，工人在筒仓或选定的停
     <text name="CP_help_page_customFieldDone_text" text="查看 AI 菜单，您将看到记录的田地边界。
 通过单击名称，您将获得删除或重命名的选项。 
 "/>
-    <text name="CP_help_page_customFieldDraw_text" text="第二个选项是在 AI 菜单地图上绘制它。
-没有选择拖拉机或其他车辆（左键单击地图上的某处），您可以选择绘制自定义田地。
-开始时，将显示文本右键单击绘制自定义田地线。
-使用鼠标右键单击要开始的位置。
-下一次右键单击将从您的起点画一条线到您的第二个位置，这将是下一条线的起点。
+    <text name="CP_help_page_customFieldDraw_text" text="The second option is to draw the custom field on the map of the CP AI menu.
+    To start the drawing, hit they button on the bottom left corner or hit corresponding key.
+    After that a text appears on the top of your screen.
+    Start by clicking the right mouse button for setting the start position.
+    By holding the shift key, the line will be set straight in 90° angles.
+    The next clicks will create lines to the previous click.
+    Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
+    You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="多工具与车队"/>
     <text name="CP_help_page_multitoolBasic_text" text="

@@ -781,12 +781,14 @@ Dando un'occhiata al menu IA, vedrai il bordo del tuo campo registrato.
 Facendo clic sul Nome, avrai la possibilità di eliminarlo o rinominarlo.
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="
-La seconda opzione è disegnare il campo personalizzato sulla mappa del menu IA.
-Se non è selezionato alcun hotspot, puoi premere il pulsante disegna campo personalizzato qui sotto.
-Dopodiché, nella parte superiore dello schermo appare un testo.
-Inizia cliccando con il tasto destro del mouse per impostare la posizione di partenza.
-I clic successivi creeranno linee per il clic precedente.
-Fai clic sul pulsante salva in basso per terminare di disegnare il campo.
+    The second option is to draw the custom field on the map of the CP AI menu.
+    To start the drawing, hit they button on the bottom left corner or hit corresponding key.
+    After that a text appears on the top of your screen.
+    Start by clicking the right mouse button for setting the start position.
+    By holding the shift key, the line will be set straight in 90° angles.
+    The next clicks will create lines to the previous click.
+    Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
+    You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="Multiveicoli e convoglio"/>
     <text name="CP_help_page_multitoolBasic_text" text="
