@@ -229,6 +229,18 @@ function CpBunkerSiloVehicleController:isEndReached(node, margin)
 	return false, math.huge
 end
 
+--- Check if the drive target direction is within 45° relative to the given node.
+--- @param node number
+--- @return boolean
+function CpBunkerSiloVehicleController:isSameDirection(node)
+	if not self.drivingTarget then
+		return false
+	end
+	local dx, dz = unpack(self.drivingTarget[2])
+	local x, _, z = localToWorld(node, 0, 0, 0)
+	return math.abs(MathUtil.getYRotationFromDirection(x - dx, z - dz)) < math.pi/2
+end
+
 --- Generates a silo map with lines and a map with rectangle tiles.
 ---@param width number
 ---@param unitWidth number
