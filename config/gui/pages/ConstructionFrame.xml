@@ -167,12 +167,8 @@
         </ThreePartBitmap>
     </ThreePartBitmap> -->
     <GUIProfiles>
-        <Profile name="cpSettingsMultiOptionTitle" extends="fs25_settingsMultiTextOptionTitle">
-            <position value="-500px 0px" />
-        </Profile>
         <Profile name="cpHelpDisplay" with="anchorStretchingYLeft">
             <position value="700px -230px" />
         </Profile>
-        
     </GUIProfiles>
 </GUI>

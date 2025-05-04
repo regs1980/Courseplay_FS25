@@ -51,8 +51,8 @@
         </ThreePartBitmap>
     </ThreePartBitmap>
     <GUIProfiles>
-        <Profile name="cpSettingsMultiOptionTitle" extends="fs25_settingsMultiTextOptionTitle">
+        <!-- <Profile name="cpSettingsMultiOptionTitle" extends="fs25_settingsMultiTextOptionTitle">
             <position value="-500px 0px" />
-        </Profile>
+        </Profile> -->
     </GUIProfiles>
 </GUI>

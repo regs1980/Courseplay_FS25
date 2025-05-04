@@ -280,6 +280,32 @@ function CpCourseGeneratorFrame:update(dt)
 	if hasChanged then
 		self:updateStatusMessages()
 	end
+	local inputMode = g_inputBinding:getInputHelpMode()
+	if inputMode ~= self.lastInputHelpMode then
+		self.lastInputHelpMode = inputMode
+		-- p102.buttonSelectIngame:setVisible(v104 == GS_INPUT_HELP_MODE_GAMEPAD)
+		-- p102:updateContextInputBarVisibility()
+		g_inputBinding:setShowMouseCursor(inputMode ~= GS_INPUT_HELP_MODE_GAMEPAD)
+		-- self:updateInputGlyphs()
+	end
+	if inputMode == GS_INPUT_HELP_MODE_GAMEPAD then 
+		local x, y = self.ingameMap:getLocalPointerTarget()
+		if self.isPickingLocation then
+			local dx, dz = self.ingameMap:localToWorldPos(x, y)
+			self.aiTargetMapHotspot:setWorldPosition(dx, dz)
+		elseif self.isPickingRotation then
+			local dx, dz = self.ingameMap:localToWorldPos(x, y)
+			local nx = dx - self.pickingRotationOrigin[1]
+			local nz = dz - self.pickingRotationOrigin[2]
+			local rotY = math.atan2(nx, nz) + math.pi
+			if self.pickingRotationSnapAngle > 0 then
+				rotY = MathUtil.round(rotY / self.pickingRotationSnapAngle, 0) * 
+					self.pickingRotationSnapAngle
+			end
+			self.aiTargetMapHotspot:setWorldRotation(rotY)
+		end
+	end
+
 	CpCourseGeneratorFrame:superClass().update(self, dt)
 end
 
@@ -341,6 +367,7 @@ function CpCourseGeneratorFrame:onFrameOpen()
 				end 
 			end
 		end
+		self.activeWorkerList:reloadData()
 	end, self)
 	g_messageCenter:subscribe(MessageType.AI_JOB_REMOVED, function(self, jobId)
 		table.removeElement(self.playerFarmActiveJobs, jobId)
@@ -432,6 +459,7 @@ function CpCourseGeneratorFrame:onFrameOpen()
 		self:setMapSelectionItem(nil)
 	end	
 	g_customFieldManager:refresh()
+	-- self:updateInputGlyphs()
 end
 
 function CpCourseGeneratorFrame:saveHotspotFilter()
@@ -1071,6 +1099,7 @@ function CpCourseGeneratorFrame:onStartedJob(args, state, jobTypeIndex)
 	g_messageCenter:unsubscribe(AIJobStartRequestEvent, self)
 	if state == AIJob.START_SUCCESS then
 		self.mapOverviewSelector:setState(self.MAP_SELECTOR_ACTIVE_JOBS, true)
+		FocusManager:setFocus(self.activeWorkerList)
 	else
 		local jobType = g_currentMission.aiJobTypeManager:getJobTypeByIndex(jobTypeIndex)
 		local text = jobType.classObject.getIsStartErrorText(state)
@@ -1357,7 +1386,6 @@ function CpCourseGeneratorFrame:updateInputGlyphs()
 	}, nil, nil, self)
 	self.mapMoveGlyphText:setText(moveText)
 	self.mapZoomGlyphText:setText(self.zoomText)
-
 end
 
 -- Lines 992-1005
@@ -1494,20 +1522,30 @@ function CpCourseGeneratorFrame:initializeContextActions()
 			actionOnly = true
 		}
 	}
+	FocusManager:linkElements(self.contextButtonList, FocusManager.TOP, nil)
+	FocusManager:linkElements(self.contextButtonList, FocusManager.BOTTOM, nil)
+	FocusManager:linkElements(self.contextButtonList, FocusManager.LEFT, nil)
+	FocusManager:linkElements(self.contextButtonList, FocusManager.RIGHT, nil)
+	FocusManager:linkElements(self.filterList, FocusManager.LEFT, nil)
+	FocusManager:linkElements(self.filterList, FocusManager.RIGHT, nil)
+	FocusManager:linkElements(self.filterList, FocusManager.BOTTOM, nil)
+	FocusManager:linkElements(self.customFieldList, FocusManager.LEFT, nil)
+	FocusManager:linkElements(self.customFieldList, FocusManager.RIGHT, nil)
+	FocusManager:linkElements(self.customFieldList, FocusManager.BOTTOM, nil)
 end
 
 function CpCourseGeneratorFrame:updateContextActions()
 	local vehicle = self.cpMenu:getCurrentVehicle()
 	self.contextActions[self.CONTEXT_ACTIONS.ENTER_VEHICLE].isActive = vehicle and vehicle:getIsEnterableFromMenu() and self.mode ~= self.AI_MODE_CREATE
+	self.canCancel = vehicle and vehicle.spec_aiJobVehicle and vehicle:getIsAIActive()
 	self.canCreateJob = false
-	if vehicle and not self.currentJobVehicle then
+	if vehicle and not self.currentJobVehicle and not self.canCancel then
 		for _, job in pairs(self.jobTypeInstances) do 
 			if job:getIsAvailableForVehicle(vehicle, true) then 
 				self.canCreateJob = true
 			end
 		end
 	end
-	self.canCancel = vehicle and vehicle.spec_aiJobVehicle and vehicle:getIsAIActive()
 	self.contextActions[self.CONTEXT_ACTIONS.CREATE_JOB].isActive = self.canCreateJob and self.mode ~= self.AI_MODE_CREATE
 	self.contextActions[self.CONTEXT_ACTIONS.START_JOB].isActive = self:getCanStartJob()
 	self.contextActions[self.CONTEXT_ACTIONS.STOP_JOB].isActive = self:getCanCancelJob() and self.mode ~= self.AI_MODE_CREATE
@@ -1631,8 +1669,21 @@ function CpCourseGeneratorFrame:setMapSelectionItem(hotspot)
 		InGameMenuMapUtil.hideContextBox(self.contextBoxCustomField)
 		InGameMenuMapUtil.showContextBox(self.currentContextBox, hotspot, name, imageFilename, uvs, farmId, playerName, false, true, false)
 		self:updateContextActions()
+		FocusManager:setFocus(self.contextButtonList)
 	else
+		local state = self.mapOverviewSelector:getState()
+		local hasFocus = not self.currentContextBox:getIsVisible()
+		if state == self.AI_MODE_WORKER_LIST then 
+			hasFocus = FocusManager:setFocus(self.activeWorkerList) or FocusManager:getFocusedElement() == self.activeWorkerList
+		elseif state == self.CUSTOM_FIELD_HOTSPOTS then 
+			hasFocus = FocusManager:setFocus(self.customFieldList) or FocusManager:getFocusedElement() == self.customFieldList
+		else 
+			hasFocus = FocusManager:setFocus(self.jobMenuLayout) or FocusManager:getFocusedElement() == self.jobMenuLayout
+		end
 		InGameMenuMapUtil.hideContextBox(self.currentContextBox)
+		if not hasFocus then
+			FocusManager:setFocus(self.mapOverviewSelector)
+		end
 	end
 end
 
@@ -1694,7 +1745,7 @@ function CpCourseGeneratorFrame:setJobMenuVisible(isVisible)
 		self.currentJob = nil
 		self.currentJobVehicle = nil
 		self:updateCourseGenerator(false)
-		FocusManager:setFocus(self.mapOverviewSelector)
+		-- FocusManager:setFocus(self.mapOverviewSelector)
 		self.mapOverviewSelector:setState(self.MAP_SELECTOR_ACTIVE_JOBS, true)
 	else
 		self.mapOverviewSelector:setState(self.MAP_SELECTOR_CREATE_JOB, true)
