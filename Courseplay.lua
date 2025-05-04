@@ -23,6 +23,7 @@ function Courseplay:init()
 
 	g_overlayManager:addTextureConfigFile(Utils.getFilename("img/iconSprite.xml", self.BASE_DIRECTORY), "cpIconSprite")
 	g_overlayManager:addTextureConfigFile(Utils.getFilename("img/ui_courseplay.xml", self.BASE_DIRECTORY), "cpUi")
+	g_gui:loadProfiles(Utils.getFilename("config/gui/GUIProfiles.xml", self.BASE_DIRECTORY))
 end
 
 function Courseplay:registerXmlSchema()
