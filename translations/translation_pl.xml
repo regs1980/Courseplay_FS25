@@ -177,16 +177,16 @@
     <text name="CP_vehicle_setting_fuelSave_tooltip" text="Wyłącza silnik pojazdu podczas oczekiwania."/>
     <text name="CP_vehicle_setting_stopAtEnd_title" text="Zatrzymaj na końcu"/>
     <text name="CP_vehicle_setting_stopAtEnd_tooltip" text="Ustala czy kierowca powinien zatrzymać się w ostatnim punkcie trasy."/>
-    <text name="CP_vehicle_setting_useJps_title" text="Use JPS pathfinder"/>
-    <text name="CP_vehicle_setting_useJps_tooltip" text="Use jump point search for longer distances, wich results in faster pathfinding."/>
-    <text name="CP_vehicle_setting_penaltyFactor_title" text="Pathfinder penalty factor"/>
-    <text name="CP_vehicle_setting_penaltyFactor_tooltip" text="A higher value will take longer, but the path stays more on the field and outside the fruit."/>
+    <text name="CP_vehicle_setting_useJps_title" text="Użyj JPS"/>
+    <text name="CP_vehicle_setting_useJps_tooltip" text="Używaj wyszukiwania punktów skoku na dłuższych dystansach, co skutkuje szybszym wyszukiwaniem ścieżek."/>
+    <text name="CP_vehicle_setting_penaltyFactor_title" text="Współczynnik kary"/>
+    <text name="CP_vehicle_setting_penaltyFactor_tooltip" text="Wyższa wartość zajmie więcej czasu, ale ścieżka pozostanie bardziej na polu i poza uprawami."/>
     <text name="CP_vehicle_setting_allowReversePathfinding_title" text="Zezwól na cofanie dla znalezienia ścieżki"/>
     <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="Czy zezwolić w określonych przypadkach na generowanie kursów zawierających jazdę do tyłu w celu znalezienia ścieżki trasy."/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="Zezwól na zawracanie dla znalezienia ścieżki"/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Czy zezwolić na używanie znajdywania ścieżki przy zawracaniu, aby np. omijać przeszkody i rośliny."/>
-    <text name="CP_vehicle_setting_loopTurnsOnHeadland_title" text="Loop turn on headland"/>
-    <text name="CP_vehicle_setting_loopTurnsOnHeadland_tooltip" text="Instead of performing a normal turn on headland, the vehicle will drive a loop. The first headland should have round corners!"/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_title" text="Pętla na uwrociu"/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_tooltip" text="Zamiast wykonywać normalny nawrót na uwrociu, pojazd wykona pętlę. Pierwszy nawrót powinien mieć zaokrąglone zakręty!"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="Złóż narzędzie po zakończeniu kursu"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="Ustala czy pomocnik ma złożyć narzędzie po zakończeniu kursu."/>
     <text name="CP_vehicle_setting_returnToStart_title" text="Powrót do punktu startu"/>
@@ -517,7 +517,7 @@ Kurs jest automatycznie zapisywany po zamknięciu edytora i nadpisuje wybrany ku
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="Nowe pole"/>
-    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
+    <text name="CP_customFieldManager_fieldList" text="Nowe pola"/>
     <text name="CP_customFieldManager_confirm_save" text="Czy chcesz zapisać nagrany kurs jako nowe pole %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Czy chcesz usunąć nowe pole %s?"/>
     <text name="CP_customFieldManager_delete" text="Usuń nowe pole"/>
@@ -766,14 +766,12 @@ Gdy gotowe, wciśnij przycisk ponownie a zostaniesz zapytany czy zapisać to pol
 Klikając na NAZWĘ, dostaniesz opcję usunięcia go lub zmiany nazwy.
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="Druga opcja to narysowanie go na mapie w menu pomocników SI.
-The second option is to draw the custom field on the map of the CP AI menu.
-To start the drawing, hit they button on the bottom left corner or hit corresponding key.
-After that a text appears on the top of your screen.
-Start by clicking the right mouse button for setting the start position.
-By holding the shift key, the line will be set straight in 90° angles.
-The next clicks will create lines to the previous click.
-Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
-You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
+Aby rozpocząć rysowanie, naciśnij przycisk w lewym dolnym rogu lub naciśnij odpowiedni klawisz.
+Następnie na górze ekranu pojawi się tekst.
+Zacznij od kliknięcia PPM, aby ustawić pozycję początkową.
+Przytrzymując klawisz Shift, linia zostanie ustawiona prosto pod kątem 90°.
+Po narysowaniu drugiej linii kurs zostanie automatycznie zamknięty. Nadal możesz narysować więcej linii, aby jeszcze bardziej zdefiniować pole.
+Nie musisz rysować ostatniej linii do startu, ponieważ zostanie ona wygenerowana automatycznie prosto do startu.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="Wiele maszyn i konwój"/>
     <text name="CP_help_page_multitoolBasic_text" text="
