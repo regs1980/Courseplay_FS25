@@ -283,7 +283,7 @@ function CpAIFieldWorker:getCanStartCpFieldWork()
             -- Harvester with cutter on trailer attached.
             AIUtil.hasCutterOnTrailerAttached(self) or
             --- precision farming
-            AIUtil.hasChildVehicleWithSpecialization(self, nil, "spec_soilSampler") or 
+            AIUtil.hasChildVehicleWithSpecialization(self, nil, CpUtil.getSoilSamplerSpecName()) or 
             --- FS22_aPalletAutoLoader from Achimobil: https://bitbucket.org/Achimobil79/ls22_palletautoloader/src/master/
             AIUtil.hasChildVehicleWithSpecialization(self, nil, "spec_aPalletAutoLoader")  or 
             --- FS22_UniversalAutoload from Loki79uk: https://github.com/loki79uk/FS22_UniversalAutoload

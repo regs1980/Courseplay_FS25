@@ -4,7 +4,12 @@ SoilSamplerController = CpObject(ImplementController)
 
 function SoilSamplerController:init(vehicle, implement)
     ImplementController.init(self, vehicle, implement)
-    self.soilSamplerSpec = implement.spec_soilSampler
+	local name = CpUtil.getSoilSamplerSpecName()
+	if name ~= nil then 
+		self.soilSamplerSpec = implement[name]
+	else 
+		CpUtil.errorImplement(implement, "Soil sampler is nil!")
+	end
 	self.lastSampleTaken = nil
 	-- The sampling radius is a hexagon, so we shrink this to roughly math a square.
 	self.distBetweenProbes = self.soilSamplerSpec.samplingRadius

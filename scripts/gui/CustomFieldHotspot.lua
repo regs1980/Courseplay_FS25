@@ -5,11 +5,35 @@ CustomFieldHotspot.CATEGORY = 200
 CustomFieldHotspot.SLICE_ID = "gui.ingameMap_other"
 CustomFieldHotspot.NAME = "CP_customFieldManager_hotspotName"
 CustomFieldHotspot.COLOR = {0.61049, 0.56471, 0.00303, 1}
-local CustomFieldHotspot_mt = Class(CustomFieldHotspot, FarmlandHotspot)
+local CustomFieldHotspot_mt = Class(CustomFieldHotspot, MapHotspot)
 
 function CustomFieldHotspot.new(customMt)
-	local self = FarmlandHotspot.new(customMt or CustomFieldHotspot_mt)
+	local self = MapHotspot.new(customMt or CustomFieldHotspot_mt)
+	self.width, self.height = getNormalizedScreenValues(60, 60)
+	self.icon = g_overlayManager:createOverlay("mapHotspots.miniMapField", 0, 0, self.width, self.height)
+	self.icon:setColor(unpack(HUD.COLOR.BACKGROUND_DARK))
+	self.clickArea = MapHotspot.getClickCircle(0.667)
 	self.lastName = ""
+	local _
+	_, self.textSize = getNormalizedScreenValues(0, 16)
+	self.textColor = { 1, 1, 1 }
+	self.textColorDisabled = {
+		0.89627,
+		0.92158,
+		0.81485,
+		0.5
+	}
+	_, self.textOffsetY = getNormalizedScreenValues(0, 2)
+	self.disabled = false
+	self.isFirstRendering = true
+	self.name = ""
+
+	self.setFarmland = FarmlandHotspot.setFarmland
+	self.getFarmland = FarmlandHotspot.getFarmland
+	self.setOwnerFarmId = FarmlandHotspot.setOwnerFarmId
+	self.setDisabled = FarmlandHotspot.setDisabled
+	self.updateColors = FarmlandHotspot.updateColors
+
 	return self
 end
 
@@ -22,7 +46,7 @@ function CustomFieldHotspot:render(x, y, rotation, small)
 		self.icon:setDimension(width + self.width)
 	end
 	self.lastName = name
-	CustomFieldHotspot:superClass().render(self, x, y, rotation, small)
+	FarmlandHotspot.render(self, x, y, rotation, small)
 end
 
 function CustomFieldHotspot:setScale(scale)
@@ -31,6 +55,10 @@ end
 
 function CustomFieldHotspot:getCategory()
 	return CustomFieldHotspot.CATEGORY 
+end
+
+function CustomFieldHotspot:getSortingValue()
+	return math.huge
 end
 
 ---@param field CustomField

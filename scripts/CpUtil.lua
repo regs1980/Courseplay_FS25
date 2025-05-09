@@ -502,3 +502,7 @@ function CpUtil.removeEventListenersBySpecialization(vehicle, specClass)
 		end
 	end
 end
+
+function CpUtil.getSoilSamplerSpecName()
+	return "spec_FS25_precisionFarming.soilSampler"
+end
