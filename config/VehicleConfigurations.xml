@@ -221,7 +221,6 @@ You can define the following custom settings:
              raiseLate = "true"
              lowerEarly = "true"
     />
-
     <Vehicle name="evo290.xml"
              toolOffsetX = "-2.1"
              closePipeAfterUnload = "true"
@@ -236,6 +235,11 @@ You can define the following custom settings:
     />
     <Vehicle name="epd540E.xml"
              closePipeAfterUnload = "true"
+    />
+
+    <!--vehicles\gregoire-->
+    <Vehicle name="grapeliner7000.xml"
+             turnRadius = "5"
     />
 
     <!-- Implements -->
