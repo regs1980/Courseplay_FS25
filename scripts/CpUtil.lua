@@ -504,7 +504,5 @@ function CpUtil.removeEventListenersBySpecialization(vehicle, specClass)
 end
 
 function CpUtil.getSoilSamplerSpecName()
-	if g_precisionFarming ~= nil then 
-		return "spec_" .. g_precisionFarming.MOD_NAME .. ".soilSampler"
-	end
+	return "spec_FS25_precisionFarming.soilSampler"
 end
