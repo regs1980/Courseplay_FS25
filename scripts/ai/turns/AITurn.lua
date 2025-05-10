@@ -762,7 +762,7 @@ end
 
 function CombineHeadlandTurn:startTurn()
     self:debug('Starting a combine headland turn')
-    self.turnCourse = ReedsSheppHeadlandTurn(self.vehicle, self.turnContext,
+    self.turnCourse = ReedsSheppHeadlandTurnManeuver(self.vehicle, self.turnContext,
             self.vehicle:getAIDirectionNode(), self.turningRadius):getCourse()
     self.state = self.states.TURNING
     self.ppc:setCourse(self.turnCourse)

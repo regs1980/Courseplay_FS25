@@ -552,13 +552,13 @@ function ReedsSheppTurnManeuver:findAnalyticPath(vehicleDirectionNode, startXOff
     return course
 end
 
----@class ReedsSheppHeadlandTurn : TurnManeuver
-ReedsSheppHeadlandTurn = CpObject(TurnManeuver)
+---@class ReedsSheppHeadlandTurnManeuver : TurnManeuver
+ReedsSheppHeadlandTurnManeuver = CpObject(TurnManeuver)
 
 --- This is a headland turn (~90 degrees) for non-towed harvesters with cutter on the front. Expected to be called
 --- just after the cutter finished the corner, that is, the harvester should drive forward in the original direction
 --- until there is no fruit left. It'll then do a quick 90 degree 3 point turn to align with the new direction.
-function ReedsSheppHeadlandTurn:init(vehicle, turnContext, vehicleDirectionNode, turningRadius)
+function ReedsSheppHeadlandTurnManeuver:init(vehicle, turnContext, vehicleDirectionNode, turningRadius)
     local solver = ReedsSheppSolver()
     -- use lateWorkStartNode since we covered the corner in the inbound direction already
     local path = PathfinderUtil.findAnalyticPath(solver, vehicleDirectionNode, 0, 0,
@@ -567,7 +567,7 @@ function ReedsSheppHeadlandTurn:init(vehicle, turnContext, vehicleDirectionNode,
     self.course:adjustForReversing(2)
     -- add a little straight section to the end so we have a little buffer and don't end the turn right at
     -- the work start
-    self.course:extend(5)
+    self.course:extend(self:getReversingOffset() + 1)
     TurnManeuver.setLowerImplements(self.course, 5, true)
 end
 
