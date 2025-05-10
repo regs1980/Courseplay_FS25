@@ -565,6 +565,10 @@ function ReedsSheppHeadlandTurn:init(vehicle, turnContext, vehicleDirectionNode,
             turnContext.lateWorkStartNode, 0, -turnContext.backMarkerDistance, turningRadius)
     self.course = Course.createFromAnalyticPath(vehicle, path, true)
     self.course:adjustForReversing(2)
+    -- add a little straight section to the end so we have a little buffer and don't end the turn right at
+    -- the work start
+    self.course:extend(5)
+    TurnManeuver.setLowerImplements(self.course, 5, true)
 end
 
 ---@class TurnEndingManeuver : TurnManeuver
