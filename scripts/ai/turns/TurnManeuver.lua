@@ -247,14 +247,14 @@ end
 --- Get the distance between the direction node of the vehicle and the reverser node (if there is one). This
 --- is to make sure that when the course changes to reverse and there is a reverse node, the first reverse
 --- waypoint is behind the reverser node. Otherwise we'll just keep backing up until the emergency brake is triggered.
-function TurnManeuver:getReversingOffset()
-    local reverserNode, debugText = AIUtil.getReverserNode(self.vehicle)
+---@return number|nil distance in meters to the reverser node, or nil if there is no reverser node
+function TurnManeuver:getReversingOffset(vehicle, vehicleDirectionNode)
+    local reverserNode, debugText = AIUtil.getReverserNode(vehicle)
     if reverserNode then
-        local _, _, dz = localToLocal(reverserNode, self.vehicleDirectionNode, 0, 0, 0)
+        local _, _, dz = localToLocal(reverserNode, vehicleDirectionNode, 0, 0, 0)
         self:debug('Using reverser node (%s) distance %.1f', debugText, dz)
         return math.abs(dz)
     end
-    return self.steeringLength
 end
 
 --- Set implement lowering control for the end of the turn
@@ -274,7 +274,7 @@ end
 function TurnManeuver:adjustCourseToFitField(course, dBack, ixBeforeEndingTurnSection)
     self:debug('moving course back: d=%.1f', dBack)
     local endingTurnLength
-    local reversingOffset = self:getReversingOffset()
+    local reversingOffset = self:getReversingOffset(self.vehicle, self.vehicleDirectionNode) or self.steeringLength
     -- generate a straight reverse section first (less than 1 m step should make sure we always end up with
     -- at least two waypoints
     local courseWithReversing = Course.createFromNode(self.vehicle, self.vehicle:getAIDirectionNode(),
@@ -567,7 +567,7 @@ function ReedsSheppHeadlandTurnManeuver:init(vehicle, turnContext, vehicleDirect
     self.course:adjustForReversing(2)
     -- add a little straight section to the end so we have a little buffer and don't end the turn right at
     -- the work start
-    self.course:extend(self:getReversingOffset() + 1)
+    self.course:extend((self:getReversingOffset(vehicle, vehicleDirectionNode) or 4) + 1)
     TurnManeuver.setLowerImplements(self.course, 5, true)
 end
 
