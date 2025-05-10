@@ -434,7 +434,7 @@ function AnalyticTurnManeuver:getDistanceToMoveBack(course, workWidth, distanceT
     -- the field, not only the center
     local headlandAngle = self.turnContext:getHeadlandAngle()
     distanceToFieldEdge = distanceToFieldEdge -
-    -- exclude very sharp headland angles to prevent moving back ridiculously far
+            -- exclude very sharp headland angles to prevent moving back ridiculously far
             ((headlandAngle > math.deg(10) and headlandAngle < math.deg(170))
                     and (workWidth / 2 / math.abs(math.tan(headlandAngle))) or 0)
     self:debug('dzMax=%.1f, workWidth=%.1f, spaceNeeded=%.1f, turnEndForwardOffset=%.1f, headlandAngle=%.1f, distanceToFieldEdge=%.1f', dzMax, workWidth,
@@ -465,7 +465,7 @@ end
 ---@class LoopTurnManeuver : TurnManeuver
 LoopTurnManeuver = CpObject(DubinsTurnManeuver)
 function LoopTurnManeuver:init(vehicle, turnContext, vehicleDirectionNode, turningRadius,
-                         workWidth, steeringLength)
+                               workWidth, steeringLength)
     self.debugPrefix = '(LoopTurn): '
     TurnManeuver.init(self, vehicle, turnContext, vehicleDirectionNode, turningRadius,
             workWidth, steeringLength)
@@ -550,6 +550,21 @@ function ReedsSheppTurnManeuver:findAnalyticPath(vehicleDirectionNode, startXOff
     local course = Course.createFromAnalyticPath(self.vehicle, path, true)
     course:adjustForTowedImplements(1.5 * self.steeringLength + 1)
     return course
+end
+
+---@class ReedsSheppHeadlandTurn : TurnManeuver
+ReedsSheppHeadlandTurn = CpObject(TurnManeuver)
+
+--- This is a headland turn (~90 degrees) for non-towed harvesters with cutter on the front. Expected to be called
+--- just after the cutter finished the corner, that is, the harvester should drive forward in the original direction
+--- until there is no fruit left. It'll then do a quick 90 degree 3 point turn to align with the new direction.
+function ReedsSheppHeadlandTurn:init(vehicle, turnContext, vehicleDirectionNode, turningRadius)
+    local solver = ReedsSheppSolver()
+    -- use lateWorkStartNode since we covered the corner in the inbound direction already
+    local path = PathfinderUtil.findAnalyticPath(solver, vehicleDirectionNode, 0, 0,
+            turnContext.lateWorkStartNode, 0, -turnContext.backMarkerDistance, turningRadius)
+    self.course = Course.createFromAnalyticPath(vehicle, path, true)
+    self.course:adjustForReversing(2)
 end
 
 ---@class TurnEndingManeuver : TurnManeuver
