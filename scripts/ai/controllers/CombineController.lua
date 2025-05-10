@@ -128,20 +128,6 @@ function CombineController:isDroppingStrawSwath()
     return self.combineSpec.strawPSenabled
 end
 
-function CombineController:isRootVegetableHarvester()
-    for _, fruitTypeIndex in pairs(CpUtil.getAllRootVegetables()) do
-        local fillUnitIndex = g_fruitTypeManager:getFillTypeIndexByFruitTypeIndex(fruitTypeIndex)
-        self:debug("check if fruitType %s is supported", g_fillTypeManager:getFillTypeNameByIndex(fillUnitIndex))
-        for i, _ in ipairs(self.implement:getFillUnits()) do
-            if self.implement:getFillUnitSupportsFillType(i, fillUnitIndex) then
-                self:debug('This is a root vegetable harvester.')
-                return true
-            end
-        end
-    end
-    return false
-end
-
 --- Is this a towed harvester? We don't want these to make combine headland turns (or make pockets?)
 function CombineController:isTowed()
     return self.isWheeledImplement
