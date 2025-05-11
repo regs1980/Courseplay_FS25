@@ -163,6 +163,13 @@ You can define the following custom settings:
     Forced tip side index for unloading. For now only for an auger wagon.
     As an example the Hawe SUW 5000 has two tipside, but only the one with the pipe is needed. 
 
+- disablePocket: boolean
+    Disables creating a pocket for headland turns. Some harvesters, like mostly potato and other root vegetable
+    harvesters, are not good at making a pocket at the headland corner as they are very long but have a small
+    working width. We automatically try to disable pocket for most of the root vegetable harvesters, but some,
+    like the Oxbo, are not detected correctly. This setting can be used to disable the pocket creation for these
+    harvesters.
+
 -->
 <VehicleConfigurations>
 	<Configurations>

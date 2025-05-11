@@ -1416,7 +1416,8 @@ function AIDriveStrategyCombineCourse:startTurn(ix)
             self:debug('Headland turn but this a connecting track, use normal turn maneuvers.')
             AIDriveStrategyFieldWorkCourse.startTurn(self, ix)
         elseif self.course:isOnOutermostHeadland(ix) and self:isTurnOnFieldActive() and
-                not self.combineController:isRootVegetableHarvester()then
+                not self.combineController:isRootVegetableHarvester() and
+                not g_vehicleConfigurations:getRecursively(self.vehicle, 'disablePocket') then
             self:debug('Creating a pocket in the corner so the combine stays on the field during the turn')
             self.aiTurn = CombinePocketHeadlandTurn(self.vehicle, self, self.ppc, self.proximityController, self.turnContext,
                     self.course, self:getWorkWidth())
