@@ -237,12 +237,15 @@ You can define the following custom settings:
     <!--\vehicles\oxbo-->
     <Vehicle name="mkb4TR.xml"
              closePipeAfterUnload = "true"
+             disablePocket = "true"
     />
     <Vehicle name="bp2140e.xml"
              closePipeAfterUnload = "true"
+             disablePocket = "true"
     />
     <Vehicle name="epd540E.xml"
              closePipeAfterUnload = "true"
+             disablePocket = "true"
     />
 
     <!-- Implements -->
