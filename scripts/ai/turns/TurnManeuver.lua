@@ -559,16 +559,22 @@ ReedsSheppHeadlandTurnManeuver = CpObject(TurnManeuver)
 --- just after the cutter finished the corner, that is, the harvester should drive forward in the original direction
 --- until there is no fruit left. It'll then do a quick 90 degree 3 point turn to align with the new direction.
 function ReedsSheppHeadlandTurnManeuver:init(vehicle, turnContext, vehicleDirectionNode, turningRadius)
+    self.vehicle = vehicle
     local solver = ReedsSheppSolver()
     -- use lateWorkStartNode since we covered the corner in the inbound direction already
     local path = PathfinderUtil.findAnalyticPath(solver, vehicleDirectionNode, 0, 0,
             turnContext.lateWorkStartNode, 0, -turnContext.backMarkerDistance, turningRadius)
     self.course = Course.createFromAnalyticPath(vehicle, path, true)
-    self.course:adjustForReversing(2)
-    -- add a little straight section to the end so we have a little buffer and don't end the turn right at
-    -- the work start
-    self.course:extend((self:getReversingOffset(vehicle, vehicleDirectionNode) or 4) + 1)
-    TurnManeuver.setLowerImplements(self.course, 5, true)
+    self.course:adjustForTowedImplements(2)
+    if self.course:endsInReverse() then
+        -- add a little straight section to the end so we have a little buffer and don't end the turn right at
+        -- the work start
+        local reversingOffset = (self:getReversingOffset(vehicle, vehicleDirectionNode) or 4)
+        self:debug('Extending course by %.1f m', reversingOffset)
+        self.course:extend( reversingOffset + 2, -turnContext.turnEndWp.dx, -turnContext.turnEndWp.dz)
+    end
+    local endingTurnLength = turnContext:appendEndingTurnCourse(self.course, 0)
+    TurnManeuver.setLowerImplements(self.course, endingTurnLength, true)
 end
 
 ---@class TurnEndingManeuver : TurnManeuver

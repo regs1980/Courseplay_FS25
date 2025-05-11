@@ -367,19 +367,6 @@ function TurnContext:createCorner(vehicle, r)
             vehicle:getCpSettings().toolOffsetX:getValue())
 end
 
---- Course to reverse before starting a turn to make sure the turn is completely on the field
---- @param vehicle table
---- @param reverseDistance number distance to reverse in meters
-function TurnContext:createReverseWaypointsBeforeStartingTurn(vehicle, reverseDistance)
-    local reverserNode = AIUtil.getReverserNode(vehicle)
-    local _, _, dStart = localToLocal(reverserNode or vehicle:getAIDirectionNode(), self.workEndNode, 0, 0, 0)
-    local waypoints = {}
-    for d = dStart, dStart - reverseDistance - 1, -1 do
-        local x, y, z = localToWorld(self.workEndNode, 0, 0, d)
-        table.insert(waypoints, {x = x, y = y, z = z, rev = true})
-    end
-    return waypoints
-end
 
 --- Course to end a pathfinder turn, a straight line from where pathfinder ended, into to next row,
 --- making sure it is long enough so the vehicle reaches the point to lower the implements on this course
