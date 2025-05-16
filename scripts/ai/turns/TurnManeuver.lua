@@ -565,7 +565,7 @@ function ReedsSheppHeadlandTurnManeuver:init(vehicle, turnContext, vehicleDirect
     local path = PathfinderUtil.findAnalyticPath(solver, vehicleDirectionNode, 0, 0,
             turnContext.lateWorkStartNode, 0, -turnContext.backMarkerDistance, turningRadius)
     self.course = Course.createFromAnalyticPath(vehicle, path, true)
-    self.course:adjustForTowedImplements(2)
+    self.course:adjustForTowedImplements(math.max(self:getReversingOffset(vehicle, vehicleDirectionNode) or 2, 2))
     if self.course:endsInReverse() then
         -- add a little straight section to the end so we have a little buffer and don't end the turn right at
         -- the work start
