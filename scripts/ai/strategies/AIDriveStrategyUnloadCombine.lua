@@ -1096,7 +1096,7 @@ end
 
 ---@return number offset X for the course to follow the combine, this is the pipe offset and the combine courser offset
 function AIDriveStrategyUnloadCombine:getFollowingCourseOffset(combine)
-    local pipeOffset = self:getPipeOffset()
+    local pipeOffset = self:getPipeOffset(combine)
     local courseOffset = combine:getCpDriveStrategy():getFieldworkCourse():getOffset()
     return -pipeOffset + courseOffset
 end
