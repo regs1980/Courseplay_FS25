@@ -603,18 +603,6 @@ function PurePursuitController:isReversing()
     end
 end
 
-function PurePursuitController:getDirection(lz)
-    local ctx, cty, ctz = self:getClosestWaypointData()
-    if not ctx then
-        return lz
-    end
-    local dx, _, dz = worldToLocal(self.controlledNode, ctx, cty, ctz)
-    local distance = math.sqrt(dx * dx + dz * dz)
-    local r = distance * distance / 2 / dx
-    local steeringAngle = math.atan(self.vehicle.cp.distances.frontWheelToRearWheel / r)
-    return math.cos(steeringAngle)
-end
-
 -- goal point local position in the vehicle's coordinate system
 function PurePursuitController:getGoalPointLocalPosition()
     return localToLocal(self.goalWpNode.node, self.controlledNode, 0, 0, 0)

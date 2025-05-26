@@ -411,9 +411,12 @@ function AIDriveStrategyFieldWorkCourse:resumeFieldworkAfterTurn(ix)
     self.ppc:setNormalLookaheadDistance()
     self:startWaitingForLower()
     self:lowerImplements()
-    local startIx = self.fieldWorkCourse:getNextFwdWaypointIxFromVehiclePosition(ix,
+    local startIx, found = self.fieldWorkCourse:getNextFwdWaypointIxFromVehiclePosition(ix,
             self.vehicle:getAIDirectionNode(), self.workWidth / 2)
-    self:startCourse(self.fieldWorkCourse, startIx)
+    -- if we can't found a waypoint in front of us, just use the next (ix would be the turn end, this is after that)
+    -- ix may be problematic, especially if the next waypoint is a headland corner with > 90 degrees angle, PPC
+    -- may never advance to the next waypoint
+    self:startCourse(self.fieldWorkCourse, found and startIx or ix + 1)
 end
 
 --- Attempt to recover from a turn where the vehicle got blocked. This replaces the current turn with a
