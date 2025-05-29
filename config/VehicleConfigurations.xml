@@ -458,6 +458,11 @@ You can define the following custom settings:
     />
 
     <!--Tractors-->
+
+    <!--\vehicles\vervaet-->
+    <Vehicle name="hydroTrikeXL.xml"
+             turnRadius = "5"
+    />
     
     <!--\vehicles\stara-->
     <Vehicle name="imperador3.xml"
