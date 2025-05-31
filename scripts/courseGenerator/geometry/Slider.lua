@@ -6,11 +6,12 @@ local Slider = CpObject(CourseGenerator.LineSegment)
 ---@param d number distance from polyline[ix] for the initial position
 function Slider:init(polyline, ix, d)
     self.polyline = polyline
-    self._isAtEnd = false
     self:set(ix, 0)
     self:move(d or 0)
 end
 
+--- The slider's position is defined by the index of a vertex and the distance from that vertex on
+--- the exit edge, therefore, d is always positive.
 function Slider:set(ix, d)
     -- index of the current vertex
     self.ix = ix
@@ -19,7 +20,12 @@ function Slider:set(ix, d)
     self.base = Vector(self:vertex().x, self:vertex().y)
     -- unit vector pointing to the exit heading of the vertex
     self.slope = Vector(1, 0)
-    self.slope:setHeading(self:vertex():getExitHeading())
+    local exitHeading = self:vertex():getExitHeading()
+    if exitHeading then
+        -- leave the slope as it was when there is no exit heading. This can happen if the caller did not
+        -- properly ran calculateProperties() on the polyline.
+        self.slope:setHeading(exitHeading)
+    end
     -- move to the current offset
     self:offset(d, 0)
 end
@@ -58,17 +64,17 @@ function Slider:move(d)
     end
 
     local function backward()
-        local entryEdge = self:vertex(ix):getEntryEdge()
-        if not entryEdge then
-            -- reached the start of polyline
-            dRemaining = 0
-            endReached = true
-            return false
-        end
         if dRemaining > offset then
-            dRemaining = dRemaining - offset
-            ix = ix - 1
-            offset = entryEdge:getLength()
+            if self:vertex(ix):getEntryEdge() == nil then
+                -- reached the start of polyline
+                offset = 0
+                endReached = true
+                return false
+            else
+                dRemaining = dRemaining - offset
+                ix = ix - 1
+                offset = self:vertex(ix):getExitEdge():getLength()
+            end
         else
             offset = offset - dRemaining
             return false

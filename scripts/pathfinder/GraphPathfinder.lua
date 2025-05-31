@@ -68,6 +68,23 @@ function GraphPathfinder.GraphEdge:getExit(entry)
     end
 end
 
+-- if the vertex is the first or last vertex of the edge, we can use it directly as the entry/exit,
+-- otherwise, we split the edge at the vertex so we can use it as an entry/exit point.
+---@return GraphPathfinder.GraphEdge|nil new edge if the edge was split, nil otherwise
+function GraphPathfinder.GraphEdge:splitWhenNeeded(closestVertex)
+    if closestVertex.ix ~= 1 and closestVertex.ix ~= #self then
+        local newEdge = GraphPathfinder.GraphEdge(self:getDirection())
+        for j = closestVertex.ix, #self do
+            newEdge:append(self[j])
+        end
+        newEdge:calculateProperties()
+        self:cutEndAtIx(closestVertex.ix)
+        -- remember the piece we cut off, we may need it if the path must be extended after the goal
+        self.cutEdge = newEdge
+        return newEdge
+    end
+end
+
 function GraphPathfinder.GraphEdge:rollUpIterator(entry)
     local from, to, step
     if entry == self[1] then
@@ -191,6 +208,7 @@ end
 
 function GraphPathfinder:start(start, goal, turnRadius, ...)
     -- at each run, make a copy of the graph as we'll modify it
+    ---@type GraphPathfinder.GraphEdge[]
     self.graph = {}
     for _, e in ipairs(self.originalGraph) do
         if #e > 1 then
@@ -238,24 +256,6 @@ end
 ---@return State3D the entry vertex of the graph, closest to start
 ---@return State3D the exit vertex of the graph, closest to goal
 function GraphPathfinder:createGraphEntryAndExit(start, goal)
-
-    local function splitEdgeWhenNeeded(edge, closestVertex)
-        -- if the vertex is the first or last vertex of the edge, we can use it directly as the entry/exit,
-        -- otherwise, we split the edge at the vertex so we can use it as an entry/exit point.
-        if closestVertex.ix ~= 1 and closestVertex.ix ~= #edge then
-            self.logger:debug('Graph entry/exit found and split at vertex %d, x: %.1f y: %.1f',
-                    closestVertex.ix, closestVertex.x, closestVertex.y)
-            local newEdge = GraphPathfinder.GraphEdge(edge:getDirection())
-            for j = closestVertex.ix, #edge do
-                newEdge:append(edge[j])
-            end
-            newEdge:calculateProperties()
-            table.insert(self.graph, newEdge)
-            edge:cutEndAtIx(closestVertex.ix)
-            return newEdge
-        end
-    end
-
     -- find the edges closest to node. If the closest vertex isn't the first or last vertex of the edge, we split the
     -- edge at that vertex so we can use it as an entry/exit point.
     local function findClosestEdges(node, isEntry)
@@ -275,8 +275,11 @@ function GraphPathfinder:createGraphEntryAndExit(start, goal)
         for i = 1, #self.graph do
             local edge = self.graph[i]
             local vertex, d = edge:findClosestVertexToPoint(node)
-            local newEdge = splitEdgeWhenNeeded(edge, vertex)
+            local newEdge = edge:splitWhenNeeded(vertex)
             if newEdge then
+                self.logger:debug('Graph entry/exit found and split at vertex %d, x: %.1f y: %.1f',
+                        vertex.ix, vertex.x, vertex.y)
+                table.insert(self.graph, newEdge)
                 addToClosestEdge(newEdge, newEdge[1], d)
             end
             addToClosestEdge(edge, vertex, d)
@@ -327,7 +330,6 @@ function GraphPathfinder:addTransitions(edges)
     end
     path:appendMany(edges[#edges]) -- append the last edge, this will be the exit edge
     path:calculateProperties()
-    path:splitEdges(5)
     path:ensureMinimumRadius(self.turnRadius, false, 0.5)
     return path
 end
@@ -341,7 +343,7 @@ GraphPathfinder.GraphMotionPrimitives = CpObject(HybridAStar.MotionPrimitives)
 --- two edges are considered as connected (and thus can traverse from one to the other)
 ---@param graph Vector[] the graph as described in the file header
 function GraphPathfinder.GraphMotionPrimitives:init(range, graph)
-    self.logger = Logger('GraphMotionPrimitives', Logger.level.trace, CpDebug.DBG_PATHFINDER)
+    self.logger = Logger('GraphMotionPrimitives', Logger.level.debug, CpDebug.DBG_PATHFINDER)
     self.range = range
     self.graph = graph
 end

@@ -424,6 +424,35 @@ function testSplitEdges()
     p[3]:assertAlmostEquals(Vertex(85, 0))
     p[2]:assertAlmostEquals(Vertex(95, 0))
     p[1]:assertAlmostEquals(Vertex(105, 0))
+
+    p = Polyline({
+        Vertex(100, 100),
+        Vertex(110, 100),
+        Vertex(120, 100),
+        Vertex(130, 100),
+        Vertex(140, 100),
+        Vertex(150, 100)
+    })
+    p:splitEdges(5)
+    lu.assertEquals(#p, 11)
+    p[1]:assertAlmostEquals(Vertex(100, 100))
+    p[2]:assertAlmostEquals(Vertex(105, 100))
+    p[10]:assertAlmostEquals(Vertex(145, 100))
+    p[11]:assertAlmostEquals(Vertex(150, 100))
+end
+
+function testEnsureMinimumRadius()
+    local p = Polyline({
+        Vertex(9.33, -13.66),
+        Vertex(24.13, -2.36),
+        Vertex(36.79, -13.78),
+        Vertex(41.12, -17.94),
+        Vertex(45.41, -22.13)
+    })
+    p:ensureMinimumRadius(9.3)
+    lu.assertEquals(#p, 18)
+    p[1]:assertAlmostEquals(Vertex(9.33, -13.66))
+    p[18]:assertAlmostEquals(Vertex(45.41, -22.13))
 end
 
 os.exit(lu.LuaUnit.run())

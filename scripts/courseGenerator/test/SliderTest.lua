@@ -48,4 +48,21 @@ function testSlider()
     s:move(-1)
     s:assertAlmostEquals(CourseGenerator.LineSegment(0, 0, 0, 1))
 end
+
+function testShortPolyline()
+    local p = Polyline({
+        Vertex(0, 0),
+        Vertex(100, 0),
+        Vertex(100, 100),
+    })
+    local s = CourseGenerator.Slider(p, 2, 0)
+    s:assertAlmostEquals(CourseGenerator.LineSegment(100, 0, 100, 1))
+    s:move(1)
+    s:assertAlmostEquals(CourseGenerator.LineSegment(100, 1, 100, 2))
+    s:move(-1)
+    s:assertAlmostEquals(CourseGenerator.LineSegment(100, 0, 100, 1))
+    s:move(-1)
+    s:assertAlmostEquals(CourseGenerator.LineSegment(99, 0, 100, 0))
+end
+
 os.exit(lu.LuaUnit.run())

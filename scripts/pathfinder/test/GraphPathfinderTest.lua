@@ -418,6 +418,28 @@ function TestWithTransitions:testTransition()
     done, path, _ = runPathfinder()
     printPath()
     lu.assertIsTrue(done)
+    lu.assertEquals(#path, 14)
+    -- path contains all points of the edge it goes through
+    path[1]:assertAlmostEquals(Vector(0, 0))
+    path[3]:assertAlmostEquals(Vector(200, 0))
+    -- here's the arch
+    path[13]:assertAlmostEquals(Vector(210, 10))
+    path[#path]:assertAlmostEquals(Vector(210, 200))
+end
+
+TestExtension = {}
+function TestExtension:testExtension()
+    local edge = GraphEdge(GraphEdge.UNIDIRECTIONAL, {})
+    for i = 0, 100, 5 do
+        edge:append(Vertex(i, i / 5))
+    end
+    local graph = { edge }
+    pathfinder = GraphPathfinder(math.huge, 500, 20, graph)
+    start = State3D(-5, 0, 0, 0)
+    goal = State3D(50, 10, 0, 0)
+    done, path, _ = runPathfinder()
+    printPath()
+    lu.assertIsTrue(done)
     lu.assertEquals(#path, 90)
     -- path contains all points of the edge it goes through
     path[1]:assertAlmostEquals(Vector(0, 0))
@@ -425,6 +447,7 @@ function TestWithTransitions:testTransition()
     -- here's the arch
     path[52]:assertAlmostEquals(Vector(210, 10))
     path[#path]:assertAlmostEquals(Vector(210, 200))
+
 end
 
 os.exit(lu.LuaUnit.run())
