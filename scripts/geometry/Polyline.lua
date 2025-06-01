@@ -227,7 +227,7 @@ function Polyline:extendStart(length)
     return self
 end
 
----@param length number shorten the Polyline at the last vertex
+---@param length number shorten the Polyline starting at the last vertex
 function Polyline:cutEnd(length)
     if #self == 2 then
         local theOnlyEdge = self[1]:getExitEdge()
@@ -248,7 +248,7 @@ function Polyline:cutEnd(length)
     end
 end
 ---
----@param length number shorten the polyline at the first vertex
+---@param length number shorten the polyline starting at the first vertex
 function Polyline:cutStart(length)
     if #self == 2 then
         local theOnlyEdge = self[1]:getExitEdge()

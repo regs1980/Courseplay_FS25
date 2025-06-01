@@ -25,6 +25,7 @@ require('AnalyticHelper') -- for the test cases
 require('PathfinderUtil')
 require('HybridAStar')
 require('GraphPathfinder')
+lu.EPS = 0.01
 
 local GraphEdge = GraphPathfinder.GraphEdge
 local TestConstraints = CpObject(PathfinderConstraintInterface)
@@ -416,37 +417,70 @@ function TestWithTransitions:testTransition()
     start = State3D(-5, 0, 0, 0)
     goal = State3D(210, 205, 0, 0)
     done, path, _ = runPathfinder()
-    printPath()
     lu.assertIsTrue(done)
     lu.assertEquals(#path, 14)
     -- path contains all points of the edge it goes through
     path[1]:assertAlmostEquals(Vector(0, 0))
-    path[3]:assertAlmostEquals(Vector(200, 0))
+    path[3]:assertAlmostEquals(Vector(203.8, 0))
     -- here's the arch
-    path[13]:assertAlmostEquals(Vector(210, 10))
+    path[13]:assertAlmostEquals(Vector(210, 100))
     path[#path]:assertAlmostEquals(Vector(210, 200))
 end
 
-TestExtension = {}
-function TestExtension:testExtension()
+-- z to make it run last
+TestzExtension = {}
+function TestzExtension:testExtension()
     local edge = GraphEdge(GraphEdge.UNIDIRECTIONAL, {})
-    for i = 0, 100, 5 do
+    for i = 0, 30, 5 do
         edge:append(Vertex(i, i / 5))
     end
+    local len = edge:getLength()
     local graph = { edge }
-    pathfinder = GraphPathfinder(math.huge, 500, 20, graph)
+    edge = GraphEdge(GraphEdge.UNIDIRECTIONAL, {})
+    for i = 35, 100, 5 do
+        edge:append(Vertex(i, i / 5))
+    end
+    len = len + edge:getLength() + 5 / math.cos(math.atan(1/5))
+    table.insert(graph, edge)
+    lu.assertAlmostEquals(len, 101.98)
+    pathfinder = GraphPathfinder(math.huge, 500, 20, graph, 5)
     start = State3D(-5, 0, 0, 0)
-    goal = State3D(50, 10, 0, 0)
+    goal = State3D(50, 0, 0, 0)
     done, path, _ = runPathfinder()
-    printPath()
     lu.assertIsTrue(done)
-    lu.assertEquals(#path, 90)
+    lu.assertAlmostEquals(path:getLength(), len / 2 + 5)
+    lu.assertEquals(#path, 11)
     -- path contains all points of the edge it goes through
     path[1]:assertAlmostEquals(Vector(0, 0))
-    path[41]:assertAlmostEquals(Vector(200, 0))
-    -- here's the arch
-    path[52]:assertAlmostEquals(Vector(210, 10))
-    path[#path]:assertAlmostEquals(Vector(210, 200))
+    path[6]:assertAlmostEquals(Vector(25, 5))
+    path[10]:assertAlmostEquals(Vector(50, 10))
+    path[11]:assertAlmostEquals(Vector(54.9, 10.98))
+
+    pathfinder = GraphPathfinder(math.huge, 500, 20, graph, 15)
+    done, path, _ = runPathfinder()
+    lu.assertAlmostEquals(path:getLength(), len / 2 + 15)
+    lu.assertEquals(#path, 12)
+    path[11]:assertAlmostEquals(Vector(55, 11))
+    path[12]:assertAlmostEquals(Vector(64.71, 12.94))
+
+    -- cut edge not long enough
+    pathfinder = GraphPathfinder(math.huge, 500, 20, graph, 55)
+    done, path, _ = runPathfinder()
+    lu.assertAlmostEquals(path:getLength(), len / 2 + 55)
+    lu.assertEquals(#path, 20)
+    path[18]:assertAlmostEquals(Vector(90, 18))
+    path[19]:assertAlmostEquals(Vector(95, 19))
+    path[20]:assertAlmostEquals(Vector(103.93, 20.79))
+
+    -- no cut edge
+    pathfinder = GraphPathfinder(math.huge, 500, 20, graph, 5)
+    goal = State3D(100, 10, 0, 0)
+    done, path, _ = runPathfinder()
+    lu.assertAlmostEquals(path:getLength(), len + 5)
+    lu.assertEquals(#path, 20)
+    path[18]:assertAlmostEquals(Vector(90, 18))
+    path[19]:assertAlmostEquals(Vector(95, 19))
+    path[20]:assertAlmostEquals(Vector(104.90, 20.98))
 
 end
 

@@ -154,12 +154,16 @@ end
 ---@param range number when an edge's exit is closer than range to another edge's entry, the
 --- two edges are considered as connected (and thus can traverse from one to the other)
 ---@param graph GraphPathfinder.GraphEdge[] Array of edges, the graph as described in the file header
-function GraphPathfinder:init(yieldAfter, maxIterations, range, graph)
+---@param extension number|nil how far to extend the path after the goal, if nil, no extension is done. Extension is
+--- always follows the edge which has the goal on it, and ends where the edge ends if the edge is not long enough to
+--- reach the extension distance.
+function GraphPathfinder:init(yieldAfter, maxIterations, range, graph, extension)
     HybridAStar.init(self, { }, yieldAfter, maxIterations)
     self.logger = Logger('GraphPathfinder', Logger.level.debug, CpDebug.DBG_PATHFINDER)
     self.range = range
     self.transitionRange = range
     self.originalGraph = graph
+    self.extension = extension
     self.deltaPosGoal = self.range
     self.deltaThetaDeg = 181
     self.deltaThetaGoal = math.rad(self.deltaThetaDeg)
@@ -183,6 +187,7 @@ end
 function GraphPathfinder:rollUpPath(lastNode, goal)
     local edges = {}
     local currentNode = lastNode
+    local lastEdge
     self:debug('Goal node at %.2f/%.2f, cost %.1f (%.1f - %.1f)', goal.x, goal.y, lastNode.cost,
             self.nodes.lowestCost, self.nodes.highestCost)
     while currentNode.pred and currentNode ~= currentNode.pred do
@@ -197,13 +202,41 @@ function GraphPathfinder:rollUpPath(lastNode, goal)
         if #edge > 0 then
             edge:calculateProperties()
             table.insert(edges, 1, edge)
+            lastEdge = lastEdge or currentNode.edge
         end
         currentNode = currentNode.pred
     end
     local path = self:addTransitions(edges)
     self:debug('Nodes %d, iterations %d, yields %d, deltaTheta %.1f', #path, self.iterations, self.yields,
             math.deg(self.deltaThetaGoal))
+    if self.extension then
+        self:debug('Extending path by %.1f meters', self.extension)
+        self:extendPath(path, lastEdge, self.extension)
+    end
     return path
+end
+
+function GraphPathfinder:extendPath(path, lastEdge, extension)
+    if lastEdge.cutEdge then
+        local cutEdgeLength = lastEdge.cutEdge:getLength()
+        if cutEdgeLength > extension then
+            lastEdge.cutEdge:cutEnd(cutEdgeLength - extension)
+        else
+            self:debug('Cut edge not long enough, extending by %.1f meters straight', extension - cutEdgeLength)
+            lastEdge.cutEdge:extendEnd(extension - cutEdgeLength)
+        end
+        -- remove the first vertex of the cut edge, as it is the same as the last vertex of the path
+        if #lastEdge.cutEdge == 2 then
+            path:append(lastEdge.cutEdge[2])
+            path:calculateProperties()
+        else
+            lastEdge.cutEdge:cutStartAtIx(2)
+            path:appendMany(lastEdge.cutEdge)
+        end
+    else
+        self:debug('Last edge has no cut edge, extending straight')
+        path:extendEnd(extension)
+    end
 end
 
 function GraphPathfinder:start(start, goal, turnRadius, ...)
