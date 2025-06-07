@@ -76,10 +76,6 @@ AIDriveStrategyCombineCourse.isAAIDriveStrategyCombineCourse = true
 function AIDriveStrategyCombineCourse:init(task, job)
     AIDriveStrategyFieldWorkCourse.init(self, task, job)
     AIDriveStrategyCourse.initStates(self, AIDriveStrategyCombineCourse.myStates)
-    --- Combine needs a field polygon for the self-unload to work. Although it is a user setting, but it can be
-    --- changed during the work, so we always require the field polygon, regardless of the setting, as it is checked
-    --- only after starting the CP driver.
-    self.state = self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION
     self.fruitLeft, self.fruitRight = 0, 0
     self.litersPerMeter = 0
     self.litersPerSecond = 0
@@ -243,17 +239,20 @@ function AIDriveStrategyCombineCourse:getDriveData(dt, vX, vY, vZ)
         self:setMaxSpeed(0)
     end
 
-    if self.state == self.states.INITIAL and self.vehicle:cpGetFieldPolygon() == nil then
-        self:setMaxSpeed(0)
-        self.state = self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION
+    --- Combine may need the field polygon for the self-unload to work, so if by now we don't have one
+    --- and the field boundary detection is not running, start it. This can happen if the combine wasn't started
+    --- directly, such as as it was driving to the field and then switched strategy
+    if not self.vehicle:cpIsFieldBoundaryDetectionRunning() and self.vehicle:cpGetFieldPolygon() == nil then
         self:startFieldBoundaryDetection()
     end
 
-    if self.state == self.states.WAITING_FOR_FIELD_BOUNDARY_DETECTION then
-        self:setMaxSpeed(0)
+    if self.vehicle:cpIsFieldBoundaryDetectionRunning() then
+        if self.settings.selfUnload:getValue() then
+            -- don't have the field boundary yet, and self unload is selected, don't move
+            self:setMaxSpeed(0)
+        end
         if self:waitForFieldBoundary() then
             self:debug('Have field boundary now.')
-            self.state = self.states.INITIAL
         end
     elseif self.state == self.states.WORKING then
         -- Harvesting

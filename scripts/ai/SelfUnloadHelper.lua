@@ -35,6 +35,10 @@ SelfUnloadHelper.maxDistanceFromField = 20
 ---@return table|nil best fill node of trailer
 ---@return number|nil distance of trailer from myVehicle
 function SelfUnloadHelper:findBestTrailer(fieldPolygon, myVehicle, implementWithPipe, pipeOffsetX)
+    if fieldPolygon == nil or #fieldPolygon == 0 then
+        CpUtil.errorVehicle(myVehicle, 'Field polygon is nil or empty, can\'t find a trailer to unload to')
+        return nil
+    end
     local bestTrailer, bestFillUnitIndex, bestFillType
     local minDistance = math.huge
     for _, otherVehicle in pairs(g_currentMission.vehicleSystem.vehicles) do
@@ -125,7 +129,6 @@ end
 ---@param fillRootNode number|nil optional fill node for the trailer, must not be nil if bestTrailer is not nil
 function SelfUnloadHelper:getTargetParameters(fieldPolygon, myVehicle, implementWithPipe, objectWithPipeAttributes,
                                               bestTrailer, fillRootNode)
-
     if not bestTrailer then
         -- no trailer passed in, let's find one
         bestTrailer, fillRootNode = SelfUnloadHelper:findBestTrailer(fieldPolygon, 
