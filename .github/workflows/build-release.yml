@@ -21,8 +21,8 @@ jobs:
         uses: ncipollo/release-action@v1.12.0
         with:
           artifacts: "FS25_Courseplay.zip"
-          tag: "v${{ env.version }}"
-          name: "Courseplay for FS25 v${{ env.version }}"
+          tag: 'v${{ env.version }}'
+          name: 'Courseplay for FS25 v${{ env.version }}'
           body: ${{ github.event.head_commit.message }}
           generateReleaseNotes: 'true'
-          prerelease: 'true'
+          skipIfReleaseExists: 'true'
