@@ -1,0 +1,26 @@
+name: Build Release
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build Release Zip
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'zip'
+          filename: 'FS25_Courseplay.zip'
+          exclusions: '*.git* *.editorconfig *README* *LICENSE* test/* *.bat *.md Contributors.md'
+      - name: Get Version
+        id: get_version
+        run: echo "version=$(grep '<version>' modDesc.xml | sed -e 's/<\/*version>//g' -e 's/^[ \t]*//')" >> $GITHUB_ENV
+      - name: Upload Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          artifacts: "FS25_Courseplay.zip"
+          tag: "v${{ env.version }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: 'true'
