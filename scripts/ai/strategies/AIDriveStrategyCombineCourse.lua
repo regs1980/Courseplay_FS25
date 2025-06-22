@@ -2210,8 +2210,9 @@ function AIDriveStrategyCombineCourse:startFieldBoundaryDetection()
         -- in some rare cases, for instance when using field margin, the start waypoint may be outside
         -- of the field, and thus the detection won't work.
         local x, _, z = self.fieldWorkCourse:getWaypointPosition(self.fieldWorkCourse:getCurrentWaypointIx())
-        -- no callback, waitForFieldBoundary() will take care of the result
-        self.vehicle:cpDetectFieldBoundary(x, z)
+        self.vehicle:cpDetectFieldBoundary(x, z, self, function(self)
+            self:clearInfoText(InfoTextManager.WAITING_FOR_FIELD_BOUNDARY_DETECTION)
+        end)
     else
         self:debug("Field boundary detection already running.")
     end
