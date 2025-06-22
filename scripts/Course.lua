@@ -1586,7 +1586,7 @@ function Course.createFromXml(vehicle, courseXml, courseKey)
     course.nVehicles = courseXml:getValue(courseKey .. '#nVehicles', 1)
     course.headlandClockwise = courseXml:getValue(courseKey .. '#headlandClockwise')
     course.islandHeadlandClockwise = courseXml:getValue(courseKey .. '#islandHeadlandClockwise')
-    course.editedByCourseEditor = courseXml:getValue(courseKey .. '#compacted', false)
+    course.editedByCourseEditor = courseXml:getValue(courseKey .. '#wasEdited', false)
     course.compacted = courseXml:getValue(courseKey .. '#compacted', false)
     if course.nVehicles == 1 then
         -- for multi-vehicle courses, we load the multi-vehicle data and restore the current course
