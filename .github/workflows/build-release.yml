@@ -13,7 +13,7 @@ jobs:
         with:
           type: 'zip'
           filename: 'FS25_Courseplay.zip'
-          exclusions: '*.git* *.editorconfig *README* *LICENSE* test/* *.bat *.md Contributors.md'
+          exclusions: '*.git* *.editorconfig *README* *LICENSE* test/* *.bat scripts/*.bat *.md Contributors.md'
       - name: Get Version
         id: get_version
         run: echo "version=$(grep '<version>' modDesc.xml | sed -e 's/<\/*version>//g' -e 's/^[ \t]*//')" >> $GITHUB_ENV
