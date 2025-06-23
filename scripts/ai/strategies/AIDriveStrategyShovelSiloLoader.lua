@@ -553,19 +553,19 @@ function AIDriveStrategyShovelSiloLoader:searchForTrailerToUnloadInto()
         local x, y, z = localToWorld(trailer.rootNode, math.abs(distShovelDirectionNode) + self.distShovelTrailerPreUnload, 0, 0)
         setTranslation(self.unloadPositionNode, x, y, z)
         dirX, dirZ = MathUtil.getDirectionFromYRotation(yRot - math.pi / 2)
-        setDirection(self.unloadPositionNode, dirX, 0, dirZ)
+        setWorldRotation(self.unloadPositionNode, 0, yRot - math.pi / 2, 0)
     else
         local x, y, z = localToWorld(trailer.rootNode, -math.abs(distShovelDirectionNode) - self.distShovelTrailerPreUnload, 0, 0)
         setTranslation(self.unloadPositionNode, x, y, z)
         dirX, dirZ = MathUtil.getDirectionFromYRotation(yRot + math.pi / 2)
-        setDirection(self.unloadPositionNode, dirX, 0, dirZ)
+        setWorldRotation(self.unloadPositionNode, 0, yRot + math.pi / 2, 0)
     end
     if trailer["spec_pdlc_goeweilPack.balerStationary"] or trailer.size.length < 4 then 
         --- Goeweil needs to be approached from behind
         self:debug("Approaching the trailer from behind.")
         local x, y, z = localToWorld(trailer.rootNode, 0, 0, - math.abs(distShovelDirectionNode) - distRootNodeToExactFillRootNode - self.distShovelTrailerPreUnload)
         setTranslation(self.unloadPositionNode, x, y, z)
-        setRotation(self.unloadPositionNode, 0, yRot, 0)
+        setWorldRotation(self.unloadPositionNode, 0, yRot, 0)
     end
     self:startPathfindingToTrailer()
 end
