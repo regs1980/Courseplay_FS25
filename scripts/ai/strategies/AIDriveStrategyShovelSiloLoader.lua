@@ -552,12 +552,10 @@ function AIDriveStrategyShovelSiloLoader:searchForTrailerToUnloadInto()
     if dx > 0 then
         local x, y, z = localToWorld(trailer.rootNode, math.abs(distShovelDirectionNode) + self.distShovelTrailerPreUnload, 0, 0)
         setTranslation(self.unloadPositionNode, x, y, z)
-        dirX, dirZ = MathUtil.getDirectionFromYRotation(yRot - math.pi / 2)
         setWorldRotation(self.unloadPositionNode, 0, yRot - math.pi / 2, 0)
     else
         local x, y, z = localToWorld(trailer.rootNode, -math.abs(distShovelDirectionNode) - self.distShovelTrailerPreUnload, 0, 0)
         setTranslation(self.unloadPositionNode, x, y, z)
-        dirX, dirZ = MathUtil.getDirectionFromYRotation(yRot + math.pi / 2)
         setWorldRotation(self.unloadPositionNode, 0, yRot + math.pi / 2, 0)
     end
     if trailer["spec_pdlc_goeweilPack.balerStationary"] or trailer.size.length < 4 then 
