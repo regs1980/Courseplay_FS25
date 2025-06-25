@@ -177,16 +177,16 @@
     <text name="CP_vehicle_setting_fuelSave_tooltip" text="Вимикати двигун під час очікування."/>
     <text name="CP_vehicle_setting_stopAtEnd_title" text="Зупинитися в кінці"/>
     <text name="CP_vehicle_setting_stopAtEnd_tooltip" text="Зупинитися в кінці маршруту після закінчення роботи."/>
-    <text name="CP_vehicle_setting_useJps_title" text="Use JPS pathfinder"/>
-    <text name="CP_vehicle_setting_useJps_tooltip" text="Use jump point search for longer distances, wich results in faster pathfinding."/>
-    <text name="CP_vehicle_setting_penaltyFactor_title" text="Pathfinder penalty factor"/>
-    <text name="CP_vehicle_setting_penaltyFactor_tooltip" text="A higher value will take longer, but the path stays more on the field and outside the fruit."/>
+    <text name="CP_vehicle_setting_useJps_title" text="Прокладач маршрутів використовує ПТП"/>
+    <text name="CP_vehicle_setting_useJps_tooltip" text="Використовувати 'пошукові точки переміщення' для більших відстаней, що призводить до швидшого пошуку шляху."/>
+    <text name="CP_vehicle_setting_penaltyFactor_title" text="Коеф. оптимізації прокладача маршрутів"/>
+    <text name="CP_vehicle_setting_penaltyFactor_tooltip" text="Більш високе значення займе більше часу, але маршрут залишається більше на полі і поза посівами."/>
     <text name="CP_vehicle_setting_allowReversePathfinding_title" text="Дозволити ЗХ для прокладання маршруту"/>
     <text name="CP_vehicle_setting_allowReversePathfinding_tooltip" text="Якщо можливо, дозволити прокладачу маршрутів пошук варіантів, що містять рух заднім ходом."/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_title" text="Використання прокладача маршрутів на поворотах"/>
     <text name="CP_vehicle_setting_allowPathfinderTurns_tooltip" text="Дозволити використання прокладача маршрутів на поворотах, наприклад, щоб уникнути перешкод та посівів."/>
-    <text name="CP_vehicle_setting_loopTurnsOnHeadland_title" text="Loop turn on headland"/>
-    <text name="CP_vehicle_setting_loopTurnsOnHeadland_tooltip" text="Instead of performing a normal turn on headland, the vehicle will drive a loop. The first headland should have round corners!"/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_title" text="Петльовий розворот на РС"/>
+    <text name="CP_vehicle_setting_loopTurnsOnHeadland_tooltip" text="Замість того, щоб виконувати звичайний поворот на розворотній смузі, автомобіль рухатиметься петлею. Перша смуга повинна мати скруглені кути!"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_title" text="Скласти обладнання в кінці маршруту"/>
     <text name="CP_vehicle_setting_foldImplementAtEnd_tooltip" text="Вмикає/Вимикає автоматичне складання обладнання в конці робочого маршруту."/>
     <text name="CP_vehicle_setting_returnToStart_title" text="Повернутися до початкової точки"/>
@@ -380,7 +380,7 @@
     <text name="CP_global_setting_fuelThreshold_tooltip" text="Водій буде звільнений, якщо рівень палива нижче порогового."/>
     <text name="CP_global_setting_waitForRefueling_title" text="Очікувати дозаправки"/>
     <text name="CP_global_setting_waitForRefueling_tooltip" text="Водій чекає, поки його дозаправлять."/>
-    <text name="CP_global_setting_brokenThreshold_title" text="Поріг поломок"/>
+    <text name="CP_global_setting_brokenThreshold_title" text="Поріг пошкоджень"/>
     <text name="CP_global_setting_brokenThreshold_tooltip" text="Водій буде звільнений, якщо автомобіль або обладнання зноситься нижче вказаного порогу. 100% = вимкнено."/>
     <text name="CP_global_setting_stopThreshingDuringRain_title" text="Зупиняти комбайни під час дощу"/>
     <text name="CP_global_setting_stopThreshingDuringRain_tooltip" text="Якщо ця установка активна, то всі комбайни будуть чекати закінчення дощу."/>
@@ -537,7 +537,7 @@
     <!---->
     <text name="CP_ingameMenu_map_title" text="Карта"/>
     <!---->
-    <!--Help menu-->
+	<!--Help menu-->
     <!---->
     <text name="CP_help_title" text="CoursePlay"/>
     <text name="CP_help_subTitle" text="Модифікація для Farming Simulator 25"/>
@@ -663,18 +663,18 @@ CoursePlay також може працювати на рисових полях
     <text name="CP_help_page_courseGeneratorCenterExampleRacetrack_text" text="
 кільцевий
 "/>
-    <text name="CP_help_page_courseGeneratorIsland_text" text="
+        <text name="CP_help_page_courseGeneratorIsland_text" text="
 Рух навколо острівців тепер можливий тільки з виконанням повного проходу навколо нього.
 CoursePlay буде генерувати обхід навколо острівців, якщо обхід буде увімкнено, тож коли маршрут вперше зустрічається з острівцем, він зробить принаймні одне повне коло навколо нього. 
 Ви можете встановити кількість таких проходів навколо острівця, якщо вам потрібно більше місця для автомобілів, які рухаються біля нього. 
 Майте на увазі, що генератор може вирішити генерувати менше проходів, якщо острівець занадто близько до межі поля.
 "/>
-    <text name="CP_help_page_courseGeneratorIslandFunctions_text" text="
+        <text name="CP_help_page_courseGeneratorIslandFunctions_text" text="
 - Обхід острівців: вмикає або вимикає обхід острівців, якщо вони знайдені. Не працює для користувацьких полів!
 - Кількість проходів: кількість проходів навколо острівця тепер може бути встановлена незалежно від кількості розворотних смуг.
 - Напрямок обходу: у якому напрямку водій проходить навколо острівця, наприклад, щоб переконатися, що труба комбайна не знаходиться над культурами, або щоб не мати дивних змін напрямку.
 "/>
-    <text name="CP_help_page_courseGeneratorExpert_text" text="
+        <text name="CP_help_page_courseGeneratorExpert_text" text="
 Деякі налаштування видно тільки в тому випадку, якщо ви активізуєте експертний режим у глобальних налаштуваннях CoursePlay.
 Перш ніж грати з цими налаштуваннями, ви повинні переконатися, що знаєте, за що відповідають основні налаштування.
 Деякі експертні налаштування працюють тільки в певних умовах.
@@ -783,14 +783,14 @@ D: Цей параметр вказує працівнику де чекати �
 Натиснувши на ім’я, ви отримаєте можливість видалити його або перейменувати.
 "/>
     <text name="CP_help_page_customFieldDraw_text" text="
-The second option is to draw the custom field on the map of the CP AI menu.
-To start the drawing, hit they button on the bottom left corner or hit corresponding key.
-After that a text appears on the top of your screen.
-Start by clicking the right mouse button for setting the start position.
-By holding the shift key, the line will be set straight in 90° angles.
-The next clicks will create lines to the previous click.
-Once you draw a second line, the course will be automatically closed. You can still draw more lines to define the field even further.
-You don't need to draw the last line to the start, as it gets generated automatically straight to the start.
+Другий варіант - намалювати користувацьке поле на карті в CP-меню ШІ.
+Щоб почати малювання, натисніть кнопку в нижньому лівому куті або натисніть відповідну клавішу.
+Після цього у верхній частині екрана з’явиться текст.
+Почніть з клацання правою кнопкою миші для встановлення початкової позиції.
+Утримуючи клавішу Shift, лінія буде малюватися під 90°.
+Наступні кліки створюватимуть лінії до попереднього кліку.
+Після того, як ви намалюєте другу лінію, курс буде автоматично закрито. Ви все ще можете намалювати більше ліній, щоб далі визначити поле.
+Вам не потрібно малювати останню лінію до початкової точки, оскільки вона генерується автоматично прямо до початку.
 "/>
     <text name="CP_help_page_multiConvoy_title" text="Сумісна робота та колонна"/>
     <text name="CP_help_page_multitoolBasic_text" text="
@@ -1051,7 +1051,7 @@ CoursePlay здатен розподіляти та пресувати січк�
     <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Показати/Сховати канали відладки"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Відкрити mini GUI"/>
     <text name="input_CP_START_STOP" text="CP: Відправити/Зупинити водія"/>
-    <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Відправити/Зупинити водія (в першій точці)"/>
+	<text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Відправити/Зупинити водія (в першій точці)"/>
     <text name="input_CP_START_STOP_AT_NEAREST_WAYPOINT" text="CP: Відправити/Зупинити водія (в найближчій точці)"/>
     <text name="input_CP_START_STOP_AT_LAST_WAYPOINT" text="CP: Відправити/Зупинити водія (в останній точці)"/>
     <text name="input_CP_GENERATE_COURSE" text="CP: Генератор курсу"/>
@@ -1065,6 +1065,6 @@ CoursePlay здатен розподіляти та пресувати січк�
     <text name="input_CP_OPEN_GLOBAL_SETTINGS" text="CP: Відкрити глобальні налаштування"/>
     <text name="input_CP_OPEN_COURSEGENERATOR_SETTINGS" text="CP: Генератор курсів/меню робіт"/>
     <text name="input_CP_OPEN_COURSEMANAGER" text="CP: Відкрити керування курсами"/>
-    <text name="input_CP_OPEN_INGAME_MENU" text="CP: Відкрити меню"/>
+	<text name="input_CP_OPEN_INGAME_MENU" text="CP: Відкрити меню"/>
   </texts>
 </l10n>
