@@ -86,6 +86,7 @@ function AIDriveStrategyShovelSiloLoader:init(task, job)
     AIDriveStrategyCourse.initStates(self, AIDriveStrategyShovelSiloLoader.myStates)
     self.state = self.states.INITIAL
     self.debugChannel = CpDebug.DBG_SILO
+    self.unloadPositionNode = CpUtil.createNode("unloadPositionNode", 0, 0, 0)
     return self
 end
 
@@ -126,7 +127,6 @@ function AIDriveStrategyShovelSiloLoader:startWithoutCourse(jobParameters)
     self:startCourse(self.course, 1)
 
     self.jobParameters = jobParameters
-    self.unloadPositionNode = CpUtil.createNode("unloadPositionNode", 0, 0, 0)
 
     --- Is the unload target a trailer?
     self.isUnloadingAtTrailerActive = jobParameters.unloadAt:getValue() == CpSiloLoaderJobParameters.UNLOAD_TRAILER
@@ -330,26 +330,44 @@ function AIDriveStrategyShovelSiloLoader:getDriveData(dt, vX, vY, vZ)
         end
     elseif self.state == self.states.DRIVING_TO_UNLOAD then
         self:setMaxSpeed(self.settings.reverseSpeed:getValue())
-        local refNode
+        local refNode, margin = nil, 0
         if self.isUnloadingAtTrailerActive then
             refNode = self.targetTrailer.exactFillRootNode
+            --- Applies a small offset, so we don't overshoot the trailer center.
+            margin = self.shovelController:isHighDumpShovel() and 1 or 0
         else
             refNode = self.unloadTrigger:getFillUnitExactFillRootNode(1)
         end
-        if self.shovelController:isShovelOverTrailer(refNode) then
+        if self.shovelController:isShovelOverTrailer(refNode, margin) then
             self:setNewState(self.states.UNLOADING)
             self:setMaxSpeed(0)
         end
         if not self.isUnloadingAtTrailerActive then
-            if self.shovelController:isShovelOverTrailer(refNode, 3) and self.shovelController:canDischarge(self.unloadTrigger) then
+            if self.shovelController:isShovelOverTrailer(refNode, 3) and 
+                self.shovelController:canDischarge(self.unloadTrigger) then
+                
                 self:setNewState(self.states.UNLOADING)
                 self:setMaxSpeed(0)
             end
         end
     elseif self.state == self.states.UNLOADING then
-        self:setMaxSpeed(0)
         if self:hasFinishedUnloading() then
             self:startReversingAwayFromUnloading()
+            self:setMaxSpeed(0)
+        else 
+            if self.shovelController:isHighDumpShovel() and 
+                not self.shovelController:isDischarging() then
+                --- Makes sure we move slightly forwards, 
+                --- as the high dump offset might not work for
+                --- unloading of the complete shovel.
+                if self.shovelController:isShovelOverTrailer(
+                    self.targetTrailer.exactFillRootNode, -0.5) then
+
+                    self:setMaxSpeed(0)
+                end
+            else 
+                self:setMaxSpeed(0)
+            end
         end
     elseif self.state == self.states.REVERSING_AWAY_FROM_UNLOAD then
         self:setMaxSpeed(self.settings.fieldSpeed:getValue())
@@ -534,17 +552,18 @@ function AIDriveStrategyShovelSiloLoader:searchForTrailerToUnloadInto()
     if dx > 0 then
         local x, y, z = localToWorld(trailer.rootNode, math.abs(distShovelDirectionNode) + self.distShovelTrailerPreUnload, 0, 0)
         setTranslation(self.unloadPositionNode, x, y, z)
-        setRotation(self.unloadPositionNode, 0, MathUtil.getValidLimit(yRot - math.pi / 2), 0)
+        setWorldRotation(self.unloadPositionNode, 0, yRot - math.pi / 2, 0)
     else
         local x, y, z = localToWorld(trailer.rootNode, -math.abs(distShovelDirectionNode) - self.distShovelTrailerPreUnload, 0, 0)
         setTranslation(self.unloadPositionNode, x, y, z)
-        setRotation(self.unloadPositionNode, 0, MathUtil.getValidLimit(yRot + math.pi / 2), 0)
+        setWorldRotation(self.unloadPositionNode, 0, yRot + math.pi / 2, 0)
     end
     if trailer["spec_pdlc_goeweilPack.balerStationary"] or trailer.size.length < 4 then 
         --- Goeweil needs to be approached from behind
+        self:debug("Approaching the trailer from behind.")
         local x, y, z = localToWorld(trailer.rootNode, 0, 0, - math.abs(distShovelDirectionNode) - distRootNodeToExactFillRootNode - self.distShovelTrailerPreUnload)
         setTranslation(self.unloadPositionNode, x, y, z)
-        setRotation(self.unloadPositionNode, 0, yRot, 0)
+        setWorldRotation(self.unloadPositionNode, 0, yRot, 0)
     end
     self:startPathfindingToTrailer()
 end
