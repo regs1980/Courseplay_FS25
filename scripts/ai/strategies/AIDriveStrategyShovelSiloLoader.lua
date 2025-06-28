@@ -361,7 +361,7 @@ function AIDriveStrategyShovelSiloLoader:getDriveData(dt, vX, vY, vZ)
                 --- as the high dump offset might not work for
                 --- unloading of the complete shovel.
                 if self.shovelController:isShovelOverTrailer(
-                    self.targetTrailer.exactFillRootNode, 0) then
+                    self.targetTrailer.exactFillRootNode, -0.5) then
 
                     self:setMaxSpeed(0)
                 end

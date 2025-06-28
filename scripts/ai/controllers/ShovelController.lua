@@ -156,9 +156,6 @@ function ShovelController:isShovelOverTrailer(refNode, margin)
     local _, _, distShovelToRoot = localToLocal(node, self.implement.rootVehicle:getAIDirectionNode(), 0, 0, 0)
     local _, _, distTrailerToRoot = localToLocal(refNode, self.implement.rootVehicle:getAIDirectionNode(), 0, 0, 0)
     margin = margin or 0
-    if self:isHighDumpShovel() then 
-        margin = margin + 0.5
-    end
     return ( distTrailerToRoot - distShovelToRoot ) < margin
 end
 
