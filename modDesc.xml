@@ -40,12 +40,11 @@ Changelog 8.0.0.0:
 
 Changelog 8.1.0.0
 - UI rework
-- All FS22 functions are back and running
-- Universal Autoload support added
-- Course Editor got it's own construction screen
+- Same great functionality as in FS22
+- Course Editor got its own construction screen
 - New loop turn for headland for towed tools that can't be driven in reverse, like a seeder with grain cart (can be turned on in the vehicle settings)
-- New Pathfinder algorithm, jump point search
-- Latest modDesc that requiers the latest game patch
+- Faster pathfinding using jump point search
+- Requires the latest game patch
 
 ]]>
 
@@ -82,10 +81,10 @@ Changelog 8.1.0.0
 - UI überarbeitet
 - Alle FS22 Funktionen sind wieder vorhanden
 - Universal Autoload wird wieder unterstützt
-- Kurseditor hat einen eigenes Baumenü bekommen
+- Kurseditor hat einen eigenes Konstruktions Menü bekommen
 - Neues Wendemanöver für Vorgewendeecken für zum Beispiel Saatmaschinen mit einem gezogenem Saatgut Wagen (kann in den Fahrzeueinstellungen aktiviert werden)
 - Neuer Wegfindungs Algorithmus, jump point search
-- Neueste modDesc, welche die aktuelle Spielversion erfordert
+- Benötigt die neueste Spielversion
 
 ]]>
 </de>
