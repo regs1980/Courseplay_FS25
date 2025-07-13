@@ -431,11 +431,17 @@ end
 --- If the vehicle has a pipe, instantiate a pipe controller to measure the pipe offsets. This is better
 --- done here and not when the vehicle starts as measuring is a hack and may mess up the vehicle states.
 function CpVehicleSettings:setPipeOffset()
-    local pipeObject = AIUtil.getImplementOrVehicleWithSpecialization(self, Pipe)
-    if self.isServer and pipeObject then
+    local childVehiclesWithPipe, found = AIUtil.getAllChildVehiclesWithSpecialization(self, Pipe)
+    if #childVehiclesWithPipe > 1 then
+        CpUtil.infoVehicle(CpDebug.DBG_IMPLEMENTS, self, "More than one pipe found, using the first one")
+        for _, vehicleWithPipe in ipairs(childVehiclesWithPipe) do
+            CpUtil.infoVehicle(CpDebug.DBG_IMPLEMENTS, self, "\t vehicle with pipe: %s", CpUtil.getName(vehicleWithPipe))
+        end
+    end
+    if self.isServer and childVehiclesWithPipe[1] ~= nil then
         local spec = self.spec_cpVehicleSettings
         -- ask the pipe controller to get the offsets
-        local pipeController = PipeController(self, pipeObject, true)
+        local pipeController = PipeController(self, childVehiclesWithPipe[1], true)
         spec.pipeOffsetX:setFloatValue(pipeController:getPipeOffsetX())
         spec.pipeOffsetZ:setFloatValue(pipeController:getPipeOffsetZ())
         CpUtil.debugVehicle(CpDebug.DBG_IMPLEMENTS, self, 'Pipe offsetX: %.1f, offsetZ: %.1f',
