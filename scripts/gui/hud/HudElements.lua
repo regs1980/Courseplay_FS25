@@ -345,7 +345,7 @@ CpHudMoveableElement = {
 }
 local CpHudMoveableElement_mt = Class(CpHudMoveableElement, CpHudElement)
 
-function CpHudMoveableElement.new(overlay,parentHudElement,customMt)
+function CpHudMoveableElement.new(overlay, parentHudElement, isMovingDisabledCallback, customMt)
     if customMt == nil then
         customMt = CpHudMoveableElement_mt
     end
@@ -358,6 +358,7 @@ function CpHudMoveableElement.new(overlay,parentHudElement,customMt)
     self.dragOffsetY = nil
     self.lastDragTimeStamp = nil
     self.dragLimit = 2
+    self.isMovingDisabledCallback = isMovingDisabledCallback
     return self
 end
 
@@ -377,6 +378,9 @@ function CpHudMoveableElement:mouseEvent(posX, posY, isDown, isUp, button,wasUse
         end
     end
     if not self.visible or self.disabled then 
+        return
+    end
+    if self.isMovingDisabledCallback ~= nil and self.isMovingDisabledCallback(self) then 
         return
     end
     if button == Input.MOUSE_BUTTON_LEFT then
