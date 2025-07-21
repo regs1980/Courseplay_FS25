@@ -407,6 +407,10 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Activo, pero invisible sin mensaje."/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="Mouse del Jugador"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Habilita/Deshabilita el puntero del Mouse al presionar el botón derecho del mouse fuera de los vehículos, para interactuar con la Ventana de Textos Informativos."/>
+    <text name="CP_global_setting_isHudMoveable_title" text="Hud is moveable"/>
+    <text name="CP_global_setting_isHudMoveable_tooltip" text="Enables/disables the possiblity to move the hud."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Info text hud is moveable"/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Enables/disables the possiblity to move the info text hud."/>
     <text name="CP_global_setting_preferCustomFields_title" text="Campos Personalizados"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="Preferir utilizar el campo personalizado si existe un campo normal en la posición seleccionada."/>
     <text name="CP_global_setting_distanceUnit_title" text="Unidades de distancia"/>

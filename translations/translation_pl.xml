@@ -407,6 +407,10 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Widoczne tylko z wiadomością"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="Funkcje myszy"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Włącza/wyłącza funkcje myszy dla wyświetlania tekstu informacyjnego poza pojazdem."/>
+    <text name="CP_global_setting_isHudMoveable_title" text="Hud is moveable"/>
+    <text name="CP_global_setting_isHudMoveable_tooltip" text="Enables/disables the possiblity to move the hud."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Info text hud is moveable"/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Enables/disables the possiblity to move the info text hud."/>
     <text name="CP_global_setting_preferCustomFields_title" text="Preferuj własne pola"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="Preferuj własne pole, jeśli na wybranej pozycji znajduje się również zwykłe pole."/>
     <text name="CP_global_setting_distanceUnit_title" text="Jednostka długości"/>
