@@ -407,6 +407,10 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Active but invisible without message"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="車外滑鼠交互"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="啟用/禁用車輛外的滑鼠交互。"/>
+    <text name="CP_global_setting_isHudMoveable_title" text="Hud is moveable"/>
+    <text name="CP_global_setting_isHudMoveable_tooltip" text="Enables/disables the possiblity to move the hud."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Info text hud is moveable"/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Enables/disables the possiblity to move the info text hud."/>
     <text name="CP_global_setting_preferCustomFields_title" text="首選自訂田地"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="使用自訂田地，即使有原始田地。"/>
     <text name="CP_global_setting_distanceUnit_title" text="距離單位"/>

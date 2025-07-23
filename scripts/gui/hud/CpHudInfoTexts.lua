@@ -55,7 +55,10 @@ function CpHudInfoTexts:init()
     background:setColor(0, 0, 0, 0.7)
     background:setAlignment(Overlay.ALIGN_VERTICAL_TOP, Overlay.ALIGN_HORIZONTAL_LEFT)
     --- Base hud element.
-    self.baseHud = CpHudMoveableElement.new(background)
+    self.baseHud = CpHudMoveableElement.new(background, nil, function (element)
+        --- Disables the moveable hud
+        return not g_Courseplay.globalSettings.isInfoTextHudMoveable:getValue()
+    end)
     self.baseHud:setPosition(self.x, self.y)
     self.baseHud:setDimension(self.width, self.height)
     self.baseHud:setCallback("onMove", self, function(self, _, x, y)
