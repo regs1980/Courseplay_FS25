@@ -1388,11 +1388,11 @@
 			<Text language="en"><![CDATA[Enables/disables the player mouse event for the info text display outside of a vehicle.]]></Text>
 		</Translation>
 		<Translation name="CP_global_setting_isHudMoveable_title">
-			<Text language="de"><![CDATA[Hud ist bewegbar]]></Text>
-			<Text language="en"><![CDATA[Hud is moveable]]></Text>
+			<Text language="de"><![CDATA[HUD ist bewegbar]]></Text>
+			<Text language="en"><![CDATA[HUD is moveable]]></Text>
 		</Translation>
 		<Translation name="CP_global_setting_isHudMoveable_tooltip">
-			<Text language="de"><![CDATA[Aktiviert/deaktiviert die Möglichkeit das Hud zu verschieben.]]></Text>
+			<Text language="de"><![CDATA[Aktiviert/deaktiviert die Möglichkeit, das HUD zu verschieben.]]></Text>
 			<Text language="en"><![CDATA[Enables/disables the possiblity to move the hud.]]></Text>
 		</Translation>
 		<Translation name="CP_global_setting_isInfoTextHudMoveable_title">
@@ -1400,7 +1400,7 @@
 			<Text language="en"><![CDATA[Info text hud is moveable]]></Text>
 		</Translation>
 		<Translation name="CP_global_setting_isInfoTextHudMoveable_tooltip">
-			<Text language="de"><![CDATA[Aktiviert/deaktiviert die Möglichkeit das Helfer-Infofenster zu verschieben.]]></Text>
+			<Text language="de"><![CDATA[Aktiviert/deaktiviert die Möglichkeit, das Helfer-Infofenster zu verschieben.]]></Text>
 			<Text language="en"><![CDATA[Enables/disables the possiblity to move the info text hud.]]></Text>
 		</Translation>
 		<Translation name="CP_global_setting_preferCustomFields_title">
