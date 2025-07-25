@@ -407,6 +407,10 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="활성화되었지만 메시지가 없는 상태"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="마우스 커서 활성화"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="차량 외부에서 정보 텍스트를 표시할 때 플레이어의 마우스 커서를 활성화/비활성화합니다."/>
+    <text name="CP_global_setting_isHudMoveable_title" text="Hud is moveable"/>
+    <text name="CP_global_setting_isHudMoveable_tooltip" text="Enables/disables the possiblity to move the hud."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Info text hud is moveable"/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Enables/disables the possiblity to move the info text hud."/>
     <text name="CP_global_setting_preferCustomFields_title" text="사용자 지정 필드 우선 사용"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="선택한 위치에 일반 필드가 있을 경우에도 사용자 지정 필드를 우선 사용합니다."/>
     <text name="CP_global_setting_distanceUnit_title" text="거리 단위"/>

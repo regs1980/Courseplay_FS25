@@ -407,6 +407,10 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Aktiv mit Nachricht"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="Spielermaus"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Aktiviert/deaktiviert die Mausinteraktion außerhalb eines Fahrzeugs."/>
+    <text name="CP_global_setting_isHudMoveable_title" text="HUD ist bewegbar"/>
+    <text name="CP_global_setting_isHudMoveable_tooltip" text="Aktiviert/deaktiviert die Möglichkeit, das HUD zu verschieben."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Helfer-Infofenster ist bewegbar"/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Aktiviert/deaktiviert die Möglichkeit, das Helfer-Infofenster zu verschieben."/>
     <text name="CP_global_setting_preferCustomFields_title" text="Erstellten Feldrand bevorzugen"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="Bevorzugt den selbst erstellten Feldrand, wenn dieser auf einem normalen Feld liegt."/>
     <text name="CP_global_setting_distanceUnit_title" text="Distanzeinheit"/>

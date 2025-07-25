@@ -67,6 +67,8 @@
 			</Texts>
 		</Setting>
 		<Setting classType="AIParameterBooleanSetting" name="infoTextHudPlayerMouseActive" isUserSetting="true" defaultBool="true" isExpertModeOnly="true"/>
+		<Setting classType="AIParameterBooleanSetting" name="isHudMoveable" isUserSetting="true" defaultBool="true"/>
+		<Setting classType="AIParameterBooleanSetting" name="isInfoTextHudMoveable" isUserSetting="true" defaultBool="true"/>
 		<Setting classType="AIParameterBooleanSetting" name="preferCustomFields" isUserSetting="true"/>
 		<Setting classType="AIParameterSettingList" name="distanceUnit" isUserSetting="true" default="0" onChangeCallback="onDistanceUnitChanged">
 			<Values>

@@ -407,6 +407,10 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Active but invisible without message"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="Uso estendido do cursor do rato"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Liga ou desliga o uso estendido do cursor do rato para as outras modificações que também usam o mesmo para disponibilizar informações fora do veículo. Melhora a compatibilidade com outras modificações."/>
+    <text name="CP_global_setting_isHudMoveable_title" text="Hud is moveable"/>
+    <text name="CP_global_setting_isHudMoveable_tooltip" text="Enables/disables the possiblity to move the hud."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Info text hud is moveable"/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Enables/disables the possiblity to move the info text hud."/>
     <text name="CP_global_setting_preferCustomFields_title" text="Detecção prioritário de campos personalizados"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="Seleciona um campo personalizado primeiro se ele se sobrepuser a um campo existente já do mapa."/>
     <text name="CP_global_setting_distanceUnit_title" text="Unidade de distância"/>

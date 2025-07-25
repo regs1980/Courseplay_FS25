@@ -109,7 +109,10 @@ function CpBaseHud:init(vehicle)
                                             self.alignments.bottomLeft)
 
     --- Root element
-    self.baseHud = CpHudMoveableElement.new(background)
+    self.baseHud = CpHudMoveableElement.new(background, nil, function (element)
+        --- Disables the moveable hud
+        return not g_Courseplay.globalSettings.isHudMoveable:getValue()
+    end)
     self.baseHud:setPosition(CpBaseHud.x, CpBaseHud.y)
     self.baseHud:setDimension(self.width, self.height)
     self.baseHud:setCallback("onMove", self, function (self, _, x, y)
