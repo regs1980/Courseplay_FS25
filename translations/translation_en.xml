@@ -407,7 +407,7 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Active with message"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="Player mouse event"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Enables/disables the player mouse event for the info text display outside of a vehicle."/>
-    <text name="CP_global_setting_isHudMoveable_title" text="Hud is moveable"/>
+    <text name="CP_global_setting_isHudMoveable_title" text="HUD is moveable"/>
     <text name="CP_global_setting_isHudMoveable_tooltip" text="Enables/disables the possiblity to move the hud."/>
     <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Info text hud is moveable"/>
     <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Enables/disables the possiblity to move the info text hud."/>
