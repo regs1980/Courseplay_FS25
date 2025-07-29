@@ -124,7 +124,7 @@
     <!---->
     <!--AI fieldwork task descriptions-->
     <!---->
-    <text name="CP_ai_taskDescriptionAttachHeader" text="Levanta el cabezal"/>
+    <text name="CP_ai_taskDescriptionAttachHeader" text="Acoplar cabezal"/>
     <!---->
     <!--AI bale finder task descriptions-->
     <!---->
@@ -407,10 +407,10 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Activo, pero invisible sin mensaje."/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="Mouse del Jugador"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Habilita/Deshabilita el puntero del Mouse al presionar el botón derecho del mouse fuera de los vehículos, para interactuar con la Ventana de Textos Informativos."/>
-    <text name="CP_global_setting_isHudMoveable_title" text="Hud is moveable"/>
-    <text name="CP_global_setting_isHudMoveable_tooltip" text="Enables/disables the possiblity to move the hud."/>
-    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Info text hud is moveable"/>
-    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Enables/disables the possiblity to move the info text hud."/>
+    <text name="CP_global_setting_isHudMoveable_title" text="HUD movible"/>
+    <text name="CP_global_setting_isHudMoveable_tooltip" text="Activa/Desactiva la posibilidad de mover el HUD."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="HUD de texto informativo movible"/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Activa/Desactiva la posibilidad de mover el HUD de texto informativo."/>
     <text name="CP_global_setting_preferCustomFields_title" text="Campos Personalizados"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="Preferir utilizar el campo personalizado si existe un campo normal en la posición seleccionada."/>
     <text name="CP_global_setting_distanceUnit_title" text="Unidades de distancia"/>
@@ -467,7 +467,7 @@ El curso se guarda automáticamente al cerrar el editor y anula el curso selecci
     <text name="CP_editor_course_basic_delete_title" text="Borrar puntos de ruta"/>
     <text name="CP_editor_course_basic_delete_primary_text" text="primario"/>
     <text name="CP_editor_course_basic_delete_secondary_text" text="secundario"/>
-    <text name="CP_editor_course_basic_delete_tertiary_text" text="Elimina todos los puntos de ruta hasta el último punto de ruta."/>
+    <text name="CP_editor_course_basic_delete_tertiary_text" text="Eliminar todos los puntos de ruta hasta el último punto de ruta."/>
     <text name="CP_editor_course_basic_delete_yesNo_deleteToLastWp_title" text="¿Eliminar todos los puntos de ruta hasta el último?"/>
     <text name="CP_editor_course_basic_delete_err" text="Quedan pocos puntos de ruta."/>
     <text name="CP_editor_course_basic_title" text="Básico"/>
@@ -492,7 +492,7 @@ El curso se guarda automáticamente al cerrar el editor y anula el curso selecci
     <!--Info texts-->
     <!---->
     <text name="CP_infoTexts_isStuck" text="Está Atascado"/>
-    <text name="CP_infoTexts_blockedByObject" text="Bloqueado por un objeto"/>
+    <text name="CP_infoTexts_blockedByObject" text="Bloqueado por objeto"/>
     <text name="CP_infoTexts_shouldRefuel" text="Debería ser repostado"/>
     <text name="CP_infoTexts_needsFuel" text="Necesita ser repostado"/>
     <text name="CP_infoTexts_needsRepair" text="Necesita reparaciones"/>
@@ -1070,10 +1070,10 @@ Ahora su selección debería verse similar a la imagen.
     <!---->
     <!--Input bindings-->
     <!---->
-    <text name="input_CP_DBG_CHANNEL_SELECT_PREVIOUS" text="CP: Seleccione el canal de depuración siguiente."/>
-    <text name="input_CP_DBG_CHANNEL_SELECT_NEXT" text="CP: Seleccione el canal de depuración anterior."/>
-    <text name="input_CP_DBG_CHANNEL_TOGGLE_CURRENT" text="CP: Cambiar canal de depuración actual."/>
-    <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Muestra el menú del canal de depuración Sí/No."/>
+    <text name="input_CP_DBG_CHANNEL_SELECT_PREVIOUS" text="CP: Seleccionar el canal de depuración anterior."/>
+    <text name="input_CP_DBG_CHANNEL_SELECT_NEXT" text="CP: Seleccionar el canal de depuración siguiente."/>
+    <text name="input_CP_DBG_CHANNEL_TOGGLE_CURRENT" text="CP: Alternar canal de depuración actual."/>
+    <text name="input_CP_DBG_CHANNEL_MENU_VISIBILITY" text="CP: Mostrar/Ocultar menú de canales de depuración"/>
     <text name="input_CP_OPEN_CLOSE_VEHICLE_SETTING_DISPLAY" text="CP: Abrir/Cerrar GUI del vehículo."/>
     <text name="input_CP_START_STOP" text="CP: Iniciar/Detener conductor."/>
     <text name="input_CP_START_STOP_AT_FIRST_WAYPOINT" text="CP: Iniciar/Detener conductor (en el primer punto de ruta)"/>
