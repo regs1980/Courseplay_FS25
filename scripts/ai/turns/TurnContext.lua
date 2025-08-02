@@ -89,6 +89,7 @@ function TurnContext:init(vehicle, course, turnStartIx, turnEndIx, turnNodes, wo
 
     self.dx, _, self.dz = localToLocal(self.turnEndWpNode.node, self.workEndNode, 0, 0, 0)
     self.leftTurn = self.dx > 0
+    self.cornerOffsetX, _ = course:getOffset()
     self.plowShouldBeOnTheLeft = course:shouldPlowBeOnTheLeft(self.turnEndWpIx)
     self:debug('start ix = %d, back marker = %.1f, front marker = %.1f',
             turnStartIx, self.backMarkerDistance, self.frontMarkerDistance)
@@ -364,8 +365,8 @@ function TurnContext:createCorner(vehicle, r)
     local endAngleDeg = self:getAverageEndAngleDeg()
     CpUtil.debugVehicle(CpDebug.DBG_TURN, vehicle, 'start angle: %.1f, end angle: %.1f (from %.1f and %.1f)', self.beforeTurnStartWp.angle,
             endAngleDeg, self.turnEndWp.angle, self.afterTurnEndWp.angle)
-    return Corner(vehicle, self.beforeTurnStartWp.angle, self.turnStartWp, endAngleDeg, self.turnEndWp, r,
-            vehicle:getCpSettings().toolOffsetX:getValue())
+    -- use the course X offset as that's the best indication of the current, actual offset X the vehicle is using
+    return Corner(vehicle, self.beforeTurnStartWp.angle, self.turnStartWp, endAngleDeg, self.turnEndWp, r, self.cornerOffsetX)
 end
 
 
