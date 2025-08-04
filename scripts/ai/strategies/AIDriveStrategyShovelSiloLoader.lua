@@ -610,7 +610,7 @@ function AIDriveStrategyShovelSiloLoader:onPathfindingFailed(controller,
     if self.state == self.states.DRIVING_ALIGNMENT_COURSE then 
         local course = self:getRememberedCourseAndIx()
         local fm = self:getFrontAndBackMarkers()
-        lastContext:ignoreFruit()
+        lastContext:ignoreFruit(true)
         controller:findPathToWaypoint(lastContext, course, 
             1, 0, -(fm + 4), 1)
     elseif self.state == self.states.DRIVING_TO_UNLOAD_POSITION then 

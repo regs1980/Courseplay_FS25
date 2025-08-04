@@ -66,7 +66,7 @@ function Strategy:onPathfindingFailed(controller : PathfinderController, current
 	fruitPenaltyNodePercent : number, offFieldPenaltyNodePercent : number)
 	if currentRetryAttempt == 1 then 
 		// try whatever has better chances:
-		currentContext:ignoreFruit()
+		currentContext:ignoreFruit(true)
 		self.pathfinderController:findPathToNode(currentContext, ...)
 	else 
 		// Something else ...
