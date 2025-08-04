@@ -300,7 +300,7 @@ function AIDriveStrategySiloLoader:startPathfindingToStart(course)
     self.state = self.states.DRIVING_ALIGNMENT_COURSE
     self:rememberCourse(course, 1)
     local fm = self:getFrontAndBackMarkers()
-    local context = PathfinderContext(self.vehicle):allowReverse(true):ignoreFruit()
+    local context = PathfinderContext(self.vehicle):allowReverse(true):ignoreFruit(true)
     self.pathfinderController:findPathToWaypoint(context, course,
             1, 0, -1.5 * (fm + 4), 1)
 end

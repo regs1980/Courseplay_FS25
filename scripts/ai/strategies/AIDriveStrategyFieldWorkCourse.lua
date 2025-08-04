@@ -505,7 +505,9 @@ function AIDriveStrategyFieldWorkCourse:returnToStartAfterDone()
     if not self.pathfinder or not self.pathfinder:isActive() then
         self.pathfindingStartedAt = g_currentMission.time
         self:debug('Return to first waypoint')
-        local context = PathfinderContext(self.vehicle):allowReverse(self:getAllowReversePathfinding())
+        local context = PathfinderContext(self.vehicle)
+                :allowReverse(self:getAllowReversePathfinding())
+                :ignoreFruit(not self.settings.avoidFruit:getValue())
         local result
         self.pathfinder, result = PathfinderUtil.startPathfindingFromVehicleToWaypoint(
                 self.fieldWorkCourse, 1, 0, 0, context)
@@ -545,7 +547,9 @@ function AIDriveStrategyFieldWorkCourse:startPathfindingToNextWaypoint(ix)
             self.turnNodes, self:getWorkWidth(), fm, bm, self:getTurnEndSideOffset(false), self:getTurnEndForwardOffset())
     local _, steeringLength = AIUtil.getSteeringParameters(self.vehicle)
     local targetNode, zOffset = self.turnContext:getTurnEndNodeAndOffsets(steeringLength)
-    local context = PathfinderContext(self.vehicle):allowReverse(self:getAllowReversePathfinding())
+    local context = PathfinderContext(self.vehicle)
+            :allowReverse(self:getAllowReversePathfinding())
+            :ignoreFruit(not self.settings.avoidFruit:getValue())
     self.waypointToContinueOnFailedPathfinding = ix + 1
     self.pathfinderController:registerListeners(self, self.onPathfindingDoneToNextWaypoint,
             self.onPathfindingFailedToNextWaypoint)
@@ -609,7 +613,7 @@ function AIDriveStrategyFieldWorkCourse:startConnectingPath(ix)
         local _, steeringLength = AIUtil.getSteeringParameters(self.vehicle)
         local targetNode, zOffset = self.turnContext:getTurnEndNodeAndOffsets(steeringLength)
         local context = PathfinderContext(self.vehicle):allowReverse(self:getAllowReversePathfinding())
-        context:preferredPath(connectingPath):mustBeAccurate(true)
+        context:preferredPath(connectingPath):mustBeAccurate(true):ignoreFruit(not self.settings.avoidFruit:getValue())
         if #connectingPath < 2 then
             self:debug('Connecting path has only %d waypoint, use an alignment course instead', #connectingPath)
             self.workStarterCourse = self:createAlignmentCourse(self.fieldWorkCourse, targetWaypointIx)
