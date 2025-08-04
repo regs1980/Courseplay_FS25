@@ -433,9 +433,9 @@ end
 function CpVehicleSettings:setPipeOffset()
     local childVehiclesWithPipe, found = AIUtil.getAllChildVehiclesWithSpecialization(self, Pipe)
     if #childVehiclesWithPipe > 1 then
-        CpUtil.infoVehicle(CpDebug.DBG_IMPLEMENTS, self, "More than one pipe found, using the first one")
+        CpUtil.infoVehicle(self, "More than one pipe found, using the first one")
         for _, vehicleWithPipe in ipairs(childVehiclesWithPipe) do
-            CpUtil.infoVehicle(CpDebug.DBG_IMPLEMENTS, self, "\t vehicle with pipe: %s", CpUtil.getName(vehicleWithPipe))
+            CpUtil.infoVehicle(self, "\t vehicle with pipe: %s", CpUtil.getName(vehicleWithPipe))
         end
     end
     if self.isServer and childVehiclesWithPipe[1] ~= nil then
