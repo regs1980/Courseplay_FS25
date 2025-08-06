@@ -118,6 +118,10 @@ function CpUtil.getName(object)
 	if object == CpUtil then
 		return 'ERROR, calling CpUtil.getName with : !'
 	end
+	if type(object) ~= 'table' then
+		printCallstack()
+		return 'ERROR, calling CpUtil.getName with a non-table: ' .. tostring(object)
+	end
 	local helperName = '-'
 	if object == object.rootVehicle then
 		helperName = object.id

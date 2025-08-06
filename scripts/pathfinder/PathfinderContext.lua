@@ -113,9 +113,9 @@ function PathfinderContext:init(vehicle)
     CpObjectUtil.registerBuilderAPI(self, self.attributesToDefaultValue)
 end
 
---- Disables the fruit avoidance
-function PathfinderContext:ignoreFruit()
-    self._maxFruitPercent = math.huge
+--- Disables the fruit avoidance if true, otherwise sets the default value.
+function PathfinderContext:ignoreFruit(ignore)
+    self._maxFruitPercent = ignore and math.huge or PathfinderContext.attributesToDefaultValue.maxFruitPercent
     return self
 end
 
