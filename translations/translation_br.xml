@@ -783,7 +783,7 @@ A primeira é usar a função de gravação do HUD.
 Primeiro, pressione o botão de gravação do percurso e, em seguida, desenhe a borda do campo que deseja gravar.
 Ao terminar, basta pressionar o botão novamente e será perguntado se você deseja salvar.
 O início e o fim não devem se sobrepor!
-"/>      
+"/>
     <text name="CP_help_page_customFieldDone_text" text="
 No Menu AI, você verá sua borda de campo gravada.
 Ao clicar no nome, você terá a opção de excluí-lo ou renomeá-lo.
