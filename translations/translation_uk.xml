@@ -407,10 +407,10 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Активне, але невидиме без повідомлень"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="Player mouse event"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Ввімкнути/вимкнути Player Mouse Event для показу вікна з інфотекстом за межами транспортного засобу."/>
-    <text name="CP_global_setting_isHudMoveable_title" text="Hud is moveable"/>
-    <text name="CP_global_setting_isHudMoveable_tooltip" text="Enables/disables the possiblity to move the hud."/>
-    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Info text hud is moveable"/>
-    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Enables/disables the possiblity to move the info text hud."/>
+    <text name="CP_global_setting_isHudMoveable_title" text="Рухомий HUD"/>
+    <text name="CP_global_setting_isHudMoveable_tooltip" text="Вмикає/вимикає можливість переміщення HUD."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Рухома панель інфотексту"/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Вмикає/вимикає можливість переміщення панелі інфотексту."/>
     <text name="CP_global_setting_preferCustomFields_title" text="Перевага для користувацьких полів"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="Віддавати перевагу користувацьким полям, якщо в обраній позиції також є звичайне поле."/>
     <text name="CP_global_setting_distanceUnit_title" text="Одиниці відстані"/>
