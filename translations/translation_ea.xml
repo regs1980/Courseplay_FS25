@@ -272,6 +272,10 @@
     <text name="CP_vehicle_setting_unloadOnFirstHeadland_tooltip" text="La cosechadora llamará al descargador en primera cabecera."/>
     <text name="CP_vehicle_setting_strawSwath_title" text="Franja de paja"/>
     <text name="CP_vehicle_setting_strawSwath_tooltip" text="Habilitar/Deshabilitar la franja de paja en cabeceras."/>
+    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Pipe offset Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Pipe offset Z"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_title" text="Llame al descargador al"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_tooltip" text="Llame al descargador cuando el nivel de llenado de la cosechadora esté por encima de este valor."/>
     <text name="CP_vehicle_setting_strawSwath_onlyCenter" text="Cabeceras deshabilitadas"/>

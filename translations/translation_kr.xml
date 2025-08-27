@@ -272,6 +272,10 @@
     <text name="CP_vehicle_setting_unloadOnFirstHeadland_tooltip" text="콤바인이 첫 번째 헤드랜드에서 언로더를 호출합니다."/>
     <text name="CP_vehicle_setting_strawSwath_title" text="짚을 배출합니다"/>
     <text name="CP_vehicle_setting_strawSwath_tooltip" text="짚 배출을 활성화하거나 헤드랜드에서만 비활성화합니다."/>
+    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Pipe offset Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Pipe offset Z"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_title" text="언로더 호출 비율"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_tooltip" text="수확기가 설정 비율 이상이면 언로더를 호출합니다."/>
     <text name="CP_vehicle_setting_strawSwath_onlyCenter" text="헤드랜드 비활성화"/>
