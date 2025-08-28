@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="99">
+<modDesc descVersion="100">
     <version>8.1.0.0</version>
 	<author><![CDATA[Courseplay.devTeam]]></author>
 	<title>
@@ -450,8 +450,8 @@ Changelog 8.1.0.0
 		<action name="CP_OPEN_VEHICLE_SETTINGS"/>
 		<action name="CP_OPEN_GLOBAL_SETTINGS"/>
 		<action name="CP_OPEN_COURSEGENERATOR_SETTINGS"/>
-		<action name="CP_OPEN_COURSEMANAGER"/>		
-		<action name="CP_OPEN_INGAME_MENU"/>		
+		<action name="CP_OPEN_COURSEMANAGER"/>
+		<action name="CP_OPEN_INGAME_MENU"/>
 
 		<action name="CP_TOGGLE_MOUSE" />
 	</actions>

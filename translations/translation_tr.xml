@@ -272,6 +272,10 @@
     <text name="CP_vehicle_setting_unloadOnFirstHeadland_tooltip" text="Biçerdöver, tarla dışına çıkmak zorunda kalsa bile ilk manevra koridoru üzerinde boşaltıcıyı çağıracaktır. Kapatılırsa, biçerdöver boşaltıcıyı çağırmadan önce bir cep oluşturur."/>
     <text name="CP_vehicle_setting_strawSwath_title" text="Saman yığını"/>
     <text name="CP_vehicle_setting_strawSwath_tooltip" text="Saman yığınını etkinleştirir / devre dışı bırakır veya yalnızca manevra koridoru üzerinde devre dışı bırakır."/>
+    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Pipe offset Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Pipe offset Z"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_title" text="Boşaltıcı çağırma zamanı"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_tooltip" text="Biçerdöver dolum seviyesi bu değerin üzerinde olduğunda boşaltıcıyı çağırır."/>
     <text name="CP_vehicle_setting_strawSwath_onlyCenter" text="Manevra koridorlarında devre dışı"/>

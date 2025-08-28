@@ -272,6 +272,10 @@
     <text name="CP_vehicle_setting_unloadOnFirstHeadland_tooltip" text="Kombajn wezwie pomocnika w celu rozładowania na pierwszym uwrociu."/>
     <text name="CP_vehicle_setting_strawSwath_title" text="Tworzenie pokosu"/>
     <text name="CP_vehicle_setting_strawSwath_tooltip" text="Ustala czy siekać słomę czy tworzyć pokos lub czy wyłączyć pokos na uwrociach."/>
+    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Pipe offset Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Pipe offset Z"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_title" text="Wezwij kierowcę gdy"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_tooltip" text="Wezwanie kierowcy, gdy poziom napełnienia kombajnu przekroczy tę wartość."/>
     <text name="CP_vehicle_setting_strawSwath_onlyCenter" text="Wyłącz na uwrociach"/>

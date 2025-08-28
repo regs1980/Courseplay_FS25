@@ -887,7 +887,23 @@
 			<Text language="de"><![CDATA[Strohablage an, aus oder nur im Vorgewende aus.]]></Text>
 			<Text language="en"><![CDATA[Enables/disables straw swath or only disables it on headlands.]]></Text>
 		</Translation>
-			<Translation name="CP_vehicle_setting_callUnloaderPercent_title">
+		<Translation name="CP_vehicle_setting_pipeOffsetX_title">
+			<Text language="de"><![CDATA[Rohr Abstand X]]></Text>
+			<Text language="en"><![CDATA[Pipe offset X]]></Text>
+		</Translation>
+		<Translation name="CP_vehicle_setting_pipeOffsetX_tooltip">
+			<Text language="de"><![CDATA[Rohr Abstand X]]></Text>
+			<Text language="en"><![CDATA[Pipe offset X]]></Text>
+		</Translation>
+		<Translation name="CP_vehicle_setting_pipeOffsetZ_title">
+			<Text language="de"><![CDATA[Rohr Abstand Z]]></Text>
+			<Text language="en"><![CDATA[Pipe offset Z]]></Text>
+		</Translation>
+		<Translation name="CP_vehicle_setting_pipeOffsetZ_tooltip">
+			<Text language="de"><![CDATA[Rohr Abstand Z]]></Text>
+			<Text language="en"><![CDATA[Pipe offset Z]]></Text>
+		</Translation>
+		<Translation name="CP_vehicle_setting_callUnloaderPercent_title">
 			<Text language="de"><![CDATA[Abfahrer rufen ab]]></Text>
 			<Text language="en"><![CDATA[Call unloader at]]></Text>
 		</Translation>

@@ -272,6 +272,10 @@
     <text name="CP_vehicle_setting_unloadOnFirstHeadland_tooltip" text="收割机将在第一个转角呼叫拖车。"/>
     <text name="CP_vehicle_setting_strawSwath_title" text="地头产生秸秆堆"/>
     <text name="CP_vehicle_setting_strawSwath_tooltip" text="启用/禁用条形秸秆堆功能或仅在田间地头禁用。"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Pipe offset X"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Pipe offset Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Pipe offset Z"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_title" text="呼叫卸载拖车"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_tooltip" text="当收割机填充高于此值时，呼叫卸载车。"/>
     <text name="CP_vehicle_setting_strawSwath_onlyCenter" text="田间地头禁用"/>
