@@ -272,10 +272,10 @@
     <text name="CP_vehicle_setting_unloadOnFirstHeadland_tooltip" text="Kombajn wezwie pomocnika w celu rozładowania na pierwszym uwrociu."/>
     <text name="CP_vehicle_setting_strawSwath_title" text="Tworzenie pokosu"/>
     <text name="CP_vehicle_setting_strawSwath_tooltip" text="Ustala czy siekać słomę czy tworzyć pokos lub czy wyłączyć pokos na uwrociach."/>
-    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Pipe offset X"/>
-    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Pipe offset X"/>
-    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Pipe offset Z"/>
-    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Pipe offset Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Przes. rury w bok"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Przesunięcie rury w prawo-lewo"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Przes. rury w wzdłuż"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Przesunięcie rury w przód-tył"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_title" text="Wezwij kierowcę gdy"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_tooltip" text="Wezwanie kierowcy, gdy poziom napełnienia kombajnu przekroczy tę wartość."/>
     <text name="CP_vehicle_setting_strawSwath_onlyCenter" text="Wyłącz na uwrociach"/>
@@ -411,10 +411,10 @@
     <text name="CP_global_setting_infoTextHudActive_active_hide_without_message" text="Widoczne tylko z wiadomością"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_title" text="Funkcje myszy"/>
     <text name="CP_global_setting_infoTextHudPlayerMouseActive_tooltip" text="Włącza/wyłącza funkcje myszy dla wyświetlania tekstu informacyjnego poza pojazdem."/>
-    <text name="CP_global_setting_isHudMoveable_title" text="Hud is moveable"/>
-    <text name="CP_global_setting_isHudMoveable_tooltip" text="Enables/disables the possiblity to move the hud."/>
-    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Info text hud is moveable"/>
-    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Enables/disables the possiblity to move the info text hud."/>
+    <text name="CP_global_setting_isHudMoveable_title" text="Zmiana pozycji HUD-u"/>
+    <text name="CP_global_setting_isHudMoveable_tooltip" text="Włącza/wyłącza możliwość przesuwania HUD-u."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_title" text="Zmiana pozycji HUD-u info."/>
+    <text name="CP_global_setting_isInfoTextHudMoveable_tooltip" text="Włącza/wyłącza możliwość przesuwania HUD-u informacyjnego."/>
     <text name="CP_global_setting_preferCustomFields_title" text="Preferuj własne pola"/>
     <text name="CP_global_setting_preferCustomFields_tooltip" text="Preferuj własne pole, jeśli na wybranej pozycji znajduje się również zwykłe pole."/>
     <text name="CP_global_setting_distanceUnit_title" text="Jednostka długości"/>
