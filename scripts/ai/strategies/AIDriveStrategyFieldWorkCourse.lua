@@ -557,7 +557,7 @@ function AIDriveStrategyFieldWorkCourse:startPathfindingToNextWaypoint(ix)
     self.state = self.states.WAITING_FOR_PATHFINDER
     -- to have a course set while waiting for the pathfinder
     self:startCourse(self.fieldWorkCourse, self.waypointToContinueOnFailedPathfinding)
-    self.pathfinderController:findPathToNode(context, targetNode, 0, zOffset)
+    self.pathfinderController:findPathToNode(context, targetNode, 0, zOffset, 1)
 end
 
 function AIDriveStrategyFieldWorkCourse:onPathfindingFailedToNextWaypoint(controller, lastContext, wasLastRetry, currentRetryAttempt)
@@ -578,7 +578,10 @@ function AIDriveStrategyFieldWorkCourse:onPathfindingDoneToNextWaypoint(controll
         self:debug('Pathfinding to next waypoint finished')
         self:startCourseToWorkStart(course)
     else
-        self:onPathfindingFailedToNextWaypoint()
+        self:debug('Pathfinding to next waypoint failed, continue directly at waypoint %d', self.waypointToContinueOnFailedPathfinding)
+        self:startWaitingForLower()
+        self:lowerImplements()
+        self:startCourse(self.fieldWorkCourse, self.waypointToContinueOnFailedPathfinding)
     end
 end
 
