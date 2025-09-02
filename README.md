@@ -17,7 +17,7 @@ if you see it anywhere else, it's a scam.
 
 German Tutorial by Mario Hirschfeld: https://www.youtube.com/playlist?list=PL-UvOFIL55_jXAy6UkVJuLOD5DWKLuzIm
 
-(Anyone know a good english one?)
+English Tutorial by Argsy Gaming: https://www.youtube.com/playlist?list=PLFh-GZbaG02w9uLl_qroCi6uVI0LDXrD1
 
 ## Developer version
 
