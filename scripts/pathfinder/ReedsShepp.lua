@@ -174,7 +174,10 @@ function ReedsShepp.ActionSet:getWaypoints(start, turnRadius)
     local waypoints = {}
     table.insert(waypoints, prev)
     for _, action in ipairs(self.actions) do
-        local n = math.ceil(action.length * turnRadius)
+        -- waypoints are 1 m apart, but make sure there are at least 12 waypoints per half circle
+        -- even with very small radii
+        local n = math.ceil(math.max(action.length * turnRadius, action.length / math.pi * 12))
+        print(action, n)
         if action.steer ~= Steer.Straight then
             local pieceAngle = action.length / n
 
