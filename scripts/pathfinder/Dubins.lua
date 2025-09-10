@@ -46,6 +46,8 @@ function DubinsSolution:getLength(turnRadius)
 end
 
 function DubinsSolution:getWaypoints(start, turnRadius)
+    -- waypoints are 1 m apart, but make sure there are at least 12 waypoints per half circle
+    -- even with very small radii
     return dubins_path_sample_many(self.pathDescriptor, math.min(1, turnRadius * math.pi / 12))
 end
 
