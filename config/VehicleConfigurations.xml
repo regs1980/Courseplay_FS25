@@ -207,6 +207,9 @@ You can define the following custom settings:
     <!--[GIANTS]-->
 
     <!-- Harvesters -->
+    <Vehicle name="hj6130"
+    disablePipeMovingToolCorrection = "true"
+    />
 
     <!--vehicles\newHolland-->
     <Vehicle name="braud9070L.xml"
