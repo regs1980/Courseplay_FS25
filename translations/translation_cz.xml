@@ -272,10 +272,10 @@
     <text name="CP_vehicle_setting_unloadOnFirstHeadland_tooltip" text="Kombajn si přivolá odvozce na první souvrati."/>
     <text name="CP_vehicle_setting_strawSwath_title" text="Pokos slámy"/>
     <text name="CP_vehicle_setting_strawSwath_tooltip" text="Aktivuje/deaktivuje pokos slámy nebo jej pouze zakáže na souvratích."/>
-    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Pipe offset X"/>
-    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Pipe offset X"/>
-    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Pipe offset Z"/>
-    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Pipe offset Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_title" text="odstup výložníku X"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="odstup výložníku X"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="odstup výložníku Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="odstup výložníku Z"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_title" text="Zavolat odvozce při"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_tooltip" text="Zavolá odvozce, když je úroveň naplnění sklízecí řezačky vyšší než tato hodnota."/>
     <text name="CP_vehicle_setting_strawSwath_onlyCenter" text="Zakázáno na souvratích"/>
