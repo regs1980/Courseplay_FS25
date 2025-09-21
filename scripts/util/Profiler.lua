@@ -1,3 +1,13 @@
+--[[
+    Profiler class to measure execution time of code blocks.
+    Usage:
+        local profiler = Profiler:new(vehicle, 100) -- 100 optional, the size of the moving average window
+        profiler:start()
+        -- code to be profiled
+        profiler:stop()
+        profiler:log() -- log the profiling results when DBG_PERF is enabled
+        profiler:render() -- render the profiling results on screen when DBG_PERF is enabled
+]]
 Profiler = CpObject()
 
 function Profiler:init(vehicle, n)
