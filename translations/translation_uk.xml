@@ -272,10 +272,10 @@
     <text name="CP_vehicle_setting_unloadOnFirstHeadland_tooltip" text="Комбайн викличе розвантажуючого на першій розворотній смузі, навіть якщо той буде рухатися за межами поля. При вимикання цього параметру, комбайн спочатку створить кишеню, перед тим як викликати розвантажуючого."/>
     <text name="CP_vehicle_setting_strawSwath_title" text="Валкування соломи"/>
     <text name="CP_vehicle_setting_strawSwath_tooltip" text="Вмикає/вимикає валок соломи чи вимикає його лише на розворотній смузі."/>
-    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Pipe offset X"/>
-    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Pipe offset X"/>
-    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Pipe offset Z"/>
-    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Pipe offset Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Зміщення труби поздовжнє"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Поздовжнє зміщення вигрузної труби."/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Зміщення труби поперечне"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Поперечне зміщення вигрузної труби."/>
     <text name="CP_vehicle_setting_callUnloaderPercent_title" text="Виклик розвантажуючого при"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_tooltip" text="Виклик розвантажуючого, коли рівень заповнення комбайну вище цього значення."/>
     <text name="CP_vehicle_setting_strawSwath_onlyCenter" text="вимк. на розворотній смузі"/>
@@ -525,7 +525,7 @@
     <!--Custom field manager-->
     <!---->
     <text name="CP_customFieldManager_hotspotName" text="Користувацьке поле"/>
-    <text name="CP_customFieldManager_fieldList" text="Custom fields"/>
+    <text name="CP_customFieldManager_fieldList" text="Користувацькі поля"/>
     <text name="CP_customFieldManager_confirm_save" text="Бажаєте зберегти записаний маршрут як користувацьке поле %s?"/>
     <text name="CP_customFieldManager_confirm_delete" text="Бажаєте видалити користувацьке поле %s?"/>
     <text name="CP_customFieldManager_delete" text="Видалити користувацьке поле"/>
