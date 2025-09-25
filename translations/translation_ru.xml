@@ -272,10 +272,10 @@
     <text name="CP_vehicle_setting_unloadOnFirstHeadland_tooltip" text="Комбайн вызовет разгрузчика на первой разв.полосе, даже если тот будет двигаться за пределами поля. При выключении этого параметра, комбайн сначала создает карман, прежде чем вызывать разгрузчика."/>
     <text name="CP_vehicle_setting_strawSwath_title" text="Валкование соломы"/>
     <text name="CP_vehicle_setting_strawSwath_tooltip" text="Включает/отключает валок соломы или отключает его только на поворотной полосе."/>
-    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Pipe offset X"/>
-    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Pipe offset X"/>
-    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Pipe offset Z"/>
-    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Pipe offset Z"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_title" text="Смещение трубы продольное"/>
+    <text name="CP_vehicle_setting_pipeOffsetX_tooltip" text="Продольное смещение выгрузной трубы."/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_title" text="Смещение трубы поперечное"/>
+    <text name="CP_vehicle_setting_pipeOffsetZ_tooltip" text="Поперечное смещение выгрузной трубы."/>
     <text name="CP_vehicle_setting_callUnloaderPercent_title" text="Вызов разгрузчика при"/>
     <text name="CP_vehicle_setting_callUnloaderPercent_tooltip" text="Вызов разгрузчика, когда уровень заполнения комбайна выше этого значения."/>
     <text name="CP_vehicle_setting_strawSwath_onlyCenter" text="откл. на поворотной полосе"/>
