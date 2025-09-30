@@ -58,7 +58,6 @@ end
 ---@return boolean true if still in progress, false when done
 function FieldBoundaryDetector:update(dt)
     -- when we use the custom field, we are done immediately
-    self.logger:info('status: %d', self.courseField.state)
     -- FieldCourseField:update() returns true until it's state is FieldCourseDetectionState.FINISHED. Problem
     -- is, it may never go to the FINISHED state, and then our indication of done is that the callback is called with
     -- success == true, therefore use the self.done to indicate it.
