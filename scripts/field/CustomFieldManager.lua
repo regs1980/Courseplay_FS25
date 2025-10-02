@@ -72,7 +72,9 @@ function CustomFieldManager:getNewFieldNumber()
         local name = entry:getName()
         if name:startsWith("CP-") then 
             local n = entry:getFieldNumber()
-            numbers[n] = true
+            if n then
+                numbers[n] = true
+            end
         end
     end
     local ix = 1
