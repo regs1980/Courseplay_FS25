@@ -139,10 +139,10 @@ function FieldworkCourse:generateHeadlands()
         if self.nHeadlands > self.nHeadlandsWithRoundCorners and #self.headlands < self.nHeadlands then
             self:generateHeadlandsFromOutside(self.boundary,
                     self:_getHeadlandOffset(self.nHeadlandsWithRoundCorners + 1),
-                    #self.headlands + 1)
+                    #self.headlands + 1, self.headlands[1] and self.headlands[1]:getPolygon())
         end
     elseif self.nHeadlands > 0 then
-        self:generateHeadlandsFromOutside(self.boundary, self:_getHeadlandOffset(1), 1)
+        self:generateHeadlandsFromOutside(self.boundary, self:_getHeadlandOffset(1), 1, self.boundary)
     end
 end
 
@@ -151,12 +151,15 @@ end
 ---@param firstHeadlandWidth number width of the outermost headland to generate, if the boundary is the field boundary,
 --- it will usually be the half working width, if the boundary is another headland, the full working width
 ---@param startIx number index of the first headland to generate
-function FieldworkCourse:generateHeadlandsFromOutside(boundary, firstHeadlandWidth, startIx)
+---@param mustNotCross Polygon|nil polygon which the outermost generated headland must not cross, usually the innermost
+--- headland generated with rounded corners, or the field boundary itself when there are no rounded headlands.
+function FieldworkCourse:generateHeadlandsFromOutside(boundary, firstHeadlandWidth, startIx, mustNotCross)
 
     self.logger:debug('generating %d sharp headlands from the outside, first width %.1f, start at %d, min radius %.1f',
             self.nHeadlands - startIx + 1, firstHeadlandWidth, startIx, self.context.turningRadius)
     -- outermost headland is offset from the field boundary by half width
-    self.headlands[startIx] = CourseGenerator.Headland(boundary, self.context.headlandClockwise, startIx, firstHeadlandWidth, false, nil)
+    self.headlands[startIx] = CourseGenerator.Headland(boundary, self.context.headlandClockwise, startIx,
+            firstHeadlandWidth, false, mustNotCross)
     if not self.headlands[startIx]:isValid() then
         self:_removeHeadland(startIx)
         return
