@@ -157,6 +157,13 @@ function AIDriveStrategyFieldWorkCourse:getDriveData(dt, vX, vY, vZ)
     end
     ----------------------------------------------------------------
     if self.state == self.states.INITIAL then
+        -- We need a separate phase for preparing to make sure that the
+        --   * onAIFieldWorkerStart,
+        --   * onAIFieldWorkerPrepareForWork,
+        --   * onAIImplementStartLine
+        -- events are generated one by one, one in each update loop so that at the end of the loop,
+        -- AIFieldWorker:updateAIFieldWorker() triggers a onAIFieldWorkerActive event.
+        -- This makes sure that all implements are lowered and started correctly in multiplayer as well.
         self:setMaxSpeed(0)
         self:prepareForFieldWork()
         self.state = self.states.PREPARING
