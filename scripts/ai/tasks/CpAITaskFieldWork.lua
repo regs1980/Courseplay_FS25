@@ -61,6 +61,25 @@ end
 
 --- Makes sure the cp fieldworker gets started.
 function CpAITaskFieldWork:start()
+
+	self.vehicle.raiseAIEvent = function(vehicle, event1, event2, ...)
+		if vehicle.cpLastRaiseAIEvent ~= event1 and vehicle.cpLastRaiseAIEvent2 ~= event2 then
+			CpUtil.infoVehicle(vehicle, "raiseAIEvent %s %s", event1, event2)
+		end
+		vehicle.cpLastRaiseAIEvent1 = event1
+		vehicle.cpLastRaiseAIEvent2 = event2
+		AIVehicle.raiseAIEvent(vehicle, event1, event2, ...)
+	end
+
+	if self.vehicle.actionController ~= nil then
+		self.vehicle.actionController.onAIEvent = function(actionController, sourceVehicle, eventName)
+			if eventName ~= 'onAIFieldWorkerActive' and eventName ~= 'onAIImplementActive' then
+				CpUtil.infoVehicle(self.vehicle, "   onAIEvent %s, source %s", eventName, CpUtil.getName(sourceVehicle))
+			end
+			VehicleActionController.onAIEvent(actionController, sourceVehicle, eventName)
+		end
+	end
+	
 	self:debug("Field work task started.")
 	local spec = self.vehicle.spec_aiFieldWorker
 	spec.isActive = true
