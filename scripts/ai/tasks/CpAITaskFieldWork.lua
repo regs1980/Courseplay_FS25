@@ -59,9 +59,18 @@ function CpAITaskFieldWork:update(dt)
 
 end
 
---- Makes sure the cp fieldworker gets started.
-function CpAITaskFieldWork:start()
-
+--- This function can be used to trace the triggering of AI events. The timing of these is critical for multiplayer
+--- to work properly, these traces help to determine if this timing is correct. Bad timing will result in implements
+--- not lowering or not turning on in multiplayer, while there are no symptoms in single player.
+---
+--- The game engine needs a separate phase for preparing to make sure that the
+---   * onAIFieldWorkerStart,
+---   * onAIFieldWorkerPrepareForWork,
+---   * onAIImplementStartLine
+--- events are generated one by one, one in each update loop so that at the end of the loop,
+--- AIFieldWorker:updateAIFieldWorker() triggers a onAIFieldWorkerActive event.
+---
+function CpAITaskFieldWork:turnOnAIEventTrace()
 	self.vehicle.raiseAIEvent = function(vehicle, event1, event2, ...)
 		if vehicle.cpLastRaiseAIEvent ~= event1 and vehicle.cpLastRaiseAIEvent2 ~= event2 then
 			CpUtil.infoVehicle(vehicle, "raiseAIEvent %s %s", event1, event2)
@@ -79,7 +88,10 @@ function CpAITaskFieldWork:start()
 			VehicleActionController.onAIEvent(actionController, sourceVehicle, eventName)
 		end
 	end
-	
+end
+
+--- Makes sure the cp fieldworker gets started.
+function CpAITaskFieldWork:start()
 	self:debug("Field work task started.")
 	local spec = self.vehicle.spec_aiFieldWorker
 	spec.isActive = true
