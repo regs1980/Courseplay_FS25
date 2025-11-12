@@ -24,6 +24,7 @@ AIDriveStrategyFieldWorkCourse = CpObject(AIDriveStrategyCourse)
 
 AIDriveStrategyFieldWorkCourse.myStates = {
     WORKING = {},
+    PREPARING = {},
     WAITING_FOR_LOWER = {},
     WAITING_FOR_LOWER_DELAYED = {},
     WAITING_FOR_STOP = {},
@@ -89,17 +90,9 @@ function AIDriveStrategyFieldWorkCourse:start(course, startIx, jobParameters)
         self:debug('Close enough to start waypoint %d, no alignment course needed', startIx)
         self:startCourse(course, startIx)
         self.state = self.states.INITIAL
-        self:prepareForFieldWork()
     end
     --- Store a reference to the original generated course
     self.originalGeneratedFieldWorkCourse = self.vehicle:getFieldWorkCourse()
-end
-
---- If the strategy needs a field polygon to work, it won't transition out of the INITIAL state
---- until the field detection, an asynchronous process that may have started only when the job was started, is finished.
----@return boolean true if the strategy needs the field polygon to work
-function AIDriveStrategyFieldWorkCourse:needsFieldPolygon()
-    return false
 end
 
 --- Make sure all implements are in the working state
@@ -164,6 +157,17 @@ function AIDriveStrategyFieldWorkCourse:getDriveData(dt, vX, vY, vZ)
     end
     ----------------------------------------------------------------
     if self.state == self.states.INITIAL then
+        -- We need a separate phase for preparing to make sure that the
+        --   * onAIFieldWorkerStart,
+        --   * onAIFieldWorkerPrepareForWork,
+        --   * onAIImplementStartLine
+        -- events are generated one by one, one in each update loop so that at the end of the loop,
+        -- AIFieldWorker:updateAIFieldWorker() triggers a onAIFieldWorkerActive event.
+        -- This makes sure that all implements are lowered and started correctly in multiplayer as well.
+        self:setMaxSpeed(0)
+        self:prepareForFieldWork()
+        self.state = self.states.PREPARING
+    elseif self.state == self.states.PREPARING then
         self:setMaxSpeed(0)
         self:startWaitingForLower()
         self:lowerImplements()
@@ -328,7 +332,7 @@ function AIDriveStrategyFieldWorkCourse:onWaypointChange(ix, course)
     self:calculateTightTurnOffset()
     if not self.state ~= self.states.TURNING
             and self.course:isTurnStartAtIx(ix) then
-        if self.state == self.states.INITIAL then
+        if self.state == self.states.INITIAL or self.state == self.states.PREPARING then
             self:debug('Waypoint change (%d) to turn start right after starting work, lowering implements.', ix)
             self:startWaitingForLower()
             self:lowerImplements()
@@ -483,8 +487,8 @@ function AIDriveStrategyFieldWorkCourse:startAlignmentTurn(fieldWorkCourse, star
         alignmentCourse = self:createAlignmentCourse(fieldWorkCourse, startIx)
     end
     self.ppc:setShortLookaheadDistance()
-    self:prepareForFieldWork()
     if alignmentCourse then
+        self:prepareForFieldWork()
         local fm, bm = self:getFrontAndBackMarkers()
         self.turnContext = RowStartOrFinishContext(self.vehicle, fieldWorkCourse, startIx, startIx, self.turnNodes,
                 self:getWorkWidth(), fm, bm, self:getTurnEndSideOffset(false), self:getTurnEndForwardOffset())
@@ -495,7 +499,6 @@ function AIDriveStrategyFieldWorkCourse:startAlignmentTurn(fieldWorkCourse, star
         self:debug('Could not create alignment course to first up/down row waypoint, continue without it')
         self:startCourse(fieldWorkCourse, startIx)
         self.state = self.states.INITIAL
-        self:prepareForFieldWork()
     end
 end
 
