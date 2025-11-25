@@ -190,6 +190,7 @@ Changelog 8.1.0.0
 		<sourceFile filename="scripts/ai/util/AIUtil.lua"/>
 		<sourceFile filename="scripts/ai/util/FillLevelUtil.lua"/>
 		<sourceFile filename="scripts/ai/util/ImplementUtil.lua"/>
+		<sourceFile filename="scripts/ai/util/VehicleSizeScanner.lua"/>
 		<sourceFile filename="scripts/ai/util/WorkWidthUtil.lua"/>
 		<sourceFile filename="scripts/ai/PathfinderController.lua"/>
 		<sourceFile filename="scripts/ai/ProximityController.lua"/>
