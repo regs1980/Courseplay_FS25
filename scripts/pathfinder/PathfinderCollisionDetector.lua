@@ -122,9 +122,7 @@ function PathfinderCollisionDetector:findCollidingShapes(node, vehicleToLog, ove
             self, self.collisionMask, true, true, true, true)
 
     if true and self.collidingShapes > 0 then
-        table.insert(PathfinderUtil.overlapBoxes,
-                { x = x, y = y + 0.2, z = z, xRot = xRot, yRot = yRot, zRot = zRot, width = overlapBoxParams.width,
-                  length = overlapBoxParams.length })
+        PathfinderUtil.addOverlapBox(x, y + 0.2, z, xRot, yRot, zRot, overlapBoxParams.width, 1, overlapBoxParams.length)
         self.logger:debug(self.vehicle,'my %s (%.1fx%.1f) is colliding with %s at x = %.1f, z = %.1f, yRot = %d',
                 CpUtil.getName(vehicleToLog), 2 * overlapBoxParams.width, 2 * overlapBoxParams.length, self.collidingShapesText, x, z, math.deg(yRot))
     end
