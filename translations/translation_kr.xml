@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="늦게"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="필드 내 곡선주행만"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="필드 내에서만 곡선주행을 수행합니다. 모든 장비에서 가능하지는 않습니다."/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="작물 피해 방지"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="AI가 작물을 밟지 않도록 주행합니다."/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="장비 수평 간격 설정"/>

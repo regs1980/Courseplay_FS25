@@ -27,8 +27,8 @@
 
 		<!--Open hud with mouse-->
 		<Setting classType="AIParameterBooleanSetting" name="fuelSave" defaultBool="true" isExpertModeOnly="true"/>
-		<!--Stop At End-->
-		<!--<Setting classType="AIParameterBooleanSetting" name="stopAtEnd" defaultBool="true" isExpertModeOnly="true"/> turn this setting off for now, as it is not active right now.-->
+		<!--Restart course at end-->
+		<Setting classType="AIParameterBooleanSetting" name="restartCourseAtEnd" defaultBool="false" isExpertModeOnly="true"/>
 		<!--Turn on Field-->
 		<Setting classType="AIParameterBooleanSetting" name="turnOnField" defaultBool="true" isVisible="areCourseSettingsVisible"/>
 		<!--Avoid Fruit-->

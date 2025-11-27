@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="Geç"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="Araç dönüşleri"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="Tarla içinden/dışından dönüş (Tüm aletlerle mümkün değil.) Kapatılırsa araç geri manevra yapmaz."/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="Ekin tahribatından kaçınma"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="AI ekin tahribatını önlemeye çalışır."/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="Ekipman ofseti - yatay"/>

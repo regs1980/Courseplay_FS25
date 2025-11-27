@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="tarde"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="Só voltar dentro do campo"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="Só voltar dentro do campo. Não é possível com todas as alfaias."/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="Evita passar por cima de culturas"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="O trabalhar vai tentar evitar passar por cima de culturas"/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="Ajuste da alfaia horizontal"/>

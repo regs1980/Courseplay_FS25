@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="laat"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="Alleen draaien op het veld"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="Alleen draaien op het veld. Niet mogelijk met alle werktuigen."/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="Vermijd rijden in fruit"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="De AI zal proberen te voorkomen dat je in het fruit rijdt"/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="Werktuig horizontale offset"/>

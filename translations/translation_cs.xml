@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="晚些"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="仅在田地范围内作业"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="不超出田地范围，对某些工具无效。"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="避开作物"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="工人将尽量避免开车碾压种植作物。"/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="工具横向调整"/>
