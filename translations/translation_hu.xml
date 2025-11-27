@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="késéssel"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="Forduljon a szántóföldön belül"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="Maradjon a szántóföldön a táblavégi fodulóban. Nem minden eszközzel elérhető."/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="Kerülje a terményt"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="Az AI megpróbálja elkerülni, hogy a terménybe hajtson"/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="Szerszámeltolás oldalra"/>

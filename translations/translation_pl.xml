@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="Później"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="Zawracanie tylko na polu"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="Ustala czy pomocnik ma zawracać tylko na polu (niemożliwe dla wszystkich narzędzi)."/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="Unikaj ugniatania upraw"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="Pomocnik spróbuje uniknąć jazdy na skróty przez uprawy."/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="Przes. poziome dla narzędzi"/>

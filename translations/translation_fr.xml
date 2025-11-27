@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="tard"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="Manoeuvrer uniquement dans le champ"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="Manoeuvres uniquement dans le champ. Impossible avec certains outils."/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="Eviter les cultures"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="L'IA essayera d'éviter le plus possible de rouler dans les cultures."/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="Décalage horizontal de l'outil"/>
