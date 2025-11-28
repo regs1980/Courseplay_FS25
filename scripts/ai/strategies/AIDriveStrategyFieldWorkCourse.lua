@@ -445,7 +445,8 @@ end
 --- State changes
 -----------------------------------------------------------------------------------------------------------------------
 function AIDriveStrategyFieldWorkCourse:finishFieldWork()
-    if self.settings.returnToStart:getValue() and self.fieldWorkCourse:startsWithHeadland() then
+    if (self.settings.returnToStart:getValue() and self.fieldWorkCourse:startsWithHeadland()) or
+            self.settings.restartCourseAtEnd:getValue() then
         self:debug('Fieldwork ended, returning to first waypoint.')
         self.vehicle:prepareForAIDriving()
         self:returnToStartAfterDone()
@@ -530,9 +531,15 @@ function AIDriveStrategyFieldWorkCourse:onPathfindingDoneToReturnToStart(path)
         self:debug('Pathfinding to return to start finished with %d waypoints (%d ms)',
                 #path, g_currentMission.time - (self.pathfindingStartedAt or 0))
         local returnCourse = Course(self.vehicle, CpMathUtil.pointsToGameInPlace(path), true)
-        self.state = self.states.RETURNING_TO_START
-        self.waitingForPrepare:set(true, 10000)
-        self:startCourse(returnCourse, 1)
+        if self.settings.restartCourseAtEnd:getValue() then
+            self:debug('Returning to the first waypoint and then restarting the fieldwork course')
+            self:startAlignmentTurn(self.fieldWorkCourse, 1, returnCourse)
+        else
+            self:debug('Returning to the first waypoint and stopping there')
+            self.state = self.states.RETURNING_TO_START
+            self.waitingForPrepare:set(true, 10000)
+            self:startCourse(returnCourse, 1)
+        end
     else
         self:debug('No path found to return to fieldwork start after work is done (%d ms), stopping job',
                 g_currentMission.time - (self.pathfindingStartedAt or 0))
