@@ -648,7 +648,7 @@
 			<Text language="en"><![CDATA[Restart course at the end]]></Text>
 		</Translation>
 		<Translation name="CP_vehicle_setting_restartCourseAtEnd_tooltip">
-			<Text language="de"><![CDATA[Startend den Feldkurs am letzten Wegpunkt erneut am ersten Startpunkt.]]></Text>
+			<Text language="de"><![CDATA[Startet den Feldkurs am ersten Wegpunkt erneut.]]></Text>
 			<Text language="en"><![CDATA[Restart the fieldwork course at the 1st waypoint.]]></Text>
 		</Translation>
 		<Translation name="CP_vehicle_setting_avoidFruit_title">
