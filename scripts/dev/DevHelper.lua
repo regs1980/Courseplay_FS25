@@ -276,10 +276,12 @@ function DevHelper:drawPathfinderCollisionBoxes()
     if not self.vehicleData then
         return
     end
+
     if not self.overlapBoxNode then
         self.overlapBoxNode = CpUtil.createNode('devhelperPathfinderBoxes', 0, 0, 0)
         link(g_currentMission.terrainRootNode, self.overlapBoxNode)
     end
+
     -- visualize here what the pathfinder does to create the collision boxes for the main and the towed vehicle
     -- draw main vehicle
     PathfinderUtil.setWorldPositionAndRotationOnTerrain(self.overlapBoxNode, self.data.x, self.data.z, self.yRot, 0)
@@ -288,6 +290,11 @@ function DevHelper:drawPathfinderCollisionBoxes()
     local x, y, z = localToWorld(self.overlapBoxNode, ob.xOffset, 1, ob.zOffset)
     -- function DebugUtil.drawOverlapBox(x, y, z, rotX, rotY, rotZ, extendX, extendY, extendZ, r, g, b)
     DebugUtil.drawOverlapBox(x, y, z, xRot, yRot, zRot, ob.width, 1, ob.length, 0, 0.5, 0.5)
+
+    if not self.towedImplement then
+        return
+    end
+
     ob = self.vehicleData:getTowedImplementOverlapBoxParams()
     -- move the helper node to the hitch
     x, y, z = localToWorld(self.overlapBoxNode, 0, 0, self.vehicleData:getHitchOffset())
