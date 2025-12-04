@@ -643,6 +643,14 @@
 			<Text language="de"><![CDATA[Versucht beim Wendemanöver auf dem Feld zu bleiben. Nicht mit allen Geräten möglich. Wenn ausgeschaltet, wird das Gerät nicht rückwärts fahren.]]></Text>
 			<Text language="en"><![CDATA[Only turning on the field. Not possible with all tools. If turned off, the tool won't drive in reverse.]]></Text>
 		</Translation>
+		<Translation name="CP_vehicle_setting_restartCourseAtEnd_title">
+			<Text language="de"><![CDATA[Kurs am Ende neu starten]]></Text>
+			<Text language="en"><![CDATA[Restart course at the end]]></Text>
+		</Translation>
+		<Translation name="CP_vehicle_setting_restartCourseAtEnd_tooltip">
+			<Text language="de"><![CDATA[Startet den Feldkurs am ersten Wegpunkt erneut.]]></Text>
+			<Text language="en"><![CDATA[Restart the fieldwork course at the 1st waypoint.]]></Text>
+		</Translation>
 		<Translation name="CP_vehicle_setting_avoidFruit_title">
 			<Text language="de"><![CDATA[Fruchtumfahrung]]></Text>
 			<Text language="en"><![CDATA[Avoid driving in fruit]]></Text>

@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="sen"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="Vänder bara på fältet"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="Vänder bara på fältet. Inte möjligt med alla verktyg. Om fältet är avstängt kan verktyget inte köras baklänges."/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="Undvik att köra i frukt"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="AI kommer att försöka undvika att köra i frukten."/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="Verktygsförskjutning horisontellt"/>

@@ -201,6 +201,8 @@
     <text name="CP_vehicle_setting_lowerImplementEarly_late" text="遅い"/>
     <text name="CP_vehicle_setting_turnOnField_title" text="フィールド内で旋回（ターン）"/>
     <text name="CP_vehicle_setting_turnOnField_tooltip" text="フィールド内でのみ旋回を行います（ただし旋回が行えない作業機もあります）"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_title" text="Restart course at the end"/>
+    <text name="CP_vehicle_setting_restartCourseAtEnd_tooltip" text="Restart the fieldwork course at the 1st waypoint."/>
     <text name="CP_vehicle_setting_avoidFruit_title" text="作物の回避"/>
     <text name="CP_vehicle_setting_avoidFruit_tooltip" text="AIヘルパーが作物を踏みつぶさないよう走行します"/>
     <text name="CP_vehicle_setting_toolOffsetX_title" text="ツールオフセット（水平）"/>
