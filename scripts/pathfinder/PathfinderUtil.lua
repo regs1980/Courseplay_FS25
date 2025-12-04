@@ -42,6 +42,7 @@ PathfinderUtil.VehicleData = CpObject()
 --- pathfinding to consider the towed implement's heading (which will be different from the vehicle's heading)
 function PathfinderUtil.VehicleData:init(vehicle, withImplements, buffer)
     self.vehicle = vehicle
+    self.vehicleSizeScanner = VehicleSizeScanner()
     self.rootVehicle = vehicle:getRootVehicle()
     self.name = vehicle.getName and vehicle:getName() or 'N/A'
 
@@ -49,23 +50,32 @@ function PathfinderUtil.VehicleData:init(vehicle, withImplements, buffer)
     -- while turning. Get that object here, there may be more but we ignore that case.
     self.towedImplement = AIUtil.getFirstReversingImplementWithWheels(vehicle)
     if self.towedImplement then
+        local _, _, dLeft, dRight = self.vehicleSizeScanner:scan(self.towedImplement)
         -- the trailer's heading is different than the vehicle's heading and will be calculated and
         -- checked for collision independently at each waypoint. Also, the trailer is rotated to its heading
         -- around the hitch (which we approximate as the front side of the size rectangle), not around the root node
         local dFront = buffer or 0
-        local dRear = -self.towedImplement.size.length - (buffer or 0)
-        local dLeft = AIUtil.getWidth(self.towedImplement) / 2 + (buffer or 0)
-        local dRight = -AIUtil.getWidth(self.towedImplement) / 2 - (buffer or 0)
-        self.towedImplementOverlapBoxParams = self:calculateOverlapBoxParams(dFront, dRear, dLeft, dRight)
+        local dRear = -self.vehicleSizeScanner:getLength() - (buffer or 0)
+        -- don't use just the width as the vehicle may be asymmetrical
+        dLeft = dLeft + (buffer or 0)
+        dRight = dRight - (buffer or 0)
         local inputAttacherJoint = self.towedImplement:getActiveInputAttacherJoint()
+        local towedImplementSideOffset = 0
         if inputAttacherJoint then
             local _, _, dz = localToLocal(inputAttacherJoint.node, AIUtil.getDirectionNode(vehicle), 0, 0, 0)
             self.hitchOffset = dz
+            if self.towedImplement.rootNode then
+                -- for implements which are not centered on the hitch point, such as bale wrappers in the working position
+                towedImplementSideOffset, _, _ = localToLocal(inputAttacherJoint.node, self.towedImplement.rootNode, 0, 0, 0)
+                dLeft = dLeft - towedImplementSideOffset
+                dRight = dRight - towedImplementSideOffset
+            end
         else
             self.hitchOffset = self.dRear
         end
-        PathfinderUtil.logger:debug(vehicle, 'trailer for the pathfinding is %s, hitch offset is %.1f',
-                self.towedImplement:getName(), self.hitchOffset)
+        self.towedImplementOverlapBoxParams = self:calculateOverlapBoxParams(dFront, dRear, dLeft, dRight)
+        PathfinderUtil.logger:debug(vehicle, 'trailer for the pathfinding is %s, hitch offset is %.1f, side offset is %.1f',
+                self.towedImplement:getName(), self.hitchOffset, towedImplementSideOffset)
     end
 
     -- calculate the bounding box for the vehicle plus all implements when required (except the trailer)
@@ -125,31 +135,12 @@ function PathfinderUtil.VehicleData:getRectangleForImplement(implement, referenc
         dLeft = AIUtil.getWidth(implement.object) / 2,
         dRight = -AIUtil.getWidth(implement.object) / 2
     }
-    -- now see if we have something better, then use that. Since any of the six markers may be missing, we
-    -- check them one by one.
-    if implement.object.getAIMarkers then
-        -- otherwise try the AI markers (work area), this will be bigger than the vehicle's physical size, for example
-        -- in case of sprayers
-        local aiLeftMarker, aiRightMarker, aiBackMarker = implement.object:getAIMarkers()
-        if aiLeftMarker and aiRightMarker then
-            rectangle.dLeft, _, rectangle.dFront = localToLocal(aiLeftMarker, referenceNode, 0, 0, 0)
-            rectangle.dRight, _, _ = localToLocal(aiRightMarker, referenceNode, 0, 0, 0)
-            if aiBackMarker then
-                _, _, rectangle.dRear = localToLocal(aiBackMarker, referenceNode, 0, 0, 0)
-            end
-        end
-    end
-    if implement.object.getAISizeMarkers then
-        -- but the best case is if we have the AI size markers
-        local aiSizeLeftMarker, aiSizeRightMarker, aiSizeBackMarker = implement.object:getAISizeMarkers()
-        if aiSizeLeftMarker then
-            rectangle.dLeft, _, rectangle.dFront = localToLocal(aiSizeLeftMarker, referenceNode, 0, 0, 0)
-        end
-        if aiSizeRightMarker then
-            rectangle.dRight, _, _ = localToLocal(aiSizeRightMarker, referenceNode, 0, 0, 0)
-        end
-        if aiSizeBackMarker then
-            _, _, rectangle.dRear = localToLocal(aiSizeBackMarker, referenceNode, 0, 0, 0)
+    local aiLeftMarker, aiRightMarker, aiBackMarker = WorkWidthUtil.getAIMarkers(implement.object)
+    if aiLeftMarker and aiRightMarker then
+        rectangle.dLeft, _, rectangle.dFront = localToLocal(aiLeftMarker, referenceNode, 0, 0, 0)
+        rectangle.dRight, _, _ = localToLocal(aiRightMarker, referenceNode, 0, 0, 0)
+        if aiBackMarker then
+            _, _, rectangle.dRear = localToLocal(aiBackMarker, referenceNode, 0, 0, 0)
         end
     end
     return rectangle
@@ -737,12 +728,22 @@ function PathfinderUtil.showNodes(pathfinder)
     end
 end
 
+function PathfinderUtil.clearOverlapBoxes()
+    PathfinderUtil.overlapBoxes = {}
+end
+
+function PathfinderUtil.addOverlapBox(x, y, z, xRot, yRot, zRot, width, height, length)
+    table.insert(PathfinderUtil.overlapBoxes,
+            { x = x, y = y + 0.2, z = z, xRot = xRot, yRot = yRot, zRot = zRot,
+              width = width, height = height, length = length })
+end
+
 function PathfinderUtil.showOverlapBoxes()
     if not PathfinderUtil.overlapBoxes then
         return
     end
     for _, box in ipairs(PathfinderUtil.overlapBoxes) do
-        DebugUtil.drawOverlapBox(box.x, box.y, box.z, box.xRot, box.yRot, box.zRot, box.width, 1, box.length, 0, 100, 0)
+        DebugUtil.drawOverlapBox(box.x, box.y, box.z, box.xRot, box.yRot, box.zRot, box.width, box.height, box.length, 0, 1, 0)
     end
 end
 

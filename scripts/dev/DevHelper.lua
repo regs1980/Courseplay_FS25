@@ -45,7 +45,9 @@ function DevHelper:removedSelectedVehicle()
 end
 
 function DevHelper:update()
-    if not self.isEnabled then return end
+    if not self.isEnabled then
+        return
+    end
 
     local lx, lz, hasCollision, vehicle
 
@@ -55,37 +57,53 @@ function DevHelper:update()
             if self.vehicle then
                 self.vehicle:removeDeleteListener(self, "removedSelectedVehicle")
             end
-            local fieldCourseSettings, implementData = FieldCourseSettings.generate(CpUtil.getCurrentVehicle())
+            self.vehicle = CpUtil.getCurrentVehicle()
+            local fieldCourseSettings, implementData = FieldCourseSettings.generate(self.vehicle)
             self.data.implementWidth = fieldCourseSettings.implementWidth
             self.data.sideOffset = fieldCourseSettings.sideOffset
-            self.data.cpImplementWidth, self.data.cpSideOffset, _, _ = WorkWidthUtil.getAutomaticWorkWidthAndOffset(CpUtil.getCurrentVehicle())
+            self.data.cpImplementWidth, self.data.cpSideOffset, _, _ = WorkWidthUtil.getAutomaticWorkWidthAndOffset(self.vehicle)
+            self.vehicleData = PathfinderUtil.VehicleData(self.vehicle, true, 0.5)
+            self.towedImplement = AIUtil.getFirstReversingImplementWithWheels(self.vehicle)
+            if self.towedImplement then
+                PathfinderUtil.clearOverlapBoxes()
+                self.vehicleSizeScanner = VehicleSizeScanner()
+                self.vehicleSizeScanner:scan(self.vehicle)
+                self.vehicleSizeScanner:scan(self.towedImplement)
+            end
         end
-        self.vehicle = CpUtil.getCurrentVehicle()
         self.vehicle:addDeleteListener(self, "removedSelectedVehicle")
-        self.node = CpUtil.getCurrentVehicle():getAIDirectionNode()
+        self.node = self.vehicle:getAIDirectionNode()
         lx, _, lz = localDirectionToWorld(self.node, 0, 0, 1)
+        if self.towedImplement then
+            if self.towedImplement.getAIAgentSize then
+                local valid, width, length, lengthOffset, frontOffset, height = CpUtil.try(self.towedImplement.getAIAgentSize, self.towedImplement)
+                self.data.aiAgent = string.format('%s width=%.2f length=%.2f lengthOffset=%.2f frontOffset=%.2f height=%.2f',
+                        CpUtil.getName(self.towedImplement), width or 0, length or 0, lengthOffset or 0, frontOffset or 0, height or 0)
+            end
+        end
 
     else
         -- camera node looks backwards so need to flip everything by 180 degrees
         self.node = g_currentMission.playerSystem:getLocalPlayer():getCurrentCameraNode()
         lx, _, lz = localDirectionToWorld(self.node, 0, 0, -1)
+        self.vehicle, self.vehicleData, self.towedImplement = nil
     end
 
-    self.yRot = math.atan2( lx, lz )
+    self.yRot = math.atan2(lx, lz)
     self.data.xyDeg = math.deg(CpMathUtil.angleFromGame(self.yRot))
     self.data.yRotDeg = math.deg(self.yRot)
     local _, yRot, _ = getWorldRotation(self.node)
     self.data.yRotFromRotation = math.deg(yRot)
     self.data.yRotDeg2 = math.deg(MathUtil.getYRotationFromDirection(lx, lz))
     self.data.x, self.data.y, self.data.z = getWorldTranslation(self.node)
-	-- y is always on the ground
+    -- y is always on the ground
     self.data.y = getTerrainHeightAtWorldPos(g_currentMission.terrainRootNode, self.data.x, self.data.y, self.data.z)
 
     self.data.hasFruit, self.data.fruitValue, self.data.fruit = PathfinderUtil.hasFruit(self.data.x, self.data.z, 1, 1)
 
-    self.data.fieldId =  CpFieldUtil.getFieldIdAtWorldPosition(self.data.x, self.data.z)
+    self.data.fieldId = CpFieldUtil.getFieldIdAtWorldPosition(self.data.x, self.data.z)
     --self.data.owned =  PathfinderUtil.isWorldPositionOwned(self.data.x, self.data.z)
-	self.data.farmlandId = g_farmlandManager:getFarmlandIdAtWorldPosition(self.data.x, self.data.z)
+    self.data.farmlandId = g_farmlandManager:getFarmlandIdAtWorldPosition(self.data.x, self.data.z)
 
     self.data.isOnField, self.data.densityBits = FSDensityMapUtil.getFieldDataAtWorldPosition(self.data.x, self.data.y, self.data.z)
     self.data.isOnFieldArea, self.data.onFieldArea, self.data.totalOnFieldArea = CpFieldUtil.isOnFieldArea(self.data.x, self.data.z)
@@ -116,11 +134,11 @@ function DevHelper:overlapBoxCallback(transformId, subShapeIndex)
         if collidingObject.getRootVehicle then
             text = text .. ' vehicle ' .. collidingObject:getName()
         else
-			if collidingObject:isa(Bale) then
-				text = text .. ' Bale ' .. tostring(collidingObject.id) .. ' ' .. tostring(collidingObject.nodeId)
-			else
-            	text = text .. ' ' .. (collidingObject.getName and collidingObject:getName() or 'N/A')
-			end
+            if collidingObject:isa(Bale) then
+                text = text .. ' Bale ' .. tostring(collidingObject.id) .. ' ' .. tostring(collidingObject.nodeId)
+            else
+                text = text .. ' ' .. (collidingObject.getName and collidingObject:getName() or 'N/A')
+            end
         end
     end
     for i = 0, getNumOfUserAttributes(transformId) - 1 do
@@ -138,7 +156,9 @@ end
 -- Left-Alt + Space = save current vehicle position
 -- Left-Ctrl + Space = restore current vehicle position
 function DevHelper:keyEvent(unicode, sym, modifier, isDown)
-    if not self.isEnabled then return end
+    if not self.isEnabled then
+        return
+    end
     if bitAND(modifier, Input.MOD_LALT) ~= 0 and isDown and sym == Input.KEY_period then
         -- Left Alt + > mark goal
         self.goal = State3D(self.data.x, -self.data.z, CpMathUtil.angleFromGameDeg(self.data.yRotDeg))
@@ -146,8 +166,8 @@ function DevHelper:keyEvent(unicode, sym, modifier, isDown)
         local x, y, z = getWorldTranslation(self.node)
         local _, yRot, _ = getRotation(self.node)
         if self.goalNode then
-            setTranslation( self.goalNode, x, y, z );
-            setRotation( self.goalNode, 0, yRot, 0);
+            setTranslation(self.goalNode, x, y, z);
+            setRotation(self.goalNode, 0, yRot, 0);
         else
             self.goalNode = courseplay.createNode('devhelper', x, z, yRot)
         end
@@ -172,7 +192,8 @@ function DevHelper:keyEvent(unicode, sym, modifier, isDown)
         CpFieldUtil.detectFieldBoundary(self.data.x, self.data.z, true)
     elseif bitAND(modifier, Input.MOD_LALT) ~= 0 and isDown and sym == Input.KEY_d then
         -- use the Giants field boundary detector
-        self.vehicle:cpDetectFieldBoundary(self.data.x, self.data.z, nil, function()  end)
+        self.vehicle:cpDetectFieldBoundary(self.data.x, self.data.z, nil, function()
+        end)
     elseif bitAND(modifier, Input.MOD_LALT) ~= 0 and isDown and sym == Input.KEY_g then
         self.courseGeneratorInterface:generateDefaultCourse(CpUtil.getCurrentVehicle())
     elseif bitAND(modifier, Input.MOD_LALT) ~= 0 and isDown and sym == Input.KEY_n then
@@ -187,35 +208,37 @@ end
 --- Show the data in a table in the order we want it (quick AI generated boilerplate)
 function DevHelper:fillDisplayData()
     local displayData = {}
-    table.insert(displayData, {name = 'x', value = self.data.x})
-    table.insert(displayData, {name = 'y', value = self.data.y})
-    table.insert(displayData, {name = 'z', value = self.data.z})
-    table.insert(displayData, {name = 'yRotDeg', value = self.data.yRotDeg})
-    table.insert(displayData, {name = 'yRotDeg2', value = self.data.yRotDeg2})
-    table.insert(displayData, {name = 'yRotFromRotation', value = self.data.yRotFromRotation})
-    table.insert(displayData, {name = 'xyDeg', value = self.data.xyDeg})
-    table.insert(displayData, {name = 'hasFruit', value = self.data.hasFruit})
-    table.insert(displayData, {name = 'fruitValue', value = self.data.fruitValue})
-    table.insert(displayData, {name = 'fruit', value = self.data.fruit})
-    table.insert(displayData, {name = 'fieldId', value = self.data.fieldId})
-    table.insert(displayData, {name = 'farmlandId', value = self.data.farmlandId})
-    table.insert(displayData, {name = 'isOnField', value = self.data.isOnField})
-    table.insert(displayData, {name = 'densityBits', value = self.data.densityBits})
-    table.insert(displayData, {name = 'isOnFieldArea', value = self.data.isOnFieldArea})
-    table.insert(displayData, {name = 'onFieldArea', value = self.data.onFieldArea})
-    table.insert(displayData, {name = 'totalOnFieldArea', value = self.data.totalOnFieldArea})
-    table.insert(displayData, {name = 'CP implementWidth', value = self.data.cpImplementWidth})
-    table.insert(displayData, {name = 'Giants implementWidth', value = self.data.implementWidth})
-    table.insert(displayData, {name = 'CP sideOffset', value = self.data.cpSideOffset})
-    table.insert(displayData, {name = 'Giants sideOffset', value = self.data.sideOffset})
+    table.insert(displayData, { name = 'x', value = self.data.x })
+    table.insert(displayData, { name = 'y', value = self.data.y })
+    table.insert(displayData, { name = 'z', value = self.data.z })
+    table.insert(displayData, { name = 'yRotDeg', value = self.data.yRotDeg })
+    table.insert(displayData, { name = 'yRotDeg2', value = self.data.yRotDeg2 })
+    table.insert(displayData, { name = 'yRotFromRotation', value = self.data.yRotFromRotation })
+    table.insert(displayData, { name = 'xyDeg', value = self.data.xyDeg })
+    table.insert(displayData, { name = 'hasFruit', value = self.data.hasFruit })
+    table.insert(displayData, { name = 'fruitValue', value = self.data.fruitValue })
+    table.insert(displayData, { name = 'fruit', value = self.data.fruit })
+    table.insert(displayData, { name = 'fieldId', value = self.data.fieldId })
+    table.insert(displayData, { name = 'farmlandId', value = self.data.farmlandId })
+    table.insert(displayData, { name = 'isOnField', value = self.data.isOnField })
+    table.insert(displayData, { name = 'densityBits', value = self.data.densityBits })
+    table.insert(displayData, { name = 'isOnFieldArea', value = self.data.isOnFieldArea })
+    table.insert(displayData, { name = 'onFieldArea', value = self.data.onFieldArea })
+    table.insert(displayData, { name = 'totalOnFieldArea', value = self.data.totalOnFieldArea })
+    table.insert(displayData, { name = 'CP implementWidth', value = self.data.cpImplementWidth })
+    table.insert(displayData, { name = 'Giants implementWidth', value = self.data.implementWidth })
+    table.insert(displayData, { name = 'CP sideOffset', value = self.data.cpSideOffset })
+    table.insert(displayData, { name = 'Giants sideOffset', value = self.data.sideOffset })
     for i = 1, #self.data.collidingShapes do
-        table.insert(displayData, {name = 'collidingShapes ' .. i, value = self.data.collidingShapes[i]})
+        table.insert(displayData, { name = 'collidingShapes ' .. i, value = self.data.collidingShapes[i] })
     end
     return displayData
 end
 
 function DevHelper:draw()
-    if not self.isEnabled then return end
+    if not self.isEnabled then
+        return
+    end
     DebugUtil.renderTable(0.3, 0.95, 0.013, self:fillDisplayData(), 0.05)
 
     self:showFillNodes()
@@ -226,25 +249,61 @@ function DevHelper:draw()
     CourseGenerator.drawDebugPolylines()
     CourseGenerator.drawDebugPoints()
 
-	if not self.tNode then
-		self.tNode = createTransformGroup("devhelper")
-		link(g_currentMission.terrainRootNode, self.tNode)
-	end
+    if not self.tNode then
+        self.tNode = createTransformGroup("devhelper")
+        link(g_currentMission.terrainRootNode, self.tNode)
+    end
 
-	DebugUtil.drawDebugNode(self.tNode, 'Terrain normal')
-	--local nx, ny, nz = getTerrainNormalAtWorldPos(g_currentMission.terrainRootNode, self.data.x, self.data.y, self.data.z)
+    DebugUtil.drawDebugNode(self.tNode, 'Terrain normal')
+    --local nx, ny, nz = getTerrainNormalAtWorldPos(g_currentMission.terrainRootNode, self.data.x, self.data.y, self.data.z)
 
-	--local x, y, z = localToWorld(self.node, 0, -1, -3)
+    --local x, y, z = localToWorld(self.node, 0, -1, -3)
 
-	--drawDebugLine(x, y, z, 1, 1, 1, x + nx, y + ny, z + nz, 1, 1, 1)
-	DebugUtil.drawOverlapBox(self.data.x, self.data.y + 0.2 + DevHelper.overlapBoxHeight / 2, self.data.z, 0, self.yRot, 0,
-            DevHelper.overlapBoxWidth / 2, DevHelper.overlapBoxHeight / 2, DevHelper.overlapBoxLength / 2,
-            0, 100, 0)
+    --drawDebugLine(x, y, z, 1, 1, 1, x + nx, y + ny, z + nz, 1, 1, 1)
+    -- function DebugUtil.drawOverlapBox(x, y, z, rotX, rotY, rotZ, extendX, extendY, extendZ, r, g, b)
+    --[[	DebugUtil.drawOverlapBox(self.data.x, self.data.y + 0.2 + DevHelper.overlapBoxHeight / 2, self.data.z, 0, self.yRot, 0,
+                DevHelper.overlapBoxWidth / 2, DevHelper.overlapBoxHeight / 2, DevHelper.overlapBoxLength / 2,
+                0, 100, 0)]]
     PathfinderUtil.showOverlapBoxes()
+    self:drawPathfinderCollisionBoxes()
     g_fieldScanner:draw()
     if self.vehicle then
         self.vehicle:cpDrawFieldPolygon()
     end
+end
+
+function DevHelper:drawPathfinderCollisionBoxes()
+    if not self.vehicleData then
+        return
+    end
+
+    if not self.overlapBoxNode then
+        self.overlapBoxNode = CpUtil.createNode('devhelperPathfinderBoxes', 0, 0, 0)
+        link(g_currentMission.terrainRootNode, self.overlapBoxNode)
+    end
+
+    -- visualize here what the pathfinder does to create the collision boxes for the main and the towed vehicle
+    -- draw main vehicle
+    PathfinderUtil.setWorldPositionAndRotationOnTerrain(self.overlapBoxNode, self.data.x, self.data.z, self.yRot, 0)
+    local ob = self.vehicleData:getVehicleOverlapBoxParams()
+    local xRot, yRot, zRot = getWorldRotation(self.overlapBoxNode)
+    local x, y, z = localToWorld(self.overlapBoxNode, ob.xOffset, 1, ob.zOffset)
+    -- function DebugUtil.drawOverlapBox(x, y, z, rotX, rotY, rotZ, extendX, extendY, extendZ, r, g, b)
+    DebugUtil.drawOverlapBox(x, y, z, xRot, yRot, zRot, ob.width, 1, ob.length, 0, 0.5, 0.5)
+
+    if not self.towedImplement then
+        return
+    end
+
+    ob = self.vehicleData:getTowedImplementOverlapBoxParams()
+    -- move the helper node to the hitch
+    x, y, z = localToWorld(self.overlapBoxNode, 0, 0, self.vehicleData:getHitchOffset())
+    local lx, _, lz = localDirectionToWorld(self.towedImplement.rootNode, 0, 0, 1)
+    local trailerYRot = math.atan2(lx, lz)
+    PathfinderUtil.setWorldPositionAndRotationOnTerrain(self.overlapBoxNode, x, z, trailerYRot, 0)
+    xRot, yRot, zRot = getWorldRotation(self.overlapBoxNode)
+    x, y, z = localToWorld(self.overlapBoxNode, ob.xOffset, 1, ob.zOffset)
+    DebugUtil.drawOverlapBox(x, y, z, xRot, yRot, zRot, ob.width, 1, ob.length, 0, 0.5, 0.5)
 end
 
 function DevHelper:showFillNodes()
@@ -254,9 +313,13 @@ function DevHelper:showFillNodes()
             local fillUnits = vehicle:getFillUnits()
             for i = 1, #fillUnits do
                 local fillRootNode = vehicle:getFillUnitExactFillRootNode(i)
-                if fillRootNode then DebugUtil.drawDebugNode(fillRootNode, 'Fill node ' .. tostring(i)) end
+                if fillRootNode then
+                    DebugUtil.drawDebugNode(fillRootNode, 'Fill node ' .. tostring(i))
+                end
                 local autoAimNode = vehicle:getFillUnitAutoAimTargetNode(i)
-                if autoAimNode then DebugUtil.drawDebugNode(autoAimNode, 'Auto aim node ' .. tostring(i)) end
+                if autoAimNode then
+                    DebugUtil.drawDebugNode(autoAimNode, 'Auto aim node ' .. tostring(i))
+                end
             end
         end
     end
@@ -264,7 +327,9 @@ end
 
 function DevHelper:showAIMarkers()
 
-    if not self.vehicle then return end
+    if not self.vehicle then
+        return
+    end
 
     local function showAIMarkersOfObject(object)
         if object.getAIMarkers then
@@ -309,32 +374,36 @@ function DevHelper:showAIMarkers()
 
     local directionNode = self.vehicle:getAIDirectionNode()
     if directionNode then
-        CpUtil.drawDebugNode(self.vehicle:getAIDirectionNode(), false , 4, "AiDirectionNode")
+        CpUtil.drawDebugNode(self.vehicle:getAIDirectionNode(), false, 4, "AiDirectionNode")
     end
     local reverseNode = self.vehicle:getAIReverserNode()
     if reverseNode then
-        CpUtil.drawDebugNode(reverseNode, false , 4.2, "AiReverseNode")
+        CpUtil.drawDebugNode(reverseNode, false, 4.2, "AiReverseNode")
     end
     local steeringNode = self.vehicle:getAISteeringNode()
     if steeringNode then
-        CpUtil.drawDebugNode(steeringNode, false , 4.4, "AiSteeringNode")
+        CpUtil.drawDebugNode(steeringNode, false, 4.4, "AiSteeringNode")
     end
 
     local reverserNode = AIVehicleUtil.getAIToolReverserDirectionNode(self.vehicle)
     if reverserNode then
-        CpUtil.drawDebugNode(reverserNode, false , 4.8, "AIVehicleUtil.AIToolReverserDirectionNode()")
+        CpUtil.drawDebugNode(reverserNode, false, 4.8, "AIVehicleUtil.AIToolReverserDirectionNode()")
     end
     reverserNode = self.vehicle:getAIToolReverserDirectionNode()
     if reverserNode then
-        CpUtil.drawDebugNode(reverserNode, false , 5.0, 'vehicle:AIToolReverserDirectionNode()')
+        CpUtil.drawDebugNode(reverserNode, false, 5.0, 'vehicle:AIToolReverserDirectionNode()')
     end
 
 end
 
 function DevHelper:togglePpcControlledNode()
-    if not self.vehicle then return end
+    if not self.vehicle then
+        return
+    end
     local strategy = self.vehicle:getCpDriveStrategy()
-    if not strategy then return end
+    if not strategy then
+        return
+    end
     if strategy.ppc:getControlledNode() == AIUtil.getReverserNode(self.vehicle) then
         strategy.pcc:resetControlledNode()
     else
@@ -343,9 +412,13 @@ function DevHelper:togglePpcControlledNode()
 end
 
 function DevHelper:showDriveData()
-    if not self.vehicle then return end
+    if not self.vehicle then
+        return
+    end
     local strategy = self.vehicle:getCpDriveStrategy()
-    if not strategy then return end
+    if not strategy then
+        return
+    end
     strategy.ppc:update()
     strategy.reverser:getDriveData()
 end
